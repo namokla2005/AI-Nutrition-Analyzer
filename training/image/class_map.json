@@ -1,0 +1,137 @@
+[
+  {
+    "our_class": "pho_bo",
+    "display_name_vi": "Phở bò",
+    "selected_source": "commons",
+    "source_class": "Category:Phở",
+    "food101_classes": ["pho"],
+    "coverage_type": "approximate",
+    "coverage_note_vi": "Food-101 chỉ có lớp pho rộng; dùng Commons Category:Phở và vẫn cần kiểm duyệt để loại phở không phải phở bò."
+  },
+  {
+    "our_class": "bun_bo_hue",
+    "display_name_vi": "Bún bò Huế",
+    "selected_source": "commons",
+    "source_class": "Category:Bún bò Huế",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; dùng Commons."
+  },
+  {
+    "our_class": "banh_mi",
+    "display_name_vi": "Bánh mì",
+    "selected_source": "commons",
+    "source_class": "Category:Bánh mì",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có banh_mi; dùng Commons."
+  },
+  {
+    "our_class": "com_tam",
+    "display_name_vi": "Cơm tấm",
+    "selected_source": "commons",
+    "source_class": "Category:Cơm tấm",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; dùng Commons."
+  },
+  {
+    "our_class": "goi_cuon",
+    "display_name_vi": "Gỏi cuốn",
+    "selected_source": "commons",
+    "source_class": "Category:Gỏi cuốn",
+    "food101_classes": ["spring_rolls"],
+    "coverage_type": "approximate",
+    "coverage_note_vi": "spring_rolls không tách gỏi cuốn tươi khỏi các loại cuốn khác; dùng Commons."
+  },
+  {
+    "our_class": "banh_xeo",
+    "display_name_vi": "Bánh xèo",
+    "selected_source": "commons",
+    "source_class": "Category:Bánh xèo",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; pancakes không phải bánh xèo."
+  },
+  {
+    "our_class": "bun_cha",
+    "display_name_vi": "Bún chả",
+    "selected_source": "commons",
+    "source_class": "Category:Bún chả",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; dùng Commons."
+  },
+  {
+    "our_class": "com_chien",
+    "display_name_vi": "Cơm chiên",
+    "selected_source": "food101",
+    "source_class": "fried_rice",
+    "food101_classes": ["fried_rice"],
+    "coverage_type": "approximate",
+    "coverage_note_vi": "fried_rice là lớp tổng quát, không đặc tả biến thể Việt Nam."
+  },
+  {
+    "our_class": "pizza",
+    "display_name_vi": "Pizza",
+    "selected_source": "food101",
+    "source_class": "pizza",
+    "food101_classes": ["pizza"],
+    "coverage_type": "exact",
+    "coverage_note_vi": "Khớp đúng tên lớp Food-101."
+  },
+  {
+    "our_class": "hamburger",
+    "display_name_vi": "Hamburger",
+    "selected_source": "food101",
+    "source_class": "hamburger",
+    "food101_classes": ["hamburger"],
+    "coverage_type": "exact",
+    "coverage_note_vi": "Khớp đúng tên lớp Food-101."
+  },
+  {
+    "our_class": "sushi",
+    "display_name_vi": "Sushi",
+    "selected_source": "food101",
+    "source_class": "sushi",
+    "food101_classes": ["sushi"],
+    "coverage_type": "exact",
+    "coverage_note_vi": "Khớp đúng tên lớp Food-101."
+  },
+  {
+    "our_class": "salad",
+    "display_name_vi": "Salad",
+    "selected_source": "food101",
+    "source_class": "beet_salad|caesar_salad|caprese_salad|greek_salad|seaweed_salad",
+    "food101_classes": ["beet_salad", "caesar_salad", "caprese_salad", "greek_salad", "seaweed_salad"],
+    "coverage_type": "approximate",
+    "coverage_note_vi": "Food-101 không có salad chung; gộp năm lớp salad cụ thể vào nhãn đích rộng hơn."
+  },
+  {
+    "our_class": "pasta",
+    "display_name_vi": "Pasta",
+    "selected_source": "food101",
+    "source_class": "gnocchi|lasagna|ravioli|spaghetti_bolognese|spaghetti_carbonara",
+    "food101_classes": ["gnocchi", "lasagna", "ravioli", "spaghetti_bolognese", "spaghetti_carbonara"],
+    "coverage_type": "approximate",
+    "coverage_note_vi": "Food-101 không có pasta chung; gộp năm lớp pasta cụ thể vào nhãn đích rộng hơn."
+  },
+  {
+    "our_class": "steak",
+    "display_name_vi": "Steak",
+    "selected_source": "food101",
+    "source_class": "steak",
+    "food101_classes": ["steak"],
+    "coverage_type": "exact",
+    "coverage_note_vi": "Khớp đúng tên lớp Food-101."
+  },
+  {
+    "our_class": "fried_chicken",
+    "display_name_vi": "Fried Chicken",
+    "selected_source": "food101",
+    "source_class": "chicken_wings",
+    "food101_classes": ["chicken_wings"],
+    "coverage_type": "approximate",
+    "coverage_note_vi": "Phủ yếu: chicken_wings hẹp hơn theo phần thịt và không bảo đảm phương pháp chiên."
+  }
+]

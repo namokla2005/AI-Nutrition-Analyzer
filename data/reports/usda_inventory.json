@@ -1,0 +1,1804 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-18T20:16:44.978467Z",
+  "project_root": "D:/Documents/BaoCao/TriTueNhanTao/AI-Nutrition-Analyzer",
+  "counting_method": {
+    "csv": "Python csv.reader, newline='', UTF-8-SIG; data_rows excludes one header record; physical_line_count counts LF bytes.",
+    "hash": "SHA-256 over downloaded ZIP bytes.",
+    "zip_integrity": "zipfile.ZipFile.testzip(); None means every member CRC checked successfully.",
+    "extraction_integrity": "Every ZIP file member must exist after extraction and its byte size must equal ZipInfo.file_size."
+  },
+  "source_urls": {
+    "data_documentation": "https://fdc.nal.usda.gov/data-documentation",
+    "api_guide_licensing": "https://fdc.nal.usda.gov/api-guide",
+    "foundation_documentation": "https://fdc.nal.usda.gov/Foundation_Foods_Documentation",
+    "download_datasets": "https://fdc.nal.usda.gov/download-datasets"
+  },
+  "source_quotes": {
+    "data_documentation": [
+      "Foundation Foods — Definition: Data and metadata on individual samples of commodity/commodity-derived minimally processed foods with insights into variability",
+      "Food and Nutrient Database for Dietary Studies (FNDDS) — Definition: Data on nutrients and portion weights for foods and beverages reported in What We Eat in America, NHANES",
+      "SR Legacy — Definition: Historic data on food components including nutrients derived from analyses, calculations, and published literature"
+    ],
+    "api_guide_licensing": [
+      "USDA FoodData Central data are in the public domain and they are not copyrighted. They are published under CC0 1.0 Universal (CC0 1.0)",
+      "No permission is needed for their use, but we request that users list FoodData Central as the source of the data, and when possible, notify us of the product that uses the data so we may better track how FDC is being used in the public domain.",
+      "U.S. Department of Agriculture, Agricultural Research Service. FoodData Central, 2019. fdc.nal.usda.gov."
+    ],
+    "foundation_documentation": [
+      "The gram weights in the food portion file can be used to calculate nutrient values for food portions from the values provided per 100 g of food.",
+      "V = nutrient value per 100 g (Nutr_Val in the Nutrient Data file), and W = weight (in g) of portion (Gm_Wgt in the Weight file)."
+    ],
+    "bundled_field_description": [
+      "Amount of the nutrient per 100g of food. Specified in unit defined in the nutrient table.",
+      "The standard unit of measure for the nutrient (per 100g of food)"
+    ]
+  },
+  "datasets": [
+    {
+      "id": "sr_legacy_2018_04",
+      "label": "SR Legacy (2018-04)",
+      "dir": "FoodData_Central_sr_legacy_food_csv_2018-04",
+      "zip": "FoodData_Central_sr_legacy_food_csv_2018-04.zip",
+      "url": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_sr_legacy_food_csv_2018-04.zip",
+      "zip_relative_path": "data/external/usda/FoodData_Central_sr_legacy_food_csv_2018-04.zip",
+      "downloaded_at_utc_from_file_mtime": "2026-11-18T20:04:03.935162Z",
+      "fetched_bytes": 6074592,
+      "sha256": "b80817294b8850530aaedf2e515c02593b1824f763a0ff356e5c2081643e6fd0",
+      "zip_integrity": {
+        "zipfile_testzip_result": null,
+        "ok": true,
+        "member_file_count": 18,
+        "member_uncompressed_bytes": 39791883
+      },
+      "extraction_integrity": {
+        "all_members_present": true,
+        "all_file_sizes_match_zip_metadata": true,
+        "extracted_file_count": 18
+      },
+      "food_csv_data_rows": 7793,
+      "files": [
+        {
+          "name": "food_update_log_entry.csv",
+          "relative_path": "FoodData_Central_sr_legacy_food_csv_2018-04/food_update_log_entry.csv",
+          "size_bytes": 623888,
+          "zip_uncompressed_size_bytes": 623888,
+          "zip_crc32": "7cf93707",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 7794,
+            "csv_records_including_header": 7794,
+            "data_rows": 7793,
+            "header": [
+              "id",
+              "description",
+              "last_updated"
+            ]
+          }
+        },
+        {
+          "name": "sr_legacy_food.csv",
+          "relative_path": "FoodData_Central_sr_legacy_food_csv_2018-04/sr_legacy_food.csv",
+          "size_bytes": 130404,
+          "zip_uncompressed_size_bytes": 130404,
+          "zip_crc32": "466534bb",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 7794,
+            "csv_records_including_header": 7794,
+            "data_rows": 7793,
+            "header": [
+              "fdc_id",
+              "NDB_number"
+            ]
+          }
+        },
+        {
+          "name": "Download & API Field Descriptions-2019-10-11-16-22.xlsx",
+          "relative_path": "FoodData_Central_sr_legacy_food_csv_2018-04/Download & API Field Descriptions-2019-10-11-16-22.xlsx",
+          "size_bytes": 447102,
+          "zip_uncompressed_size_bytes": 447102,
+          "zip_crc32": "d10b7af4",
+          "present": true,
+          "size_matches_zip_member": true
+        },
+        {
+          "name": "food_nutrient_source.csv",
+          "relative_path": "FoodData_Central_sr_legacy_food_csv_2018-04/food_nutrient_source.csv",
+          "size_bytes": 602,
+          "zip_uncompressed_size_bytes": 602,
+          "zip_crc32": "386e6ba9",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 11,
+            "csv_records_including_header": 11,
+            "data_rows": 10,
+            "header": [
+              "id",
+              "code",
+              "description"
+            ]
+          }
+        },
+        {
+          "name": "food_attribute_type.csv",
+          "relative_path": "FoodData_Central_sr_legacy_food_csv_2018-04/food_attribute_type.csv",
+          "size_bytes": 331,
+          "zip_uncompressed_size_bytes": 331,
+          "zip_crc32": "1bbd9e26",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 6,
+            "csv_records_including_header": 6,
+            "data_rows": 5,
+            "header": [
+              "id",
+              "name",
+              "description"
+            ]
+          }
+        },
+        {
+          "name": "measure_unit.csv",
+          "relative_path": "FoodData_Central_sr_legacy_food_csv_2018-04/measure_unit.csv",
+          "size_bytes": 1955,
+          "zip_uncompressed_size_bytes": 1955,
+          "zip_crc32": "2f4a2d62",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 123,
+            "csv_records_including_header": 123,
+            "data_rows": 122,
+            "header": [
+              "id",
+              "name"
+            ]
+          }
+        },
+        {
+          "name": "food_nutrient_conversion_factor.csv",
+          "relative_path": "FoodData_Central_sr_legacy_food_csv_2018-04/food_nutrient_conversion_factor.csv",
+          "size_bytes": 183104,
+          "zip_uncompressed_size_bytes": 183104,
+          "zip_crc32": "1755ef19",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 10771,
+            "csv_records_including_header": 10771,
+            "data_rows": 10770,
+            "header": [
+              "id",
+              "fdc_id"
+            ]
+          }
+        },
+        {
+          "name": "nutrient.csv",
+          "relative_path": "FoodData_Central_sr_legacy_food_csv_2018-04/nutrient.csv",
+          "size_bytes": 21464,
+          "zip_uncompressed_size_bytes": 21464,
+          "zip_crc32": "2ac8c2a3",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 475,
+            "csv_records_including_header": 475,
+            "data_rows": 474,
+            "header": [
+              "id",
+              "name",
+              "unit_name",
+              "nutrient_nbr",
+              "rank"
+            ]
+          }
+        },
+        {
+          "name": "food_nutrient_derivation.csv",
+          "relative_path": "FoodData_Central_sr_legacy_food_csv_2018-04/food_nutrient_derivation.csv",
+          "size_bytes": 6853,
+          "zip_uncompressed_size_bytes": 6853,
+          "zip_crc32": "58dacd04",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 65,
+            "csv_records_including_header": 65,
+            "data_rows": 64,
+            "header": [
+              "id",
+              "code",
+              "description",
+              "source_id"
+            ]
+          }
+        },
+        {
+          "name": "food_attribute.csv",
+          "relative_path": "FoodData_Central_sr_legacy_food_csv_2018-04/food_attribute.csv",
+          "size_bytes": 63688,
+          "zip_uncompressed_size_bytes": 63688,
+          "zip_crc32": "2160720a",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 1075,
+            "csv_records_including_header": 1075,
+            "data_rows": 1074,
+            "header": [
+              "id",
+              "fdc_id",
+              "seq_num",
+              "food_attribute_type_id",
+              "name",
+              "value"
+            ]
+          }
+        },
+        {
+          "name": "food.csv",
+          "relative_path": "FoodData_Central_sr_legacy_food_csv_2018-04/food.csv",
+          "size_bytes": 793104,
+          "zip_uncompressed_size_bytes": 793104,
+          "zip_crc32": "ae0997e2",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 7794,
+            "csv_records_including_header": 7794,
+            "data_rows": 7793,
+            "header": [
+              "fdc_id",
+              "data_type",
+              "description",
+              "food_category_id",
+              "publication_date"
+            ]
+          }
+        },
+        {
+          "name": "food_protein_conversion_factor.csv",
+          "relative_path": "FoodData_Central_sr_legacy_food_csv_2018-04/food_protein_conversion_factor.csv",
+          "size_bytes": 90043,
+          "zip_uncompressed_size_bytes": 90043,
+          "zip_crc32": "596c401e",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 6078,
+            "csv_records_including_header": 6078,
+            "data_rows": 6077,
+            "header": [
+              "food_nutrient_conversion_factor_id",
+              "value"
+            ]
+          }
+        },
+        {
+          "name": "food_category.csv",
+          "relative_path": "FoodData_Central_sr_legacy_food_csv_2018-04/food_category.csv",
+          "size_bytes": 997,
+          "zip_uncompressed_size_bytes": 997,
+          "zip_crc32": "27c20a75",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 29,
+            "csv_records_including_header": 29,
+            "data_rows": 28,
+            "header": [
+              "id",
+              "code",
+              "description"
+            ]
+          }
+        },
+        {
+          "name": "all_downloaded_table_record_counts.csv",
+          "relative_path": "FoodData_Central_sr_legacy_food_csv_2018-04/all_downloaded_table_record_counts.csv",
+          "size_bytes": 291,
+          "zip_uncompressed_size_bytes": 291,
+          "zip_crc32": "b174c0b4",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 10,
+            "csv_records_including_header": 10,
+            "data_rows": 9,
+            "header": [
+              "Table",
+              "Number of Records"
+            ]
+          }
+        },
+        {
+          "name": "food_nutrient.csv",
+          "relative_path": "FoodData_Central_sr_legacy_food_csv_2018-04/food_nutrient.csv",
+          "size_bytes": 36366059,
+          "zip_uncompressed_size_bytes": 36366059,
+          "zip_crc32": "d087e72e",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 644126,
+            "csv_records_including_header": 644126,
+            "data_rows": 644125,
+            "header": [
+              "id",
+              "fdc_id",
+              "nutrient_id",
+              "amount",
+              "data_points",
+              "derivation_id",
+              "min",
+              "max",
+              "median",
+              "footnote",
+              "min_year_acquired"
+            ]
+          }
+        },
+        {
+          "name": "retention_factor.csv",
+          "relative_path": "FoodData_Central_sr_legacy_food_csv_2018-04/retention_factor.csv",
+          "size_bytes": 13304,
+          "zip_uncompressed_size_bytes": 13304,
+          "zip_crc32": "f259839b",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 271,
+            "csv_records_including_header": 271,
+            "data_rows": 270,
+            "header": [
+              "id",
+              "code",
+              "food_group_id",
+              "description"
+            ]
+          }
+        },
+        {
+          "name": "food_calorie_conversion_factor.csv",
+          "relative_path": "FoodData_Central_sr_legacy_food_csv_2018-04/food_calorie_conversion_factor.csv",
+          "size_bytes": 129904,
+          "zip_uncompressed_size_bytes": 129904,
+          "zip_crc32": "c4431216",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 4694,
+            "csv_records_including_header": 4694,
+            "data_rows": 4693,
+            "header": [
+              "food_nutrient_conversion_factor_id",
+              "protein_value",
+              "fat_value",
+              "carbohydrate_value"
+            ]
+          }
+        },
+        {
+          "name": "food_portion.csv",
+          "relative_path": "FoodData_Central_sr_legacy_food_csv_2018-04/food_portion.csv",
+          "size_bytes": 918790,
+          "zip_uncompressed_size_bytes": 918790,
+          "zip_crc32": "7d8e10e4",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 14450,
+            "csv_records_including_header": 14450,
+            "data_rows": 14449,
+            "header": [
+              "id",
+              "fdc_id",
+              "seq_num",
+              "amount",
+              "measure_unit_id",
+              "portion_description",
+              "modifier",
+              "gram_weight",
+              "data_points",
+              "footnote",
+              "min_year_acquired"
+            ]
+          }
+        }
+      ],
+      "nutrient_join": {
+        "join": "food_nutrient.nutrient_id = nutrient.id; group foods by nutrient.unit_name",
+        "selected_nutrient_field": "id",
+        "distinct_referenced_values_matching_nutrient_id": 149,
+        "distinct_referenced_values_matching_nutrient_nbr": 0,
+        "missing_nutrient_ids_referenced_by_food_nutrient": [],
+        "energy_nutrients": [
+          {
+            "id": "2047",
+            "name": "Energy (Atwater General Factors)",
+            "unit_name": "KCAL",
+            "nutrient_nbr": "957",
+            "rank": "280.0",
+            "food_nutrient_join_value": "2047",
+            "food_nutrient_rows_with_nonempty_amount": 0,
+            "distinct_foods_with_nonempty_amount": 0
+          },
+          {
+            "id": "2048",
+            "name": "Energy (Atwater Specific Factors)",
+            "unit_name": "KCAL",
+            "nutrient_nbr": "958",
+            "rank": "290.0",
+            "food_nutrient_join_value": "2048",
+            "food_nutrient_rows_with_nonempty_amount": 0,
+            "distinct_foods_with_nonempty_amount": 0
+          },
+          {
+            "id": "1008",
+            "name": "Energy",
+            "unit_name": "KCAL",
+            "nutrient_nbr": "208",
+            "rank": "300.0",
+            "food_nutrient_join_value": "1008",
+            "food_nutrient_rows_with_nonempty_amount": 7793,
+            "distinct_foods_with_nonempty_amount": 7793
+          },
+          {
+            "id": "1062",
+            "name": "Energy",
+            "unit_name": "kJ",
+            "nutrient_nbr": "268",
+            "rank": "400.0",
+            "food_nutrient_join_value": "1062",
+            "food_nutrient_rows_with_nonempty_amount": 7793,
+            "distinct_foods_with_nonempty_amount": 7793
+          }
+        ],
+        "energy_by_unit": {
+          "KCAL": {
+            "food_nutrient_rows_with_nonempty_amount": 7793,
+            "distinct_foods_with_nonempty_amount": 7793
+          },
+          "kJ": {
+            "food_nutrient_rows_with_nonempty_amount": 7793,
+            "distinct_foods_with_nonempty_amount": 7793
+          }
+        }
+      },
+      "calorie_regression": {
+        "basis": "food_nutrient.amount is per 100 g; nutrient.unit_name supplies the unit.",
+        "model_nutrients": [
+          {
+            "id": "1003",
+            "name": "Protein",
+            "unit_name": "G",
+            "nutrient_nbr": "203"
+          },
+          {
+            "id": "1004",
+            "name": "Total lipid (fat)",
+            "unit_name": "G",
+            "nutrient_nbr": "204"
+          },
+          {
+            "id": "1005",
+            "name": "Carbohydrate, by difference",
+            "unit_name": "G",
+            "nutrient_nbr": "205"
+          },
+          {
+            "id": "1008",
+            "name": "Energy",
+            "unit_name": "KCAL",
+            "nutrient_nbr": "208"
+          },
+          {
+            "id": "1062",
+            "name": "Energy",
+            "unit_name": "kJ",
+            "nutrient_nbr": "268"
+          },
+          {
+            "id": "1079",
+            "name": "Fiber, total dietary",
+            "unit_name": "G",
+            "nutrient_nbr": "291"
+          },
+          {
+            "id": "2047",
+            "name": "Energy (Atwater General Factors)",
+            "unit_name": "KCAL",
+            "nutrient_nbr": "957"
+          },
+          {
+            "id": "2048",
+            "name": "Energy (Atwater Specific Factors)",
+            "unit_name": "KCAL",
+            "nutrient_nbr": "958"
+          }
+        ],
+        "numeric_columns_needed": [
+          {
+            "file": "food.csv",
+            "columns_present": [
+              "fdc_id"
+            ],
+            "role": "Khóa thực phẩm để ghép và nhận diện quan sát; description/data_type dùng làm nhãn phân loại, không phải biến số liên tục."
+          },
+          {
+            "file": "nutrient.csv",
+            "columns_present": [
+              "id",
+              "nutrient_nbr",
+              "rank"
+            ],
+            "role": "id hoặc nutrient_nbr là khóa ghép với food_nutrient.nutrient_id tùy gói; unit_name và name xác định ý nghĩa/đơn vị của biến."
+          },
+          {
+            "file": "food_nutrient.csv",
+            "columns_present": [
+              "fdc_id",
+              "nutrient_id",
+              "amount",
+              "data_points",
+              "min",
+              "max",
+              "median",
+              "min_year_acquired"
+            ],
+            "role": "amount là giá trị số trên 100 g; pivot theo nutrient_id để tạo X (protein, fat, carbohydrate, v.v.) và y (energy KCAL). Các cột thống kê có thể dùng kiểm soát chất lượng."
+          },
+          {
+            "file": "food_portion.csv",
+            "columns_present": [
+              "fdc_id",
+              "amount",
+              "gram_weight",
+              "data_points"
+            ],
+            "role": "Quy đổi giữa khẩu phần và cơ sở 100 g; không cần nếu mô hình giữ toàn bộ dữ liệu trên 100 g."
+          },
+          {
+            "file": "food_calorie_conversion_factor.csv",
+            "columns_present": [
+              "food_nutrient_conversion_factor_id",
+              "protein_value",
+              "fat_value",
+              "carbohydrate_value"
+            ],
+            "role": "Hệ số tính năng lượng từ các chất đa lượng; hữu ích làm đặc trưng hoặc kiểm tra công thức năng lượng."
+          },
+          {
+            "file": "food_protein_conversion_factor.csv",
+            "columns_present": [
+              "food_nutrient_conversion_factor_id",
+              "value"
+            ],
+            "role": "Hệ số chuyển nitơ thành protein; đặc trưng phụ/kiểm tra nguồn protein."
+          }
+        ],
+        "recommended_target": "food_nutrient.nutrient_id=1008, joined to nutrient.id=1008, name=Energy, unit_name=KCAL; inspect nutrient.id 2047/2048 separately because they are alternate Atwater calculations.",
+        "kilojoule_column_note": "Không có cột rộng tên kJ. kJ tồn tại ở cùng cột food_nutrient.amount khi food_nutrient.nutrient_id=1062, ghép tới nutrient.id=1062 và nutrient.unit_name='kJ'."
+      }
+    },
+    {
+      "id": "foundation_2024_10_31",
+      "label": "Foundation Foods (2024-10-31)",
+      "dir": "FoodData_Central_foundation_food_csv_2024-10-31",
+      "zip": "FoodData_Central_foundation_food_csv_2024-10-31.zip",
+      "url": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_foundation_food_csv_2024-10-31.zip",
+      "zip_relative_path": "data/external/usda/FoodData_Central_foundation_food_csv_2024-10-31.zip",
+      "downloaded_at_utc_from_file_mtime": "2026-11-18T20:04:09.243448Z",
+      "fetched_bytes": 3258886,
+      "sha256": "8587f941ec252bd9aaf7b85a18a42980fb540f509b34300ed8dd4d10ca9edf44",
+      "zip_integrity": {
+        "zipfile_testzip_result": null,
+        "ok": true,
+        "member_file_count": 25,
+        "member_uncompressed_bytes": 27184066
+      },
+      "extraction_integrity": {
+        "all_members_present": true,
+        "all_file_sizes_match_zip_metadata": true,
+        "extracted_file_count": 25
+      },
+      "food_csv_data_rows": 68875,
+      "files": [
+        {
+          "name": "food_update_log_entry.csv",
+          "relative_path": "FoodData_Central_foundation_food_csv_2024-10-31/food_update_log_entry.csv",
+          "size_bytes": 4163525,
+          "zip_uncompressed_size_bytes": 4163525,
+          "zip_crc32": "b75b163d",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 68877,
+            "csv_records_including_header": 68876,
+            "data_rows": 68875,
+            "header": [
+              "id",
+              "description",
+              "last_updated"
+            ]
+          }
+        },
+        {
+          "name": "agricultural_samples.csv",
+          "relative_path": "FoodData_Central_foundation_food_csv_2024-10-31/agricultural_samples.csv",
+          "size_bytes": 38059,
+          "zip_uncompressed_size_bytes": 38059,
+          "zip_crc32": "755184d9",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 811,
+            "csv_records_including_header": 811,
+            "data_rows": 810,
+            "header": [
+              "fdc_id",
+              "acquisition_date",
+              "market_class",
+              "treatment",
+              "state"
+            ]
+          }
+        },
+        {
+          "name": "Download API Field Descriptions.xlsx",
+          "relative_path": "FoodData_Central_foundation_food_csv_2024-10-31/Download API Field Descriptions.xlsx",
+          "size_bytes": 31584,
+          "zip_uncompressed_size_bytes": 31584,
+          "zip_crc32": "3fcd97b4",
+          "present": true,
+          "size_matches_zip_member": true
+        },
+        {
+          "name": "input_food.csv",
+          "relative_path": "FoodData_Central_foundation_food_csv_2024-10-31/input_food.csv",
+          "size_bytes": 296745,
+          "zip_uncompressed_size_bytes": 296745,
+          "zip_crc32": "650fa004",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 5494,
+            "csv_records_including_header": 5494,
+            "data_rows": 5493,
+            "header": [
+              "id",
+              "fdc_id",
+              "fdc_of_input_food",
+              "seq_num",
+              "amount",
+              "ingredient_code",
+              "ingredient_description",
+              "unit",
+              "portion_code",
+              "portion_description",
+              "gram_weight",
+              "retention_code"
+            ]
+          }
+        },
+        {
+          "name": "food_attribute_type.csv",
+          "relative_path": "FoodData_Central_foundation_food_csv_2024-10-31/food_attribute_type.csv",
+          "size_bytes": 331,
+          "zip_uncompressed_size_bytes": 331,
+          "zip_crc32": "1bbd9e26",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 6,
+            "csv_records_including_header": 6,
+            "data_rows": 5,
+            "header": [
+              "id",
+              "name",
+              "description"
+            ]
+          }
+        },
+        {
+          "name": "lab_method_code.csv",
+          "relative_path": "FoodData_Central_foundation_food_csv_2024-10-31/lab_method_code.csv",
+          "size_bytes": 3998,
+          "zip_uncompressed_size_bytes": 3998,
+          "zip_crc32": "f6b26041",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 193,
+            "csv_records_including_header": 193,
+            "data_rows": 192,
+            "header": [
+              "lab_method_id",
+              "code"
+            ]
+          }
+        },
+        {
+          "name": "measure_unit.csv",
+          "relative_path": "FoodData_Central_foundation_food_csv_2024-10-31/measure_unit.csv",
+          "size_bytes": 1955,
+          "zip_uncompressed_size_bytes": 1955,
+          "zip_crc32": "2f4a2d62",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 123,
+            "csv_records_including_header": 123,
+            "data_rows": 122,
+            "header": [
+              "id",
+              "name"
+            ]
+          }
+        },
+        {
+          "name": "food_nutrient_conversion_factor.csv",
+          "relative_path": "FoodData_Central_foundation_food_csv_2024-10-31/food_nutrient_conversion_factor.csv",
+          "size_bytes": 194720,
+          "zip_uncompressed_size_bytes": 194720,
+          "zip_crc32": "3753a406",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 11429,
+            "csv_records_including_header": 11429,
+            "data_rows": 11428,
+            "header": [
+              "id",
+              "fdc_id"
+            ]
+          }
+        },
+        {
+          "name": "nutrient.csv",
+          "relative_path": "FoodData_Central_foundation_food_csv_2024-10-31/nutrient.csv",
+          "size_bytes": 21566,
+          "zip_uncompressed_size_bytes": 21566,
+          "zip_crc32": "4a0db4ee",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 478,
+            "csv_records_including_header": 478,
+            "data_rows": 477,
+            "header": [
+              "id",
+              "name",
+              "unit_name",
+              "nutrient_nbr",
+              "rank"
+            ]
+          }
+        },
+        {
+          "name": "sub_sample_food.csv",
+          "relative_path": "FoodData_Central_foundation_food_csv_2024-10-31/sub_sample_food.csv",
+          "size_bytes": 1119651,
+          "zip_uncompressed_size_bytes": 1119651,
+          "zip_crc32": "ba25497e",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 57113,
+            "csv_records_including_header": 57113,
+            "data_rows": 57112,
+            "header": [
+              "fdc_id",
+              "fdc_id_of_sample_food"
+            ]
+          }
+        },
+        {
+          "name": "market_acquisition.csv",
+          "relative_path": "FoodData_Central_foundation_food_csv_2024-10-31/market_acquisition.csv",
+          "size_bytes": 767613,
+          "zip_uncompressed_size_bytes": 767613,
+          "zip_crc32": "ba6489b1",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 7033,
+            "csv_records_including_header": 7033,
+            "data_rows": 7032,
+            "header": [
+              "fdc_id",
+              "brand_description",
+              "expiration_date",
+              "label_weight",
+              "location",
+              "acquisition_date",
+              "sales_type",
+              "sample_lot_nbr",
+              "sell_by_date",
+              "store_city",
+              "store_name",
+              "store_state",
+              "upc_code"
+            ]
+          }
+        },
+        {
+          "name": "food_attribute.csv",
+          "relative_path": "FoodData_Central_foundation_food_csv_2024-10-31/food_attribute.csv",
+          "size_bytes": 362415,
+          "zip_uncompressed_size_bytes": 362415,
+          "zip_crc32": "fe4a5111",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 5088,
+            "csv_records_including_header": 5088,
+            "data_rows": 5087,
+            "header": [
+              "id",
+              "fdc_id",
+              "seq_num",
+              "food_attribute_type_id",
+              "name",
+              "value"
+            ]
+          }
+        },
+        {
+          "name": "sample_food.csv",
+          "relative_path": "FoodData_Central_foundation_food_csv_2024-10-31/sample_food.csv",
+          "size_bytes": 33618,
+          "zip_uncompressed_size_bytes": 33618,
+          "zip_crc32": "6e931190",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 3535,
+            "csv_records_including_header": 3535,
+            "data_rows": 3534,
+            "header": [
+              "fdc_id"
+            ]
+          }
+        },
+        {
+          "name": "food.csv",
+          "relative_path": "FoodData_Central_foundation_food_csv_2024-10-31/food.csv",
+          "size_bytes": 5730243,
+          "zip_uncompressed_size_bytes": 5730243,
+          "zip_crc32": "50131f74",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 68877,
+            "csv_records_including_header": 68876,
+            "data_rows": 68875,
+            "header": [
+              "fdc_id",
+              "data_type",
+              "description",
+              "food_category_id",
+              "publication_date"
+            ]
+          }
+        },
+        {
+          "name": "food_protein_conversion_factor.csv",
+          "relative_path": "FoodData_Central_foundation_food_csv_2024-10-31/food_protein_conversion_factor.csv",
+          "size_bytes": 4781,
+          "zip_uncompressed_size_bytes": 4781,
+          "zip_crc32": "0a7a011b",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 318,
+            "csv_records_including_header": 318,
+            "data_rows": 317,
+            "header": [
+              "food_nutrient_conversion_factor_id",
+              "value"
+            ]
+          }
+        },
+        {
+          "name": "lab_method.csv",
+          "relative_path": "FoodData_Central_foundation_food_csv_2024-10-31/lab_method.csv",
+          "size_bytes": 12287,
+          "zip_uncompressed_size_bytes": 12287,
+          "zip_crc32": "20f6b3fe",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 284,
+            "csv_records_including_header": 284,
+            "data_rows": 283,
+            "header": [
+              "id",
+              "description",
+              "technique"
+            ]
+          }
+        },
+        {
+          "name": "sub_sample_result.csv",
+          "relative_path": "FoodData_Central_foundation_food_csv_2024-10-31/sub_sample_result.csv",
+          "size_bytes": 4534420,
+          "zip_uncompressed_size_bytes": 4534420,
+          "zip_crc32": "2d418103",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 116325,
+            "csv_records_including_header": 116325,
+            "data_rows": 116324,
+            "header": [
+              "food_nutrient_id",
+              "adjusted_amount",
+              "lab_method_id",
+              "nutrient_name"
+            ]
+          }
+        },
+        {
+          "name": "food_category.csv",
+          "relative_path": "FoodData_Central_foundation_food_csv_2024-10-31/food_category.csv",
+          "size_bytes": 997,
+          "zip_uncompressed_size_bytes": 997,
+          "zip_crc32": "27c20a75",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 29,
+            "csv_records_including_header": 29,
+            "data_rows": 28,
+            "header": [
+              "id",
+              "code",
+              "description"
+            ]
+          }
+        },
+        {
+          "name": "lab_method_nutrient.csv",
+          "relative_path": "FoodData_Central_foundation_food_csv_2024-10-31/lab_method_nutrient.csv",
+          "size_bytes": 7968,
+          "zip_uncompressed_size_bytes": 7968,
+          "zip_crc32": "3e87d3b1",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 568,
+            "csv_records_including_header": 568,
+            "data_rows": 567,
+            "header": [
+              "lab_method_id",
+              "nutrient_id"
+            ]
+          }
+        },
+        {
+          "name": "food_nutrient.csv",
+          "relative_path": "FoodData_Central_foundation_food_csv_2024-10-31/food_nutrient.csv",
+          "size_bytes": 8828421,
+          "zip_uncompressed_size_bytes": 8828421,
+          "zip_crc32": "fccdfb03",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 149616,
+            "csv_records_including_header": 149616,
+            "data_rows": 149615,
+            "header": [
+              "id",
+              "fdc_id",
+              "nutrient_id",
+              "amount",
+              "data_points",
+              "derivation_id",
+              "min",
+              "max",
+              "median",
+              "footnote",
+              "min_year_acquired"
+            ]
+          }
+        },
+        {
+          "name": "acquisition_samples.csv",
+          "relative_path": "FoodData_Central_foundation_food_csv_2024-10-31/acquisition_samples.csv",
+          "size_bytes": 144347,
+          "zip_uncompressed_size_bytes": 144347,
+          "zip_crc32": "6a255e11",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 7817,
+            "csv_records_including_header": 7817,
+            "data_rows": 7816,
+            "header": [
+              "fdc_id_of_sample_food",
+              "fdc_id_of_acquisition_food"
+            ]
+          }
+        },
+        {
+          "name": "food_calorie_conversion_factor.csv",
+          "relative_path": "FoodData_Central_foundation_food_csv_2024-10-31/food_calorie_conversion_factor.csv",
+          "size_bytes": 9860,
+          "zip_uncompressed_size_bytes": 9860,
+          "zip_crc32": "e1d0ca49",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 342,
+            "csv_records_including_header": 342,
+            "data_rows": 341,
+            "header": [
+              "food_nutrient_conversion_factor_id",
+              "protein_value",
+              "fat_value",
+              "carbohydrate_value"
+            ]
+          }
+        },
+        {
+          "name": "food_component.csv",
+          "relative_path": "FoodData_Central_foundation_food_csv_2024-10-31/food_component.csv",
+          "size_bytes": 158565,
+          "zip_uncompressed_size_bytes": 158565,
+          "zip_crc32": "5de79cf0",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 3067,
+            "csv_records_including_header": 3067,
+            "data_rows": 3066,
+            "header": [
+              "id",
+              "fdc_id",
+              "name",
+              "pct_weight",
+              "is_refuse",
+              "gram_weight",
+              "data_points",
+              "min_year_acqured"
+            ]
+          }
+        },
+        {
+          "name": "foundation_food.csv",
+          "relative_path": "FoodData_Central_foundation_food_csv_2024-10-31/foundation_food.csv",
+          "size_bytes": 15554,
+          "zip_uncompressed_size_bytes": 15554,
+          "zip_crc32": "a68a2323",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 317,
+            "csv_records_including_header": 317,
+            "data_rows": 316,
+            "header": [
+              "fdc_id",
+              "NDB_number",
+              "footnote"
+            ]
+          }
+        },
+        {
+          "name": "food_portion.csv",
+          "relative_path": "FoodData_Central_foundation_food_csv_2024-10-31/food_portion.csv",
+          "size_bytes": 700843,
+          "zip_uncompressed_size_bytes": 700843,
+          "zip_crc32": "5d9f489a",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 10679,
+            "csv_records_including_header": 10679,
+            "data_rows": 10678,
+            "header": [
+              "id",
+              "fdc_id",
+              "seq_num",
+              "amount",
+              "measure_unit_id",
+              "portion_description",
+              "modifier",
+              "gram_weight",
+              "data_points",
+              "footnote",
+              "min_year_acquired"
+            ]
+          }
+        }
+      ],
+      "nutrient_join": {
+        "join": "food_nutrient.nutrient_id = nutrient.id; group foods by nutrient.unit_name",
+        "selected_nutrient_field": "id",
+        "distinct_referenced_values_matching_nutrient_id": 226,
+        "distinct_referenced_values_matching_nutrient_nbr": 0,
+        "missing_nutrient_ids_referenced_by_food_nutrient": [
+          "2066"
+        ],
+        "energy_nutrients": [
+          {
+            "id": "2047",
+            "name": "Energy (Atwater General Factors)",
+            "unit_name": "KCAL",
+            "nutrient_nbr": "957",
+            "rank": "280.0",
+            "food_nutrient_join_value": "2047",
+            "food_nutrient_rows_with_nonempty_amount": 309,
+            "distinct_foods_with_nonempty_amount": 309
+          },
+          {
+            "id": "2048",
+            "name": "Energy (Atwater Specific Factors)",
+            "unit_name": "KCAL",
+            "nutrient_nbr": "958",
+            "rank": "290.0",
+            "food_nutrient_join_value": "2048",
+            "food_nutrient_rows_with_nonempty_amount": 299,
+            "distinct_foods_with_nonempty_amount": 299
+          },
+          {
+            "id": "1008",
+            "name": "Energy",
+            "unit_name": "KCAL",
+            "nutrient_nbr": "208",
+            "rank": "300.0",
+            "food_nutrient_join_value": "1008",
+            "food_nutrient_rows_with_nonempty_amount": 135,
+            "distinct_foods_with_nonempty_amount": 135
+          },
+          {
+            "id": "1062",
+            "name": "Energy",
+            "unit_name": "kJ",
+            "nutrient_nbr": "268",
+            "rank": "400.0",
+            "food_nutrient_join_value": "1062",
+            "food_nutrient_rows_with_nonempty_amount": 135,
+            "distinct_foods_with_nonempty_amount": 135
+          }
+        ],
+        "energy_by_unit": {
+          "KCAL": {
+            "food_nutrient_rows_with_nonempty_amount": 743,
+            "distinct_foods_with_nonempty_amount": 340
+          },
+          "kJ": {
+            "food_nutrient_rows_with_nonempty_amount": 135,
+            "distinct_foods_with_nonempty_amount": 135
+          }
+        }
+      },
+      "calorie_regression": {
+        "basis": "food_nutrient.amount is per 100 g; nutrient.unit_name supplies the unit.",
+        "model_nutrients": [
+          {
+            "id": "1003",
+            "name": "Protein",
+            "unit_name": "G",
+            "nutrient_nbr": "203"
+          },
+          {
+            "id": "1004",
+            "name": "Total lipid (fat)",
+            "unit_name": "G",
+            "nutrient_nbr": "204"
+          },
+          {
+            "id": "1005",
+            "name": "Carbohydrate, by difference",
+            "unit_name": "G",
+            "nutrient_nbr": "205"
+          },
+          {
+            "id": "1008",
+            "name": "Energy",
+            "unit_name": "KCAL",
+            "nutrient_nbr": "208"
+          },
+          {
+            "id": "1062",
+            "name": "Energy",
+            "unit_name": "kJ",
+            "nutrient_nbr": "268"
+          },
+          {
+            "id": "1079",
+            "name": "Fiber, total dietary",
+            "unit_name": "G",
+            "nutrient_nbr": "291"
+          },
+          {
+            "id": "2047",
+            "name": "Energy (Atwater General Factors)",
+            "unit_name": "KCAL",
+            "nutrient_nbr": "957"
+          },
+          {
+            "id": "2048",
+            "name": "Energy (Atwater Specific Factors)",
+            "unit_name": "KCAL",
+            "nutrient_nbr": "958"
+          }
+        ],
+        "numeric_columns_needed": [
+          {
+            "file": "food.csv",
+            "columns_present": [
+              "fdc_id"
+            ],
+            "role": "Khóa thực phẩm để ghép và nhận diện quan sát; description/data_type dùng làm nhãn phân loại, không phải biến số liên tục."
+          },
+          {
+            "file": "nutrient.csv",
+            "columns_present": [
+              "id",
+              "nutrient_nbr",
+              "rank"
+            ],
+            "role": "id hoặc nutrient_nbr là khóa ghép với food_nutrient.nutrient_id tùy gói; unit_name và name xác định ý nghĩa/đơn vị của biến."
+          },
+          {
+            "file": "food_nutrient.csv",
+            "columns_present": [
+              "fdc_id",
+              "nutrient_id",
+              "amount",
+              "data_points",
+              "min",
+              "max",
+              "median",
+              "min_year_acquired"
+            ],
+            "role": "amount là giá trị số trên 100 g; pivot theo nutrient_id để tạo X (protein, fat, carbohydrate, v.v.) và y (energy KCAL). Các cột thống kê có thể dùng kiểm soát chất lượng."
+          },
+          {
+            "file": "food_portion.csv",
+            "columns_present": [
+              "fdc_id",
+              "amount",
+              "gram_weight",
+              "data_points"
+            ],
+            "role": "Quy đổi giữa khẩu phần và cơ sở 100 g; không cần nếu mô hình giữ toàn bộ dữ liệu trên 100 g."
+          },
+          {
+            "file": "food_calorie_conversion_factor.csv",
+            "columns_present": [
+              "food_nutrient_conversion_factor_id",
+              "protein_value",
+              "fat_value",
+              "carbohydrate_value"
+            ],
+            "role": "Hệ số tính năng lượng từ các chất đa lượng; hữu ích làm đặc trưng hoặc kiểm tra công thức năng lượng."
+          },
+          {
+            "file": "food_protein_conversion_factor.csv",
+            "columns_present": [
+              "food_nutrient_conversion_factor_id",
+              "value"
+            ],
+            "role": "Hệ số chuyển nitơ thành protein; đặc trưng phụ/kiểm tra nguồn protein."
+          }
+        ],
+        "recommended_target": "food_nutrient.nutrient_id=1008, joined to nutrient.id=1008, name=Energy, unit_name=KCAL; inspect nutrient.id 2047/2048 separately because they are alternate Atwater calculations.",
+        "kilojoule_column_note": "Không có cột rộng tên kJ. kJ tồn tại ở cùng cột food_nutrient.amount khi food_nutrient.nutrient_id=1062, ghép tới nutrient.id=1062 và nutrient.unit_name='kJ'."
+      }
+    },
+    {
+      "id": "survey_2022_10_28",
+      "label": "Survey/FNDDS (2022-10-28)",
+      "dir": "FoodData_Central_survey_food_csv_2022-10-28",
+      "zip": "FoodData_Central_survey_food_csv_2022-10-28.zip",
+      "url": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_survey_food_csv_2022-10-28.zip",
+      "zip_relative_path": "data/external/usda/FoodData_Central_survey_food_csv_2022-10-28.zip",
+      "downloaded_at_utc_from_file_mtime": "2026-11-18T20:04:14.304515Z",
+      "fetched_bytes": 4427502,
+      "sha256": "e9a10d13a975bf45087f70306fc6ce1077fe538599843f028329a8b11c37b958",
+      "zip_integrity": {
+        "zipfile_testzip_result": null,
+        "ok": true,
+        "member_file_count": 14,
+        "member_uncompressed_bytes": 42187417
+      },
+      "extraction_integrity": {
+        "all_members_present": true,
+        "all_file_sizes_match_zip_metadata": true,
+        "extracted_file_count": 14
+      },
+      "food_csv_data_rows": 5624,
+      "files": [
+        {
+          "name": "all_downloaded_table_record_counts.csv",
+          "relative_path": "FoodData_Central_survey_food_csv_2022-10-28/all_downloaded_table_record_counts.csv",
+          "size_bytes": 210,
+          "zip_uncompressed_size_bytes": 210,
+          "zip_crc32": "6ed4ffd6",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 9,
+            "csv_records_including_header": 9,
+            "data_rows": 8,
+            "header": [
+              "Table",
+              "Number of Records"
+            ]
+          }
+        },
+        {
+          "name": "Download & API Field Descriptions Oct 2022.pdf",
+          "relative_path": "FoodData_Central_survey_food_csv_2022-10-28/Download & API Field Descriptions Oct 2022.pdf",
+          "size_bytes": 148996,
+          "zip_uncompressed_size_bytes": 148996,
+          "zip_crc32": "9ffccde7",
+          "present": true,
+          "size_matches_zip_member": true
+        },
+        {
+          "name": "fndds_ingredient_nutrient_value.csv",
+          "relative_path": "FoodData_Central_survey_food_csv_2022-10-28/fndds_ingredient_nutrient_value.csv",
+          "size_bytes": 15767387,
+          "zip_uncompressed_size_bytes": 15767387,
+          "zip_crc32": "cabdc8dc",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 122331,
+            "csv_records_including_header": 122331,
+            "data_rows": 122330,
+            "header": [
+              "ingredient code",
+              "Ingredient description",
+              "Nutrient code",
+              "Nutrient value",
+              "Nutrient value source",
+              "FDC ID",
+              "Derivation code",
+              "SR AddMod year",
+              "Foundation year acquired",
+              "Start date",
+              "End date"
+            ]
+          }
+        },
+        {
+          "name": "food.csv",
+          "relative_path": "FoodData_Central_survey_food_csv_2022-10-28/food.csv",
+          "size_bytes": 480637,
+          "zip_uncompressed_size_bytes": 480637,
+          "zip_crc32": "eadc8f52",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 5625,
+            "csv_records_including_header": 5625,
+            "data_rows": 5624,
+            "header": [
+              "fdc_id",
+              "data_type",
+              "description",
+              "food_category_id",
+              "publication_date"
+            ]
+          }
+        },
+        {
+          "name": "food_attribute.csv",
+          "relative_path": "FoodData_Central_survey_food_csv_2022-10-28/food_attribute.csv",
+          "size_bytes": 1667715,
+          "zip_uncompressed_size_bytes": 1667715,
+          "zip_crc32": "95665dc6",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 26920,
+            "csv_records_including_header": 26920,
+            "data_rows": 26919,
+            "header": [
+              "id",
+              "fdc_id",
+              "seq_num",
+              "food_attribute_type_id",
+              "name",
+              "value"
+            ]
+          }
+        },
+        {
+          "name": "food_nutrient.csv",
+          "relative_path": "FoodData_Central_survey_food_csv_2022-10-28/food_nutrient.csv",
+          "size_bytes": 20095825,
+          "zip_uncompressed_size_bytes": 20095825,
+          "zip_crc32": "acf89229",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 365561,
+            "csv_records_including_header": 365561,
+            "data_rows": 365560,
+            "header": [
+              "id",
+              "fdc_id",
+              "nutrient_id",
+              "amount",
+              "data_points",
+              "derivation_id",
+              "min",
+              "max",
+              "median",
+              "footnote",
+              "min_year_acquired"
+            ]
+          }
+        },
+        {
+          "name": "food_portion.csv",
+          "relative_path": "FoodData_Central_survey_food_csv_2022-10-28/food_portion.csv",
+          "size_bytes": 1541319,
+          "zip_uncompressed_size_bytes": 1541319,
+          "zip_crc32": "e552a374",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 22711,
+            "csv_records_including_header": 22711,
+            "data_rows": 22710,
+            "header": [
+              "id",
+              "fdc_id",
+              "seq_num",
+              "amount",
+              "measure_unit_id",
+              "portion_description",
+              "modifier",
+              "gram_weight"
+            ]
+          }
+        },
+        {
+          "name": "input_food.csv",
+          "relative_path": "FoodData_Central_survey_food_csv_2022-10-28/input_food.csv",
+          "size_bytes": 2147896,
+          "zip_uncompressed_size_bytes": 2147896,
+          "zip_crc32": "728bdb10",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 19309,
+            "csv_records_including_header": 19309,
+            "data_rows": 19308,
+            "header": [
+              "id",
+              "fdc_id",
+              "fdc_of_input_food",
+              "seq_num",
+              "amount",
+              "sr_code",
+              "sr_description",
+              "unit",
+              "portion_code",
+              "portion_description",
+              "gram_weight",
+              "retention_code",
+              "survey_flag"
+            ]
+          }
+        },
+        {
+          "name": "survey_fndds_food.csv",
+          "relative_path": "FoodData_Central_survey_food_csv_2022-10-28/survey_fndds_food.csv",
+          "size_bytes": 303765,
+          "zip_uncompressed_size_bytes": 303765,
+          "zip_crc32": "cf29fc65",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 5625,
+            "csv_records_including_header": 5625,
+            "data_rows": 5624,
+            "header": [
+              "fdc_id",
+              "food_code",
+              "wweia_category_number",
+              "start_date",
+              "end_date"
+            ]
+          }
+        },
+        {
+          "name": "fndds_derivation.csv",
+          "relative_path": "FoodData_Central_survey_food_csv_2022-10-28/fndds_derivation.csv",
+          "size_bytes": 4838,
+          "zip_uncompressed_size_bytes": 4838,
+          "zip_crc32": "9ede0aa4",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 50,
+            "csv_records_including_header": 50,
+            "data_rows": 49,
+            "header": [
+              "SR 28 derivation code",
+              "SR 28 derivation description"
+            ]
+          }
+        },
+        {
+          "name": "food_attribute_type.csv",
+          "relative_path": "FoodData_Central_survey_food_csv_2022-10-28/food_attribute_type.csv",
+          "size_bytes": 331,
+          "zip_uncompressed_size_bytes": 331,
+          "zip_crc32": "1bbd9e26",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 6,
+            "csv_records_including_header": 6,
+            "data_rows": 5,
+            "header": [
+              "id",
+              "name",
+              "description"
+            ]
+          }
+        },
+        {
+          "name": "measure_unit.csv",
+          "relative_path": "FoodData_Central_survey_food_csv_2022-10-28/measure_unit.csv",
+          "size_bytes": 1955,
+          "zip_uncompressed_size_bytes": 1955,
+          "zip_crc32": "2f4a2d62",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 123,
+            "csv_records_including_header": 123,
+            "data_rows": 122,
+            "header": [
+              "id",
+              "name"
+            ]
+          }
+        },
+        {
+          "name": "nutrient.csv",
+          "relative_path": "FoodData_Central_survey_food_csv_2022-10-28/nutrient.csv",
+          "size_bytes": 21464,
+          "zip_uncompressed_size_bytes": 21464,
+          "zip_crc32": "2ac8c2a3",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 475,
+            "csv_records_including_header": 475,
+            "data_rows": 474,
+            "header": [
+              "id",
+              "name",
+              "unit_name",
+              "nutrient_nbr",
+              "rank"
+            ]
+          }
+        },
+        {
+          "name": "wweia_food_category.csv",
+          "relative_path": "FoodData_Central_survey_food_csv_2022-10-28/wweia_food_category.csv",
+          "size_bytes": 5079,
+          "zip_uncompressed_size_bytes": 5079,
+          "zip_crc32": "9fb2ad22",
+          "present": true,
+          "size_matches_zip_member": true,
+          "csv": {
+            "physical_line_count": 172,
+            "csv_records_including_header": 172,
+            "data_rows": 171,
+            "header": [
+              "wweia_food_category",
+              "wweia_food_category_description"
+            ]
+          }
+        }
+      ],
+      "nutrient_join": {
+        "join": "food_nutrient.nutrient_id = nutrient.nutrient_nbr; group foods by nutrient.unit_name",
+        "selected_nutrient_field": "nutrient_nbr",
+        "distinct_referenced_values_matching_nutrient_id": 0,
+        "distinct_referenced_values_matching_nutrient_nbr": 65,
+        "missing_nutrient_ids_referenced_by_food_nutrient": [],
+        "energy_nutrients": [
+          {
+            "id": "2047",
+            "name": "Energy (Atwater General Factors)",
+            "unit_name": "KCAL",
+            "nutrient_nbr": "957",
+            "rank": "280.0",
+            "food_nutrient_join_value": "957",
+            "food_nutrient_rows_with_nonempty_amount": 0,
+            "distinct_foods_with_nonempty_amount": 0
+          },
+          {
+            "id": "2048",
+            "name": "Energy (Atwater Specific Factors)",
+            "unit_name": "KCAL",
+            "nutrient_nbr": "958",
+            "rank": "290.0",
+            "food_nutrient_join_value": "958",
+            "food_nutrient_rows_with_nonempty_amount": 0,
+            "distinct_foods_with_nonempty_amount": 0
+          },
+          {
+            "id": "1008",
+            "name": "Energy",
+            "unit_name": "KCAL",
+            "nutrient_nbr": "208",
+            "rank": "300.0",
+            "food_nutrient_join_value": "208",
+            "food_nutrient_rows_with_nonempty_amount": 5624,
+            "distinct_foods_with_nonempty_amount": 5624
+          },
+          {
+            "id": "1062",
+            "name": "Energy",
+            "unit_name": "kJ",
+            "nutrient_nbr": "268",
+            "rank": "400.0",
+            "food_nutrient_join_value": "268",
+            "food_nutrient_rows_with_nonempty_amount": 0,
+            "distinct_foods_with_nonempty_amount": 0
+          }
+        ],
+        "energy_by_unit": {
+          "KCAL": {
+            "food_nutrient_rows_with_nonempty_amount": 5624,
+            "distinct_foods_with_nonempty_amount": 5624
+          },
+          "kJ": {
+            "food_nutrient_rows_with_nonempty_amount": 0,
+            "distinct_foods_with_nonempty_amount": 0
+          }
+        }
+      },
+      "calorie_regression": {
+        "basis": "food_nutrient.amount is per 100 g; nutrient.unit_name supplies the unit.",
+        "model_nutrients": [
+          {
+            "id": "1003",
+            "name": "Protein",
+            "unit_name": "G",
+            "nutrient_nbr": "203"
+          },
+          {
+            "id": "1004",
+            "name": "Total lipid (fat)",
+            "unit_name": "G",
+            "nutrient_nbr": "204"
+          },
+          {
+            "id": "1005",
+            "name": "Carbohydrate, by difference",
+            "unit_name": "G",
+            "nutrient_nbr": "205"
+          },
+          {
+            "id": "1008",
+            "name": "Energy",
+            "unit_name": "KCAL",
+            "nutrient_nbr": "208"
+          },
+          {
+            "id": "1062",
+            "name": "Energy",
+            "unit_name": "kJ",
+            "nutrient_nbr": "268"
+          },
+          {
+            "id": "1079",
+            "name": "Fiber, total dietary",
+            "unit_name": "G",
+            "nutrient_nbr": "291"
+          },
+          {
+            "id": "2047",
+            "name": "Energy (Atwater General Factors)",
+            "unit_name": "KCAL",
+            "nutrient_nbr": "957"
+          },
+          {
+            "id": "2048",
+            "name": "Energy (Atwater Specific Factors)",
+            "unit_name": "KCAL",
+            "nutrient_nbr": "958"
+          }
+        ],
+        "numeric_columns_needed": [
+          {
+            "file": "food.csv",
+            "columns_present": [
+              "fdc_id"
+            ],
+            "role": "Khóa thực phẩm để ghép và nhận diện quan sát; description/data_type dùng làm nhãn phân loại, không phải biến số liên tục."
+          },
+          {
+            "file": "nutrient.csv",
+            "columns_present": [
+              "id",
+              "nutrient_nbr",
+              "rank"
+            ],
+            "role": "id hoặc nutrient_nbr là khóa ghép với food_nutrient.nutrient_id tùy gói; unit_name và name xác định ý nghĩa/đơn vị của biến."
+          },
+          {
+            "file": "food_nutrient.csv",
+            "columns_present": [
+              "fdc_id",
+              "nutrient_id",
+              "amount",
+              "data_points",
+              "min",
+              "max",
+              "median",
+              "min_year_acquired"
+            ],
+            "role": "amount là giá trị số trên 100 g; pivot theo nutrient_id để tạo X (protein, fat, carbohydrate, v.v.) và y (energy KCAL). Các cột thống kê có thể dùng kiểm soát chất lượng."
+          },
+          {
+            "file": "food_portion.csv",
+            "columns_present": [
+              "fdc_id",
+              "amount",
+              "gram_weight"
+            ],
+            "role": "Quy đổi giữa khẩu phần và cơ sở 100 g; không cần nếu mô hình giữ toàn bộ dữ liệu trên 100 g."
+          },
+          {
+            "file": "fndds_ingredient_nutrient_value.csv",
+            "columns_present": [
+              "Nutrient code",
+              "Nutrient value",
+              "FDC ID"
+            ],
+            "role": "Giá trị dinh dưỡng thành phần FNDDS trên 100 g; chỉ có ở bộ Survey này."
+          }
+        ],
+        "recommended_target": "food_nutrient.nutrient_id=208, joined to nutrient.id=1008, name=Energy, unit_name=KCAL; inspect nutrient.id 2047/2048 separately because they are alternate Atwater calculations.",
+        "kilojoule_column_note": "Không có cột rộng tên kJ. kJ tồn tại ở cùng cột food_nutrient.amount khi food_nutrient.nutrient_id=268, ghép tới nutrient.id=1062 và nutrient.unit_name='kJ'."
+      }
+    }
+  ],
+  "supplementary_full_download": {
+    "id": "full_2026_10_29",
+    "label": "Full FoodData Central (2026-10-29, supplementary download)",
+    "zip": "FoodData_Central_csv_2026-10-29.zip",
+    "url": "https://fdc.nal.usda.gov/fdc-datasets/FoodData_Central_csv_2026-10-29.zip",
+    "zip_relative_path": "data/external/usda/FoodData_Central_csv_2026-10-29.zip",
+    "downloaded_at_utc_from_file_mtime": "2026-11-18T20:06:24.798582Z",
+    "fetched_bytes": 484700676,
+    "sha256": "23747de62bb5ad1bce2365c96397a152419accbb3044b1db02954e96eea316c1",
+    "zip_integrity": {
+      "zipfile_testzip_result": null,
+      "ok": true,
+      "member_file_count": 35,
+      "member_uncompressed_bytes": 3288834752
+    },
+    "extracted": false,
+    "note": "Đã thử tải sau khi ba bộ nhỏ thành công; chỉ ba bộ nhỏ thuộc phạm vi bắt buộc giải nén/kiểm kê chi tiết."
+  },
+  "reuse_permission": {
+    "status": "public_domain_cc0_1_0",
+    "permission_required": false,
+    "attribution_requested": true,
+    "summary_vi": "Được phép tái sử dụng, sao chép, sửa đổi, phân phối và dùng thương mại mà không cần xin phép; USDA đề nghị ghi FoodData Central là nguồn."
+  }
+}

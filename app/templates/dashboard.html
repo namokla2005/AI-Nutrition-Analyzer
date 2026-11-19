@@ -1,0 +1,406 @@
+{% extends "base.html" %}
+{% block title %}Tổng quan – AI Nutrition Analyzer{% endblock %}
+{% block page_id %}dashboard{% endblock %}
+{% block heading %}Tổng quan{% endblock %}
+
+{% block actions %}
+<label class="dashboard-date-label" for="dashboard-date">Ngày xem</label>
+<input class="dashboard-date" id="dashboard-date" type="date" aria-label="Chọn ngày cần xem">
+{% endblock %}
+
+{% block content %}
+<style>
+  .dashboard-date-label { color: var(--muted); font-size: .83rem; font-weight: 600; }
+  .dashboard-date { width: auto; min-width: 145px; }
+  .dashboard-intro { display: flex; justify-content: space-between; align-items: start; gap: 1rem; }
+  .dashboard-intro h2 { margin: 0; font-size: 1.15rem; }
+  .dashboard-intro p { margin: .2rem 0 0; }
+  .dashboard-summary { grid-template-columns: minmax(230px, 1.35fr) repeat(4, minmax(150px, 1fr)); }
+  .dashboard-summary .card { min-width: 0; }
+  .kcal-card { border-top: 3px solid var(--green-600); }
+  .kcal-line { display: flex; align-items: baseline; gap: .35rem; flex-wrap: wrap; }
+  .target-meta { display: flex; justify-content: space-between; gap: .75rem; margin-top: .65rem; }
+  .target-prompt { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .target-prompt form { flex: 0 1 360px; }
+  .target-prompt .field { flex: 1 1 170px; }
+  .dashboard-callouts { display: flex; flex-direction: column; gap: .6rem; }
+  .dashboard-callouts:empty { display: none; }
+  .chart-heading { display: flex; justify-content: space-between; align-items: baseline; gap: .75rem; }
+  .chart-heading h2 { margin-bottom: 0; }
+  .meal-groups { display: grid; gap: 1rem; }
+  .meal-group { border-top: 1px solid var(--border); padding-top: .85rem; }
+  .meal-group:first-child { border-top: 0; padding-top: 0; }
+  .meal-group-title { display: flex; align-items: center; justify-content: space-between; gap: .75rem; margin-bottom: .5rem; }
+  .meal-group-title h3 { margin: 0; }
+  .meal-row { display: grid; grid-template-columns: minmax(105px, .7fr) minmax(180px, 2fr) minmax(100px, .6fr); gap: 1rem; align-items: start; padding: .75rem 0; border-top: 1px dashed var(--border); }
+  .meal-row:first-of-type { border-top: 0; }
+  .meal-foods { display: flex; flex-wrap: wrap; gap: .35rem .65rem; }
+  .meal-food { color: var(--text); }
+  .meal-kcal { text-align: right; font-weight: 700; }
+  .meal-note { margin-top: .3rem; }
+  @media (max-width: 1180px) {
+    .dashboard-summary { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+  }
+  @media (max-width: 620px) {
+    .dashboard-date-label { display: none; }
+    .dashboard-date { min-width: 0; width: 136px; padding-left: .45rem; padding-right: .45rem; }
+    .dashboard-intro, .target-prompt { flex-direction: column; }
+    .target-prompt form { width: 100%; flex-basis: auto; }
+    .dashboard-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .dashboard-summary .kcal-card { grid-column: 1 / -1; }
+    .meal-row { grid-template-columns: 1fr auto; gap: .35rem .75rem; }
+    .meal-foods { grid-column: 1 / -1; grid-row: 2; }
+    .meal-kcal { grid-column: 2; grid-row: 1; }
+  }
+  @media (max-width: 380px) {
+    .dashboard-date { width: 125px; font-size: .85rem; }
+    .dashboard-summary { grid-template-columns: 1fr; }
+    .dashboard-summary .kcal-card { grid-column: auto; }
+  }
+</style>
+
+<div class="dashboard-intro">
+  <div>
+    <h2 id="dashboard-day-title">Dinh dưỡng trong ngày</h2>
+    <p class="muted small" id="dashboard-timezone">Đang tải múi giờ…</p>
+  </div>
+  <a class="btn btn-primary btn-sm" href="/recognize">Thêm bữa ăn</a>
+</div>
+
+<section class="card target-prompt hidden" id="target-prompt" aria-labelledby="target-prompt-title">
+  <div>
+    <h2 id="target-prompt-title">Đặt mục tiêu năng lượng mỗi ngày</h2>
+    <p class="card-sub">Thêm mục tiêu để theo dõi tiến độ năng lượng ngay trên trang tổng quan.</p>
+  </div>
+  <form class="inline" id="target-form">
+    <div class="field">
+      <label for="target-kcal">Mục tiêu (kcal/ngày)</label>
+      <input id="target-kcal" type="number" min="500" max="8000" step="1" required inputmode="numeric">
+    </div>
+    <button class="btn btn-primary" id="target-save" type="submit">Lưu mục tiêu</button>
+  </form>
+</section>
+
+<section class="grid dashboard-summary" id="dashboard-summary" aria-label="Tóm tắt dinh dưỡng">
+  <div class="card"><div class="skeleton"></div><div class="skeleton"></div></div>
+</section>
+
+<div class="dashboard-callouts" id="dashboard-callouts" aria-live="polite"></div>
+
+<section class="grid grid-2" id="dashboard-charts">
+  <article class="card">
+    <div class="chart-heading">
+      <h2>Tỷ lệ năng lượng đa lượng</h2>
+      <span class="muted small">Quy đổi 4 / 4 / 9 kcal mỗi gam</span>
+    </div>
+    <p class="card-sub">Protein, carbohydrate và chất béo trong ngày đang xem.</p>
+    <div class="chart-box" id="macro-chart-box"><canvas id="macro-chart" role="img" aria-label="Biểu đồ tỷ lệ năng lượng đa lượng"></canvas></div>
+  </article>
+  <article class="card">
+    <div class="chart-heading">
+      <h2>Năng lượng trong 7 ngày</h2>
+      <span class="muted small" id="week-range"></span>
+    </div>
+    <p class="card-sub">Tuần có chứa ngày đang xem; khoảng trống là ngày chưa có dữ liệu.</p>
+    <div class="chart-box" id="week-chart-box"><canvas id="week-chart" role="img" aria-label="Biểu đồ năng lượng trong 7 ngày"></canvas></div>
+  </article>
+</section>
+
+<section class="card" aria-labelledby="meals-title">
+  <div class="chart-heading">
+    <div>
+      <h2 id="meals-title">Bữa ăn trong ngày</h2>
+      <p class="card-sub" id="meal-count">Đang tải nhật ký…</p>
+    </div>
+    <a class="btn btn-ghost btn-sm" href="/diary">Mở nhật ký</a>
+  </div>
+  <div id="meal-list"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+ANA.ready(function () {
+  'use strict';
+
+  var dateInput = document.getElementById('dashboard-date');
+  var targetPrompt = document.getElementById('target-prompt');
+  var targetForm = document.getElementById('target-form');
+  var targetButton = document.getElementById('target-save');
+  var requestNumber = 0;
+  var userProfile = null;
+
+  function localIsoDate(date) {
+    var year = date.getFullYear();
+    var month = String(date.getMonth() + 1).padStart(2, '0');
+    var day = String(date.getDate()).padStart(2, '0');
+    return year + '-' + month + '-' + day;
+  }
+
+  function formatDate(value, options) {
+    if (!value) return '—';
+    return new Intl.DateTimeFormat('vi-VN', options || {
+      weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric'
+    }).format(new Date(value + 'T00:00:00'));
+  }
+
+  function nutrientLabel(value) {
+    return {
+      energy_kcal: 'năng lượng', protein_g: 'protein', carbohydrate_g: 'carbohydrate',
+      fat_g: 'chất béo', fiber_g: 'chất xơ', sugar_g: 'đường', sodium_mg: 'natri',
+      saturated_fat_g: 'chất béo bão hòa', cholesterol_mg: 'cholesterol'
+    }[value] || value;
+  }
+
+  function setLoading(on) {
+    ANA.loading('#dashboard-summary', on, 3);
+    ANA.loading('#dashboard-charts', on, 5);
+    ANA.loading('#meal-list', on, 4);
+    dateInput.disabled = on;
+  }
+
+  function renderSummary(stats) {
+    var values = (stats.totals && stats.totals.totals) || {};
+    var target = stats.target || {};
+    var percent = Number(target.percent);
+    var validPercent = isFinite(percent);
+    var barWidth = validPercent ? Math.max(0, Math.min(100, percent)) : null;
+    var remaining = target.remaining_kcal;
+    var targetDetail = '';
+
+    if (target.target_kcal !== null && target.target_kcal !== undefined) {
+      targetDetail = '<div class="target-meta small"><span>' + ANA.num(target.target_kcal, 0) +
+        ' kcal mục tiêu</span><strong>' + ANA.num(target.percent, 0) + '%</strong></div>' +
+        '<div class="bar" aria-label="Tiến độ mục tiêu năng lượng"><span style="width:' + barWidth + '%"></span></div>';
+      if (remaining !== null && remaining !== undefined) {
+        targetDetail += '<p class="muted small">' + (Number(remaining) >= 0 ? 'Còn ' : 'Vượt ') +
+          ANA.num(Math.abs(Number(remaining)), 0) + ' kcal</p>';
+      }
+    } else {
+      targetDetail = '<p class="muted small">Chưa đặt mục tiêu năng lượng.</p>';
+    }
+
+    document.getElementById('dashboard-summary').innerHTML =
+      '<article class="card kcal-card stat"><span class="stat-label">Năng lượng</span>' +
+        '<div class="kcal-line"><span class="stat-value">' + ANA.num(values.energy_kcal, 0) +
+        '</span><span class="stat-unit">kcal</span></div>' + targetDetail + '</article>' +
+      statCard('Protein', values.protein_g, 'g') +
+      statCard('Carbohydrate', values.carbohydrate_g, 'g') +
+      statCard('Chất béo', values.fat_g, 'g') +
+      statCard('Chất xơ', values.fiber_g, 'g');
+  }
+
+  function statCard(label, value, unit) {
+    return '<article class="card stat"><span class="stat-label">' + ANA.escape(label) +
+      '</span><span class="stat-value">' + ANA.num(value, 1) +
+      ' <span class="stat-unit">' + ANA.escape(unit) + '</span></span></article>';
+  }
+
+  function renderCallouts(stats) {
+    var totals = stats.totals || {};
+    var fields = totals.missing_fields || [];
+    var missingEnergy = totals.items_without_energy;
+    var html = '';
+    if (fields.length) {
+      html += '<div class="flash flash-warn">Chưa có đủ số liệu cho: ' +
+        fields.map(nutrientLabel).map(ANA.escape).join(', ') + '.</div>';
+    }
+    if (missingEnergy !== null && missingEnergy !== undefined && Number(missingEnergy) > 0) {
+      html += '<div class="flash flash-info">Có ' + ANA.num(missingEnergy, 0) +
+        ' món chưa có dữ liệu năng lượng; tổng kcal hiện tại có thể chưa đầy đủ.</div>';
+    }
+    document.getElementById('dashboard-callouts').innerHTML = html;
+  }
+
+  function renderMacroChart(stats) {
+    var box = document.getElementById('macro-chart-box');
+    var split = stats.macro_energy_split || {};
+    var data = [split.protein_kcal, split.carbohydrate_kcal, split.fat_kcal];
+    var hasData = data.some(function (value) { return value !== null && value !== undefined && Number(value) > 0; });
+    if (!hasData) {
+      box.innerHTML = '<div class="empty-state">Chưa có dữ liệu đa lượng để vẽ biểu đồ trong ngày này.</div>';
+      return;
+    }
+    box.innerHTML = '<canvas id="macro-chart" role="img" aria-label="Biểu đồ tỷ lệ năng lượng đa lượng"></canvas>';
+    ANA.chart('macro-chart', {
+      type: 'doughnut',
+      data: {
+        labels: ['Protein', 'Carbohydrate', 'Chất béo'],
+        datasets: [{ data: data, backgroundColor: ['#2563eb', '#16a34a', '#d97706'], borderWidth: 0 }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, cutout: '64%',
+        plugins: {
+          legend: { position: 'bottom' },
+          tooltip: { callbacks: { label: function (ctx) { return ctx.label + ': ' + ANA.num(ctx.raw, 1).replace(/<[^>]*>/g, '') + ' kcal'; } } }
+        }
+      }
+    });
+  }
+
+  function renderWeekChart(weekly) {
+    var box = document.getElementById('week-chart-box');
+    var series = weekly.series || [];
+    document.getElementById('week-range').textContent = formatDate(weekly.start_date, { day: '2-digit', month: '2-digit' }) +
+      ' – ' + formatDate(weekly.end_date, { day: '2-digit', month: '2-digit' });
+    var hasData = series.some(function (point) { return point.kcal !== null && point.kcal !== undefined; });
+    if (!hasData) {
+      box.innerHTML = '<div class="empty-state">Tuần này chưa có bữa ăn nào để vẽ biểu đồ.</div>';
+      return;
+    }
+    box.innerHTML = '<canvas id="week-chart" role="img" aria-label="Biểu đồ năng lượng trong 7 ngày"></canvas>';
+    ANA.chart('week-chart', {
+      type: 'bar',
+      data: {
+        labels: series.map(function (point) { return formatDate(point.date_local, { weekday: 'short', day: '2-digit', month: '2-digit' }); }),
+        datasets: [{
+          label: 'Năng lượng (kcal)',
+          data: series.map(function (point) { return point.kcal; }),
+          backgroundColor: '#16a34a', borderColor: '#15803d', borderWidth: 1, borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        scales: { y: { beginAtZero: true, title: { display: true, text: 'kcal' } } },
+        plugins: { legend: { display: false } }
+      }
+    });
+  }
+
+  function renderMeals(payload) {
+    var meals = payload.items || [];
+    var mealList = document.getElementById('meal-list');
+    document.getElementById('meal-count').innerHTML = meals.length ?
+      ANA.num(payload.total, 0) + ' bữa đã ghi nhận' : 'Chưa có bữa ăn nào';
+    if (!meals.length) {
+      mealList.innerHTML = '<div class="empty-state">Chưa có bữa ăn trong ngày này. Hãy thêm một bữa để bắt đầu theo dõi dinh dưỡng.</div>';
+      return;
+    }
+
+    var order = ['breakfast', 'lunch', 'dinner', 'snack'];
+    var groups = {};
+    meals.forEach(function (meal) {
+      if (!groups[meal.meal_type]) groups[meal.meal_type] = [];
+      groups[meal.meal_type].push(meal);
+    });
+    var html = '<div class="meal-groups">';
+    order.concat(Object.keys(groups).filter(function (key) { return order.indexOf(key) === -1; })).forEach(function (type) {
+      if (!groups[type]) return;
+      var groupKcal = groups[type].reduce(function (sum, meal) {
+        var value = meal.totals && meal.totals.totals && meal.totals.totals.energy_kcal;
+        return value === null || value === undefined ? sum : sum + Number(value);
+      }, 0);
+      var groupHasKcal = groups[type].some(function (meal) {
+        var value = meal.totals && meal.totals.totals && meal.totals.totals.energy_kcal;
+        return value !== null && value !== undefined;
+      });
+      html += '<section class="meal-group"><div class="meal-group-title"><h3>' + ANA.escape(ANA.mealTypeLabel(type)) +
+        '</h3><span class="badge badge-ok">' + (groupHasKcal ? ANA.num(groupKcal, 0) + ' kcal' : ANA.num(null)) + '</span></div>';
+      groups[type].forEach(function (meal) {
+        var totals = (meal.totals && meal.totals.totals) || {};
+        var time = ANA.text(meal.eaten_at_local && String(meal.eaten_at_local).slice(11, 16), '—');
+        var foods = (meal.items || []).map(function (item) {
+          return '<span class="meal-food">' + ANA.escape(ANA.text(item.food_name, 'Thực phẩm')) +
+            ' <span class="muted small">(' + ANA.num(item.weight_grams, 0) + ' g)</span></span>';
+        }).join('');
+        html += '<article class="meal-row"><div><strong>' + ANA.escape(time) + '</strong>' +
+          (meal.note ? '<div class="meal-note muted small">' + ANA.escape(meal.note) + '</div>' : '') + '</div>' +
+          '<div class="meal-foods">' + foods + '</div>' +
+          '<div class="meal-kcal">' + ANA.num(totals.energy_kcal, 0) + ' <span class="stat-unit">kcal</span></div></article>';
+      });
+      html += '</section>';
+    });
+    mealList.innerHTML = html + '</div>';
+  }
+
+  function renderProfile(user) {
+    userProfile = user && user.profile ? user.profile : {};
+    var hasTarget = userProfile.daily_kcal_target !== null && userProfile.daily_kcal_target !== undefined;
+    targetPrompt.classList.toggle('hidden', hasTarget);
+  }
+
+  function renderLoadError(target, message) {
+    document.querySelector(target).innerHTML = '<div class="empty-state">' + ANA.escape(message) + '</div>';
+  }
+
+  async function loadDashboard() {
+    var ownRequest = ++requestNumber;
+    var day = dateInput.value;
+    if (!day) return;
+    setLoading(true);
+    document.getElementById('dashboard-day-title').textContent = 'Dinh dưỡng ' + formatDate(day);
+    document.getElementById('dashboard-callouts').innerHTML = '';
+
+    var encodedDay = encodeURIComponent(day);
+    var results = await Promise.allSettled([
+      ANA.get('/statistics/daily?day=' + encodedDay),
+      ANA.get('/statistics/weekly?any_day=' + encodedDay),
+      ANA.get('/meals?date_from=' + encodedDay + '&date_to=' + encodedDay + '&limit=200'),
+      ANA.get('/users/me')
+    ]);
+    if (ownRequest !== requestNumber) return;
+    setLoading(false);
+
+    if (results[0].status === 'fulfilled') {
+      var daily = results[0].value;
+      document.getElementById('dashboard-timezone').textContent = 'Múi giờ ' + ANA.text(daily.timezone);
+      renderSummary(daily);
+      renderCallouts(daily);
+      renderMacroChart(daily);
+    } else {
+      ANA.error(results[0].reason);
+      renderLoadError('#dashboard-summary', 'Không tải được tóm tắt dinh dưỡng.');
+      renderLoadError('#macro-chart-box', 'Không tải được dữ liệu biểu đồ đa lượng.');
+    }
+
+    if (results[1].status === 'fulfilled') {
+      renderWeekChart(results[1].value);
+    } else {
+      ANA.error(results[1].reason);
+      renderLoadError('#week-chart-box', 'Không tải được dữ liệu 7 ngày.');
+    }
+
+    if (results[2].status === 'fulfilled') {
+      renderMeals(results[2].value);
+    } else {
+      ANA.error(results[2].reason);
+      renderLoadError('#meal-list', 'Không tải được danh sách bữa ăn.');
+      document.getElementById('meal-count').textContent = 'Không thể tải dữ liệu';
+    }
+
+    if (results[3].status === 'fulfilled') {
+      renderProfile(results[3].value);
+    } else {
+      ANA.error(results[3].reason);
+    }
+  }
+
+  targetForm.addEventListener('submit', async function (event) {
+    event.preventDefault();
+    var value = Number(document.getElementById('target-kcal').value);
+    if (!isFinite(value) || value < 500 || value > 8000) {
+      ANA.flash('Mục tiêu phải nằm trong khoảng 500–8.000 kcal mỗi ngày.', 'error');
+      return;
+    }
+    ANA.busy(targetButton, true, 'Đang lưu…');
+    try {
+      var user = await ANA.put('/users/me', { profile: { daily_kcal_target: value } });
+      renderProfile(user);
+      ANA.toast('Đã lưu mục tiêu năng lượng.', 'success');
+      await loadDashboard();
+    } catch (err) {
+      ANA.error(err);
+    } finally {
+      ANA.busy(targetButton, false);
+    }
+  });
+
+  dateInput.value = localIsoDate(new Date());
+  dateInput.addEventListener('change', loadDashboard);
+  loadDashboard().catch(function (err) {
+    setLoading(false);
+    ANA.error(err);
+  });
+});
+</script>
+{% endblock %}

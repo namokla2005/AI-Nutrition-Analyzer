@@ -1,0 +1,463 @@
+{% extends "base.html" %}
+{% block title %}Trợ lý AI – AI Nutrition Analyzer{% endblock %}
+{% block page_id %}assistant{% endblock %}
+{% block heading %}Trợ lý AI{% endblock %}
+{% block actions %}<span id="assistant-model" class="badge badge-muted">Đang kiểm tra…</span>{% endblock %}
+
+{% block head %}
+<style>
+  .assistant-shell { display: grid; grid-template-columns: minmax(210px, 260px) minmax(0, 1fr); gap: 1rem; align-items: start; }
+  .assistant-history { position: sticky; top: 86px; max-height: calc(100vh - 110px); display: flex; flex-direction: column; }
+  .assistant-history-head { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+  .session-list { display: flex; flex-direction: column; gap: .35rem; overflow-y: auto; margin-top: .75rem; }
+  .session-item { width: 100%; border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--text); padding: .55rem .6rem; text-align: left; cursor: pointer; }
+  .session-item:hover { background: var(--bg); }
+  .session-item.active { background: var(--green-50); border-color: var(--green-600); color: var(--green-700); }
+  .session-title { display: block; font-weight: 650; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .session-meta { display: block; color: var(--muted); font-size: .75rem; margin-top: .1rem; }
+  .assistant-main { min-width: 0; display: flex; flex-direction: column; gap: 1rem; }
+  .availability { padding: .65rem .8rem; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); }
+  .availability.ok { background: var(--green-50); border-color: var(--green-600); color: var(--green-700); }
+  .availability.error { background: var(--red-50); border-color: var(--red-600); color: var(--red-600); }
+  .suggestions { display: flex; gap: .45rem; flex-wrap: wrap; }
+  .suggestion { white-space: normal; text-align: left; font-size: .82rem; }
+  .chat-card { padding: 0; overflow: hidden; }
+  .messages { min-height: 360px; max-height: 62vh; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: .8rem; scroll-behavior: smooth; }
+  .message { display: flex; flex-direction: column; max-width: min(82%, 720px); }
+  .message.user { align-self: flex-end; align-items: flex-end; }
+  .message.assistant { align-self: flex-start; align-items: flex-start; }
+  .message-bubble { padding: .7rem .85rem; border-radius: 14px; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .message.user .message-bubble { color: #fff; background: var(--green-600); border-bottom-right-radius: 4px; }
+  .message.assistant .message-bubble { background: var(--bg); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
+  .message.error .message-bubble { background: var(--red-50); border-color: var(--red-600); color: var(--red-600); }
+  .message-meta { color: var(--muted); font-size: .75rem; margin-top: .25rem; }
+  .thinking { display: flex; align-items: center; gap: .5rem; color: var(--muted); padding: 0 1rem .8rem; }
+  .chat-form { border-top: 1px solid var(--border); padding: .8rem; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .6rem; align-items: end; }
+  .chat-form textarea { min-height: 46px; max-height: 150px; resize: vertical; margin: 0; }
+  .grounding-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: .65rem; margin-top: .65rem; }
+  .grounding-group { border-top: 1px solid var(--border); padding-top: .8rem; margin-top: .8rem; }
+  .grounding-group h3 { margin-bottom: .5rem; }
+  .ground-stat { background: var(--bg); border-radius: 8px; padding: .6rem; }
+  .ground-stat strong { display: block; margin-top: .12rem; }
+  .food-context { border: 1px solid var(--border); border-radius: 8px; padding: .75rem; margin-top: .55rem; }
+  .raw-context { margin-top: .8rem; }
+  .raw-context pre { max-height: 260px; overflow: auto; background: var(--bg); border-radius: 8px; padding: .75rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+  @media (max-width: 900px) {
+    .assistant-shell { grid-template-columns: 1fr; }
+    .assistant-history { position: static; max-height: none; }
+    .session-list { max-height: 190px; }
+  }
+  @media (max-width: 520px) {
+    .messages { min-height: 330px; max-height: 58vh; padding: .75rem; }
+    .message { max-width: 92%; }
+    .chat-form { grid-template-columns: 1fr; }
+    .chat-form .btn { width: 100%; }
+    .suggestion { flex: 1 1 100%; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="assistant-shell">
+  <aside class="card assistant-history" aria-label="Lịch sử trò chuyện">
+    <div class="assistant-history-head">
+      <h2>Lịch sử</h2>
+      <button class="btn btn-primary btn-sm" id="new-chat-btn" type="button">Trò chuyện mới</button>
+    </div>
+    <div id="session-list" class="session-list" aria-live="polite">
+      <div class="skeleton"></div><div class="skeleton"></div>
+    </div>
+  </aside>
+
+  <div class="assistant-main">
+    <section class="card" aria-labelledby="assistant-status-heading">
+      <h2 id="assistant-status-heading">Trạng thái trợ lý</h2>
+      <div id="assistant-status" class="availability" role="status" aria-live="polite">Đang kiểm tra kết nối Ollama…</div>
+    </section>
+
+    <section class="card" aria-labelledby="suggestion-heading">
+      <h2 id="suggestion-heading">Câu hỏi gợi ý</h2>
+      <div class="suggestions" id="suggestions">
+        <button class="btn btn-ghost suggestion" type="button" data-question="Hôm nay tôi đã ăn bao nhiêu calo?">Hôm nay tôi đã ăn bao nhiêu calo?</button>
+        <button class="btn btn-ghost suggestion" type="button" data-question="Tổng hợp dinh dưỡng hôm nay">Tổng hợp dinh dưỡng hôm nay</button>
+        <button class="btn btn-ghost suggestion" type="button" data-question="Cơm trắng chín có bao nhiêu calo trong 100 g?">Cơm trắng chín có bao nhiêu calo trong 100 g?</button>
+        <button class="btn btn-ghost suggestion" type="button" data-question="So sánh hai loại thực phẩm">So sánh hai loại thực phẩm</button>
+        <button class="btn btn-ghost suggestion" type="button" data-question="Giải thích kết quả nhận diện">Giải thích kết quả nhận diện</button>
+      </div>
+    </section>
+
+    <section class="card chat-card" aria-label="Cuộc trò chuyện">
+      <div id="messages" class="messages" aria-live="polite">
+        <div id="chat-empty" class="empty-state">Hãy chọn một câu hỏi gợi ý hoặc nhập câu hỏi về dữ liệu dinh dưỡng của bạn.</div>
+      </div>
+      <div id="thinking-indicator" class="thinking hidden" role="status">
+        <span class="spinner" aria-hidden="true"></span><span>Trợ lý đang suy nghĩ…</span>
+      </div>
+      <form id="assistant-form" class="chat-form">
+        <div class="field" style="margin:0">
+          <label for="assistant-message" class="small">Câu hỏi của bạn</label>
+          <textarea id="assistant-message" maxlength="1000" required placeholder="Ví dụ: Hôm nay tôi còn thiếu chất gì?"></textarea>
+          <span class="hint">Nhấn Enter để gửi, Shift+Enter để xuống dòng.</span>
+        </div>
+        <button id="send-btn" class="btn btn-primary" type="submit">Gửi</button>
+      </form>
+    </section>
+
+    <section id="grounding-panel" class="card" aria-labelledby="grounding-heading">
+      <h2 id="grounding-heading">Dữ liệu dùng để tạo câu trả lời</h2>
+      <p class="card-sub">Các số dưới đây đến trực tiếp từ dữ liệu của bạn và kho thực phẩm. Hãy dùng chúng để kiểm tra câu trả lời.</p>
+      <div id="grounding-content" class="empty-state">Chưa có câu trả lời mới để hiển thị dữ liệu đối chiếu.</div>
+    </section>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+ANA.ready(function () {
+  'use strict';
+
+  var currentSessionId = null;
+  var sending = false;
+  var ollamaAvailable = true;
+  var form = document.getElementById('assistant-form');
+  var input = document.getElementById('assistant-message');
+  var sendButton = document.getElementById('send-btn');
+  var newChatButton = document.getElementById('new-chat-btn');
+  var messages = document.getElementById('messages');
+  var thinking = document.getElementById('thinking-indicator');
+  var sessionList = document.getElementById('session-list');
+  var statusBox = document.getElementById('assistant-status');
+  var modelBadge = document.getElementById('assistant-model');
+  var grounding = document.getElementById('grounding-content');
+
+  var nutrientLabels = {
+    energy_kcal: 'Năng lượng', protein_g: 'Chất đạm', carbohydrate_g: 'Bột đường',
+    fat_g: 'Chất béo', fiber_g: 'Chất xơ', sugar_g: 'Đường', sodium_mg: 'Natri'
+  };
+  var nutrientUnits = {
+    energy_kcal: ' kcal', protein_g: ' g', carbohydrate_g: ' g', fat_g: ' g',
+    fiber_g: ' g', sugar_g: ' g', sodium_mg: ' mg'
+  };
+
+  function formatDate(value) {
+    if (!value) return 'chưa có dữ liệu';
+    var date = new Date(value);
+    return isNaN(date.getTime()) ? String(value) : date.toLocaleString('vi-VN');
+  }
+
+  function numberHtml(value, digits, unit) {
+    return ANA.num(value, digits) + (value === null || value === undefined || value === '' ? '' : ANA.escape(unit || ''));
+  }
+
+  function clearMessages() {
+    messages.innerHTML = '<div id="chat-empty" class="empty-state">Hãy chọn một câu hỏi gợi ý hoặc nhập câu hỏi về dữ liệu dinh dưỡng của bạn.</div>';
+  }
+
+  function removeEmptyState() {
+    var empty = document.getElementById('chat-empty');
+    if (empty) empty.remove();
+  }
+
+  function scrollMessages() {
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function appendMessage(role, content, options) {
+    options = options || {};
+    removeEmptyState();
+    var wrapper = document.createElement('article');
+    wrapper.className = 'message ' + (role === 'user' ? 'user' : 'assistant') + (options.error ? ' error' : '');
+    var bubble = document.createElement('div');
+    bubble.className = 'message-bubble';
+    bubble.textContent = content;
+    wrapper.appendChild(bubble);
+
+    if (role !== 'user') {
+      var meta = document.createElement('div');
+      meta.className = 'message-meta';
+      var parts = [];
+      if (options.model) parts.push('Mô hình: ' + options.model);
+      if (Object.prototype.hasOwnProperty.call(options, 'latency_ms')) {
+        parts.push('Độ trễ: ' + (options.latency_ms === null || options.latency_ms === undefined ? 'chưa có dữ liệu' : ANA.num(options.latency_ms, 0).replace(/<[^>]+>/g, '') + ' ms'));
+      }
+      if (Object.prototype.hasOwnProperty.call(options, 'tokens_out')) {
+        parts.push('Token đầu ra: ' + (options.tokens_out === null || options.tokens_out === undefined ? 'chưa có dữ liệu' : ANA.num(options.tokens_out, 0).replace(/<[^>]+>/g, '')));
+      }
+      meta.textContent = parts.join(' · ');
+      if (parts.length) wrapper.appendChild(meta);
+    }
+    messages.appendChild(wrapper);
+    scrollMessages();
+    return wrapper;
+  }
+
+  function showGrounding(context) {
+    grounding.innerHTML = '';
+    if (!context || !Object.keys(context).length) {
+      grounding.className = 'empty-state';
+      grounding.textContent = 'API không cung cấp dữ liệu ngữ cảnh cho câu trả lời này.';
+      return;
+    }
+    grounding.className = '';
+
+    var totals = context.today_totals || {};
+    var target = context.today_target || {};
+    var totalSection = document.createElement('section');
+    totalSection.className = 'grounding-group';
+    var totalTitle = document.createElement('h3');
+    totalTitle.textContent = 'Tổng dinh dưỡng hôm nay';
+    totalSection.appendChild(totalTitle);
+    var totalGrid = document.createElement('div');
+    totalGrid.className = 'grounding-grid';
+    Object.keys(nutrientLabels).forEach(function (key) {
+      var item = document.createElement('div');
+      item.className = 'ground-stat';
+      var label = document.createElement('span');
+      label.className = 'small muted';
+      label.textContent = nutrientLabels[key];
+      var value = document.createElement('strong');
+      value.innerHTML = numberHtml(totals[key], key === 'energy_kcal' || key === 'sodium_mg' ? 0 : 1, nutrientUnits[key]);
+      item.appendChild(label); item.appendChild(value); totalGrid.appendChild(item);
+    });
+    totalSection.appendChild(totalGrid);
+    grounding.appendChild(totalSection);
+
+    var targetSection = document.createElement('section');
+    targetSection.className = 'grounding-group';
+    var targetTitle = document.createElement('h3');
+    targetTitle.textContent = 'Mục tiêu năng lượng hôm nay';
+    targetSection.appendChild(targetTitle);
+    var targetGrid = document.createElement('div');
+    targetGrid.className = 'grounding-grid';
+    [
+      ['Mục tiêu', target.target_kcal, ' kcal'],
+      ['Đã dùng', target.consumed_kcal, ' kcal'],
+      ['Còn lại', target.remaining_kcal, ' kcal'],
+      ['Tiến độ', target.percent, '%']
+    ].forEach(function (entry) {
+      var item = document.createElement('div'); item.className = 'ground-stat';
+      var label = document.createElement('span'); label.className = 'small muted'; label.textContent = entry[0];
+      var value = document.createElement('strong'); value.innerHTML = numberHtml(entry[1], entry[0] === 'Tiến độ' ? 1 : 0, entry[2]);
+      item.appendChild(label); item.appendChild(value); targetGrid.appendChild(item);
+    });
+    targetSection.appendChild(targetGrid);
+    grounding.appendChild(targetSection);
+
+    var missingSection = document.createElement('section');
+    missingSection.className = 'grounding-group';
+    var missingTitle = document.createElement('h3');
+    missingTitle.textContent = 'Các chất chưa có dữ liệu';
+    missingSection.appendChild(missingTitle);
+    var missing = context.today_missing_nutrients || [];
+    var missingText = document.createElement('p');
+    missingText.textContent = missing.length ? missing.map(function (key) { return nutrientLabels[key] || key; }).join(', ') : 'Không có mục nào được API đánh dấu là thiếu.';
+    missingSection.appendChild(missingText);
+    grounding.appendChild(missingSection);
+
+    var foodSection = document.createElement('section');
+    foodSection.className = 'grounding-group';
+    var foodTitle = document.createElement('h3');
+    foodTitle.textContent = 'Thực phẩm được nhắc đến (trên 100 g)';
+    foodSection.appendChild(foodTitle);
+    var foods = context.foods_mentioned || [];
+    if (!foods.length) {
+      var noFood = document.createElement('p'); noFood.className = 'muted'; noFood.textContent = 'Câu hỏi không khớp với thực phẩm nào trong kho dữ liệu.';
+      foodSection.appendChild(noFood);
+    } else {
+      foods.forEach(function (food) {
+        var box = document.createElement('div'); box.className = 'food-context';
+        var name = document.createElement('strong'); name.textContent = ANA.text(food.name, 'Thực phẩm chưa rõ tên'); box.appendChild(name);
+        var per = food.per_100g || {};
+        var grid = document.createElement('div'); grid.className = 'grounding-grid';
+        Object.keys(nutrientLabels).forEach(function (key) {
+          var item = document.createElement('div'); item.className = 'ground-stat';
+          var label = document.createElement('span'); label.className = 'small muted'; label.textContent = nutrientLabels[key];
+          var value = document.createElement('strong'); value.innerHTML = numberHtml(per[key], key === 'energy_kcal' || key === 'sodium_mg' ? 0 : 1, nutrientUnits[key]);
+          item.appendChild(label); item.appendChild(value); grid.appendChild(item);
+        });
+        box.appendChild(grid);
+        if ((food.missing_nutrients || []).length) {
+          var foodMissing = document.createElement('p'); foodMissing.className = 'small muted';
+          foodMissing.textContent = 'Chưa có dữ liệu: ' + food.missing_nutrients.map(function (key) { return nutrientLabels[key] || key; }).join(', ');
+          box.appendChild(foodMissing);
+        }
+        foodSection.appendChild(box);
+      });
+    }
+    grounding.appendChild(foodSection);
+
+    var details = document.createElement('details'); details.className = 'raw-context';
+    var summary = document.createElement('summary'); summary.textContent = 'Xem toàn bộ ngữ cảnh gốc từ API';
+    var pre = document.createElement('pre'); pre.className = 'mono'; pre.textContent = JSON.stringify(context, null, 2);
+    details.appendChild(summary); details.appendChild(pre); grounding.appendChild(details);
+  }
+
+  function renderSessions(sessions) {
+    sessionList.innerHTML = '';
+    if (!sessions || !sessions.length) {
+      var empty = document.createElement('div'); empty.className = 'empty-state small'; empty.textContent = 'Chưa có cuộc trò chuyện nào.';
+      sessionList.appendChild(empty); return;
+    }
+    sessions.forEach(function (session) {
+      var button = document.createElement('button');
+      button.type = 'button'; button.className = 'session-item' + (session.id === currentSessionId ? ' active' : '');
+      button.dataset.sessionId = session.id;
+      var title = document.createElement('span'); title.className = 'session-title'; title.textContent = ANA.text(session.title, 'Cuộc trò chuyện');
+      var meta = document.createElement('span'); meta.className = 'session-meta';
+      meta.textContent = ANA.num(session.message_count, 0).replace(/<[^>]+>/g, '') + ' tin nhắn · ' + formatDate(session.updated_at);
+      button.appendChild(title); button.appendChild(meta); sessionList.appendChild(button);
+    });
+  }
+
+  function renderHistoryMessages(historyMessages) {
+    clearMessages();
+    (historyMessages || []).forEach(function (message) {
+      appendMessage(message.role, message.content, { model: message.model_name, latency_ms: message.latency_ms });
+    });
+    grounding.className = 'empty-state';
+    grounding.textContent = historyMessages && historyMessages.length ? 'Lịch sử API không kèm ngữ cảnh đã dùng. Hãy gửi câu hỏi mới để xem dữ liệu đối chiếu.' : 'Chưa có câu trả lời mới để hiển thị dữ liệu đối chiếu.';
+  }
+
+  async function loadHistory(sessionId) {
+    try {
+      var path = '/assistant/history?limit=100';
+      if (sessionId) path += '&session_id=' + encodeURIComponent(sessionId);
+      var data = await ANA.get(path);
+      currentSessionId = sessionId || data.session_id || null;
+      renderSessions(data.sessions || []);
+      renderHistoryMessages(data.messages || []);
+    } catch (err) {
+      sessionList.innerHTML = '<div class="empty-state small"></div>';
+      sessionList.firstChild.textContent = 'Không tải được lịch sử: ' + err.message;
+      ANA.error(err);
+    }
+  }
+
+  async function loadStatus() {
+    try {
+      var data = await ANA.get('/assistant/status');
+      var ollama = data.ollama || {};
+      ollamaAvailable = ollama.available === true;
+      modelBadge.textContent = ANA.text(data.model || ollama.model, 'Chưa rõ mô hình');
+      modelBadge.className = 'badge ' + (ollamaAvailable ? 'badge-ok' : 'badge-error');
+      statusBox.className = 'availability ' + (ollamaAvailable ? 'ok' : 'error');
+      if (ollamaAvailable) {
+        statusBox.textContent = 'Ollama đang hoạt động · Mô hình ' + ANA.text(data.model || ollama.model, 'chưa rõ') + '. Câu trả lời được tạo từ dữ liệu thật hiển thị bên dưới.';
+      } else {
+        var reason = ANA.text(ollama.reason, 'Không có lý do chi tiết từ API.');
+        statusBox.textContent = 'Trợ lý AI hiện không khả dụng: ' + reason + ' Các chức năng tra cứu thực phẩm, nhật ký ăn uống và tính khẩu phần vẫn hoạt động bình thường.';
+      }
+      sendButton.disabled = !ollamaAvailable;
+    } catch (err) {
+      ollamaAvailable = false;
+      statusBox.className = 'availability error';
+      statusBox.textContent = 'Không kiểm tra được trạng thái trợ lý: ' + err.message + ' Các chức năng tra cứu thực phẩm, nhật ký ăn uống và tính khẩu phần vẫn hoạt động bình thường.';
+      modelBadge.textContent = 'Không khả dụng'; modelBadge.className = 'badge badge-error'; sendButton.disabled = true;
+      ANA.error(err);
+    }
+  }
+
+  function setSending(on) {
+    sending = on;
+    input.disabled = on;
+    newChatButton.disabled = on;
+    document.querySelectorAll('.suggestion, .session-item').forEach(function (button) { button.disabled = on; });
+    thinking.classList.toggle('hidden', !on);
+    ANA.busy(sendButton, on, 'Đang suy nghĩ…');
+    if (!on) sendButton.disabled = !ollamaAvailable;
+    if (on) scrollMessages();
+  }
+
+  async function sendMessage(text) {
+    text = (text || '').trim();
+    if (!text || sending) return;
+    if (!ollamaAvailable) {
+      ANA.flash('Trợ lý AI hiện không khả dụng. Vui lòng xem lý do trong bảng trạng thái.', 'error');
+      return;
+    }
+    appendMessage('user', text);
+    input.value = '';
+    setSending(true);
+    try {
+      var payload = { message: text };
+      if (currentSessionId) payload.session_id = currentSessionId;
+      var data = await ANA.post('/assistant/chat', payload);
+      currentSessionId = data.session_id;
+      var answer = String(data.answer || '').trim();
+      if (!answer && data.notice) answer = data.notice;
+      if (!answer) answer = 'API không trả về nội dung câu trả lời.';
+      appendMessage('assistant', answer, { model: data.model, latency_ms: data.latency_ms, tokens_out: data.tokens_out });
+      if (data.notice && String(data.notice).trim() && answer !== String(data.notice).trim()) {
+        ANA.flash(data.notice, 'warn');
+      }
+      showGrounding(data.context_used || {});
+      await refreshSessionList();
+    } catch (err) {
+      var explanation = err.message + (err.status === 503 ? ' Các chức năng tra cứu thực phẩm, nhật ký ăn uống và tính khẩu phần vẫn hoạt động bình thường.' : '');
+      appendMessage('assistant', explanation, { error: true });
+      ANA.flash(explanation, 'error');
+      ANA.error(err);
+      if (err.status === 503) {
+        ollamaAvailable = false;
+        statusBox.className = 'availability error';
+        statusBox.textContent = 'Trợ lý AI hiện không khả dụng: ' + err.message + ' Các chức năng tra cứu thực phẩm, nhật ký ăn uống và tính khẩu phần vẫn hoạt động bình thường.';
+        modelBadge.className = 'badge badge-error';
+      }
+    } finally {
+      setSending(false);
+      input.focus();
+    }
+  }
+
+  async function refreshSessionList() {
+    try {
+      var data = await ANA.get('/assistant/history?limit=100' + (currentSessionId ? '&session_id=' + encodeURIComponent(currentSessionId) : ''));
+      renderSessions(data.sessions || []);
+    } catch (err) {
+      ANA.error(err);
+    }
+  }
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    sendMessage(input.value);
+  });
+
+  input.addEventListener('keydown', function (event) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      form.requestSubmit();
+    }
+  });
+
+  document.getElementById('suggestions').addEventListener('click', function (event) {
+    var button = event.target.closest('[data-question]');
+    if (!button) return;
+    input.value = button.dataset.question;
+    sendMessage(button.dataset.question);
+  });
+
+  sessionList.addEventListener('click', function (event) {
+    var button = event.target.closest('[data-session-id]');
+    if (!button || sending) return;
+    loadHistory(Number(button.dataset.sessionId));
+  });
+
+  newChatButton.addEventListener('click', function () {
+    if (sending) return;
+    currentSessionId = null;
+    clearMessages();
+    renderSessions(Array.from(sessionList.querySelectorAll('[data-session-id]')).map(function (button) {
+      return { id: Number(button.dataset.sessionId), title: button.querySelector('.session-title').textContent, updated_at: null, message_count: 0 };
+    }));
+    grounding.className = 'empty-state';
+    grounding.textContent = 'Chưa có câu trả lời mới để hiển thị dữ liệu đối chiếu.';
+    input.focus();
+    refreshSessionList();
+  });
+
+  Promise.all([loadStatus(), loadHistory()]);
+});
+</script>
+{% endblock %}

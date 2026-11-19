@@ -1,0 +1,542 @@
+{% extends "base.html" %}
+{% block title %}Thống kê dinh dưỡng – AI Nutrition Analyzer{% endblock %}
+{% block page_id %}statistics{% endblock %}
+{% block heading %}Thống kê dinh dưỡng{% endblock %}
+
+{% block actions %}
+<div class="period-switch" role="group" aria-label="Chọn kỳ thống kê">
+  <button class="btn btn-sm" type="button" data-period="day" id="tab-day">Ngày</button>
+  <button class="btn btn-sm" type="button" data-period="week" id="tab-week">Tuần</button>
+  <button class="btn btn-sm" type="button" data-period="month" id="tab-month">Tháng</button>
+</div>
+<button class="btn btn-ghost btn-sm" type="button" id="period-prev" aria-label="Kỳ trước">‹</button>
+<input class="period-input" id="period-date" type="date" aria-label="Chọn ngày">
+<input class="period-input hidden" id="period-month" type="month" aria-label="Chọn tháng">
+<button class="btn btn-ghost btn-sm" type="button" id="period-next" aria-label="Kỳ sau">›</button>
+<button class="btn btn-ghost btn-sm" type="button" id="period-today">Kỳ hiện tại</button>
+{% endblock %}
+
+{% block content %}
+<style>
+  .period-switch { display: inline-flex; gap: .25rem; padding: .2rem; background: var(--bg); border-radius: var(--radius-sm); }
+  .period-switch .btn.active { background: var(--green-600); color: #fff; }
+  .period-input { width: auto; min-width: 140px; }
+  .stats-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+  .stats-head h2 { margin: 0; font-size: 1.15rem; }
+  .stats-summary { grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); }
+  .stats-summary .card { min-width: 0; }
+  .kcal-card { border-top: 3px solid var(--green-600); }
+  .target-meta { display: flex; justify-content: space-between; gap: .75rem; margin-top: .65rem; }
+  .stats-callouts { display: flex; flex-direction: column; gap: .6rem; margin: 1rem 0; }
+  .stats-callouts:empty { display: none; }
+  .chart-heading { display: flex; justify-content: space-between; align-items: baseline; gap: .75rem; }
+  .chart-heading h2 { margin-bottom: 0; }
+  .avg-note { margin-top: .5rem; }
+  .stats-table-wrap { margin-top: 1rem; }
+  .legend-inline { display: flex; gap: .9rem; flex-wrap: wrap; }
+  .legend-inline span { display: inline-flex; align-items: center; gap: .35rem; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  @media (max-width: 700px) {
+    .period-input { min-width: 0; width: 128px; }
+    #period-today { display: none; }
+  }
+</style>
+
+<div class="stats-head">
+  <div>
+    <h2 id="stats-period-title">Đang tải kỳ thống kê…</h2>
+    <p class="muted small" id="stats-timezone">Đang tải múi giờ…</p>
+  </div>
+  <p class="muted small" id="stats-note">Khoảng trống trên biểu đồ là ngày chưa có dữ liệu, không phải 0 kcal.</p>
+</div>
+
+<section class="grid stats-summary" id="stats-summary" aria-label="Tóm tắt kỳ thống kê">
+  <div class="card"><div class="skeleton"></div><div class="skeleton"></div></div>
+</section>
+
+<div class="stats-callouts" id="stats-callouts" aria-live="polite"></div>
+
+<section class="grid grid-2" id="stats-charts">
+  <article class="card">
+    <div class="chart-heading">
+      <h2 id="chart1-title">Biểu đồ 1</h2>
+      <span class="muted small" id="chart1-unit"></span>
+    </div>
+    <p class="card-sub" id="chart1-sub">Đang tải…</p>
+    <div class="chart-box" id="chart1-box"><canvas id="stats-chart-1" role="img" aria-label="Biểu đồ thống kê thứ nhất"></canvas></div>
+  </article>
+  <article class="card">
+    <div class="chart-heading">
+      <h2 id="chart2-title">Biểu đồ 2</h2>
+      <span class="muted small" id="chart2-unit"></span>
+    </div>
+    <p class="card-sub" id="chart2-sub">Đang tải…</p>
+    <div class="chart-box" id="chart2-box"><canvas id="stats-chart-2" role="img" aria-label="Biểu đồ thống kê thứ hai"></canvas></div>
+  </article>
+</section>
+
+<section class="card" aria-labelledby="stats-table-title">
+  <h2 id="stats-table-title">Bảng số liệu</h2>
+  <p class="card-sub">Bảng dùng cùng dữ liệu với biểu đồ — ô “chưa có dữ liệu” nghĩa là ngày đó chưa ghi bữa ăn nào.</p>
+  <div class="table-wrap stats-table-wrap" id="stats-table">
+    <div class="skeleton"></div><div class="skeleton"></div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+ANA.ready(function () {
+  'use strict';
+
+  var PERIODS = ['day', 'week', 'month'];
+  var state = { period: 'week', anchor: new Date() };
+  var requestNumber = 0;
+
+  var dateInput = document.getElementById('period-date');
+  var monthInput = document.getElementById('period-month');
+
+  var LABELS = {
+    energy_kcal: 'năng lượng', protein_g: 'protein', carbohydrate_g: 'carbohydrate',
+    fat_g: 'chất béo', fiber_g: 'chất xơ', sugar_g: 'đường', sodium_mg: 'natri'
+  };
+  var COLORS = { protein: '#2563eb', carbohydrate: '#16a34a', fat: '#d97706' };
+
+  function localIsoDate(date) {
+    return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' +
+      String(date.getDate()).padStart(2, '0');
+  }
+
+  function localMonth(date) {
+    return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0');
+  }
+
+  /** Định dạng ngày ISO (yyyy-mm-dd) theo tiếng Việt. */
+  function fmtDate(value, options) {
+    if (!value) { return '—'; }
+    return new Intl.DateTimeFormat('vi-VN', options || { day: '2-digit', month: '2-digit' }).format(new Date(value + 'T00:00:00'));
+  }
+
+  function isNum(value) {
+    return value !== null && value !== undefined && value !== '' && isFinite(Number(value));
+  }
+
+  function sumOf(points, key) {
+    var values = points.filter(function (p) { return isNum(p[key]); });
+    if (!values.length) { return null; }
+    return values.reduce(function (sum, p) { return sum + Number(p[key]); }, 0);
+  }
+
+  function statCard(label, value, unit, digits) {
+    return '<article class="card stat"><span class="stat-label">' + ANA.escape(label) +
+      '</span><span class="stat-value">' + ANA.num(value, digits === undefined ? 1 : digits) +
+      ' <span class="stat-unit">' + ANA.escape(unit) + '</span></span></article>';
+  }
+
+  function setLoading(on) {
+    ANA.loading('#stats-summary', on, 4);
+    ANA.loading('#stats-table', on, 6);
+  }
+
+  function emptyChart(boxId, message) {
+    document.getElementById(boxId).innerHTML = '<div class="empty-state">' + ANA.escape(message) + '</div>';
+  }
+
+  function restoreCanvas(boxId, canvasId, label) {
+    document.getElementById(boxId).innerHTML = '<canvas id="' + canvasId + '" role="img" aria-label="' + ANA.escape(label) + '"></canvas>';
+  }
+
+  /* ------------------------------ chế độ NGÀY ------------------------------ */
+  function renderDay(daily) {
+    var values = (daily.totals && daily.totals.totals) || {};
+    var totals = daily.totals || {};
+    var target = daily.target || {};
+    var percent = Number(target.percent);
+    var hasTarget = isNum(target.target_kcal);
+    var targetDetail = '';
+
+    if (hasTarget) {
+      targetDetail = '<div class="target-meta small"><span>' + ANA.num(target.target_kcal, 0) + ' kcal mục tiêu</span>' +
+        '<strong>' + ANA.num(target.percent, 0) + '%</strong></div>' +
+        '<div class="bar" aria-label="Tiến độ mục tiêu năng lượng"><span style="width:' +
+        (isFinite(percent) ? Math.max(0, Math.min(100, percent)) : 0) + '%"></span></div>';
+      if (isNum(target.remaining_kcal)) {
+        targetDetail += '<p class="muted small">' + (Number(target.remaining_kcal) >= 0 ? 'Còn ' : 'Vượt ') +
+          ANA.num(Math.abs(Number(target.remaining_kcal)), 0) + ' kcal</p>';
+      }
+    } else {
+      targetDetail = '<p class="muted small">Chưa đặt mục tiêu năng lượng.</p>';
+    }
+
+    document.getElementById('stats-summary').innerHTML =
+      '<article class="card kcal-card stat"><span class="stat-label">Năng lượng cả ngày</span>' +
+        '<span class="stat-value">' + ANA.num(values.energy_kcal, 0) + ' <span class="stat-unit">kcal</span></span>' +
+        targetDetail + '</article>' +
+      statCard('Protein', values.protein_g, 'g') +
+      statCard('Carbohydrate', values.carbohydrate_g, 'g') +
+      statCard('Chất béo', values.fat_g, 'g') +
+      statCard('Chất xơ', values.fiber_g, 'g') +
+      statCard('Đường', values.sugar_g, 'g') +
+      statCard('Natri', values.sodium_mg, 'mg', 0) +
+      '<article class="card stat"><span class="stat-label">Số món đã ghi</span><span class="stat-value">' +
+        ANA.num(totals.item_count, 0) + '</span></article>';
+
+    var callouts = '';
+    var missing = totals.missing_fields || [];
+    if (missing.length) {
+      callouts += '<div class="flash flash-warn">Chưa có đủ số liệu cho: ' +
+        missing.map(function (code) { return LABELS[code] || code; }).map(ANA.escape).join(', ') + '.</div>';
+    }
+    if (isNum(totals.items_without_energy) && Number(totals.items_without_energy) > 0) {
+      callouts += '<div class="flash flash-info">Có ' + ANA.num(totals.items_without_energy, 0) +
+        ' món chưa có dữ liệu năng lượng; tổng kcal trong ngày có thể chưa đầy đủ.</div>';
+    }
+    document.getElementById('stats-callouts').innerHTML = callouts;
+
+    /* Biểu đồ 1: tỷ lệ năng lượng đa lượng */
+    document.getElementById('chart1-title').textContent = 'Tỷ lệ năng lượng đa lượng';
+    document.getElementById('chart1-unit').textContent = 'Quy đổi 4 / 4 / 9 kcal mỗi gam';
+    document.getElementById('chart1-sub').textContent = 'Protein, carbohydrate và chất béo trong ngày ' + fmtDate(daily.date_local, { day: '2-digit', month: '2-digit', year: 'numeric' }) + '.';
+    var split = daily.macro_energy_split || {};
+    var macroData = [split.protein_kcal, split.carbohydrate_kcal, split.fat_kcal];
+    if (!macroData.some(function (v) { return isNum(v) && Number(v) > 0; })) {
+      emptyChart('chart1-box', 'Ngày này chưa có dữ liệu đa lượng để vẽ biểu đồ.');
+    } else {
+      restoreCanvas('chart1-box', 'stats-chart-1', 'Biểu đồ tỷ lệ năng lượng đa lượng');
+      ANA.chart('stats-chart-1', {
+        type: 'doughnut',
+        data: {
+          labels: ['Protein', 'Carbohydrate', 'Chất béo'],
+          datasets: [{ data: macroData, backgroundColor: [COLORS.protein, COLORS.carbohydrate, COLORS.fat], borderWidth: 0 }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false, cutout: '62%',
+          plugins: {
+            legend: { position: 'bottom' },
+            tooltip: {
+              callbacks: {
+                label: function (ctx) {
+                  var percentValue = split.protein_percent;
+                  var pct = [split.protein_percent, split.carbohydrate_percent, split.fat_percent][ctx.dataIndex];
+                  var tail = isNum(pct) ? ' (' + Number(pct).toFixed(1) + ' %)' : '';
+                  return ctx.label + ': ' + ANA.num(ctx.raw, 1).replace(/<[^>]*>/g, '') + ' kcal' + tail;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    /* Biểu đồ 2: năng lượng theo bữa */
+    document.getElementById('chart2-title').textContent = 'Năng lượng theo bữa';
+    document.getElementById('chart2-unit').textContent = 'kcal mỗi bữa';
+    document.getElementById('chart2-sub').textContent = 'Chỉ hiện những bữa đã ghi trong ngày này.';
+    var meals = daily.by_meal_type || [];
+    if (!meals.length) {
+      emptyChart('chart2-box', 'Ngày này chưa ghi bữa ăn nào.');
+    } else {
+      restoreCanvas('chart2-box', 'stats-chart-2', 'Biểu đồ năng lượng theo bữa');
+      ANA.chart('stats-chart-2', {
+        type: 'bar',
+        data: {
+          labels: meals.map(function (m) { return ANA.mealTypeLabel(m.meal_type); }),
+          datasets: [{
+            label: 'Năng lượng (kcal)',
+            data: meals.map(function (m) { return m.calories; }),
+            backgroundColor: '#16a34a', borderColor: '#15803d', borderWidth: 1, borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+          scales: { x: { beginAtZero: true, title: { display: true, text: 'kcal' } } },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                afterLabel: function (ctx) {
+                  var m = meals[ctx.dataIndex] || {};
+                  var parts = [];
+                  ['protein_g', 'carbohydrate_g', 'fat_g'].forEach(function (key) {
+                    if (isNum(m[key])) { parts.push(LABELS[key] + ' ' + Number(m[key]).toFixed(1) + ' g'); }
+                  });
+                  return parts.length ? parts.join(' · ') : 'chưa có số liệu đa lượng';
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    /* Bảng: chi tiết theo bữa */
+    var rows = meals.map(function (m) {
+      return '<tr><td>' + ANA.escape(ANA.mealTypeLabel(m.meal_type)) + '</td>' +
+        '<td class="numeric">' + ANA.num(m.calories, 0) + '</td>' +
+        '<td class="numeric">' + ANA.num(m.protein_g, 1) + '</td>' +
+        '<td class="numeric">' + ANA.num(m.carbohydrate_g, 1) + '</td>' +
+        '<td class="numeric">' + ANA.num(m.fat_g, 1) + '</td>' +
+        '<td class="numeric">' + ANA.num(m.item_count, 0) + '</td></tr>';
+    }).join('');
+    document.getElementById('stats-table').innerHTML = meals.length
+      ? '<table class="data"><thead><tr><th scope="col">Bữa</th><th scope="col" class="numeric">kcal</th>' +
+        '<th scope="col" class="numeric">Protein (g)</th><th scope="col" class="numeric">Carb (g)</th>' +
+        '<th scope="col" class="numeric">Béo (g)</th><th scope="col" class="numeric">Số món</th></tr></thead><tbody>' +
+        rows + '</tbody></table>'
+      : '<div class="empty-state">Chưa có bữa ăn nào trong ngày này.</div>';
+  }
+
+  /* --------------------------- chế độ TUẦN / THÁNG --------------------------- */
+  function renderPeriod(period, payload, profile) {
+    var series = payload.series || [];
+    var daysWithData = series.filter(function (p) { return isNum(p.kcal) || Number(p.item_count) > 0; });
+    var kcalValues = series.filter(function (p) { return isNum(p.kcal); });
+    var totalKcal = sumOf(series, 'kcal');
+    var avgKcal = kcalValues.length ? totalKcal / kcalValues.length : null;
+    var best = kcalValues.length ? kcalValues.reduce(function (a, b) { return Number(a.kcal) >= Number(b.kcal) ? a : b; }) : null;
+    var targetKcal = profile && profile.profile ? profile.profile.daily_kcal_target : null;
+    var dayCount = series.length;
+
+    function avgNote(text) {
+      return '<p class="muted small avg-note">' + ANA.escape(text) + '</p>';
+    }
+
+    if (!daysWithData.length) {
+      document.getElementById('stats-summary').innerHTML =
+        '<article class="card kcal-card stat"><span class="stat-label">Tổng năng lượng kỳ</span>' +
+        '<span class="stat-value">' + ANA.num(null, 0) + '</span>' + avgNote('Chưa có ngày nào được ghi trong kỳ này.') + '</article>' +
+        '<article class="card stat"><span class="stat-label">Số ngày của kỳ</span><span class="stat-value">' +
+        ANA.num(dayCount, 0) + '</span></article>';
+    } else {
+      var targetCard = '';
+      if (isNum(targetKcal) && isNum(avgKcal)) {
+        var diff = avgKcal - Number(targetKcal);
+        targetCard = '<article class="card stat"><span class="stat-label">So với mục tiêu ' +
+          ANA.num(targetKcal, 0) + ' kcal/ngày</span><span class="stat-value">' +
+          (diff >= 0 ? '+' : '−') + ANA.num(Math.abs(diff), 0) + ' <span class="stat-unit">kcal</span></span>' +
+          avgNote('Tính trên ' + kcalValues.length + ' ngày có ghi nhận, không tính ngày trống.') + '</article>';
+      } else if (!isNum(targetKcal)) {
+        targetCard = '<article class="card stat"><span class="stat-label">Mục tiêu/ngày</span><span class="stat-value">' +
+          ANA.num(null, 0) + '</span>' + avgNote('Chưa đặt mục tiêu năng lượng.') + '</article>';
+      }
+
+      document.getElementById('stats-summary').innerHTML =
+        '<article class="card kcal-card stat"><span class="stat-label">Tổng năng lượng kỳ</span>' +
+          '<span class="stat-value">' + ANA.num(totalKcal, 0) + ' <span class="stat-unit">kcal</span></span>' +
+          avgNote('Cộng ' + kcalValues.length + '/' + dayCount + ' ngày có số liệu.') + '</article>' +
+        '<article class="card stat"><span class="stat-label">Trung bình ngày có ghi nhận</span>' +
+          '<span class="stat-value">' + ANA.num(avgKcal, 0) + ' <span class="stat-unit">kcal</span></span>' +
+          avgNote('Chỉ tính ' + kcalValues.length + ' ngày có dữ liệu, không chia cho ngày trống.') + '</article>' +
+        '<article class="card stat"><span class="stat-label">Ngày nhiều năng lượng nhất</span>' +
+          '<span class="stat-value">' + (best ? ANA.num(best.kcal, 0) + ' <span class="stat-unit">kcal</span>' : ANA.num(null, 0)) + '</span>' +
+          avgNote(best ? fmtDate(best.date_local, { weekday: 'long', day: '2-digit', month: '2-digit' }) : 'Chưa có dữ liệu.') + '</article>' +
+        '<article class="card stat"><span class="stat-label">Số ngày đã ghi / số ngày của kỳ</span>' +
+          '<span class="stat-value">' + ANA.num(kcalValues.length, 0) + ' / ' + ANA.num(dayCount, 0) + '</span>' +
+          avgNote('Tổng protein ' + ANA.num(sumOf(series, 'protein_g'), 0) + ' g · carb ' +
+            ANA.num(sumOf(series, 'carbohydrate_g'), 0) + ' g · béo ' + ANA.num(sumOf(series, 'fat_g'), 0) + ' g.') +
+          '</article>' +
+        targetCard;
+    }
+
+    var missingDays = series.filter(function (p) { return p.kcal === null; }).length;
+    document.getElementById('stats-callouts').innerHTML = missingDays
+      ? '<div class="flash flash-info">Có ' + ANA.num(missingDays, 0) +
+        ' ngày chưa ghi bữa ăn nào trong kỳ này; các ngày đó được để trống trên biểu đồ, không tính là 0 kcal.</div>'
+      : '';
+
+    /* Biểu đồ 1: năng lượng từng ngày */
+    var label1 = period === 'week' ? 'Năng lượng từng ngày trong tuần' : 'Năng lượng từng ngày trong tháng';
+    document.getElementById('chart1-title').textContent = label1;
+    document.getElementById('chart1-unit').textContent = 'kcal/ngày';
+    document.getElementById('chart1-sub').textContent = 'Khoảng trống = ngày chưa ghi nhận.';
+    if (!kcalValues.length) {
+      emptyChart('chart1-box', 'Kỳ này chưa có ngày nào được ghi để vẽ biểu đồ.');
+    } else {
+      restoreCanvas('chart1-box', 'stats-chart-1', label1);
+      ANA.chart('stats-chart-1', {
+        type: period === 'week' ? 'bar' : 'line',
+        data: {
+          labels: series.map(function (p) { return fmtDate(p.date_local, { day: '2-digit', month: '2-digit' }); }),
+          datasets: [{
+            label: 'Năng lượng (kcal)',
+            data: series.map(function (p) { return isNum(p.kcal) ? Number(p.kcal) : null; }),
+            backgroundColor: '#16a34a', borderColor: '#15803d', borderWidth: period === 'week' ? 1 : 2,
+            borderRadius: 6, tension: .3, spanGaps: false, pointRadius: 3, fill: false
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          scales: { y: { beginAtZero: true, title: { display: true, text: 'kcal' } } },
+          plugins: { legend: { display: false } }
+        }
+      });
+    }
+
+    /* Biểu đồ 2: ba đa lượng từng ngày */
+    var label2 = 'Ba chất đa lượng từng ngày';
+    document.getElementById('chart2-title').textContent = label2;
+    document.getElementById('chart2-unit').textContent = 'gam/ngày';
+    document.getElementById('chart2-sub').textContent = 'Đường liền là ngày có số liệu; ngày trống bị ngắt quãng.';
+    var macroKeys = ['protein_g', 'carbohydrate_g', 'fat_g'];
+    var hasMacro = series.some(function (p) {
+      return macroKeys.some(function (k) { return isNum(p[k]); });
+    });
+    if (!hasMacro) {
+      emptyChart('chart2-box', 'Kỳ này chưa có số liệu đa lượng để vẽ biểu đồ.');
+    } else {
+      restoreCanvas('chart2-box', 'stats-chart-2', label2);
+      ANA.chart('stats-chart-2', {
+        type: 'line',
+        data: {
+          labels: series.map(function (p) { return fmtDate(p.date_local, { day: '2-digit', month: '2-digit' }); }),
+          datasets: [
+            { label: 'Protein (g)', data: series.map(function (p) { return isNum(p.protein_g) ? Number(p.protein_g) : null; }), borderColor: COLORS.protein, backgroundColor: COLORS.protein, tension: .3, spanGaps: false, pointRadius: 2 },
+            { label: 'Carbohydrate (g)', data: series.map(function (p) { return isNum(p.carbohydrate_g) ? Number(p.carbohydrate_g) : null; }), borderColor: COLORS.carbohydrate, backgroundColor: COLORS.carbohydrate, tension: .3, spanGaps: false, pointRadius: 2 },
+            { label: 'Chất béo (g)', data: series.map(function (p) { return isNum(p.fat_g) ? Number(p.fat_g) : null; }), borderColor: COLORS.fat, backgroundColor: COLORS.fat, tension: .3, spanGaps: false, pointRadius: 2 }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          scales: { y: { beginAtZero: true, title: { display: true, text: 'gam' } } },
+          plugins: { legend: { position: 'bottom' } }
+        }
+      });
+    }
+
+    /* Bảng số liệu: mỗi ngày một dòng, thiếu thì ghi "chưa có dữ liệu" */
+    var rows = series.map(function (p) {
+      return '<tr><td>' + ANA.escape(fmtDate(p.date_local, { weekday: 'short', day: '2-digit', month: '2-digit' })) + '</td>' +
+        '<td class="numeric">' + ANA.num(p.kcal, 0) + '</td>' +
+        '<td class="numeric">' + ANA.num(p.protein_g, 1) + '</td>' +
+        '<td class="numeric">' + ANA.num(p.carbohydrate_g, 1) + '</td>' +
+        '<td class="numeric">' + ANA.num(p.fat_g, 1) + '</td>' +
+        '<td class="numeric">' + ANA.num(p.fiber_g, 1) + '</td>' +
+        '<td class="numeric">' + ANA.num(p.item_count, 0) + '</td></tr>';
+    }).join('');
+    document.getElementById('stats-table').innerHTML =
+      '<table class="data"><thead><tr><th scope="col">Ngày</th><th scope="col" class="numeric">kcal</th>' +
+      '<th scope="col" class="numeric">Protein (g)</th><th scope="col" class="numeric">Carb (g)</th>' +
+      '<th scope="col" class="numeric">Béo (g)</th><th scope="col" class="numeric">Xơ (g)</th>' +
+      '<th scope="col" class="numeric">Số món</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+      (period === 'month' && series.length > 15
+        ? '<p class="muted small">Bảng dài ' + ANA.num(series.length, 0) + ' dòng — cuộn trong khung để xem hết tháng.</p>' : '');
+  }
+
+  /* --------------------------------- tải --------------------------------- */
+  async function load() {
+    var ownRequest = ++requestNumber;
+    var anchor = state.anchor;
+    var period = state.period;
+    setLoading(true);
+    document.getElementById('stats-callouts').innerHTML = '';
+
+    var requests = [
+      ANA.get('/users/me'),
+      period === 'day'
+        ? ANA.get('/statistics/daily?day=' + encodeURIComponent(localIsoDate(anchor)))
+        : period === 'week'
+          ? ANA.get('/statistics/weekly?any_day=' + encodeURIComponent(localIsoDate(anchor)))
+          : ANA.get('/statistics/monthly?year=' + anchor.getFullYear() + '&month=' + (anchor.getMonth() + 1))
+    ];
+
+    var settled = await Promise.allSettled(requests);
+    if (ownRequest !== requestNumber) { return; }
+    setLoading(false);
+
+    var profile = settled[0].status === 'fulfilled' ? settled[0].value : null;
+    if (settled[0].status !== 'fulfilled') { ANA.error(settled[0].reason); }
+
+    if (settled[1].status !== 'fulfilled') {
+      ANA.error(settled[1].reason);
+      document.getElementById('stats-period-title').textContent = 'Không tải được số liệu kỳ này';
+      document.getElementById('stats-summary').innerHTML =
+        '<div class="empty-state">Không tải được số liệu. Hãy kiểm tra máy chủ rồi thử lại.</div>';
+      document.getElementById('stats-table').innerHTML =
+        '<div class="empty-state">Không tải được số liệu để hiển thị bảng.</div>';
+      emptyChart('chart1-box', 'Không tải được số liệu.');
+      emptyChart('chart2-box', 'Không tải được số liệu.');
+      return;
+    }
+
+    var payload = settled[1].value;
+    document.getElementById('stats-timezone').textContent = 'Múi giờ ' + ANA.text(payload.timezone);
+
+    if (period === 'day') {
+      document.getElementById('stats-period-title').textContent =
+        'Ngày ' + fmtDate(payload.date_local, { weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' });
+      renderDay(payload);
+    } else if (period === 'week') {
+      document.getElementById('stats-period-title').textContent =
+        'Tuần từ ' + fmtDate(payload.start_date, { day: '2-digit', month: '2-digit' }) + ' đến ' +
+        fmtDate(payload.end_date, { day: '2-digit', month: '2-digit', year: 'numeric' });
+      renderPeriod('week', payload, profile);
+    } else {
+      document.getElementById('stats-period-title').textContent =
+        'Tháng ' + String(anchor.getMonth() + 1).padStart(2, '0') + '/' + anchor.getFullYear() +
+        ' (' + fmtDate(payload.start_date, { day: '2-digit', month: '2-digit' }) + ' – ' +
+        fmtDate(payload.end_date, { day: '2-digit', month: '2-digit' }) + ')';
+      renderPeriod('month', payload, profile);
+    }
+  }
+
+  /* ------------------------------ điều khiển ------------------------------ */
+  function syncControls() {
+    PERIODS.forEach(function (name) {
+      var tab = document.getElementById('tab-' + name);
+      tab.classList.toggle('active', name === state.period);
+      tab.classList.toggle('btn-primary', name === state.period);
+    });
+    var isMonth = state.period === 'month';
+    monthInput.classList.toggle('hidden', !isMonth);
+    dateInput.classList.toggle('hidden', isMonth);
+    dateInput.value = localIsoDate(state.anchor);
+    monthInput.value = localMonth(state.anchor);
+  }
+
+  function shift(step) {
+    if (state.period === 'day') {
+      state.anchor.setDate(state.anchor.getDate() + step);
+    } else if (state.period === 'week') {
+      state.anchor.setDate(state.anchor.getDate() + 7 * step);
+    } else {
+      state.anchor.setDate(1);
+      state.anchor.setMonth(state.anchor.getMonth() + step);
+    }
+    syncControls();
+    load();
+  }
+
+  PERIODS.forEach(function (name) {
+    document.getElementById('tab-' + name).addEventListener('click', function () {
+      state.period = name;
+      syncControls();
+      load();
+    });
+  });
+  document.getElementById('period-prev').addEventListener('click', function () { shift(-1); });
+  document.getElementById('period-next').addEventListener('click', function () { shift(1); });
+  document.getElementById('period-today').addEventListener('click', function () {
+    state.anchor = new Date();
+    syncControls();
+    load();
+  });
+  dateInput.addEventListener('change', function () {
+    if (!dateInput.value) { return; }
+    state.anchor = new Date(dateInput.value + 'T00:00:00');
+    load();
+  });
+  monthInput.addEventListener('change', function () {
+    if (!monthInput.value) { return; }
+    state.anchor = new Date(monthInput.value + '-01T00:00:00');
+    load();
+  });
+
+  syncControls();
+  load().catch(function (err) {
+    setLoading(false);
+    ANA.error(err);
+  });
+});
+</script>
+{% endblock %}

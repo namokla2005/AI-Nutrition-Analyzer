@@ -1,0 +1,61 @@
+{% extends "base_auth.html" %}
+{% block title %}Đăng ký – AI Nutrition Analyzer{% endblock %}
+{% block heading %}Tạo tài khoản{% endblock %}
+{% block subheading %}Mật khẩu tối thiểu 8 ký tự, phải có chữ và số.{% endblock %}
+
+{% block content %}
+<form id="register-form" method="post" novalidate>
+  <div class="field">
+    <label for="full_name">Họ và tên <span class="muted small">(không bắt buộc)</span></label>
+    <input id="full_name" name="full_name" type="text" autocomplete="name" maxlength="120">
+  </div>
+  <div class="field">
+    <label for="email">Email</label>
+    <input id="email" name="email" type="email" autocomplete="username" required placeholder="ten@vidu.com">
+  </div>
+  <div class="field">
+    <label for="password">Mật khẩu</label>
+    <input id="password" name="password" type="password" autocomplete="new-password" required minlength="8">
+    <span class="hint">Ví dụ: Matkhau123 — tối thiểu 8 ký tự, có ít nhất 1 chữ cái và 1 chữ số.</span>
+  </div>
+  <div class="field">
+    <label for="password2">Nhập lại mật khẩu</label>
+    <input id="password2" name="password2" type="password" autocomplete="new-password" required minlength="8">
+  </div>
+  <button class="btn btn-primary" type="submit" id="submit-btn" style="width:100%">Đăng ký</button>
+</form>
+{% endblock %}
+
+{% block footer_link %}
+  Đã có tài khoản? <a href="/login">Đăng nhập</a>
+{% endblock %}
+
+{% block scripts %}
+<script>
+ANA.ready(function () {
+  var form = document.getElementById('register-form');
+  var button = document.getElementById('submit-btn');
+  form.addEventListener('submit', async function (event) {
+    event.preventDefault();
+    var password = document.getElementById('password').value;
+    if (password !== document.getElementById('password2').value) {
+      ANA.flash('Hai mật khẩu không khớp nhau.', 'error');
+      return;
+    }
+    ANA.busy(button, true, 'Đang tạo tài khoản…');
+    try {
+      await ANA.post('/auth/register', {
+        email: document.getElementById('email').value.trim(),
+        password: password,
+        full_name: document.getElementById('full_name').value.trim() || null
+      });
+      ANA.flash('Đăng ký thành công! Đang vào hệ thống…', 'success');
+      setTimeout(function () { window.location.href = '/dashboard'; }, 800);
+    } catch (err) {
+      ANA.busy(button, false);
+      ANA.flash(err.message, 'error');
+    }
+  });
+});
+</script>
+{% endblock %}

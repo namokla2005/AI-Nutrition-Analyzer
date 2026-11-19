@@ -1,0 +1,676 @@
+{% extends "base.html" %}
+{% block title %}Nhận diện thực phẩm từ ảnh – AI Nutrition Analyzer{% endblock %}
+{% block page_id %}recognize{% endblock %}
+{% block heading %}Nhận diện thực phẩm từ ảnh{% endblock %}
+{% block actions %}
+<a class="btn btn-ghost btn-sm" href="#manual-search">Chọn món thủ công</a>
+{% endblock %}
+
+{% block head %}
+<style>
+  .recognize-stack { display: flex; flex-direction: column; gap: 1.25rem; }
+  .recognize-intro { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+  .recognize-intro p { margin: .2rem 0 0; }
+  .model-summary { min-width: min(100%, 300px); }
+  .model-summary p { margin: .3rem 0; overflow-wrap: anywhere; }
+  .recognize-alert { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: .75rem .85rem; margin-top: .75rem; }
+  .recognize-alert.info { color: var(--blue-600); border-color: var(--blue-600); background: var(--blue-50); }
+  .recognize-alert.warn { color: var(--amber-600); border-color: var(--amber-600); background: var(--amber-50); }
+  .recognize-alert.error { color: var(--red-600); border-color: var(--red-600); background: var(--red-50); }
+  .recognize-alert.success { color: var(--green-700); border-color: var(--green-600); background: var(--green-50); }
+  .upload-layout { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(260px, .9fr); gap: 1rem; align-items: start; }
+  .dropzone { cursor: pointer; min-height: 220px; display: grid; place-items: center; transition: border-color .16s ease, background .16s ease; }
+  .dropzone:focus-visible { outline: 3px solid color-mix(in srgb, var(--green-600) 35%, transparent); outline-offset: 3px; }
+  .dropzone-icon { display: block; font-size: 2rem; margin-bottom: .35rem; }
+  .dropzone strong { display: block; color: var(--text); margin-bottom: .25rem; }
+  .file-note { margin: .65rem 0 0; }
+  .chosen-preview { display: flex; flex-direction: column; gap: .65rem; }
+  .chosen-preview img, .result-image { width: 100%; max-height: 360px; object-fit: contain; background: var(--bg); }
+  .preview-placeholder { min-height: 220px; display: grid; place-items: center; }
+  .upload-actions { display: flex; align-items: center; gap: .65rem; flex-wrap: wrap; margin-top: .9rem; }
+  .prediction-list { display: grid; gap: .75rem; }
+  .prediction-item { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: .8rem; }
+  .prediction-item.active { border-color: var(--green-600); background: var(--green-50); }
+  .prediction-head { display: flex; justify-content: space-between; align-items: baseline; gap: .75rem; margin-bottom: .4rem; }
+  .prediction-label { font-weight: 700; overflow-wrap: anywhere; }
+  .prediction-confidence { font-variant-numeric: tabular-nums; font-weight: 650; }
+  .prediction-item .bar { margin-bottom: .65rem; }
+  .prediction-item .btn { width: 100%; }
+  .model-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: .65rem; margin-top: .75rem; }
+  .metric-box { padding: .65rem; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+  .metric-box .stat-value { font-size: 1.05rem; }
+  .candidate-list { display: grid; gap: .65rem; margin-top: .8rem; }
+  .candidate { display: flex; justify-content: space-between; gap: 1rem; align-items: center; padding: .75rem; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+  .candidate-name { font-weight: 650; }
+  .candidate-meta { margin-top: .2rem; }
+  .selected-food-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+  .selected-food-head h2 { margin-bottom: .15rem; }
+  .portion-controls { display: grid; grid-template-columns: minmax(130px, 180px) minmax(180px, 260px) auto; gap: .75rem; align-items: end; margin-top: .9rem; }
+  .portion-controls .field { margin: 0; }
+  .nutrition-summary { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin: 1rem 0; }
+  .source-note { margin-top: .5rem; }
+  .missing-list { overflow-wrap: anywhere; }
+  .manual-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .65rem; align-items: end; }
+  .manual-form .field { margin: 0; }
+  @media (max-width: 760px) {
+    .recognize-intro, .upload-layout, .selected-food-head { display: flex; flex-direction: column; }
+    .model-summary { min-width: 0; width: 100%; }
+    .portion-controls { grid-template-columns: 1fr 1fr; }
+    .portion-controls .btn { grid-column: 1 / -1; width: 100%; }
+  }
+  @media (max-width: 480px) {
+    .manual-form, .portion-controls { grid-template-columns: 1fr; }
+    .candidate { align-items: stretch; flex-direction: column; }
+    .candidate .btn { width: 100%; }
+    .dropzone { min-height: 190px; padding: 1rem; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="recognize-stack">
+  <section class="card recognize-intro" aria-labelledby="recognize-guide-title">
+    <div>
+      <h2 id="recognize-guide-title">Ảnh chỉ là gợi ý, bạn là người xác nhận</h2>
+      <p class="muted">Tải ảnh món ăn, xem Top-3 từ model, rồi xác nhận một thực phẩm có thật trong cơ sở dữ liệu trước khi tính dinh dưỡng.</p>
+    </div>
+    <div id="model-state" class="model-summary" aria-live="polite">
+      <div class="skeleton"></div><div class="skeleton"></div>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="upload-title">
+    <h2 id="upload-title">1. Chọn ảnh món ăn</h2>
+    <p class="card-sub">Hỗ trợ JPEG, PNG, WEBP; tối đa 8 MB.</p>
+    <div class="upload-layout">
+      <div>
+        <div id="dropzone" class="dropzone" role="button" tabindex="0" aria-controls="image-file" aria-label="Chọn hoặc thả ảnh món ăn">
+          <div>
+            <span class="dropzone-icon" aria-hidden="true">↥</span>
+            <strong>Thả ảnh vào đây hoặc bấm để chọn</strong>
+            <span class="small">Ảnh rõ món ăn, đủ sáng sẽ cho kết quả tốt hơn.</span>
+          </div>
+        </div>
+        <input id="image-file" class="hidden" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp">
+        <div id="file-error" class="hidden" role="alert"></div>
+        <div class="upload-actions">
+          <button id="upload-btn" class="btn btn-primary" type="button" disabled>Nhận diện ảnh</button>
+          <button id="clear-file-btn" class="btn btn-ghost hidden" type="button">Chọn lại</button>
+          <span id="file-name" class="muted small"></span>
+        </div>
+      </div>
+      <div id="local-preview" class="preview-placeholder empty-state" aria-live="polite">
+        Ảnh xem trước sẽ xuất hiện ở đây.
+      </div>
+    </div>
+    <div id="upload-message" class="hidden" role="alert"></div>
+  </section>
+
+  <section id="prediction-section" class="card hidden" aria-labelledby="prediction-title">
+    <h2 id="prediction-title">2. Kết quả nhận diện — cần xác nhận</h2>
+    <div id="confidence-warning" class="hidden" role="alert"></div>
+    <div class="grid grid-2" style="margin-top:1rem">
+      <div>
+        <img id="result-image" class="preview result-image" alt="Ảnh món ăn đã tải lên">
+        <p id="prediction-message" class="muted small"></p>
+      </div>
+      <div>
+        <h3>Top-3 dự đoán</h3>
+        <div id="prediction-list" class="prediction-list"></div>
+      </div>
+    </div>
+    <div id="model-detail" style="margin-top:1rem"></div>
+    <div id="suggestion-area" class="hidden" style="margin-top:1rem" aria-live="polite">
+      <h3 id="suggestion-title">Xác nhận thực phẩm trong cơ sở dữ liệu</h3>
+      <p id="suggestion-hint" class="muted small"></p>
+      <div id="suggestion-results"></div>
+    </div>
+  </section>
+
+  <section id="manual-search" class="card" aria-labelledby="manual-title">
+    <h2 id="manual-title">Chọn món khác trong cơ sở dữ liệu</h2>
+    <p class="card-sub">Dùng khi model chưa sẵn sàng, dự đoán không đúng, hoặc không có thực phẩm phù hợp.</p>
+    <form id="food-search-form" class="manual-form" novalidate>
+      <div class="field">
+        <label for="food-query">Tên món hoặc thực phẩm</label>
+        <input id="food-query" type="search" maxlength="120" placeholder="Ví dụ: phở bò, pizza, cơm tấm" autocomplete="off">
+      </div>
+      <button id="food-search-btn" class="btn btn-primary" type="submit">Tìm thực phẩm</button>
+    </form>
+    <div id="search-message" class="hidden" role="alert"></div>
+    <div id="food-search-results" aria-live="polite"></div>
+  </section>
+
+  <section id="portion-section" class="card hidden" aria-labelledby="portion-title">
+    <div class="selected-food-head">
+      <div>
+        <h2 id="portion-title">3. Khẩu phần và nhật ký</h2>
+        <div id="selected-food-name" class="stat-value"></div>
+        <div id="selected-food-meta" class="muted small"></div>
+      </div>
+      <span class="badge badge-ok">Đã xác nhận món</span>
+    </div>
+
+    <form id="portion-form" class="portion-controls" novalidate>
+      <div class="field">
+        <label for="weight-grams">Khối lượng (g)</label>
+        <input id="weight-grams" type="number" min="1" max="20000" step="1" value="100" inputmode="decimal" required>
+      </div>
+      <div class="field">
+        <label for="meal-type">Loại bữa</label>
+        <select id="meal-type">
+          <option value="breakfast">Bữa sáng</option>
+          <option value="lunch" selected>Bữa trưa</option>
+          <option value="dinner">Bữa tối</option>
+          <option value="snack">Bữa phụ</option>
+        </select>
+      </div>
+      <button id="log-meal-btn" class="btn btn-primary" type="button" disabled>Ghi vào nhật ký</button>
+    </form>
+    <div id="portion-error" class="hidden" role="alert"></div>
+    <div id="portion-content" aria-live="polite"></div>
+  </section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+  'use strict';
+
+  var MAX_BYTES = 8 * 1024 * 1024;
+  var ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+  var state = {
+    file: null,
+    previewUrl: null,
+    modelAvailable: false,
+    modelReason: '',
+    prediction: null,
+    chosenLabel: null,
+    selectedFood: null,
+    portion: null,
+    portionRequest: 0,
+    searchCandidates: [],
+    suggestionCandidates: []
+  };
+
+  var els = {};
+
+  function cacheElements() {
+    [
+      'model-state', 'dropzone', 'image-file', 'file-error', 'upload-btn', 'clear-file-btn',
+      'file-name', 'local-preview', 'upload-message', 'prediction-section', 'result-image',
+      'prediction-message', 'confidence-warning', 'prediction-list', 'model-detail',
+      'suggestion-area', 'suggestion-title', 'suggestion-hint', 'suggestion-results',
+      'food-search-form', 'food-query', 'food-search-btn', 'search-message',
+      'food-search-results', 'portion-section', 'selected-food-name', 'selected-food-meta',
+      'portion-form', 'weight-grams', 'meal-type', 'log-meal-btn', 'portion-error', 'portion-content'
+    ].forEach(function (id) { els[id] = document.getElementById(id); });
+  }
+
+  function setMessage(element, message, kind) {
+    if (!message) {
+      element.textContent = '';
+      element.className = 'hidden';
+      return;
+    }
+    element.textContent = message;
+    element.className = 'recognize-alert ' + (kind || 'info');
+  }
+
+  function formatDate(value) {
+    if (!value) return 'chưa có dữ liệu';
+    var date = new Date(value);
+    if (isNaN(date.getTime())) return String(value);
+    return new Intl.DateTimeFormat('vi-VN', { dateStyle: 'medium', timeStyle: 'short' }).format(date);
+  }
+
+  function displayFoodName(food) {
+    return food.name_vi || food.name_en || ('Thực phẩm #' + food.id);
+  }
+
+  function kcalSourceLabel(source) {
+    return {
+      measured: 'Số liệu đo trong cơ sở dữ liệu',
+      estimated_atwater: 'Ước lượng theo công thức Atwater',
+      unavailable: 'Chưa có dữ liệu năng lượng'
+    }[source] || ANA.text(source);
+  }
+
+  function resetFile() {
+    state.file = null;
+    if (state.previewUrl) URL.revokeObjectURL(state.previewUrl);
+    state.previewUrl = null;
+    els['image-file'].value = '';
+    els['file-name'].textContent = '';
+    els['local-preview'].className = 'preview-placeholder empty-state';
+    els['local-preview'].textContent = 'Ảnh xem trước sẽ xuất hiện ở đây.';
+    els['clear-file-btn'].classList.add('hidden');
+    els['upload-btn'].disabled = true;
+    setMessage(els['file-error'], '', 'error');
+  }
+
+  function validateFile(file) {
+    if (!file) return 'Bạn chưa chọn ảnh.';
+    var extensionOkay = /\.(jpe?g|png|webp)$/i.test(file.name || '');
+    if (ALLOWED_TYPES.indexOf(file.type) === -1 && !(file.type === '' && extensionOkay)) {
+      return 'Định dạng không hợp lệ. Chỉ chấp nhận ảnh JPEG, PNG hoặc WEBP.';
+    }
+    if (file.size <= 0) return 'Tệp ảnh đang trống.';
+    if (file.size > MAX_BYTES) return 'Ảnh vượt quá 8 MB. Vui lòng chọn ảnh nhỏ hơn.';
+    return '';
+  }
+
+  function chooseFile(file) {
+    var error = validateFile(file);
+    if (error) {
+      resetFile();
+      setMessage(els['file-error'], error, 'error');
+      ANA.toast(error, 'error');
+      return;
+    }
+    if (state.previewUrl) URL.revokeObjectURL(state.previewUrl);
+    state.file = file;
+    state.previewUrl = URL.createObjectURL(file);
+    els['local-preview'].className = 'chosen-preview';
+    els['local-preview'].innerHTML = '<img class="preview" alt="Ảnh món ăn đã chọn"><span class="small muted"></span>';
+    els['local-preview'].querySelector('img').src = state.previewUrl;
+    els['local-preview'].querySelector('span').textContent = file.name;
+    els['file-name'].textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB';
+    els['clear-file-btn'].classList.remove('hidden');
+    els['upload-btn'].disabled = !state.modelAvailable;
+    setMessage(els['file-error'], '', 'error');
+    setMessage(els['upload-message'], '', 'error');
+  }
+
+  function renderModelStatus(data) {
+    var model = data && data.image_classifier ? data.image_classifier : {};
+    state.modelAvailable = model.available === true;
+    state.modelReason = model.reason || '';
+    if (state.modelAvailable) {
+      els['model-state'].innerHTML =
+        '<span class="badge badge-ok">Model ảnh sẵn sàng</span>' +
+        '<p class="small"><strong>' + ANA.escape(model.num_classes) + '</strong> lớp · huấn luyện ' +
+        ANA.escape(formatDate(model.trained_at)) + '</p>' +
+        '<p class="muted small">Mọi kết quả vẫn cần người dùng xác nhận.</p>';
+      els['upload-btn'].disabled = !state.file;
+      return;
+    }
+    var reason = state.modelReason || 'API chưa cung cấp lý do model không sẵn sàng.';
+    els['model-state'].innerHTML =
+      '<span class="badge badge-warn">Model ảnh chưa sẵn sàng</span>' +
+      '<p class="small"></p>' +
+      '<button class="btn btn-primary btn-sm" type="button" data-jump-manual>Tìm món thủ công</button>';
+    els['model-state'].querySelector('p').textContent = reason;
+    els['upload-btn'].disabled = true;
+    setMessage(els['upload-message'], reason, 'warn');
+  }
+
+  async function loadModelStatus() {
+    try {
+      var data = await ANA.get('/predict/models');
+      renderModelStatus(data);
+    } catch (err) {
+      state.modelAvailable = false;
+      state.modelReason = err.message;
+      renderModelStatus({ image_classifier: { available: false, reason: err.message } });
+      ANA.error(err);
+    }
+  }
+
+  function metricBox(label, valueHtml) {
+    return '<div class="metric-box stat"><span class="stat-label">' + ANA.escape(label) +
+      '</span><span class="stat-value">' + valueHtml + '</span></div>';
+  }
+
+  function renderModelDetail(model, latencyMs) {
+    model = model || {};
+    var metrics = model.test_metrics || {};
+    var boxes = '';
+    if (metrics.test_accuracy !== undefined) boxes += metricBox('Độ chính xác test', ANA.num(Number(metrics.test_accuracy) * 100, 1) + '%');
+    if (metrics.test_macro_f1 !== undefined) boxes += metricBox('Macro F1 test', ANA.num(Number(metrics.test_macro_f1) * 100, 1) + '%');
+    if (metrics.test_loss !== undefined) boxes += metricBox('Test loss', ANA.num(metrics.test_loss, 4));
+    if (metrics.best_val_accuracy !== undefined) boxes += metricBox('Độ chính xác validation tốt nhất', ANA.num(Number(metrics.best_val_accuracy) * 100, 1) + '%');
+    if (!boxes) boxes = '<p class="muted small">API không cung cấp chỉ số test dạng số cho lần dự đoán này.</p>';
+    els['model-detail'].innerHTML =
+      '<h3>Model tạo ra kết quả</h3>' +
+      '<p class="small"><span class="mono">' + ANA.escape(ANA.text(model.arch)) + '</span> · ' +
+      ANA.escape(model.num_classes) + ' lớp · huấn luyện ' + ANA.escape(formatDate(model.trained_at)) +
+      (latencyMs === null || latencyMs === undefined ? '' : ' · ' + ANA.escape(latencyMs) + ' ms') + '</p>' +
+      '<div class="model-metrics">' + boxes + '</div>';
+  }
+
+  function renderPredictions(data) {
+    var top = (data.top_k || []).slice(0, 3);
+    els['prediction-list'].innerHTML = top.map(function (item) {
+      var confidence = Math.max(0, Math.min(100, Number(item.confidence) * 100));
+      return '<div class="prediction-item" data-rank="' + ANA.escape(item.rank) + '">' +
+        '<div class="prediction-head"><span class="prediction-label mono">' + ANA.escape(item.label) + '</span>' +
+        '<span class="prediction-confidence">' + ANA.num(confidence, 1) + '%</span></div>' +
+        '<div class="bar" aria-label="Độ tin cậy ' + ANA.escape(confidence.toFixed(1)) + '%"><span style="width:' +
+        confidence.toFixed(2) + '%"></span></div>' +
+        '<button class="btn btn-ghost btn-sm" type="button" data-prediction-label="' + ANA.escape(item.label) +
+        '" data-prediction-rank="' + ANA.escape(item.rank) + '">Chọn kết quả này</button></div>';
+    }).join('');
+    if (!top.length) {
+      els['prediction-list'].innerHTML = '<div class="empty-state">Model không trả về dự đoán nào. Hãy tìm món thủ công.</div>';
+    }
+  }
+
+  function renderPredictionResult(data) {
+    state.prediction = data;
+    state.chosenLabel = null;
+    els['result-image'].src = ANA.base + '/predict/images/' + encodeURIComponent(data.image_id);
+    els['prediction-message'].textContent = data.message || '';
+    renderPredictions(data);
+    renderModelDetail(data.model, data.latency_ms);
+    if (data.needs_confirmation) {
+      setMessage(els['confidence-warning'], 'Độ tin cậy thấp — hãy xác nhận hoặc chọn lại món trước khi ghi vào nhật ký.', 'warn');
+    } else {
+      setMessage(els['confidence-warning'], 'Kết quả từ model chỉ là gợi ý. Hãy xác nhận đúng món trong cơ sở dữ liệu.', 'info');
+    }
+    els['suggestion-area'].classList.add('hidden');
+    els['prediction-section'].classList.remove('hidden');
+    els['prediction-section'].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function showUnavailable(reason) {
+    state.modelAvailable = false;
+    state.modelReason = reason;
+    renderModelStatus({ image_classifier: { available: false, reason: reason } });
+    setMessage(els['upload-message'], reason, 'warn');
+    els['upload-message'].innerHTML = '';
+    var text = document.createElement('span');
+    text.textContent = reason + ' ';
+    var button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'btn btn-primary btn-sm';
+    button.setAttribute('data-jump-manual', '');
+    button.textContent = 'Tìm món thủ công';
+    els['upload-message'].appendChild(text);
+    els['upload-message'].appendChild(button);
+    els['upload-message'].className = 'recognize-alert warn';
+  }
+
+  async function uploadImage() {
+    var error = validateFile(state.file);
+    if (error) {
+      setMessage(els['file-error'], error, 'error');
+      ANA.error(new Error(error));
+      return;
+    }
+    ANA.busy(els['upload-btn'], true, 'Đang phân tích ảnh…');
+    setMessage(els['upload-message'], 'Đang tải ảnh và chạy model nhận diện…', 'info');
+    try {
+      var data = await ANA.upload('/predict/image', state.file);
+      setMessage(els['upload-message'], '', 'info');
+      renderPredictionResult(data);
+    } catch (err) {
+      if (err.status === 503) showUnavailable(err.message);
+      else setMessage(els['upload-message'], err.message, 'error');
+      ANA.error(err);
+    } finally {
+      ANA.busy(els['upload-btn'], false);
+      els['upload-btn'].disabled = !state.file || !state.modelAvailable;
+    }
+  }
+
+  function renderCandidateList(container, candidates, sourceKey) {
+    state[sourceKey] = candidates;
+    if (!candidates.length) {
+      container.innerHTML = '<div class="empty-state">Không tìm thấy thực phẩm phù hợp. Hãy đổi từ khóa và tìm thủ công.</div>';
+      return;
+    }
+    container.innerHTML = '<div class="candidate-list">' + candidates.map(function (food, index) {
+      var name = displayFoodName(food);
+      var category = ANA.text(food.category, 'Chưa phân loại');
+      var cooking = ANA.cookingStateLabel(food.cooking_state || 'unknown');
+      var kcal = food.energy_kcal_per_100g !== undefined ? food.energy_kcal_per_100g : null;
+      return '<div class="candidate"><div><div class="candidate-name">' + ANA.escape(name) + '</div>' +
+        '<div class="candidate-meta muted small">' + ANA.escape(category) + ' · ' + ANA.escape(cooking) +
+        ' · ' + ANA.num(kcal, 1) + ' kcal/100 g</div></div>' +
+        '<button class="btn btn-primary btn-sm" type="button" data-candidate-source="' + sourceKey +
+        '" data-candidate-index="' + index + '">Xác nhận món này</button></div>';
+    }).join('') + '</div>';
+  }
+
+  async function choosePrediction(label, rank) {
+    state.chosenLabel = label;
+    els['prediction-list'].querySelectorAll('.prediction-item').forEach(function (item) {
+      item.classList.toggle('active', item.getAttribute('data-rank') === String(rank));
+    });
+    els['suggestion-area'].classList.remove('hidden');
+    els['suggestion-title'].textContent = 'Xác nhận món cho nhãn “' + label + '”';
+    els['suggestion-hint'].textContent = 'Chỉ dữ liệu của thực phẩm bạn xác nhận bên dưới mới được dùng để tính dinh dưỡng.';
+
+    var candidates = [];
+    var top = (state.prediction && state.prediction.top_k) || [];
+    var topOne = top.length ? top[0].label : null;
+    if (label === topOne && state.prediction && (state.prediction.suggested_foods || []).length) {
+      candidates = state.prediction.suggested_foods.map(function (item) {
+        return {
+          id: item.food_id,
+          name_vi: item.name,
+          name_en: null,
+          category: item.category,
+          cooking_state: item.cooking_state,
+          energy_kcal_per_100g: item.energy_kcal_per_100g
+        };
+      });
+      renderCandidateList(els['suggestion-results'], candidates, 'suggestionCandidates');
+      els['suggestion-area'].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      return;
+    }
+
+    ANA.loading(els['suggestion-results'], true, 3);
+    try {
+      var query = label.replace(/_/g, ' ');
+      var data = await ANA.get('/foods?q=' + encodeURIComponent(query) + '&limit=8');
+      ANA.loading(els['suggestion-results'], false);
+      renderCandidateList(els['suggestion-results'], data.items || [], 'suggestionCandidates');
+    } catch (err) {
+      ANA.loading(els['suggestion-results'], false);
+      els['suggestion-results'].innerHTML = '<div class="empty-state">Không tải được gợi ý. Hãy dùng ô tìm thủ công bên dưới.</div>';
+      ANA.error(err);
+    }
+    els['suggestion-area'].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  async function searchFoods(event) {
+    event.preventDefault();
+    var query = els['food-query'].value.trim();
+    if (!query) {
+      setMessage(els['search-message'], 'Hãy nhập tên món hoặc thực phẩm cần tìm.', 'error');
+      els['food-query'].focus();
+      return;
+    }
+    setMessage(els['search-message'], '', 'error');
+    ANA.busy(els['food-search-btn'], true, 'Đang tìm…');
+    ANA.loading(els['food-search-results'], true, 3);
+    try {
+      var data = await ANA.get('/foods?q=' + encodeURIComponent(query) + '&limit=12');
+      ANA.loading(els['food-search-results'], false);
+      renderCandidateList(els['food-search-results'], data.items || [], 'searchCandidates');
+      if (!(data.items || []).length) setMessage(els['search-message'], 'Không có kết quả cho “' + query + '”. Hãy thử từ khóa khác.', 'info');
+    } catch (err) {
+      ANA.loading(els['food-search-results'], false);
+      setMessage(els['search-message'], err.message, 'error');
+      ANA.error(err);
+    } finally {
+      ANA.busy(els['food-search-btn'], false);
+    }
+  }
+
+  function selectCandidate(food) {
+    state.selectedFood = food;
+    state.portion = null;
+    els['selected-food-name'].textContent = displayFoodName(food);
+    els['selected-food-meta'].textContent =
+      ANA.text(food.category, 'Chưa phân loại') + ' · ' + ANA.cookingStateLabel(food.cooking_state || 'unknown');
+    els['weight-grams'].value = '100';
+    els['log-meal-btn'].disabled = true;
+    els['portion-section'].classList.remove('hidden');
+    loadPortion();
+    els['portion-section'].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function renderPortion(portion) {
+    state.portion = portion;
+    var kcalClass = portion.kcal_source === 'unavailable' ? 'badge-warn' :
+      (portion.kcal_source === 'estimated_atwater' ? 'badge-info' : 'badge-ok');
+    var values = portion.values || [];
+    var rows = values.map(function (item) {
+      return '<tr><td>' + ANA.escape(item.name_vi || item.code) + '</td><td class="numeric">' +
+        ANA.num(item.total, 2) + '</td><td>' + ANA.escape(ANA.text(item.unit)) + '</td><td class="numeric">' +
+        ANA.num(item.per_100g, 2) + '</td></tr>';
+    }).join('');
+    var missing = (portion.missing_nutrients || []).length
+      ? '<p class="recognize-alert warn missing-list"><strong>Dữ liệu còn thiếu:</strong> ' +
+        ANA.escape(portion.missing_nutrients.join(', ')) + '. Các giá trị thiếu không được thay bằng số 0.</p>'
+      : '';
+    els['portion-content'].innerHTML =
+      '<div class="grid nutrition-summary"><div class="stat card"><span class="stat-label">Năng lượng khẩu phần</span>' +
+      '<span class="stat-value">' + ANA.num(portion.kcal, 1) + ' <span class="stat-unit">kcal</span></span></div>' +
+      '<div class="stat card"><span class="stat-label">Tổng khối lượng</span><span class="stat-value">' +
+      ANA.num(portion.total_weight_grams, 1) + ' <span class="stat-unit">g</span></span></div></div>' +
+      '<p class="source-note"><span class="badge ' + kcalClass + '">' + ANA.escape(kcalSourceLabel(portion.kcal_source)) + '</span></p>' +
+      '<div class="table-wrap"><table class="data"><thead><tr><th>Chất dinh dưỡng</th><th class="numeric">Trong khẩu phần</th>' +
+      '<th>Đơn vị</th><th class="numeric">Mỗi 100 g</th></tr></thead><tbody>' +
+      (rows || '<tr><td colspan="4" class="muted">Chưa có dữ liệu chất dinh dưỡng.</td></tr>') +
+      '</tbody></table></div>' + missing;
+    els['log-meal-btn'].disabled = false;
+  }
+
+  async function loadPortion(event) {
+    if (event) event.preventDefault();
+    if (!state.selectedFood) return;
+    var weight = Number(els['weight-grams'].value);
+    if (!isFinite(weight) || weight <= 0 || weight > 20000) {
+      state.portion = null;
+      els['log-meal-btn'].disabled = true;
+      setMessage(els['portion-error'], 'Khối lượng phải lớn hơn 0 và không vượt quá 20.000 g.', 'error');
+      return;
+    }
+    setMessage(els['portion-error'], '', 'error');
+    els['log-meal-btn'].disabled = true;
+    var requestId = ++state.portionRequest;
+    ANA.loading(els['portion-content'], true, 4);
+    try {
+      var path = '/foods/' + encodeURIComponent(state.selectedFood.id) + '/portion?weight_g=' +
+        encodeURIComponent(weight) + '&quantity=1';
+      var portion = await ANA.get(path);
+      if (requestId !== state.portionRequest) return;
+      ANA.loading(els['portion-content'], false);
+      renderPortion(portion);
+    } catch (err) {
+      if (requestId !== state.portionRequest) return;
+      ANA.loading(els['portion-content'], false);
+      state.portion = null;
+      setMessage(els['portion-error'], err.message, 'error');
+      ANA.error(err);
+    }
+  }
+
+  async function logMeal() {
+    if (!state.selectedFood || !state.portion) {
+      var err = new Error('Hãy xác nhận món và chờ tải xong dữ liệu khẩu phần.');
+      setMessage(els['portion-error'], err.message, 'error');
+      ANA.error(err);
+      return;
+    }
+    var weight = Number(els['weight-grams'].value);
+    if (!isFinite(weight) || weight <= 0 || weight > 20000) {
+      setMessage(els['portion-error'], 'Khối lượng phải lớn hơn 0 và không vượt quá 20.000 g.', 'error');
+      return;
+    }
+    ANA.busy(els['log-meal-btn'], true, 'Đang ghi…');
+    setMessage(els['portion-error'], '', 'error');
+    var note = state.chosenLabel
+      ? 'Ghi từ nhận diện ảnh; nhãn đã chọn: ' + state.chosenLabel
+      : 'Ghi từ trang nhận diện ảnh; món được chọn thủ công.';
+    try {
+      var meal = await ANA.post('/meals', {
+        meal_type: els['meal-type'].value,
+        eaten_at: null,
+        note: note,
+        items: [{ food_id: Number(state.selectedFood.id), weight_grams: weight, quantity: 1 }]
+      });
+      setMessage(els['portion-error'], 'Đã ghi món vào nhật ký thành công (mã bữa #' + meal.id + ').', 'success');
+      ANA.toast('Đã ghi vào nhật ký.', 'success');
+    } catch (err) {
+      setMessage(els['portion-error'], err.message, 'error');
+      ANA.error(err);
+    } finally {
+      ANA.busy(els['log-meal-btn'], false);
+    }
+  }
+
+  function jumpToManual() {
+    document.getElementById('manual-search').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(function () { els['food-query'].focus(); }, 350);
+  }
+
+  function bindEvents() {
+    els['dropzone'].addEventListener('click', function () { els['image-file'].click(); });
+    els['dropzone'].addEventListener('keydown', function (event) {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        els['image-file'].click();
+      }
+    });
+    ['dragenter', 'dragover'].forEach(function (name) {
+      els['dropzone'].addEventListener(name, function (event) {
+        event.preventDefault();
+        els['dropzone'].classList.add('dragover');
+      });
+    });
+    ['dragleave', 'drop'].forEach(function (name) {
+      els['dropzone'].addEventListener(name, function (event) {
+        event.preventDefault();
+        els['dropzone'].classList.remove('dragover');
+      });
+    });
+    els['dropzone'].addEventListener('drop', function (event) {
+      chooseFile(event.dataTransfer && event.dataTransfer.files ? event.dataTransfer.files[0] : null);
+    });
+    els['image-file'].addEventListener('change', function () { chooseFile(this.files[0]); });
+    els['clear-file-btn'].addEventListener('click', resetFile);
+    els['upload-btn'].addEventListener('click', uploadImage);
+    els['prediction-list'].addEventListener('click', function (event) {
+      var button = event.target.closest('[data-prediction-label]');
+      if (button) choosePrediction(button.getAttribute('data-prediction-label'), button.getAttribute('data-prediction-rank'));
+    });
+    els['food-search-form'].addEventListener('submit', searchFoods);
+    [els['suggestion-results'], els['food-search-results']].forEach(function (container) {
+      container.addEventListener('click', function (event) {
+        var button = event.target.closest('[data-candidate-source]');
+        if (!button) return;
+        var list = state[button.getAttribute('data-candidate-source')] || [];
+        var food = list[Number(button.getAttribute('data-candidate-index'))];
+        if (food) selectCandidate(food);
+      });
+    });
+    els['portion-form'].addEventListener('submit', loadPortion);
+    var portionTimer = null;
+    els['weight-grams'].addEventListener('input', function () {
+      clearTimeout(portionTimer);
+      portionTimer = setTimeout(loadPortion, 400);
+    });
+    els['weight-grams'].addEventListener('change', loadPortion);
+    els['log-meal-btn'].addEventListener('click', logMeal);
+    document.addEventListener('click', function (event) {
+      if (event.target.closest('[data-jump-manual]')) jumpToManual();
+    });
+    window.addEventListener('beforeunload', function () {
+      if (state.previewUrl) URL.revokeObjectURL(state.previewUrl);
+    });
+  }
+
+  ANA.ready(function () {
+    cacheElements();
+    bindEvents();
+    loadModelStatus();
+  });
+})();
+</script>
+{% endblock %}

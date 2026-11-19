@@ -1,0 +1,441 @@
+{
+  "engine_url": "sqlite+pysqlite:///D:/Documents/BaoCao/TriTueNhanTao/AI-Nutrition-Analyzer/data/nutrition.db",
+  "database_path": "D:\\Documents\\BaoCao\\TriTueNhanTao\\AI-Nutrition-Analyzer\\data\\nutrition.db",
+  "batch_size": 2000,
+  "datasets": [
+    {
+      "dataset": "sr_legacy",
+      "source_code": "usda_sr_legacy",
+      "join_field": "id",
+      "id_coverage": 149,
+      "nutrient_nbr_coverage": 0,
+      "observed_nutrient_keys": 149,
+      "nutrient_mapping": [
+        {
+          "code": "ash_g",
+          "usda_id": "1007",
+          "usda_nbr": "207",
+          "name": "Ash",
+          "usda_unit": "G",
+          "app_unit": "g"
+        },
+        {
+          "code": "calcium_mg",
+          "usda_id": "1087",
+          "usda_nbr": "301",
+          "name": "Calcium, Ca",
+          "usda_unit": "MG",
+          "app_unit": "mg"
+        },
+        {
+          "code": "carbohydrate_g",
+          "usda_id": "1005",
+          "usda_nbr": "205",
+          "name": "Carbohydrate, by difference",
+          "usda_unit": "G",
+          "app_unit": "g"
+        },
+        {
+          "code": "cholesterol_mg",
+          "usda_id": "1253",
+          "usda_nbr": "601",
+          "name": "Cholesterol",
+          "usda_unit": "MG",
+          "app_unit": "mg"
+        },
+        {
+          "code": "energy_kcal",
+          "usda_id": "1008",
+          "usda_nbr": "208",
+          "name": "Energy",
+          "usda_unit": "KCAL",
+          "app_unit": "kcal"
+        },
+        {
+          "code": "energy_kj",
+          "usda_id": "1062",
+          "usda_nbr": "268",
+          "name": "Energy",
+          "usda_unit": "kJ",
+          "app_unit": "kJ"
+        },
+        {
+          "code": "fat_g",
+          "usda_id": "1004",
+          "usda_nbr": "204",
+          "name": "Total lipid (fat)",
+          "usda_unit": "G",
+          "app_unit": "g"
+        },
+        {
+          "code": "fiber_g",
+          "usda_id": "1079",
+          "usda_nbr": "291",
+          "name": "Fiber, total dietary",
+          "usda_unit": "G",
+          "app_unit": "g"
+        },
+        {
+          "code": "iron_mg",
+          "usda_id": "1089",
+          "usda_nbr": "303",
+          "name": "Iron, Fe",
+          "usda_unit": "MG",
+          "app_unit": "mg"
+        },
+        {
+          "code": "moisture_g",
+          "usda_id": "1051",
+          "usda_nbr": "255",
+          "name": "Water",
+          "usda_unit": "G",
+          "app_unit": "g"
+        },
+        {
+          "code": "potassium_mg",
+          "usda_id": "1092",
+          "usda_nbr": "306",
+          "name": "Potassium, K",
+          "usda_unit": "MG",
+          "app_unit": "mg"
+        },
+        {
+          "code": "protein_g",
+          "usda_id": "1003",
+          "usda_nbr": "203",
+          "name": "Protein",
+          "usda_unit": "G",
+          "app_unit": "g"
+        },
+        {
+          "code": "sodium_mg",
+          "usda_id": "1093",
+          "usda_nbr": "307",
+          "name": "Sodium, Na",
+          "usda_unit": "MG",
+          "app_unit": "mg"
+        },
+        {
+          "code": "sugar_g",
+          "usda_id": "2000",
+          "usda_nbr": "269",
+          "name": "Sugars, Total",
+          "usda_unit": "G",
+          "app_unit": "g"
+        },
+        {
+          "code": "vitamin_c_mg",
+          "usda_id": "1162",
+          "usda_nbr": "401",
+          "name": "Vitamin C, total ascorbic acid",
+          "usda_unit": "MG",
+          "app_unit": "mg"
+        }
+      ],
+      "mapping_mismatches": [],
+      "food_rows_read": 7793,
+      "foods_added": 7793,
+      "foods_updated": 0,
+      "foods_skipped": 0,
+      "aliases_added": 7793,
+      "raw_assigned": 1407,
+      "cooked_assigned": 2093,
+      "unknown_assigned": 4293,
+      "nutrient_rows_read": 644125,
+      "nutrient_rows_mapped": 113158,
+      "nutrient_rows_null": 0,
+      "nutrient_rows_missing_food": 0,
+      "atwater_rows_skipped": 0
+    },
+    {
+      "dataset": "foundation",
+      "source_code": "usda_foundation",
+      "join_field": "id",
+      "id_coverage": 226,
+      "nutrient_nbr_coverage": 0,
+      "observed_nutrient_keys": 227,
+      "nutrient_mapping": [
+        {
+          "code": "ash_g",
+          "usda_id": "1007",
+          "usda_nbr": "207",
+          "name": "Ash",
+          "usda_unit": "G",
+          "app_unit": "g"
+        },
+        {
+          "code": "calcium_mg",
+          "usda_id": "1087",
+          "usda_nbr": "301",
+          "name": "Calcium, Ca",
+          "usda_unit": "MG",
+          "app_unit": "mg"
+        },
+        {
+          "code": "carbohydrate_g",
+          "usda_id": "1005",
+          "usda_nbr": "205",
+          "name": "Carbohydrate, by difference",
+          "usda_unit": "G",
+          "app_unit": "g"
+        },
+        {
+          "code": "cholesterol_mg",
+          "usda_id": "1253",
+          "usda_nbr": "601",
+          "name": "Cholesterol",
+          "usda_unit": "MG",
+          "app_unit": "mg"
+        },
+        {
+          "code": "energy_kcal",
+          "usda_id": "1008",
+          "usda_nbr": "208",
+          "name": "Energy",
+          "usda_unit": "KCAL",
+          "app_unit": "kcal"
+        },
+        {
+          "code": "energy_kj",
+          "usda_id": "1062",
+          "usda_nbr": "268",
+          "name": "Energy",
+          "usda_unit": "kJ",
+          "app_unit": "kJ"
+        },
+        {
+          "code": "fat_g",
+          "usda_id": "1004",
+          "usda_nbr": "204",
+          "name": "Total lipid (fat)",
+          "usda_unit": "G",
+          "app_unit": "g"
+        },
+        {
+          "code": "fiber_g",
+          "usda_id": "1079",
+          "usda_nbr": "291",
+          "name": "Fiber, total dietary",
+          "usda_unit": "G",
+          "app_unit": "g"
+        },
+        {
+          "code": "iron_mg",
+          "usda_id": "1089",
+          "usda_nbr": "303",
+          "name": "Iron, Fe",
+          "usda_unit": "MG",
+          "app_unit": "mg"
+        },
+        {
+          "code": "moisture_g",
+          "usda_id": "1051",
+          "usda_nbr": "255",
+          "name": "Water",
+          "usda_unit": "G",
+          "app_unit": "g"
+        },
+        {
+          "code": "potassium_mg",
+          "usda_id": "1092",
+          "usda_nbr": "306",
+          "name": "Potassium, K",
+          "usda_unit": "MG",
+          "app_unit": "mg"
+        },
+        {
+          "code": "protein_g",
+          "usda_id": "1003",
+          "usda_nbr": "203",
+          "name": "Protein",
+          "usda_unit": "G",
+          "app_unit": "g"
+        },
+        {
+          "code": "sodium_mg",
+          "usda_id": "1093",
+          "usda_nbr": "307",
+          "name": "Sodium, Na",
+          "usda_unit": "MG",
+          "app_unit": "mg"
+        },
+        {
+          "code": "sugar_g",
+          "usda_id": "2000",
+          "usda_nbr": "269",
+          "name": "Total Sugars",
+          "usda_unit": "G",
+          "app_unit": "g"
+        },
+        {
+          "code": "vitamin_c_mg",
+          "usda_id": "1162",
+          "usda_nbr": "401",
+          "name": "Vitamin C, total ascorbic acid",
+          "usda_unit": "MG",
+          "app_unit": "mg"
+        }
+      ],
+      "mapping_mismatches": [
+        "sugar_g: candidate id=1063 expected nutrient_nbr=269, found 269.3"
+      ],
+      "food_rows_read": 68875,
+      "foods_added": 68867,
+      "foods_updated": 0,
+      "foods_skipped": 8,
+      "aliases_added": 68867,
+      "raw_assigned": 19124,
+      "cooked_assigned": 1470,
+      "unknown_assigned": 48273,
+      "nutrient_rows_read": 149615,
+      "nutrient_rows_mapped": 34400,
+      "nutrient_rows_null": 0,
+      "nutrient_rows_missing_food": 0,
+      "atwater_rows_skipped": 608
+    },
+    {
+      "dataset": "survey",
+      "source_code": "usda_fndds",
+      "join_field": "nutrient_nbr",
+      "id_coverage": 0,
+      "nutrient_nbr_coverage": 65,
+      "observed_nutrient_keys": 65,
+      "nutrient_mapping": [
+        {
+          "code": "ash_g",
+          "usda_id": "1007",
+          "usda_nbr": "207",
+          "name": "Ash",
+          "usda_unit": "G",
+          "app_unit": "g"
+        },
+        {
+          "code": "calcium_mg",
+          "usda_id": "1087",
+          "usda_nbr": "301",
+          "name": "Calcium, Ca",
+          "usda_unit": "MG",
+          "app_unit": "mg"
+        },
+        {
+          "code": "carbohydrate_g",
+          "usda_id": "1005",
+          "usda_nbr": "205",
+          "name": "Carbohydrate, by difference",
+          "usda_unit": "G",
+          "app_unit": "g"
+        },
+        {
+          "code": "cholesterol_mg",
+          "usda_id": "1253",
+          "usda_nbr": "601",
+          "name": "Cholesterol",
+          "usda_unit": "MG",
+          "app_unit": "mg"
+        },
+        {
+          "code": "energy_kcal",
+          "usda_id": "1008",
+          "usda_nbr": "208",
+          "name": "Energy",
+          "usda_unit": "KCAL",
+          "app_unit": "kcal"
+        },
+        {
+          "code": "energy_kj",
+          "usda_id": "1062",
+          "usda_nbr": "268",
+          "name": "Energy",
+          "usda_unit": "kJ",
+          "app_unit": "kJ"
+        },
+        {
+          "code": "fat_g",
+          "usda_id": "1004",
+          "usda_nbr": "204",
+          "name": "Total lipid (fat)",
+          "usda_unit": "G",
+          "app_unit": "g"
+        },
+        {
+          "code": "fiber_g",
+          "usda_id": "1079",
+          "usda_nbr": "291",
+          "name": "Fiber, total dietary",
+          "usda_unit": "G",
+          "app_unit": "g"
+        },
+        {
+          "code": "iron_mg",
+          "usda_id": "1089",
+          "usda_nbr": "303",
+          "name": "Iron, Fe",
+          "usda_unit": "MG",
+          "app_unit": "mg"
+        },
+        {
+          "code": "moisture_g",
+          "usda_id": "1051",
+          "usda_nbr": "255",
+          "name": "Water",
+          "usda_unit": "G",
+          "app_unit": "g"
+        },
+        {
+          "code": "potassium_mg",
+          "usda_id": "1092",
+          "usda_nbr": "306",
+          "name": "Potassium, K",
+          "usda_unit": "MG",
+          "app_unit": "mg"
+        },
+        {
+          "code": "protein_g",
+          "usda_id": "1003",
+          "usda_nbr": "203",
+          "name": "Protein",
+          "usda_unit": "G",
+          "app_unit": "g"
+        },
+        {
+          "code": "sodium_mg",
+          "usda_id": "1093",
+          "usda_nbr": "307",
+          "name": "Sodium, Na",
+          "usda_unit": "MG",
+          "app_unit": "mg"
+        },
+        {
+          "code": "sugar_g",
+          "usda_id": "2000",
+          "usda_nbr": "269",
+          "name": "Sugars, Total",
+          "usda_unit": "G",
+          "app_unit": "g"
+        },
+        {
+          "code": "vitamin_c_mg",
+          "usda_id": "1162",
+          "usda_nbr": "401",
+          "name": "Vitamin C, total ascorbic acid",
+          "usda_unit": "MG",
+          "app_unit": "mg"
+        }
+      ],
+      "mapping_mismatches": [],
+      "food_rows_read": 5624,
+      "foods_added": 5624,
+      "foods_updated": 0,
+      "foods_skipped": 0,
+      "aliases_added": 5624,
+      "raw_assigned": 116,
+      "cooked_assigned": 788,
+      "unknown_assigned": 4720,
+      "nutrient_rows_read": 365560,
+      "nutrient_rows_mapped": 73112,
+      "nutrient_rows_null": 0,
+      "nutrient_rows_missing_food": 0,
+      "atwater_rows_skipped": 0
+    }
+  ]
+}

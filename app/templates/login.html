@@ -1,0 +1,51 @@
+{% extends "base_auth.html" %}
+{% block title %}Đăng nhập – AI Nutrition Analyzer{% endblock %}
+{% block heading %}Đăng nhập{% endblock %}
+{% block subheading %}Dùng tài khoản của bạn để vào hệ thống.{% endblock %}
+
+{% block content %}
+<form id="login-form" method="post" novalidate>
+  <div class="field">
+    <label for="email">Email</label>
+    <input id="email" name="email" type="email" autocomplete="username" required
+           placeholder="ten@vidu.com">
+  </div>
+  <div class="field">
+    <label for="password">Mật khẩu</label>
+    <input id="password" name="password" type="password" autocomplete="current-password" required>
+  </div>
+  <button class="btn btn-primary" type="submit" id="submit-btn" style="width:100%">Đăng nhập</button>
+</form>
+{% endblock %}
+
+{% block footer_link %}
+  Chưa có tài khoản? <a href="/register">Đăng ký ngay</a>
+{% endblock %}
+
+{% block scripts %}
+<script>
+ANA.ready(function () {
+  var form = document.getElementById('login-form');
+  var button = document.getElementById('submit-btn');
+  form.addEventListener('submit', async function (event) {
+    event.preventDefault();
+    var email = document.getElementById('email').value.trim();
+    var password = document.getElementById('password').value;
+    if (!email || !password) {
+      ANA.flash('Vui lòng nhập đầy đủ email và mật khẩu.', 'error');
+      return;
+    }
+    ANA.busy(button, true, 'Đang đăng nhập…');
+    try {
+      var user = await ANA.post('/auth/login', { email: email, password: password });
+      ANA.flash('Xin chào ' + ANA.escape(user.full_name || user.email) + '!', 'success');
+      var next = new URLSearchParams(window.location.search).get('next');
+      window.location.href = next && next.startsWith('/') ? next : '/dashboard';
+    } catch (err) {
+      ANA.busy(button, false);
+      ANA.flash(err.message, 'error');
+    }
+  });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "sources": [
+    {
+      "id": 1,
+      "url": "https://www.fao.org/fileadmin/templates/food_composition/documents/pdf/VTN_FCT_2007.pdf",
+      "title": "Bảng thành phần thực phẩm Việt Nam 2007",
+      "accessed": "2026-11-19",
+      "quotes": [
+        {
+          "text": "BẢNG THÀNH PHẦN THỰC PHẨM VIỆT NAM",
+          "added": "2026-11-19"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "url": "https://inmu.mahidol.ac.th/aseanfoods/composition_data.html",
+      "title": "Electronic ASEAN Food Composition Database",
+      "accessed": "2026-11-19",
+      "quotes": [
+        {
+          "text": "Electronic ASEAN Food Composition Database",
+          "added": "2026-11-19"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "url": "https://inmu.mahidol.ac.th/aseanfoods/doc/OnlineASEAN_FCD_V1_2014.pdf",
+      "title": "ASEAN Food Composition Database, Electronic version 1",
+      "accessed": "2026-11-19",
+      "quotes": [
+        {
+          "text": "ASEANFOODS encourages the use and dissemination of this online ASEAN Food Composition Database.",
+          "added": "2026-11-19"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "url": "https://huggingface.co/api/datasets/ethz/food101/tree/main/data",
+      "title": "Food-101 repository data tree",
+      "accessed": "2026-11-19",
+      "quotes": [
+        {
+          "text": "\"type\": \"file\", \"oid\": \"aba8dad7c89bda255954ba51adf8b0147d4db870\", \"size\": 489582959",
+          "added": "2026-11-19"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "url": "https://datasets-server.huggingface.co/parquet?dataset=ethz/food101",
+      "title": "Food-101 parquet manifest",
+      "accessed": "2026-11-19",
+      "quotes": [
+        {
+          "text": "\"dataset\": \"ethz/food101\", \"config\": \"default\", \"split\": \"train\"",
+          "added": "2026-11-19"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "url": "https://datasets-server.huggingface.co/rows?dataset=ethz/food101&config=default&split=train&offset=0&length=1",
+      "title": "Food-101 train row schema",
+      "accessed": "2026-11-19",
+      "quotes": [
+        {
+          "text": "\"num_rows_total\": 75750, \"num_rows_per_page\": 100, \"partial\": false",
+          "added": "2026-11-19"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "url": "https://datasets-server.huggingface.co/rows?dataset=ethz/food101&config=default&split=validation&offset=0&length=1",
+      "title": "Food-101 validation row schema",
+      "accessed": "2026-11-19",
+      "quotes": [
+        {
+          "text": "\"num_rows_total\": 25250, \"num_rows_per_page\": 100, \"partial\": false",
+          "added": "2026-11-19"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "url": "https://huggingface.co/datasets/ethz/food101/raw/main/README.md",
+      "title": "Food-101 dataset card",
+      "accessed": "2026-11-19",
+      "quotes": [
+        {
+          "text": "The Food-101 data set consists of images from Foodspotting",
+          "added": "2026-11-19"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "url": "https://commons.wikimedia.org/w/api.php",
+      "title": "Wikimedia Commons MediaWiki API",
+      "accessed": "2026-11-19",
+      "quotes": [
+        {
+          "text": "\"title\": \"Category:Bún bò Huế\"",
+          "added": "2026-11-19"
+        }
+      ]
+    }
+  ]
+}

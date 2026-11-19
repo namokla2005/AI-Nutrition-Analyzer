@@ -1,0 +1,649 @@
+{
+  "tree": {
+    "url": "https://huggingface.co/api/datasets/ethz/food101/tree/main/data",
+    "status": 200,
+    "final_url": "https://huggingface.co/api/datasets/ethz/food101/tree/main/data",
+    "raw_json": [
+      {
+        "type": "file",
+        "oid": "aba8dad7c89bda255954ba51adf8b0147d4db870",
+        "size": 489582959,
+        "lfs": {
+          "oid": "015e9a99c7d302efbd261b8015a27f61083d8efa6dcb495bffd296778ffd9d36",
+          "size": 489582959,
+          "pointerSize": 134
+        },
+        "xetHash": "59c5a178bd4b188906aaf062420657500e8a7d05f7c3fff9c1b482eeb7fc51a3",
+        "path": "data/train-00000-of-00008.parquet"
+      },
+      {
+        "type": "file",
+        "oid": "e01400c9d6ccdd2c1360a9f2c8b3dddc6aea2cff",
+        "size": 464225341,
+        "lfs": {
+          "oid": "22519893e937136db7a791e2815a63a4dbbdd8ba75bb4b8b37df83871ca3d2b1",
+          "size": 464225341,
+          "pointerSize": 134
+        },
+        "xetHash": "210d933378087b242d3a1aa1b2ceb866cdfec42e47d41531604589cea58d0584",
+        "path": "data/train-00001-of-00008.parquet"
+      },
+      {
+        "type": "file",
+        "oid": "2e821559afb004eab27a849367bd455cbf8135a3",
+        "size": 472211726,
+        "lfs": {
+          "oid": "119cdf8ad024e8563f2bf60393b167aa9a18d1bbf4f9dc7227473a94db168d7a",
+          "size": 472211726,
+          "pointerSize": 134
+        },
+        "xetHash": "52deefdbdc9af4a7206797860222f91f52aacce43402ea3b0d210aac483c0bd5",
+        "path": "data/train-00002-of-00008.parquet"
+      },
+      {
+        "type": "file",
+        "oid": "f3c58e69cef498cc4cc61b68501a28919ffef39c",
+        "size": 463644865,
+        "lfs": {
+          "oid": "8fa54bb56be8b9b75aec29046d952947587f266b5ec54633a6e44c35c34fde22",
+          "size": 463644865,
+          "pointerSize": 134
+        },
+        "xetHash": "a86d5490b85f22897a0c6a137de7c79245842faad7318d89727cbee32315dba9",
+        "path": "data/train-00003-of-00008.parquet"
+      },
+      {
+        "type": "file",
+        "oid": "b52070b1ac1749133af1516858b33b7ff82fb1b1",
+        "size": 475091267,
+        "lfs": {
+          "oid": "8f127dcc262bce811e8b690b5834fc7cb13f82461a1fe1650711623e86aa4a19",
+          "size": 475091267,
+          "pointerSize": 134
+        },
+        "xetHash": "8cdc6c4d13bd985c5e552009f00c900a30a11c51364fb0896d2aaf8b2779f40b",
+        "path": "data/train-00004-of-00008.parquet"
+      },
+      {
+        "type": "file",
+        "oid": "8e47a8dfcebe6f9fef19ef79ce633557cfadce80",
+        "size": 469875468,
+        "lfs": {
+          "oid": "6c02192cb6183ae554a97ecf7b3e7e25240c3a32e99a630343c430eabd859fcc",
+          "size": 469875468,
+          "pointerSize": 134
+        },
+        "xetHash": "6bfa636f2f2b0b7e3837787680f32f3cd958a6a83c6df7083566bc78abc267ea",
+        "path": "data/train-00005-of-00008.parquet"
+      },
+      {
+        "type": "file",
+        "oid": "c490bbf160bf2622f1747b612d62bd79dd554d17",
+        "size": 478240948,
+        "lfs": {
+          "oid": "e45129fa1cb069859df21467b68bab7e57fcb0d93c9cf36c7e4bc56d3cdddc0b",
+          "size": 478240948,
+          "pointerSize": 134
+        },
+        "xetHash": "002a1dfb3129b5c2de01a9895ccbf4f3d3d2d761d2a91bd9325e4809551521ac",
+        "path": "data/train-00006-of-00008.parquet"
+      },
+      {
+        "type": "file",
+        "oid": "5e85f2129d79bf1e8874191cd4c4f2b017415d93",
+        "size": 485648421,
+        "lfs": {
+          "oid": "44affd2f82062a2824093fb5675f0d753ebc5c72a983b6b4876837f3799441e5",
+          "size": 485648421,
+          "pointerSize": 134
+        },
+        "xetHash": "bf02e4ea4959d7a1cf4f7101d03ad7690ef15e3a134097cd3fa9cdc4155d1dab",
+        "path": "data/train-00007-of-00008.parquet"
+      },
+      {
+        "type": "file",
+        "oid": "f09265729d6b7537fbb9161c332af9506f519c6d",
+        "size": 422634283,
+        "lfs": {
+          "oid": "2815a26a09dc7cb1e587a83065ecb5691a76ae72796f9f49b6e9bd1b471b5f11",
+          "size": 422634283,
+          "pointerSize": 134
+        },
+        "xetHash": "439d8f489c83c799899a205a5c8952b1550cf63d0a26d949a43b244aebed7566",
+        "path": "data/validation-00000-of-00003.parquet"
+      },
+      {
+        "type": "file",
+        "oid": "dd0dc5c7bc576b525e596ffc10c093408f931ee3",
+        "size": 413147844,
+        "lfs": {
+          "oid": "7ca90c6195f711b8884eff2c3035e18e7a18ba1fbb01f8ebdd8b0ee31c64bd8b",
+          "size": 413147844,
+          "pointerSize": 134
+        },
+        "xetHash": "62bb1f2b60ed12e8d7d82467482a36577660773eea51449e29b61a120ed7103d",
+        "path": "data/validation-00001-of-00003.parquet"
+      },
+      {
+        "type": "file",
+        "oid": "a3f30d2dad15819c77e5d6229992da452ed5ef4a",
+        "size": 425669186,
+        "lfs": {
+          "oid": "eb53efb57324418771304663cff8b7bbdf149dfd69996a7d15b3a94a04e62999",
+          "size": 425669186,
+          "pointerSize": 134
+        },
+        "xetHash": "f66c4af58caa6592eef89148607d1e2b09c517e88ee88b5c4117f7cc4e6d4030",
+        "path": "data/validation-00002-of-00003.parquet"
+      }
+    ]
+  },
+  "parquet_viewer": {
+    "url": "https://datasets-server.huggingface.co/parquet?dataset=ethz/food101",
+    "status": 200,
+    "final_url": "https://datasets-server.huggingface.co/parquet?dataset=ethz/food101",
+    "raw_json": {
+      "parquet_files": [
+        {
+          "dataset": "ethz/food101",
+          "config": "default",
+          "split": "train",
+          "url": "https://huggingface.co/datasets/ethz/food101/resolve/refs%2Fconvert%2Fparquet/default/train/0000.parquet",
+          "filename": "0000.parquet",
+          "size": 489582959
+        },
+        {
+          "dataset": "ethz/food101",
+          "config": "default",
+          "split": "train",
+          "url": "https://huggingface.co/datasets/ethz/food101/resolve/refs%2Fconvert%2Fparquet/default/train/0001.parquet",
+          "filename": "0001.parquet",
+          "size": 464225341
+        },
+        {
+          "dataset": "ethz/food101",
+          "config": "default",
+          "split": "train",
+          "url": "https://huggingface.co/datasets/ethz/food101/resolve/refs%2Fconvert%2Fparquet/default/train/0002.parquet",
+          "filename": "0002.parquet",
+          "size": 472211726
+        },
+        {
+          "dataset": "ethz/food101",
+          "config": "default",
+          "split": "train",
+          "url": "https://huggingface.co/datasets/ethz/food101/resolve/refs%2Fconvert%2Fparquet/default/train/0003.parquet",
+          "filename": "0003.parquet",
+          "size": 463644865
+        },
+        {
+          "dataset": "ethz/food101",
+          "config": "default",
+          "split": "train",
+          "url": "https://huggingface.co/datasets/ethz/food101/resolve/refs%2Fconvert%2Fparquet/default/train/0004.parquet",
+          "filename": "0004.parquet",
+          "size": 475091267
+        },
+        {
+          "dataset": "ethz/food101",
+          "config": "default",
+          "split": "train",
+          "url": "https://huggingface.co/datasets/ethz/food101/resolve/refs%2Fconvert%2Fparquet/default/train/0005.parquet",
+          "filename": "0005.parquet",
+          "size": 469875468
+        },
+        {
+          "dataset": "ethz/food101",
+          "config": "default",
+          "split": "train",
+          "url": "https://huggingface.co/datasets/ethz/food101/resolve/refs%2Fconvert%2Fparquet/default/train/0006.parquet",
+          "filename": "0006.parquet",
+          "size": 478240948
+        },
+        {
+          "dataset": "ethz/food101",
+          "config": "default",
+          "split": "train",
+          "url": "https://huggingface.co/datasets/ethz/food101/resolve/refs%2Fconvert%2Fparquet/default/train/0007.parquet",
+          "filename": "0007.parquet",
+          "size": 485648421
+        },
+        {
+          "dataset": "ethz/food101",
+          "config": "default",
+          "split": "validation",
+          "url": "https://huggingface.co/datasets/ethz/food101/resolve/refs%2Fconvert%2Fparquet/default/validation/0000.parquet",
+          "filename": "0000.parquet",
+          "size": 422634283
+        },
+        {
+          "dataset": "ethz/food101",
+          "config": "default",
+          "split": "validation",
+          "url": "https://huggingface.co/datasets/ethz/food101/resolve/refs%2Fconvert%2Fparquet/default/validation/0001.parquet",
+          "filename": "0001.parquet",
+          "size": 413147844
+        },
+        {
+          "dataset": "ethz/food101",
+          "config": "default",
+          "split": "validation",
+          "url": "https://huggingface.co/datasets/ethz/food101/resolve/refs%2Fconvert%2Fparquet/default/validation/0002.parquet",
+          "filename": "0002.parquet",
+          "size": 425669186
+        }
+      ],
+      "pending": [],
+      "failed": [],
+      "partial": false
+    }
+  },
+  "train_rows": {
+    "url": "https://datasets-server.huggingface.co/rows?dataset=ethz/food101&config=default&split=train&offset=0&length=1",
+    "status": 200,
+    "final_url": "https://datasets-server.huggingface.co/rows?dataset=ethz/food101&config=default&split=train&offset=0&length=1",
+    "raw_json": {
+      "features": [
+        {
+          "feature_idx": 0,
+          "name": "image",
+          "type": {
+            "_type": "Image"
+          }
+        },
+        {
+          "feature_idx": 1,
+          "name": "label",
+          "type": {
+            "names": [
+              "apple_pie",
+              "baby_back_ribs",
+              "baklava",
+              "beef_carpaccio",
+              "beef_tartare",
+              "beet_salad",
+              "beignets",
+              "bibimbap",
+              "bread_pudding",
+              "breakfast_burrito",
+              "bruschetta",
+              "caesar_salad",
+              "cannoli",
+              "caprese_salad",
+              "carrot_cake",
+              "ceviche",
+              "cheesecake",
+              "cheese_plate",
+              "chicken_curry",
+              "chicken_quesadilla",
+              "chicken_wings",
+              "chocolate_cake",
+              "chocolate_mousse",
+              "churros",
+              "clam_chowder",
+              "club_sandwich",
+              "crab_cakes",
+              "creme_brulee",
+              "croque_madame",
+              "cup_cakes",
+              "deviled_eggs",
+              "donuts",
+              "dumplings",
+              "edamame",
+              "eggs_benedict",
+              "escargots",
+              "falafel",
+              "filet_mignon",
+              "fish_and_chips",
+              "foie_gras",
+              "french_fries",
+              "french_onion_soup",
+              "french_toast",
+              "fried_calamari",
+              "fried_rice",
+              "frozen_yogurt",
+              "garlic_bread",
+              "gnocchi",
+              "greek_salad",
+              "grilled_cheese_sandwich",
+              "grilled_salmon",
+              "guacamole",
+              "gyoza",
+              "hamburger",
+              "hot_and_sour_soup",
+              "hot_dog",
+              "huevos_rancheros",
+              "hummus",
+              "ice_cream",
+              "lasagna",
+              "lobster_bisque",
+              "lobster_roll_sandwich",
+              "macaroni_and_cheese",
+              "macarons",
+              "miso_soup",
+              "mussels",
+              "nachos",
+              "omelette",
+              "onion_rings",
+              "oysters",
+              "pad_thai",
+              "paella",
+              "pancakes",
+              "panna_cotta",
+              "peking_duck",
+              "pho",
+              "pizza",
+              "pork_chop",
+              "poutine",
+              "prime_rib",
+              "pulled_pork_sandwich",
+              "ramen",
+              "ravioli",
+              "red_velvet_cake",
+              "risotto",
+              "samosa",
+              "sashimi",
+              "scallops",
+              "seaweed_salad",
+              "shrimp_and_grits",
+              "spaghetti_bolognese",
+              "spaghetti_carbonara",
+              "spring_rolls",
+              "steak",
+              "strawberry_shortcake",
+              "sushi",
+              "tacos",
+              "takoyaki",
+              "tiramisu",
+              "tuna_tartare",
+              "waffles"
+            ],
+            "_type": "ClassLabel"
+          }
+        }
+      ],
+      "rows": [
+        {
+          "row_idx": 0,
+          "row": {
+            "image": {
+              "src": "https://datasets-server.huggingface.co/cached-assets/ethz/food101/--/83488de741c1bd1ce27aa6a2b33e19c7bdf92ca9/--/default/train/0/image/image.jpg?Expires=1795036243&Signature=WQRRvizU~GjN2x7N~iI2gqYeyji0fFnPbaFE1Rw6MSOLQm17wGkc4Xctxw~0XrdjKkpb~YPqOq4Rl6MExNl3mI5I2dx45A406xZ-U0QMw7bPjMwSt70iGNWXdSP0rrIIrw9Bc67yjySRn26Hoi2~FoyIzo4BsWa7P4HqK2fIBDpdqdqWnaGHFo4ZwWBxGkc0AI~JEiutQEHoCCusl2FN35-LwulMott-p4Bs5G3R6biM75OUmpN1vEqLmTD2McP7dJQLpykLHxdrByrA3i6bX4KBv9qLhSilH1fV62e7dI8OKoVlNL9NAAmlUQ3DsmF4s9xdN0CNA1TA3zQwzBcGfw__&Key-Pair-Id=K3C0L9WB6U5DUC",
+              "height": 512,
+              "width": 384
+            },
+            "label": 6
+          },
+          "truncated_cells": []
+        }
+      ],
+      "num_rows_total": 75750,
+      "num_rows_per_page": 100,
+      "partial": false
+    }
+  },
+  "validation_rows": {
+    "url": "https://datasets-server.huggingface.co/rows?dataset=ethz/food101&config=default&split=validation&offset=0&length=1",
+    "status": 200,
+    "final_url": "https://datasets-server.huggingface.co/rows?dataset=ethz/food101&config=default&split=validation&offset=0&length=1",
+    "raw_json": {
+      "features": [
+        {
+          "feature_idx": 0,
+          "name": "image",
+          "type": {
+            "_type": "Image"
+          }
+        },
+        {
+          "feature_idx": 1,
+          "name": "label",
+          "type": {
+            "names": [
+              "apple_pie",
+              "baby_back_ribs",
+              "baklava",
+              "beef_carpaccio",
+              "beef_tartare",
+              "beet_salad",
+              "beignets",
+              "bibimbap",
+              "bread_pudding",
+              "breakfast_burrito",
+              "bruschetta",
+              "caesar_salad",
+              "cannoli",
+              "caprese_salad",
+              "carrot_cake",
+              "ceviche",
+              "cheesecake",
+              "cheese_plate",
+              "chicken_curry",
+              "chicken_quesadilla",
+              "chicken_wings",
+              "chocolate_cake",
+              "chocolate_mousse",
+              "churros",
+              "clam_chowder",
+              "club_sandwich",
+              "crab_cakes",
+              "creme_brulee",
+              "croque_madame",
+              "cup_cakes",
+              "deviled_eggs",
+              "donuts",
+              "dumplings",
+              "edamame",
+              "eggs_benedict",
+              "escargots",
+              "falafel",
+              "filet_mignon",
+              "fish_and_chips",
+              "foie_gras",
+              "french_fries",
+              "french_onion_soup",
+              "french_toast",
+              "fried_calamari",
+              "fried_rice",
+              "frozen_yogurt",
+              "garlic_bread",
+              "gnocchi",
+              "greek_salad",
+              "grilled_cheese_sandwich",
+              "grilled_salmon",
+              "guacamole",
+              "gyoza",
+              "hamburger",
+              "hot_and_sour_soup",
+              "hot_dog",
+              "huevos_rancheros",
+              "hummus",
+              "ice_cream",
+              "lasagna",
+              "lobster_bisque",
+              "lobster_roll_sandwich",
+              "macaroni_and_cheese",
+              "macarons",
+              "miso_soup",
+              "mussels",
+              "nachos",
+              "omelette",
+              "onion_rings",
+              "oysters",
+              "pad_thai",
+              "paella",
+              "pancakes",
+              "panna_cotta",
+              "peking_duck",
+              "pho",
+              "pizza",
+              "pork_chop",
+              "poutine",
+              "prime_rib",
+              "pulled_pork_sandwich",
+              "ramen",
+              "ravioli",
+              "red_velvet_cake",
+              "risotto",
+              "samosa",
+              "sashimi",
+              "scallops",
+              "seaweed_salad",
+              "shrimp_and_grits",
+              "spaghetti_bolognese",
+              "spaghetti_carbonara",
+              "spring_rolls",
+              "steak",
+              "strawberry_shortcake",
+              "sushi",
+              "tacos",
+              "takoyaki",
+              "tiramisu",
+              "tuna_tartare",
+              "waffles"
+            ],
+            "_type": "ClassLabel"
+          }
+        }
+      ],
+      "rows": [
+        {
+          "row_idx": 0,
+          "row": {
+            "image": {
+              "src": "https://datasets-server.huggingface.co/cached-assets/ethz/food101/--/83488de741c1bd1ce27aa6a2b33e19c7bdf92ca9/--/default/validation/0/image/image.jpg?Expires=1795036244&Signature=pusaX8Mvd48-oAwjgdYbQrCZv0mRa26mA2QQ-HS29weiRhdqyRlS9mhqmQEB-ax5K5o7fVGetXxXsofIxxm24SoLzej07YENGObYOPOzEdSvGPfC6-SCg5bB5M4r5CR3HDe5lYMUwCKaRKV~ZadGmq0TXEcsmWJtvQZNL5f9MezViVBDidizwzgEM-qkMZ-lnm8iiTCqn7L1x2qk8-abuAC~i4NV9WzkN91MhZyZkiTPHEznO7cZoekdNLdIL6kE4Un1e~p08j9ZU-5qBrWCvaUAhp-uSS90QVCSgWFa5UXuwcmrBpAjyZkL6TaGzJXzgcZ99rByWy1jrkCUo2Fwhg__&Key-Pair-Id=K3C0L9WB6U5DUC",
+              "height": 512,
+              "width": 512
+            },
+            "label": 6
+          },
+          "truncated_cells": []
+        }
+      ],
+      "num_rows_total": 25250,
+      "num_rows_per_page": 100,
+      "partial": false
+    }
+  },
+  "readme": {
+    "url": "https://huggingface.co/datasets/ethz/food101/raw/main/README.md",
+    "status": 200,
+    "raw_text": "---\nannotations_creators:\n- crowdsourced\nlanguage_creators:\n- crowdsourced\nlanguage:\n- en\nlicense:\n- unknown\nmultilinguality:\n- monolingual\nsize_categories:\n- 10K<n<100K\nsource_datasets:\n- extended|other-foodspotting\ntask_categories:\n- image-classification\ntask_ids:\n- multi-class-image-classification\npaperswithcode_id: food-101\npretty_name: Food-101\ndataset_info:\n  features:\n  - name: image\n    dtype: image\n  - name: label\n    dtype:\n      class_label:\n        names:\n          '0': apple_pie\n          '1': baby_back_ribs\n          '2': baklava\n          '3': beef_carpaccio\n          '4': beef_tartare\n          '5': beet_salad\n          '6': beignets\n          '7': bibimbap\n          '8': bread_pudding\n          '9': breakfast_burrito\n          '10': bruschetta\n          '11': caesar_salad\n          '12': cannoli\n          '13': caprese_salad\n          '14': carrot_cake\n          '15': ceviche\n          '16': cheesecake\n          '17': cheese_plate\n          '18': chicken_curry\n          '19': chicken_quesadilla\n          '20': chicken_wings\n          '21': chocolate_cake\n          '22': chocolate_mousse\n          '23': churros\n          '24': clam_chowder\n          '25': club_sandwich\n          '26': crab_cakes\n          '27': creme_brulee\n          '28': croque_madame\n          '29': cup_cakes\n          '30': deviled_eggs\n          '31': donuts\n          '32': dumplings\n          '33': edamame\n          '34': eggs_benedict\n          '35': escargots\n          '36': falafel\n          '37': filet_mignon\n          '38': fish_and_chips\n          '39': foie_gras\n          '40': french_fries\n          '41': french_onion_soup\n          '42': french_toast\n          '43': fried_calamari\n          '44': fried_rice\n          '45': frozen_yogurt\n          '46': garlic_bread\n          '47': gnocchi\n          '48': greek_salad\n          '49': grilled_cheese_sandwich\n          '50': grilled_salmon\n          '51': guacamole\n          '52': gyoza\n          '53': hamburger\n          '54': hot_and_sour_soup\n          '55': hot_dog\n          '56': huevos_rancheros\n          '57': hummus\n          '58': ice_cream\n          '59': lasagna\n          '60': lobster_bisque\n          '61': lobster_roll_sandwich\n          '62': macaroni_and_cheese\n          '63': macarons\n          '64': miso_soup\n          '65': mussels\n          '66': nachos\n          '67': omelette\n          '68': onion_rings\n          '69': oysters\n          '70': pad_thai\n          '71': paella\n          '72': pancakes\n          '73': panna_cotta\n          '74': peking_duck\n          '75': pho\n          '76': pizza\n          '77': pork_chop\n          '78': poutine\n          '79': prime_rib\n          '80': pulled_pork_sandwich\n          '81': ramen\n          '82': ravioli\n          '83': red_velvet_cake\n          '84': risotto\n          '85': samosa\n          '86': sashimi\n          '87': scallops\n          '88': seaweed_salad\n          '89': shrimp_and_grits\n          '90': spaghetti_bolognese\n          '91': spaghetti_carbonara\n          '92': spring_rolls\n          '93': steak\n          '94': strawberry_shortcake\n          '95': sushi\n          '96': tacos\n          '97': takoyaki\n          '98': tiramisu\n          '99': tuna_tartare\n          '100': waffles\n  splits:\n  - name: train\n    num_bytes: 3842657187.0\n    num_examples: 75750\n  - name: validation\n    num_bytes: 1275182340.5\n    num_examples: 25250\n  download_size: 5059972308\n  dataset_size: 5117839527.5\nconfigs:\n- config_name: default\n  data_files:\n  - split: train\n    path: data/train-*\n  - split: validation\n    path: data/validation-*\n---\n\n# Dataset Card for Food-101\n\n## Table of Contents\n- [Table of Contents](#table-of-contents)\n- [Dataset Description](#dataset-description)\n  - [Dataset Summary](#dataset-summary)\n  - [Supported Tasks and Leaderboards](#supported-tasks-and-leaderboards)\n  - [Languages](#languages)\n- [Dataset Structure](#dataset-structure)\n  - [Data Instances](#data-instances)\n  - [Data Fields](#data-fields)\n  - [Data Splits](#data-splits)\n- [Dataset Creation](#dataset-creation)\n  - [Curation Rationale](#curation-rationale)\n  - [Source Data](#source-data)\n  - [Annotations](#annotations)\n  - [Personal and Sensitive Information](#personal-and-sensitive-information)\n- [Considerations for Using the Data](#considerations-for-using-the-data)\n  - [Social Impact of Dataset](#social-impact-of-dataset)\n  - [Discussion of Biases](#discussion-of-biases)\n  - [Other Known Limitations](#other-known-limitations)\n- [Additional Information](#additional-information)\n  - [Dataset Curators](#dataset-curators)\n  - [Licensing Information](#licensing-information)\n  - [Citation Information](#citation-information)\n  - [Contributions](#contributions)\n\n## Dataset Description\n\n- **Homepage:** [Food-101 Dataset](https://data.vision.ee.ethz.ch/cvl/datasets_extra/food-101/)\n- **Repository:**\n- **Paper:** [Paper](https://data.vision.ee.ethz.ch/cvl/datasets_extra/food-101/static/bossard_eccv14_food-101.pdf)\n- **Leaderboard:**\n- **Point of Contact:**\n\n### Dataset Summary\n\nThis dataset consists of 101 food categories, with 101'000 images. For each class, 250 manually reviewed test images are provided as well as 750 training images. On purpose, the training images were not cleaned, and thus still contain some amount of noise. This comes mostly in the form of intense colors and sometimes wrong labels. All images were rescaled to have a maximum side length of 512 pixels.\n\n### Supported Tasks and Leaderboards\n\n- `image-classification`: The goal of this task is to classify a given image of a dish into one of 101 classes. The leaderboard is available [here](https://paperswithcode.com/sota/fine-grained-image-classification-on-food-101).\n\n### Languages\n\nEnglish\n\n## Dataset Structure\n\n### Data Instances\n\nA sample from the training set is provided below:\n\n```\n{\n  'image': <PIL.JpegImagePlugin.JpegImageFile image mode=RGB size=384x512 at 0x276021C5EB8>,\n  'label': 23\n}\n```\n\n### Data Fields\n\nThe data instances have the following fields:\n\n- `image`: A `PIL.Image.Image` object containing the image. Note that when accessing the image column: `dataset[0][\"image\"]` the image file is automatically decoded. Decoding of a large number of image files might take a significant amount of time. Thus it is important to first query the sample index before the `\"image\"` column, *i.e.* `dataset[0][\"image\"]` should **always** be preferred over `dataset[\"image\"][0]`.\n- `label`: an `int` classification label.\n\n<details>\n  <summary>Class Label Mappings</summary>\n\n  ```json\n  {\n    \"apple_pie\": 0,\n    \"baby_back_ribs\": 1,\n    \"baklava\": 2,\n    \"beef_carpaccio\": 3,\n    \"beef_tartare\": 4,\n    \"beet_salad\": 5,\n    \"beignets\": 6,\n    \"bibimbap\": 7,\n    \"bread_pudding\": 8,\n    \"breakfast_burrito\": 9,\n    \"bruschetta\": 10,\n    \"caesar_salad\": 11,\n    \"cannoli\": 12,\n    \"caprese_salad\": 13,\n    \"carrot_cake\": 14,\n    \"ceviche\": 15,\n    \"cheesecake\": 16,\n    \"cheese_plate\": 17,\n    \"chicken_curry\": 18,\n    \"chicken_quesadilla\": 19,\n    \"chicken_wings\": 20,\n    \"chocolate_cake\": 21,\n    \"chocolate_mousse\": 22,\n    \"churros\": 23,\n    \"clam_chowder\": 24,\n    \"club_sandwich\": 25,\n    \"crab_cakes\": 26,\n    \"creme_brulee\": 27,\n    \"croque_madame\": 28,\n    \"cup_cakes\": 29,\n    \"deviled_eggs\": 30,\n    \"donuts\": 31,\n    \"dumplings\": 32,\n    \"edamame\": 33,\n    \"eggs_benedict\": 34,\n    \"escargots\": 35,\n    \"falafel\": 36,\n    \"filet_mignon\": 37,\n    \"fish_and_chips\": 38,\n    \"foie_gras\": 39,\n    \"french_fries\": 40,\n    \"french_onion_soup\": 41,\n    \"french_toast\": 42,\n    \"fried_calamari\": 43,\n    \"fried_rice\": 44,\n    \"frozen_yogurt\": 45,\n    \"garlic_bread\": 46,\n    \"gnocchi\": 47,\n    \"greek_salad\": 48,\n    \"grilled_cheese_sandwich\": 49,\n    \"grilled_salmon\": 50,\n    \"guacamole\": 51,\n    \"gyoza\": 52,\n    \"hamburger\": 53,\n    \"hot_and_sour_soup\": 54,\n    \"hot_dog\": 55,\n    \"huevos_rancheros\": 56,\n    \"hummus\": 57,\n    \"ice_cream\": 58,\n    \"lasagna\": 59,\n    \"lobster_bisque\": 60,\n    \"lobster_roll_sandwich\": 61,\n    \"macaroni_and_cheese\": 62,\n    \"macarons\": 63,\n    \"miso_soup\": 64,\n    \"mussels\": 65,\n    \"nachos\": 66,\n    \"omelette\": 67,\n    \"onion_rings\": 68,\n    \"oysters\": 69,\n    \"pad_thai\": 70,\n    \"paella\": 71,\n    \"pancakes\": 72,\n    \"panna_cotta\": 73,\n    \"peking_duck\": 74,\n    \"pho\": 75,\n    \"pizza\": 76,\n    \"pork_chop\": 77,\n    \"poutine\": 78,\n    \"prime_rib\": 79,\n    \"pulled_pork_sandwich\": 80,\n    \"ramen\": 81,\n    \"ravioli\": 82,\n    \"red_velvet_cake\": 83,\n    \"risotto\": 84,\n    \"samosa\": 85,\n    \"sashimi\": 86,\n    \"scallops\": 87,\n    \"seaweed_salad\": 88,\n    \"shrimp_and_grits\": 89,\n    \"spaghetti_bolognese\": 90,\n    \"spaghetti_carbonara\": 91,\n    \"spring_rolls\": 92,\n    \"steak\": 93,\n    \"strawberry_shortcake\": 94,\n    \"sushi\": 95,\n    \"tacos\": 96,\n    \"takoyaki\": 97,\n    \"tiramisu\": 98,\n    \"tuna_tartare\": 99,\n    \"waffles\": 100\n  }\n  ```\n</details>\n\n\n### Data Splits\n\n \n|   |train|validation|\n|----------|----:|---------:|\n|# of examples|75750|25250|\n\n\n## Dataset Creation\n\n### Curation Rationale\n\nFood-101 was constructed to create a challenging fine-grained image classification benchmark for computer vision research. The 101 categories were chosen to represent dishes commonly photographed and shared on the social platform Foodspotting.com, with an intentional emphasis on visually distinct dishes to make category discrimination non-trivial. The benchmark was designed to evaluate models capable of discriminating between foods that differ subtly in appearance (e.g., various noodle dishes) as well as dishes with high intra-class variance (e.g., pizza with many possible toppings).\n\n### Source Data\n\n#### Initial Data Collection and Normalization\n\nImages were retrieved from [Foodspotting](http://www.foodspotting.com/), a social food photography platform where users shared photos of dishes eaten at restaurants. Category labels were assigned using the platform's dish taxonomy. Each category was populated with 1,000 images: 750 for training and 250 for testing. Test images were manually reviewed for label correctness; training images were left uncleaned and intentionally retain label noise and image artifacts. All images were resized so that the maximum side length is 512 pixels.\n\n#### Who are the source language producers?\n\nThe images were contributed by Foodspotting.com users photographing dishes primarily in restaurant settings. The geographic distribution of source photos reflects the user base of Foodspotting.com, which was predominantly North American and Western European at the time of collection (c. 2014). Class labels are in English.\n\n### Annotations\n\n#### Annotation process\n\nTest set labels (250 images per class) were verified by human annotators. Training set labels (750 images per class) were assigned automatically based on the Foodspotting dish taxonomy and were not manually reviewed, resulting in a known level of label noise in the training split.\n\n#### Who are the annotators?\n\nTest set annotations were reviewed by the dataset authors at ETH Zurich. Training set labels derive from Foodspotting.com's crowdsourced dish tagging and were not independently verified.\n\n### Personal and Sensitive Information\n\nImages contain photographs of restaurant dishes. Some images may incidentally include people's hands or partial faces in the background, as photos were taken in social dining settings. No systematic attempt was made to identify or redact personal information.\n\n## Considerations for Using the Data\n\n### Social Impact of Dataset\n\nFood-101 has been widely adopted as a benchmark for food image classification models, which are deployed in applications including restaurant menu recognition, dietary logging, nutrition estimation, and food recommendation systems. Models trained on this benchmark may be integrated into consumer products that influence dietary choices, medical nutrition tracking, and health recommendations.\n\nThe dataset's category distribution reflects dishes photographed on a predominantly North American and European social platform. Models trained on Food-101 may underperform on dishes from cuisines not well represented in the benchmark. Practitioners deploying food classification models in global or multicultural contexts should evaluate performance across the specific cuisines relevant to their use case before deployment.\n\n### Discussion of Biases\n\n**Category selection bias:** The 101 categories were drawn from dishes popular on Foodspotting.com as of c. 2014, reflecting the platform's predominantly North American and Western European user base. Many cuisines with large global populations are absent or underrepresented (e.g., most Sub-Saharan African, Central Asian, and many South American regional cuisines).\n\n**Dietary category imbalance:** Of the 101 classes, approximately 12-15 are predominantly or exclusively plant-based (including `edamame`, `falafel`, `guacamole`, `hummus`, `seaweed_salad`, `beet_salad`, and `greek_salad`). The majority of categories contain or are defined by animal-derived ingredients. Models fine-tuned on Food-101 and subsequently used for dietary classification tasks (e.g., identifying plant-based or vegetarian dishes) should be evaluated carefully: the skewed class distribution may cause such models to underperform on plant-based categories relative to their performance on the overall benchmark.\n\n**Label noise in training split:** Training images were explicitly not cleaned, as noted by the original authors. Images sometimes carry incorrect labels or depict foods that visually resemble but differ from the target category. This noise affects the reliability of training signal, particularly for categories with high visual similarity.\n\n**Photography style bias:** All images come from a social photography platform where users photograph prepared dishes in restaurant settings. Home-cooked meals, street food, or regional variations of the same dish may not be well captured. Image composition, lighting, and presentation style reflect the social photography norms of the early 2010s.\n\n**Image recency:** Data was collected circa 2014. Food presentation styles, plating aesthetics, and the relative popularity of specific dishes have evolved since then.\n\n### Other Known Limitations\n\n- The training split intentionally contains noisy labels. Performance metrics computed on the training set are not reliable; only test-set metrics should be reported.\n- With 250 test images per class, the benchmark may have insufficient statistical power to detect performance differences for rare presentation styles or long-tail variations within a category.\n- The dataset does not include nutritional metadata, ingredient lists, or preparation method information. It cannot be used directly for nutrition analysis or ingredient detection without augmentation from external sources such as [Open Food Facts](https://world.openfoodfacts.org/) or [USDA FoodData Central](https://fdc.nal.usda.gov/).\n- Extended benchmarks that include a broader range of international cuisines include [ETHZ Food-256](https://www.vision.ee.ethz.ch/datasets_extra/food-256/) (256 categories) and [UEC Food-100/256](http://foodcam.mobi/dataset.html) (Japanese cuisine focus).\n\n## Additional Information\n\n### Dataset Curators\n\nThe Food-101 dataset was created by Lukas Bossard, Matthieu Guillaumin, and Luc Van Gool at ETH Zurich (Swiss Federal Institute of Technology), published at the European Conference on Computer Vision (ECCV) 2014. The dataset homepage is maintained by the Computer Vision Laboratory, ETH Zurich: https://data.vision.ee.ethz.ch/cvl/datasets_extra/food-101/\n\n### Licensing Information\n\nLICENSE AGREEMENT\n=================\n - The Food-101 data set consists of images from Foodspotting [1] which are not\n   property of the Federal Institute of Technology Zurich (ETHZ). Any use beyond\n   scientific fair use must be negociated with the respective picture owners\n   according to the Foodspotting terms of use [2].\n\n[1] http://www.foodspotting.com/\n[2] http://www.foodspotting.com/terms/\n\n\n### Citation Information\n\n```\n @inproceedings{bossard14,\n  title = {Food-101 -- Mining Discriminative Components with Random Forests},\n  author = {Bossard, Lukas and Guillaumin, Matthieu and Van Gool, Luc},\n  booktitle = {European Conference on Computer Vision},\n  year = {2014}\n}\n```\n\n### Contributions\n\nThanks to [@nateraw](https://github.com/nateraw) for adding this dataset.\n"
+  },
+  "stable_resolve_head_checks": [
+    {
+      "path": "data/train-00000-of-00008.parquet",
+      "stable_resolve_url": "https://huggingface.co/datasets/ethz/food101/resolve/main/data/train-00000-of-00008.parquet",
+      "api_tree_size_bytes": 489582959,
+      "initial_http_status_without_redirect": 302,
+      "initial_location": "https://us.aws.cdn.hf.co/xet-bridge-us/621ffdd236468d709f181e32/59c5a178bd4b188906aaf062420657500e8a7d05f7c3fff9c1b482eeb7fc51a3?response-content-disposition=inline%3B+filename*%3DUTF-8%27%27train-00000-of-00008.parquet%3B+filename%3D%22train-00000-of-00008.parquet%22%3B&xip=u3rlMp6TqFw&user_id=public&X-Xet-Cas-Uid=public&Expires=1795036244&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjIxZmZkZDIzNjQ2OGQ3MDlmMTgxZTMyLzU5YzVhMTc4YmQ0YjE4ODkwNmFhZjA2MjQyMDY1NzUwMGU4YTdkMDVmN2MzZmZmOWMxYjQ4MmVlYjdmYzUxYTNcXD9yZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPWlubGluZSUzQitmaWxlbmFtZSUyQSUzRFVURi04JTI3JTI3dHJhaW4tMDAwMDAtb2YtMDAwMDgucGFycXVldCUzQitmaWxlbmFtZSUzRCUyMnRyYWluLTAwMDAwLW9mLTAwMDA4LnBhcnF1ZXQlMjIlM0ImeGlwPXUzcmxNcDZUcUZ3JnVzZXJfaWQ9cHVibGljJlgtWGV0LUNhcy1VaWQ9cHVibGljIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJFcG9jaFRpbWUiOjE3OTUwMzYyNDR9fX1dfQ__&Signature=MEUCIQCM8mfsUyoZoyh%7EMa4vtGi1VzTDOs2hzNyAfB6IeYk88gIgJG%7EcmwlTNkho8Dxv0FGhHe6iPQG9ggDPSGh07DjhMqM_&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F&Hash-Algorithm=SHA256",
+      "final_http_status_after_redirect": 200,
+      "final_url": "https://us.aws.cdn.hf.co/xet-bridge-us/621ffdd236468d709f181e32/59c5a178bd4b188906aaf062420657500e8a7d05f7c3fff9c1b482eeb7fc51a3?response-content-disposition=inline%3B+filename*%3DUTF-8%27%27train-00000-of-00008.parquet%3B+filename%3D%22train-00000-of-00008.parquet%22%3B&xip=u3rlMp6TqFw&X-Xet-Cas-Uid=public&user_id=public&Expires=1795036245&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjIxZmZkZDIzNjQ2OGQ3MDlmMTgxZTMyLzU5YzVhMTc4YmQ0YjE4ODkwNmFhZjA2MjQyMDY1NzUwMGU4YTdkMDVmN2MzZmZmOWMxYjQ4MmVlYjdmYzUxYTNcXD9yZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPWlubGluZSUzQitmaWxlbmFtZSUyQSUzRFVURi04JTI3JTI3dHJhaW4tMDAwMDAtb2YtMDAwMDgucGFycXVldCUzQitmaWxlbmFtZSUzRCUyMnRyYWluLTAwMDAwLW9mLTAwMDA4LnBhcnF1ZXQlMjIlM0ImeGlwPXUzcmxNcDZUcUZ3JlgtWGV0LUNhcy1VaWQ9cHVibGljJnVzZXJfaWQ9cHVibGljIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJFcG9jaFRpbWUiOjE3OTUwMzYyNDV9fX1dfQ__&Signature=MEUCIQDxi4zdag3Qf1BDTq8dZl1un8jaRli2i1SDtIduOjkrJAIgajZFpNlVcxpBeDasC8nepH8sIQ1W9jv6xJVuwgl5Ipg_&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F&Hash-Algorithm=SHA256",
+      "final_content_length_header": 489582959
+    },
+    {
+      "path": "data/train-00001-of-00008.parquet",
+      "stable_resolve_url": "https://huggingface.co/datasets/ethz/food101/resolve/main/data/train-00001-of-00008.parquet",
+      "api_tree_size_bytes": 464225341,
+      "initial_http_status_without_redirect": 302,
+      "initial_location": "https://us.aws.cdn.hf.co/xet-bridge-us/621ffdd236468d709f181e32/210d933378087b242d3a1aa1b2ceb866cdfec42e47d41531604589cea58d0584?response-content-disposition=inline%3B+filename*%3DUTF-8%27%27train-00001-of-00008.parquet%3B+filename%3D%22train-00001-of-00008.parquet%22%3B&user_id=public&xip=u3rlMp6TqFw&X-Xet-Cas-Uid=public&Expires=1795036245&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjIxZmZkZDIzNjQ2OGQ3MDlmMTgxZTMyLzIxMGQ5MzMzNzgwODdiMjQyZDNhMWFhMWIyY2ViODY2Y2RmZWM0MmU0N2Q0MTUzMTYwNDU4OWNlYTU4ZDA1ODRcXD9yZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPWlubGluZSUzQitmaWxlbmFtZSUyQSUzRFVURi04JTI3JTI3dHJhaW4tMDAwMDEtb2YtMDAwMDgucGFycXVldCUzQitmaWxlbmFtZSUzRCUyMnRyYWluLTAwMDAxLW9mLTAwMDA4LnBhcnF1ZXQlMjIlM0ImdXNlcl9pZD1wdWJsaWMmeGlwPXUzcmxNcDZUcUZ3JlgtWGV0LUNhcy1VaWQ9cHVibGljIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJFcG9jaFRpbWUiOjE3OTUwMzYyNDV9fX1dfQ__&Signature=MEUCIQDs3OP6zBuktZvqQB8EkdvQEKS99jTPEct1a6B2g4ZNowIgEhF0yPtaj8XHXyY-sHqXg0LSYUOazTpbmhXM557T7hs_&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F&Hash-Algorithm=SHA256",
+      "final_http_status_after_redirect": 200,
+      "final_url": "https://us.aws.cdn.hf.co/xet-bridge-us/621ffdd236468d709f181e32/210d933378087b242d3a1aa1b2ceb866cdfec42e47d41531604589cea58d0584?response-content-disposition=inline%3B+filename*%3DUTF-8%27%27train-00001-of-00008.parquet%3B+filename%3D%22train-00001-of-00008.parquet%22%3B&user_id=public&xip=u3rlMp6TqFw&X-Xet-Cas-Uid=public&Expires=1795036246&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjIxZmZkZDIzNjQ2OGQ3MDlmMTgxZTMyLzIxMGQ5MzMzNzgwODdiMjQyZDNhMWFhMWIyY2ViODY2Y2RmZWM0MmU0N2Q0MTUzMTYwNDU4OWNlYTU4ZDA1ODRcXD9yZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPWlubGluZSUzQitmaWxlbmFtZSUyQSUzRFVURi04JTI3JTI3dHJhaW4tMDAwMDEtb2YtMDAwMDgucGFycXVldCUzQitmaWxlbmFtZSUzRCUyMnRyYWluLTAwMDAxLW9mLTAwMDA4LnBhcnF1ZXQlMjIlM0ImdXNlcl9pZD1wdWJsaWMmeGlwPXUzcmxNcDZUcUZ3JlgtWGV0LUNhcy1VaWQ9cHVibGljIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJFcG9jaFRpbWUiOjE3OTUwMzYyNDZ9fX1dfQ__&Signature=MEUCIQD1a8xmAGxnqsC3lxhx0NQC73o0FQs%7E5dUnDx3KAUlAbQIgeSN27F-GjvivXJnhRk-u3oxUYNX2iJmh4jn8MdMKTWk_&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F&Hash-Algorithm=SHA256",
+      "final_content_length_header": 464225341
+    },
+    {
+      "path": "data/train-00002-of-00008.parquet",
+      "stable_resolve_url": "https://huggingface.co/datasets/ethz/food101/resolve/main/data/train-00002-of-00008.parquet",
+      "api_tree_size_bytes": 472211726,
+      "initial_http_status_without_redirect": 302,
+      "initial_location": "https://us.aws.cdn.hf.co/xet-bridge-us/621ffdd236468d709f181e32/52deefdbdc9af4a7206797860222f91f52aacce43402ea3b0d210aac483c0bd5?xip=u3rlMp6TqFw&user_id=public&X-Xet-Cas-Uid=public&response-content-disposition=inline%3B+filename*%3DUTF-8%27%27train-00002-of-00008.parquet%3B+filename%3D%22train-00002-of-00008.parquet%22%3B&Expires=1795036246&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjIxZmZkZDIzNjQ2OGQ3MDlmMTgxZTMyLzUyZGVlZmRiZGM5YWY0YTcyMDY3OTc4NjAyMjJmOTFmNTJhYWNjZTQzNDAyZWEzYjBkMjEwYWFjNDgzYzBiZDVcXD94aXA9dTNybE1wNlRxRncmdXNlcl9pZD1wdWJsaWMmWC1YZXQtQ2FzLVVpZD1wdWJsaWMmcmVzcG9uc2UtY29udGVudC1kaXNwb3NpdGlvbj1pbmxpbmUlM0IrZmlsZW5hbWUlMkElM0RVVEYtOCUyNyUyN3RyYWluLTAwMDAyLW9mLTAwMDA4LnBhcnF1ZXQlM0IrZmlsZW5hbWUlM0QlMjJ0cmFpbi0wMDAwMi1vZi0wMDAwOC5wYXJxdWV0JTIyJTNCIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJFcG9jaFRpbWUiOjE3OTUwMzYyNDZ9fX1dfQ__&Signature=MEQCIAPjQ8vfSXfQjrWR0Utpb1sro6SjFyiRf6Zs0QMptPBhAiBxIQDmzrJflkmGzlrad%7EuYgk-DXAj8adMfXHK0852-4g__&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F&Hash-Algorithm=SHA256",
+      "final_http_status_after_redirect": 200,
+      "final_url": "https://us.aws.cdn.hf.co/xet-bridge-us/621ffdd236468d709f181e32/52deefdbdc9af4a7206797860222f91f52aacce43402ea3b0d210aac483c0bd5?X-Xet-Cas-Uid=public&response-content-disposition=inline%3B+filename*%3DUTF-8%27%27train-00002-of-00008.parquet%3B+filename%3D%22train-00002-of-00008.parquet%22%3B&xip=u3rlMp6TqFw&user_id=public&Expires=1795036246&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjIxZmZkZDIzNjQ2OGQ3MDlmMTgxZTMyLzUyZGVlZmRiZGM5YWY0YTcyMDY3OTc4NjAyMjJmOTFmNTJhYWNjZTQzNDAyZWEzYjBkMjEwYWFjNDgzYzBiZDVcXD9YLVhldC1DYXMtVWlkPXB1YmxpYyZyZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPWlubGluZSUzQitmaWxlbmFtZSUyQSUzRFVURi04JTI3JTI3dHJhaW4tMDAwMDItb2YtMDAwMDgucGFycXVldCUzQitmaWxlbmFtZSUzRCUyMnRyYWluLTAwMDAyLW9mLTAwMDA4LnBhcnF1ZXQlMjIlM0ImeGlwPXUzcmxNcDZUcUZ3JnVzZXJfaWQ9cHVibGljIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJFcG9jaFRpbWUiOjE3OTUwMzYyNDZ9fX1dfQ__&Signature=MEUCIQCpPiq2dWPsj8IcJqLx8UodZmKAl4GlpasL1zkn99PehQIgaNmYZPB1JKzAWlLfUcZcr75-pPr0ohIe5daPg0rF9QE_&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F&Hash-Algorithm=SHA256",
+      "final_content_length_header": 472211726
+    },
+    {
+      "path": "data/train-00003-of-00008.parquet",
+      "stable_resolve_url": "https://huggingface.co/datasets/ethz/food101/resolve/main/data/train-00003-of-00008.parquet",
+      "api_tree_size_bytes": 463644865,
+      "initial_http_status_without_redirect": 302,
+      "initial_location": "https://us.aws.cdn.hf.co/xet-bridge-us/621ffdd236468d709f181e32/a86d5490b85f22897a0c6a137de7c79245842faad7318d89727cbee32315dba9?xip=u3rlMp6TqFw&user_id=public&X-Xet-Cas-Uid=public&response-content-disposition=inline%3B+filename*%3DUTF-8%27%27train-00003-of-00008.parquet%3B+filename%3D%22train-00003-of-00008.parquet%22%3B&Expires=1795036247&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjIxZmZkZDIzNjQ2OGQ3MDlmMTgxZTMyL2E4NmQ1NDkwYjg1ZjIyODk3YTBjNmExMzdkZTdjNzkyNDU4NDJmYWFkNzMxOGQ4OTcyN2NiZWUzMjMxNWRiYTlcXD94aXA9dTNybE1wNlRxRncmdXNlcl9pZD1wdWJsaWMmWC1YZXQtQ2FzLVVpZD1wdWJsaWMmcmVzcG9uc2UtY29udGVudC1kaXNwb3NpdGlvbj1pbmxpbmUlM0IrZmlsZW5hbWUlMkElM0RVVEYtOCUyNyUyN3RyYWluLTAwMDAzLW9mLTAwMDA4LnBhcnF1ZXQlM0IrZmlsZW5hbWUlM0QlMjJ0cmFpbi0wMDAwMy1vZi0wMDAwOC5wYXJxdWV0JTIyJTNCIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJFcG9jaFRpbWUiOjE3OTUwMzYyNDd9fX1dfQ__&Signature=MEQCIFxGLD%7EyiB9SOoYLrWWTMHUsHyZTzX8UOd21ZeIDAEAzAiBuxYvGvm3kZ7%7EePMhkK%7ET5wzKftL-DO81bpq-hHMAuJQ__&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F&Hash-Algorithm=SHA256",
+      "final_http_status_after_redirect": 200,
+      "final_url": "https://us.aws.cdn.hf.co/xet-bridge-us/621ffdd236468d709f181e32/a86d5490b85f22897a0c6a137de7c79245842faad7318d89727cbee32315dba9?X-Xet-Cas-Uid=public&xip=u3rlMp6TqFw&response-content-disposition=inline%3B+filename*%3DUTF-8%27%27train-00003-of-00008.parquet%3B+filename%3D%22train-00003-of-00008.parquet%22%3B&user_id=public&Expires=1795036247&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjIxZmZkZDIzNjQ2OGQ3MDlmMTgxZTMyL2E4NmQ1NDkwYjg1ZjIyODk3YTBjNmExMzdkZTdjNzkyNDU4NDJmYWFkNzMxOGQ4OTcyN2NiZWUzMjMxNWRiYTlcXD9YLVhldC1DYXMtVWlkPXB1YmxpYyZ4aXA9dTNybE1wNlRxRncmcmVzcG9uc2UtY29udGVudC1kaXNwb3NpdGlvbj1pbmxpbmUlM0IrZmlsZW5hbWUlMkElM0RVVEYtOCUyNyUyN3RyYWluLTAwMDAzLW9mLTAwMDA4LnBhcnF1ZXQlM0IrZmlsZW5hbWUlM0QlMjJ0cmFpbi0wMDAwMy1vZi0wMDAwOC5wYXJxdWV0JTIyJTNCJnVzZXJfaWQ9cHVibGljIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJFcG9jaFRpbWUiOjE3OTUwMzYyNDd9fX1dfQ__&Signature=MEQCICk%7EswS-xmZzK3B1HnM%7EO-CEDhCQXfmHw4wT1R-Wmw7PAiB2VHFtwy-Zyb1y97nqT%7EysI6Vh%7E1gzsQKkvmgq3Id-yQ__&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F&Hash-Algorithm=SHA256",
+      "final_content_length_header": 463644865
+    },
+    {
+      "path": "data/train-00004-of-00008.parquet",
+      "stable_resolve_url": "https://huggingface.co/datasets/ethz/food101/resolve/main/data/train-00004-of-00008.parquet",
+      "api_tree_size_bytes": 475091267,
+      "initial_http_status_without_redirect": 302,
+      "initial_location": "https://us.aws.cdn.hf.co/xet-bridge-us/621ffdd236468d709f181e32/8cdc6c4d13bd985c5e552009f00c900a30a11c51364fb0896d2aaf8b2779f40b?X-Xet-Cas-Uid=public&response-content-disposition=inline%3B+filename*%3DUTF-8%27%27train-00004-of-00008.parquet%3B+filename%3D%22train-00004-of-00008.parquet%22%3B&xip=u3rlMp6TqFw&user_id=public&Expires=1795036248&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjIxZmZkZDIzNjQ2OGQ3MDlmMTgxZTMyLzhjZGM2YzRkMTNiZDk4NWM1ZTU1MjAwOWYwMGM5MDBhMzBhMTFjNTEzNjRmYjA4OTZkMmFhZjhiMjc3OWY0MGJcXD9YLVhldC1DYXMtVWlkPXB1YmxpYyZyZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPWlubGluZSUzQitmaWxlbmFtZSUyQSUzRFVURi04JTI3JTI3dHJhaW4tMDAwMDQtb2YtMDAwMDgucGFycXVldCUzQitmaWxlbmFtZSUzRCUyMnRyYWluLTAwMDA0LW9mLTAwMDA4LnBhcnF1ZXQlMjIlM0ImeGlwPXUzcmxNcDZUcUZ3JnVzZXJfaWQ9cHVibGljIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJFcG9jaFRpbWUiOjE3OTUwMzYyNDh9fX1dfQ__&Signature=MEYCIQCp99HGWJRM6-62roeSpqCzNfp5gsV-bEH84RDwJ7dMMwIhAKlhh6AG9IRe8rPDjFFiMij8RWdsK%7EgwJvB-CYFoeG7A&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F&Hash-Algorithm=SHA256",
+      "final_http_status_after_redirect": 200,
+      "final_url": "https://us.aws.cdn.hf.co/xet-bridge-us/621ffdd236468d709f181e32/8cdc6c4d13bd985c5e552009f00c900a30a11c51364fb0896d2aaf8b2779f40b?xip=u3rlMp6TqFw&X-Xet-Cas-Uid=public&response-content-disposition=inline%3B+filename*%3DUTF-8%27%27train-00004-of-00008.parquet%3B+filename%3D%22train-00004-of-00008.parquet%22%3B&user_id=public&Expires=1795036248&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjIxZmZkZDIzNjQ2OGQ3MDlmMTgxZTMyLzhjZGM2YzRkMTNiZDk4NWM1ZTU1MjAwOWYwMGM5MDBhMzBhMTFjNTEzNjRmYjA4OTZkMmFhZjhiMjc3OWY0MGJcXD94aXA9dTNybE1wNlRxRncmWC1YZXQtQ2FzLVVpZD1wdWJsaWMmcmVzcG9uc2UtY29udGVudC1kaXNwb3NpdGlvbj1pbmxpbmUlM0IrZmlsZW5hbWUlMkElM0RVVEYtOCUyNyUyN3RyYWluLTAwMDA0LW9mLTAwMDA4LnBhcnF1ZXQlM0IrZmlsZW5hbWUlM0QlMjJ0cmFpbi0wMDAwNC1vZi0wMDAwOC5wYXJxdWV0JTIyJTNCJnVzZXJfaWQ9cHVibGljIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJFcG9jaFRpbWUiOjE3OTUwMzYyNDh9fX1dfQ__&Signature=MEUCIDMb2XZpvYYwBfcVejbab2dK1lL5rendvQzjS%7EPfV3ZkAiEAojQeZbjBkwbnqEmsSsvzZZYQSruGkKKCoa9z3KgO4wU_&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F&Hash-Algorithm=SHA256",
+      "final_content_length_header": 475091267
+    },
+    {
+      "path": "data/train-00005-of-00008.parquet",
+      "stable_resolve_url": "https://huggingface.co/datasets/ethz/food101/resolve/main/data/train-00005-of-00008.parquet",
+      "api_tree_size_bytes": 469875468,
+      "initial_http_status_without_redirect": 302,
+      "initial_location": "https://us.aws.cdn.hf.co/xet-bridge-us/621ffdd236468d709f181e32/6bfa636f2f2b0b7e3837787680f32f3cd958a6a83c6df7083566bc78abc267ea?X-Xet-Cas-Uid=public&response-content-disposition=inline%3B+filename*%3DUTF-8%27%27train-00005-of-00008.parquet%3B+filename%3D%22train-00005-of-00008.parquet%22%3B&xip=u3rlMp6TqFw&user_id=public&Expires=1795036249&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjIxZmZkZDIzNjQ2OGQ3MDlmMTgxZTMyLzZiZmE2MzZmMmYyYjBiN2UzODM3Nzg3NjgwZjMyZjNjZDk1OGE2YTgzYzZkZjcwODM1NjZiYzc4YWJjMjY3ZWFcXD9YLVhldC1DYXMtVWlkPXB1YmxpYyZyZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPWlubGluZSUzQitmaWxlbmFtZSUyQSUzRFVURi04JTI3JTI3dHJhaW4tMDAwMDUtb2YtMDAwMDgucGFycXVldCUzQitmaWxlbmFtZSUzRCUyMnRyYWluLTAwMDA1LW9mLTAwMDA4LnBhcnF1ZXQlMjIlM0ImeGlwPXUzcmxNcDZUcUZ3JnVzZXJfaWQ9cHVibGljIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJFcG9jaFRpbWUiOjE3OTUwMzYyNDl9fX1dfQ__&Signature=MEUCIFxikn0aI9SR5pwAETkBk7QYNJYGwRr4-qaLKuE7Axt8AiEAqILxkTvYGMnz5rfO4k1aVppDlFGKn09U8CrYinPI8pk_&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F&Hash-Algorithm=SHA256",
+      "final_http_status_after_redirect": 200,
+      "final_url": "https://us.aws.cdn.hf.co/xet-bridge-us/621ffdd236468d709f181e32/6bfa636f2f2b0b7e3837787680f32f3cd958a6a83c6df7083566bc78abc267ea?xip=u3rlMp6TqFw&response-content-disposition=inline%3B+filename*%3DUTF-8%27%27train-00005-of-00008.parquet%3B+filename%3D%22train-00005-of-00008.parquet%22%3B&X-Xet-Cas-Uid=public&user_id=public&Expires=1795036249&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjIxZmZkZDIzNjQ2OGQ3MDlmMTgxZTMyLzZiZmE2MzZmMmYyYjBiN2UzODM3Nzg3NjgwZjMyZjNjZDk1OGE2YTgzYzZkZjcwODM1NjZiYzc4YWJjMjY3ZWFcXD94aXA9dTNybE1wNlRxRncmcmVzcG9uc2UtY29udGVudC1kaXNwb3NpdGlvbj1pbmxpbmUlM0IrZmlsZW5hbWUlMkElM0RVVEYtOCUyNyUyN3RyYWluLTAwMDA1LW9mLTAwMDA4LnBhcnF1ZXQlM0IrZmlsZW5hbWUlM0QlMjJ0cmFpbi0wMDAwNS1vZi0wMDAwOC5wYXJxdWV0JTIyJTNCJlgtWGV0LUNhcy1VaWQ9cHVibGljJnVzZXJfaWQ9cHVibGljIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJFcG9jaFRpbWUiOjE3OTUwMzYyNDl9fX1dfQ__&Signature=MEUCIQCY3JIroSenOLx4h93zBNRWJX%7EjPqEDqk-q57GfWgf90gIgGiuW-d0MRpXEdmHOa-bM%7EkeXgWQWDMg53enJ2y%7EPlAI_&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F&Hash-Algorithm=SHA256",
+      "final_content_length_header": 469875468
+    },
+    {
+      "path": "data/train-00006-of-00008.parquet",
+      "stable_resolve_url": "https://huggingface.co/datasets/ethz/food101/resolve/main/data/train-00006-of-00008.parquet",
+      "api_tree_size_bytes": 478240948,
+      "initial_http_status_without_redirect": 302,
+      "initial_location": "https://us.aws.cdn.hf.co/xet-bridge-us/621ffdd236468d709f181e32/002a1dfb3129b5c2de01a9895ccbf4f3d3d2d761d2a91bd9325e4809551521ac?xip=u3rlMp6TqFw&response-content-disposition=inline%3B+filename*%3DUTF-8%27%27train-00006-of-00008.parquet%3B+filename%3D%22train-00006-of-00008.parquet%22%3B&X-Xet-Cas-Uid=public&user_id=public&Expires=1795036250&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjIxZmZkZDIzNjQ2OGQ3MDlmMTgxZTMyLzAwMmExZGZiMzEyOWI1YzJkZTAxYTk4OTVjY2JmNGYzZDNkMmQ3NjFkMmE5MWJkOTMyNWU0ODA5NTUxNTIxYWNcXD94aXA9dTNybE1wNlRxRncmcmVzcG9uc2UtY29udGVudC1kaXNwb3NpdGlvbj1pbmxpbmUlM0IrZmlsZW5hbWUlMkElM0RVVEYtOCUyNyUyN3RyYWluLTAwMDA2LW9mLTAwMDA4LnBhcnF1ZXQlM0IrZmlsZW5hbWUlM0QlMjJ0cmFpbi0wMDAwNi1vZi0wMDAwOC5wYXJxdWV0JTIyJTNCJlgtWGV0LUNhcy1VaWQ9cHVibGljJnVzZXJfaWQ9cHVibGljIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJFcG9jaFRpbWUiOjE3OTUwMzYyNTB9fX1dfQ__&Signature=MEUCIG%7E4CQ7wVFomvV4dnf5-dDlly4AkPazPyQzcGp-D5vQXAiEA0HC85PvPj0BxBsSCfRGVimdUIN38Y0Yc6W4kmCgwr6s_&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F&Hash-Algorithm=SHA256",
+      "final_http_status_after_redirect": 200,
+      "final_url": "https://us.aws.cdn.hf.co/xet-bridge-us/621ffdd236468d709f181e32/002a1dfb3129b5c2de01a9895ccbf4f3d3d2d761d2a91bd9325e4809551521ac?response-content-disposition=inline%3B+filename*%3DUTF-8%27%27train-00006-of-00008.parquet%3B+filename%3D%22train-00006-of-00008.parquet%22%3B&xip=u3rlMp6TqFw&X-Xet-Cas-Uid=public&user_id=public&Expires=1795036250&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjIxZmZkZDIzNjQ2OGQ3MDlmMTgxZTMyLzAwMmExZGZiMzEyOWI1YzJkZTAxYTk4OTVjY2JmNGYzZDNkMmQ3NjFkMmE5MWJkOTMyNWU0ODA5NTUxNTIxYWNcXD9yZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPWlubGluZSUzQitmaWxlbmFtZSUyQSUzRFVURi04JTI3JTI3dHJhaW4tMDAwMDYtb2YtMDAwMDgucGFycXVldCUzQitmaWxlbmFtZSUzRCUyMnRyYWluLTAwMDA2LW9mLTAwMDA4LnBhcnF1ZXQlMjIlM0ImeGlwPXUzcmxNcDZUcUZ3JlgtWGV0LUNhcy1VaWQ9cHVibGljJnVzZXJfaWQ9cHVibGljIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJFcG9jaFRpbWUiOjE3OTUwMzYyNTB9fX1dfQ__&Signature=MEYCIQC3lkmi-k7nSOgrJRF1H9Rsh5GMCeCzw9OeAop7X01A3wIhAJMuqR3DP%7EDN0zXc01KLteMRq7%7ERzgrg0f2yEzQMbw3V&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F&Hash-Algorithm=SHA256",
+      "final_content_length_header": 478240948
+    },
+    {
+      "path": "data/train-00007-of-00008.parquet",
+      "stable_resolve_url": "https://huggingface.co/datasets/ethz/food101/resolve/main/data/train-00007-of-00008.parquet",
+      "api_tree_size_bytes": 485648421,
+      "initial_http_status_without_redirect": 302,
+      "initial_location": "https://us.aws.cdn.hf.co/xet-bridge-us/621ffdd236468d709f181e32/bf02e4ea4959d7a1cf4f7101d03ad7690ef15e3a134097cd3fa9cdc4155d1dab?response-content-disposition=inline%3B+filename*%3DUTF-8%27%27train-00007-of-00008.parquet%3B+filename%3D%22train-00007-of-00008.parquet%22%3B&X-Xet-Cas-Uid=public&user_id=public&xip=u3rlMp6TqFw&Expires=1795036250&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjIxZmZkZDIzNjQ2OGQ3MDlmMTgxZTMyL2JmMDJlNGVhNDk1OWQ3YTFjZjRmNzEwMWQwM2FkNzY5MGVmMTVlM2ExMzQwOTdjZDNmYTljZGM0MTU1ZDFkYWJcXD9yZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPWlubGluZSUzQitmaWxlbmFtZSUyQSUzRFVURi04JTI3JTI3dHJhaW4tMDAwMDctb2YtMDAwMDgucGFycXVldCUzQitmaWxlbmFtZSUzRCUyMnRyYWluLTAwMDA3LW9mLTAwMDA4LnBhcnF1ZXQlMjIlM0ImWC1YZXQtQ2FzLVVpZD1wdWJsaWMmdXNlcl9pZD1wdWJsaWMmeGlwPXUzcmxNcDZUcUZ3IiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJFcG9jaFRpbWUiOjE3OTUwMzYyNTB9fX1dfQ__&Signature=MEYCIQCLKmZZc13e2xOp9c9QtOGxjzlXCSvZzAbVxdn%7EgfmgswIhAM%7E7MhxnqxvOvWc7vDeqddyCeuD5UM%7E3riYjyiRdZ-4Z&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F&Hash-Algorithm=SHA256",
+      "final_http_status_after_redirect": 200,
+      "final_url": "https://us.aws.cdn.hf.co/xet-bridge-us/621ffdd236468d709f181e32/bf02e4ea4959d7a1cf4f7101d03ad7690ef15e3a134097cd3fa9cdc4155d1dab?user_id=public&response-content-disposition=inline%3B+filename*%3DUTF-8%27%27train-00007-of-00008.parquet%3B+filename%3D%22train-00007-of-00008.parquet%22%3B&X-Xet-Cas-Uid=public&xip=u3rlMp6TqFw&Expires=1795036251&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjIxZmZkZDIzNjQ2OGQ3MDlmMTgxZTMyL2JmMDJlNGVhNDk1OWQ3YTFjZjRmNzEwMWQwM2FkNzY5MGVmMTVlM2ExMzQwOTdjZDNmYTljZGM0MTU1ZDFkYWJcXD91c2VyX2lkPXB1YmxpYyZyZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPWlubGluZSUzQitmaWxlbmFtZSUyQSUzRFVURi04JTI3JTI3dHJhaW4tMDAwMDctb2YtMDAwMDgucGFycXVldCUzQitmaWxlbmFtZSUzRCUyMnRyYWluLTAwMDA3LW9mLTAwMDA4LnBhcnF1ZXQlMjIlM0ImWC1YZXQtQ2FzLVVpZD1wdWJsaWMmeGlwPXUzcmxNcDZUcUZ3IiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJFcG9jaFRpbWUiOjE3OTUwMzYyNTF9fX1dfQ__&Signature=MEQCIHfY-xQJZqEycVNMPFNOAVyieqSQlQ-ctbfCls62L4FBAiA4EI63%7EZbPyqplP9F3P9BuFSnD9yIVl8hGDzyQtEwllA__&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F&Hash-Algorithm=SHA256",
+      "final_content_length_header": 485648421
+    },
+    {
+      "path": "data/validation-00000-of-00003.parquet",
+      "stable_resolve_url": "https://huggingface.co/datasets/ethz/food101/resolve/main/data/validation-00000-of-00003.parquet",
+      "api_tree_size_bytes": 422634283,
+      "initial_http_status_without_redirect": 302,
+      "initial_location": "https://us.aws.cdn.hf.co/xet-bridge-us/621ffdd236468d709f181e32/439d8f489c83c799899a205a5c8952b1550cf63d0a26d949a43b244aebed7566?X-Xet-Cas-Uid=public&response-content-disposition=inline%3B+filename*%3DUTF-8%27%27validation-00000-of-00003.parquet%3B+filename%3D%22validation-00000-of-00003.parquet%22%3B&user_id=public&xip=u3rlMp6TqFw&Expires=1795036251&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjIxZmZkZDIzNjQ2OGQ3MDlmMTgxZTMyLzQzOWQ4ZjQ4OWM4M2M3OTk4OTlhMjA1YTVjODk1MmIxNTUwY2Y2M2QwYTI2ZDk0OWE0M2IyNDRhZWJlZDc1NjZcXD9YLVhldC1DYXMtVWlkPXB1YmxpYyZyZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPWlubGluZSUzQitmaWxlbmFtZSUyQSUzRFVURi04JTI3JTI3dmFsaWRhdGlvbi0wMDAwMC1vZi0wMDAwMy5wYXJxdWV0JTNCK2ZpbGVuYW1lJTNEJTIydmFsaWRhdGlvbi0wMDAwMC1vZi0wMDAwMy5wYXJxdWV0JTIyJTNCJnVzZXJfaWQ9cHVibGljJnhpcD11M3JsTXA2VHFGdyIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiRXBvY2hUaW1lIjoxNzk1MDM2MjUxfX19XX0_&Signature=MEUCIQDedtjzA6Q3KtT0fXRUTr448A81drwxvX8QQrC6tPvzbQIgHESqEdKC6Ap3x3K9VGn104egmFi9eK5C%7EaOhiA4clz8_&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F&Hash-Algorithm=SHA256",
+      "final_http_status_after_redirect": 200,
+      "final_url": "https://us.aws.cdn.hf.co/xet-bridge-us/621ffdd236468d709f181e32/439d8f489c83c799899a205a5c8952b1550cf63d0a26d949a43b244aebed7566?user_id=public&response-content-disposition=inline%3B+filename*%3DUTF-8%27%27validation-00000-of-00003.parquet%3B+filename%3D%22validation-00000-of-00003.parquet%22%3B&X-Xet-Cas-Uid=public&xip=u3rlMp6TqFw&Expires=1795036252&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjIxZmZkZDIzNjQ2OGQ3MDlmMTgxZTMyLzQzOWQ4ZjQ4OWM4M2M3OTk4OTlhMjA1YTVjODk1MmIxNTUwY2Y2M2QwYTI2ZDk0OWE0M2IyNDRhZWJlZDc1NjZcXD91c2VyX2lkPXB1YmxpYyZyZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPWlubGluZSUzQitmaWxlbmFtZSUyQSUzRFVURi04JTI3JTI3dmFsaWRhdGlvbi0wMDAwMC1vZi0wMDAwMy5wYXJxdWV0JTNCK2ZpbGVuYW1lJTNEJTIydmFsaWRhdGlvbi0wMDAwMC1vZi0wMDAwMy5wYXJxdWV0JTIyJTNCJlgtWGV0LUNhcy1VaWQ9cHVibGljJnhpcD11M3JsTXA2VHFGdyIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiRXBvY2hUaW1lIjoxNzk1MDM2MjUyfX19XX0_&Signature=MEUCIDr4n%7EFmx2-2%7EGTlm7r8-p7FqZbxd-gYpVpgOqC49DNfAiEApuV9NnuDAbTia%7EK1T7xWBeAnRw2BjmTxp4uCE5ov%7Eh4_&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F&Hash-Algorithm=SHA256",
+      "final_content_length_header": 422634283
+    },
+    {
+      "path": "data/validation-00001-of-00003.parquet",
+      "stable_resolve_url": "https://huggingface.co/datasets/ethz/food101/resolve/main/data/validation-00001-of-00003.parquet",
+      "api_tree_size_bytes": 413147844,
+      "initial_http_status_without_redirect": 302,
+      "initial_location": "https://us.aws.cdn.hf.co/xet-bridge-us/621ffdd236468d709f181e32/62bb1f2b60ed12e8d7d82467482a36577660773eea51449e29b61a120ed7103d?response-content-disposition=inline%3B+filename*%3DUTF-8%27%27validation-00001-of-00003.parquet%3B+filename%3D%22validation-00001-of-00003.parquet%22%3B&X-Xet-Cas-Uid=public&user_id=public&xip=u3rlMp6TqFw&Expires=1795036252&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjIxZmZkZDIzNjQ2OGQ3MDlmMTgxZTMyLzYyYmIxZjJiNjBlZDEyZThkN2Q4MjQ2NzQ4MmEzNjU3NzY2MDc3M2VlYTUxNDQ5ZTI5YjYxYTEyMGVkNzEwM2RcXD9yZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPWlubGluZSUzQitmaWxlbmFtZSUyQSUzRFVURi04JTI3JTI3dmFsaWRhdGlvbi0wMDAwMS1vZi0wMDAwMy5wYXJxdWV0JTNCK2ZpbGVuYW1lJTNEJTIydmFsaWRhdGlvbi0wMDAwMS1vZi0wMDAwMy5wYXJxdWV0JTIyJTNCJlgtWGV0LUNhcy1VaWQ9cHVibGljJnVzZXJfaWQ9cHVibGljJnhpcD11M3JsTXA2VHFGdyIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiRXBvY2hUaW1lIjoxNzk1MDM2MjUyfX19XX0_&Signature=MEYCIQCFuhdCTx0hJkdDJmBJlebOlTL1GfEg3Fuo6dLShkYHEwIhAO2k2zPIbl2Y3FlCP62II0kY3azMwLaxCYnZR1OgUUCl&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F&Hash-Algorithm=SHA256",
+      "final_http_status_after_redirect": 200,
+      "final_url": "https://us.aws.cdn.hf.co/xet-bridge-us/621ffdd236468d709f181e32/62bb1f2b60ed12e8d7d82467482a36577660773eea51449e29b61a120ed7103d?response-content-disposition=inline%3B+filename*%3DUTF-8%27%27validation-00001-of-00003.parquet%3B+filename%3D%22validation-00001-of-00003.parquet%22%3B&user_id=public&xip=u3rlMp6TqFw&X-Xet-Cas-Uid=public&Expires=1795036252&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjIxZmZkZDIzNjQ2OGQ3MDlmMTgxZTMyLzYyYmIxZjJiNjBlZDEyZThkN2Q4MjQ2NzQ4MmEzNjU3NzY2MDc3M2VlYTUxNDQ5ZTI5YjYxYTEyMGVkNzEwM2RcXD9yZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPWlubGluZSUzQitmaWxlbmFtZSUyQSUzRFVURi04JTI3JTI3dmFsaWRhdGlvbi0wMDAwMS1vZi0wMDAwMy5wYXJxdWV0JTNCK2ZpbGVuYW1lJTNEJTIydmFsaWRhdGlvbi0wMDAwMS1vZi0wMDAwMy5wYXJxdWV0JTIyJTNCJnVzZXJfaWQ9cHVibGljJnhpcD11M3JsTXA2VHFGdyZYLVhldC1DYXMtVWlkPXB1YmxpYyIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiRXBvY2hUaW1lIjoxNzk1MDM2MjUyfX19XX0_&Signature=MEUCIHzfIZYChCU9mWy1P8hFpBUskKL7Vy1kaudVI28%7EmJZ-AiEA1wl08npc3m3CdI1mX8%7EKzgPjnLdbwrwQiR%7EO4Tu6CYY_&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F&Hash-Algorithm=SHA256",
+      "final_content_length_header": 413147844
+    },
+    {
+      "path": "data/validation-00002-of-00003.parquet",
+      "stable_resolve_url": "https://huggingface.co/datasets/ethz/food101/resolve/main/data/validation-00002-of-00003.parquet",
+      "api_tree_size_bytes": 425669186,
+      "initial_http_status_without_redirect": 302,
+      "initial_location": "https://us.aws.cdn.hf.co/xet-bridge-us/621ffdd236468d709f181e32/f66c4af58caa6592eef89148607d1e2b09c517e88ee88b5c4117f7cc4e6d4030?response-content-disposition=inline%3B+filename*%3DUTF-8%27%27validation-00002-of-00003.parquet%3B+filename%3D%22validation-00002-of-00003.parquet%22%3B&xip=u3rlMp6TqFw&X-Xet-Cas-Uid=public&user_id=public&Expires=1795036253&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjIxZmZkZDIzNjQ2OGQ3MDlmMTgxZTMyL2Y2NmM0YWY1OGNhYTY1OTJlZWY4OTE0ODYwN2QxZTJiMDljNTE3ZTg4ZWU4OGI1YzQxMTdmN2NjNGU2ZDQwMzBcXD9yZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPWlubGluZSUzQitmaWxlbmFtZSUyQSUzRFVURi04JTI3JTI3dmFsaWRhdGlvbi0wMDAwMi1vZi0wMDAwMy5wYXJxdWV0JTNCK2ZpbGVuYW1lJTNEJTIydmFsaWRhdGlvbi0wMDAwMi1vZi0wMDAwMy5wYXJxdWV0JTIyJTNCJnhpcD11M3JsTXA2VHFGdyZYLVhldC1DYXMtVWlkPXB1YmxpYyZ1c2VyX2lkPXB1YmxpYyIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiRXBvY2hUaW1lIjoxNzk1MDM2MjUzfX19XX0_&Signature=MEYCIQCNkDJ%7EQTMJJSC2MpcZoBQ%7EQRf7LFrk5Dswt9HbLfgpHQIhAPXlWcAKO7S6zQnRk9PVQDqmkz%7ENPjOP5bAIHWPTUd5C&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F&Hash-Algorithm=SHA256",
+      "final_http_status_after_redirect": 200,
+      "final_url": "https://us.aws.cdn.hf.co/xet-bridge-us/621ffdd236468d709f181e32/f66c4af58caa6592eef89148607d1e2b09c517e88ee88b5c4117f7cc4e6d4030?X-Xet-Cas-Uid=public&user_id=public&response-content-disposition=inline%3B+filename*%3DUTF-8%27%27validation-00002-of-00003.parquet%3B+filename%3D%22validation-00002-of-00003.parquet%22%3B&xip=u3rlMp6TqFw&Expires=1795036253&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly91cy5hd3MuY2RuLmhmLmNvL3hldC1icmlkZ2UtdXMvNjIxZmZkZDIzNjQ2OGQ3MDlmMTgxZTMyL2Y2NmM0YWY1OGNhYTY1OTJlZWY4OTE0ODYwN2QxZTJiMDljNTE3ZTg4ZWU4OGI1YzQxMTdmN2NjNGU2ZDQwMzBcXD9YLVhldC1DYXMtVWlkPXB1YmxpYyZ1c2VyX2lkPXB1YmxpYyZyZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPWlubGluZSUzQitmaWxlbmFtZSUyQSUzRFVURi04JTI3JTI3dmFsaWRhdGlvbi0wMDAwMi1vZi0wMDAwMy5wYXJxdWV0JTNCK2ZpbGVuYW1lJTNEJTIydmFsaWRhdGlvbi0wMDAwMi1vZi0wMDAwMy5wYXJxdWV0JTIyJTNCJnhpcD11M3JsTXA2VHFGdyIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiRXBvY2hUaW1lIjoxNzk1MDM2MjUzfX19XX0_&Signature=MEYCIQCxNZY-fPNVRbSnHfhgrcE8FURA5Uhnlm4l9xlycmMsFwIhAPa6Ye3lfH-JiEefjnUw5Fv2x6TQA-56z87HRos2H-Nw&Key-Pair-Id=01KXEF4KZ1B6FV465MAWR4M21F&Hash-Algorithm=SHA256",
+      "final_content_length_header": 425669186
+    }
+  ],
+  "old_tarball_check": {
+    "url": "http://data.vision.ee.ethz.ch/cvl/datasets_extra/food-101/food-101.tar.gz",
+    "status": 404,
+    "final_url": "https://data.vision.ee.ethz.ch/cvl/datasets_extra/food-101/food-101.tar.gz"
+  }
+}

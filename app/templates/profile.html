@@ -1,0 +1,377 @@
+{% extends "base.html" %}
+{% block title %}Tài khoản của tôi – AI Nutrition Analyzer{% endblock %}
+{% block page_id %}profile{% endblock %}
+{% block heading %}Tài khoản của tôi{% endblock %}
+
+{% block content %}
+<style>
+  .profile-head { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .avatar { width: 54px; height: 54px; border-radius: 50%; background: var(--green-600); color: #fff;
+    display: grid; place-items: center; font-size: 1.35rem; font-weight: 700; }
+  .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: .9rem; }
+  .info-item { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: .7rem .8rem; }
+  .info-item dt { color: var(--muted); font-size: .8rem; margin: 0 0 .2rem; }
+  .info-item dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+  .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: 0 .9rem; }
+  .form-grid .wide { grid-column: 1 / -1; }
+  .form-actions { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; margin-top: 1rem; }
+  .section-note { padding: .7rem .8rem; background: var(--bg); border-radius: var(--radius-sm); margin-bottom: 1rem; }
+  .danger-zone { border: 1px solid var(--red-600, #dc2626); border-radius: var(--radius); padding: 1rem; }
+  .danger-zone h2 { color: var(--red-600, #dc2626); }
+  .danger-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 0 .9rem; }
+  .target-line { display: flex; align-items: baseline; gap: .4rem; flex-wrap: wrap; }
+  @media (max-width: 600px) {
+    .form-actions .btn { width: 100%; }
+  }
+</style>
+
+<section class="card" aria-labelledby="account-title">
+  <div class="profile-head">
+    <div class="avatar" id="avatar" aria-hidden="true">?</div>
+    <div>
+      <h2 id="account-title" style="margin:0">Thông tin tài khoản</h2>
+      <p class="muted small" id="account-sub" style="margin:.2rem 0 0">Đang tải…</p>
+    </div>
+    <a class="btn btn-ghost btn-sm" href="/statistics" style="margin-left:auto">Xem thống kê</a>
+  </div>
+
+  <dl class="info-grid" id="account-info" style="margin-top:1rem">
+    <div class="skeleton"></div><div class="skeleton"></div>
+  </dl>
+</section>
+
+<section class="card" aria-labelledby="profile-title">
+  <h2 id="profile-title">Hồ sơ dinh dưỡng</h2>
+  <p class="card-sub">Các thông tin này dùng để tính mục tiêu và theo dõi tiến độ. Bỏ trống nghĩa là chưa khai báo — hệ thống không tự điền số thay bạn.</p>
+  <p class="section-note muted small">Mục tiêu năng lượng hiện tại: <span id="current-target">đang tải…</span></p>
+
+  <form id="profile-form" method="post" novalidate>
+    <div class="form-grid">
+      <div class="field wide">
+        <label for="full-name">Họ và tên</label>
+        <input id="full-name" type="text" maxlength="120" autocomplete="name" placeholder="Ví dụ: Nguyễn Văn A">
+      </div>
+      <div class="field">
+        <label for="gender">Giới tính</label>
+        <select id="gender">
+          <option value="">Chưa khai báo</option>
+          <option value="male">Nam</option>
+          <option value="female">Nữ</option>
+          <option value="other">Khác</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="birth-year">Năm sinh</label>
+        <input id="birth-year" type="number" min="1900" max="2025" step="1" inputmode="numeric" placeholder="Ví dụ: 2003">
+      </div>
+      <div class="field">
+        <label for="height">Chiều cao (cm)</label>
+        <input id="height" type="number" min="60" max="260" step="0.5" inputmode="decimal" placeholder="Ví dụ: 170">
+      </div>
+      <div class="field">
+        <label for="weight">Cân nặng (kg)</label>
+        <input id="weight" type="number" min="20" max="400" step="0.1" inputmode="decimal" placeholder="Ví dụ: 65">
+      </div>
+      <div class="field">
+        <label for="activity">Mức vận động</label>
+        <select id="activity">
+          <option value="">Chưa khai báo</option>
+          <option value="sedentary">Ít vận động</option>
+          <option value="light">Vận động nhẹ</option>
+          <option value="moderate">Vận động vừa</option>
+          <option value="active">Vận động nhiều</option>
+          <option value="very_active">Vận động rất nhiều</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="goal">Mục tiêu cân nặng</label>
+        <select id="goal">
+          <option value="">Chưa khai báo</option>
+          <option value="lose">Giảm cân</option>
+          <option value="maintain">Giữ cân</option>
+          <option value="gain">Tăng cân</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="target">Mục tiêu năng lượng (kcal/ngày)</label>
+        <input id="target" type="number" min="500" max="8000" step="10" inputmode="numeric" placeholder="500 – 8000">
+      </div>
+      <div class="field wide">
+        <label for="note">Ghi chú</label>
+        <textarea id="note" rows="2" maxlength="500" placeholder="Ví dụ: dị ứng hải sản, ăn chay…"></textarea>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" id="save-profile" type="submit">Lưu hồ sơ</button>
+      <button class="btn btn-ghost" id="reset-profile" type="reset">Khôi phục giá trị đang lưu</button>
+      <span class="muted small" id="profile-status"></span>
+    </div>
+  </form>
+</section>
+
+<section class="card" aria-labelledby="password-title">
+  <h2 id="password-title">Đổi mật khẩu</h2>
+  <p class="card-sub">Mật khẩu tối thiểu 8 ký tự và phải có cả chữ lẫn số.</p>
+  <form id="password-form" method="post" novalidate>
+    <div class="form-grid">
+      <div class="field">
+        <label for="current-password">Mật khẩu hiện tại</label>
+        <input id="current-password" type="password" autocomplete="current-password" required>
+      </div>
+      <div class="field">
+        <label for="new-password">Mật khẩu mới</label>
+        <input id="new-password" type="password" autocomplete="new-password" minlength="8" required>
+      </div>
+      <div class="field">
+        <label for="repeat-password">Nhập lại mật khẩu mới</label>
+        <input id="repeat-password" type="password" autocomplete="new-password" minlength="8" required>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" id="save-password" type="submit">Đổi mật khẩu</button>
+      <span class="muted small">Đổi xong, các phiên đang mở vẫn giữ nguyên.</span>
+    </div>
+  </form>
+</section>
+
+<section class="card danger-zone" aria-labelledby="delete-title">
+  <h2 id="delete-title">Xoá tài khoản</h2>
+  <p class="card-sub">Xoá tài khoản sẽ xoá vĩnh viễn hồ sơ, nhật ký bữa ăn, ảnh đã tải lên và lịch sử trò chuyện của bạn. <strong>Không thể hoàn tác.</strong></p>
+  <form id="delete-form" method="post" novalidate>
+    <div class="danger-grid">
+      <div class="field">
+        <label for="delete-password">Mật khẩu của bạn</label>
+        <input id="delete-password" type="password" autocomplete="current-password" required>
+      </div>
+      <div class="field">
+        <label for="delete-confirm">Gõ chữ <code>DELETE</code> để xác nhận</label>
+        <input id="delete-confirm" type="text" autocomplete="off" placeholder="DELETE" required>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-danger" id="delete-account" type="submit" disabled>Xoá tài khoản của tôi</button>
+      <span class="muted small" id="delete-status">Nút chỉ bật khi bạn gõ đúng chữ DELETE.</span>
+    </div>
+  </form>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+ANA.ready(function () {
+  'use strict';
+
+  var TIME_ZONE = 'Asia/Ho_Chi_Minh';
+  var user = null;
+
+  var $ = function (id) { return document.getElementById(id); };
+
+  /** Mốc thời gian API trả về là UTC (không kèm hậu tố) -> hiện theo giờ Việt Nam. */
+  function fmtDateTimeUtc(value) {
+    if (!value) { return null; }
+    var iso = String(value).replace(' ', 'T');
+    if (!/[zZ]|[+-]\d{2}:?\d{2}$/.test(iso)) { iso += 'Z'; }
+    var date = new Date(iso);
+    if (isNaN(date.getTime())) { return null; }
+    return new Intl.DateTimeFormat('vi-VN', {
+      day: '2-digit', month: '2-digit', year: 'numeric',
+      hour: '2-digit', minute: '2-digit', timeZone: TIME_ZONE
+    }).format(date) + ' (giờ Việt Nam)';
+  }
+
+  function infoItem(label, value, fallback) {
+    return '<div class="info-item"><dt>' + ANA.escape(label) + '</dt><dd>' +
+      (value === null || value === undefined || value === '' ?
+        '<span class="muted">' + ANA.escape(fallback || 'chưa có dữ liệu') + '</span>' : ANA.escape(value)) +
+      '</dd></div>';
+  }
+
+  function initials(name, email) {
+    var source = (name || email || '?').trim();
+    return source.charAt(0).toUpperCase();
+  }
+
+  function keepUnknownOption(select, value, label) {
+    if (value === null || value === undefined || value === '') { return; }
+    var exists = Array.prototype.some.call(select.options, function (option) { return option.value === value; });
+    if (!exists) {
+      var option = document.createElement('option');
+      option.value = value;
+      option.textContent = label + ' (giá trị đang lưu)';
+      select.appendChild(option);
+    }
+  }
+
+  function fillAccount(data) {
+    user = data;
+    var profile = data.profile || {};
+    $('avatar').textContent = initials(data.full_name, data.email);
+    $('account-sub').textContent = 'Đăng nhập bằng ' + data.email;
+    $('account-info').innerHTML =
+      infoItem('Email', data.email) +
+      infoItem('Họ và tên', data.full_name, 'chưa khai báo') +
+      infoItem('Trạng thái', data.is_active ? 'Đang hoạt động' : 'Đã khoá') +
+      infoItem('Ngày tạo tài khoản', fmtDateTimeUtc(data.created_at)) +
+      infoItem('Đăng nhập gần nhất', fmtDateTimeUtc(data.last_login_at), 'chưa có dữ liệu');
+    $('current-target').innerHTML = ANA.num(profile.daily_kcal_target, 0) + ' kcal/ngày';
+    fillForm(data);
+  }
+
+  function fillForm(data) {
+    var profile = data.profile || {};
+    $('full-name').value = data.full_name || '';
+    keepUnknownOption($('gender'), profile.gender, 'Giới tính');
+    keepUnknownOption($('activity'), profile.activity_level, 'Mức vận động');
+    keepUnknownOption($('goal'), profile.goal, 'Mục tiêu');
+    $('gender').value = profile.gender || '';
+    $('activity').value = profile.activity_level || '';
+    $('goal').value = profile.goal || '';
+    $('birth-year').value = profile.birth_year === null || profile.birth_year === undefined ? '' : profile.birth_year;
+    $('height').value = profile.height_cm === null || profile.height_cm === undefined ? '' : profile.height_cm;
+    $('weight').value = profile.weight_kg === null || profile.weight_kg === undefined ? '' : profile.weight_kg;
+    $('target').value = profile.daily_kcal_target === null || profile.daily_kcal_target === undefined ? '' : profile.daily_kcal_target;
+    $('note').value = profile.note || '';
+  }
+
+  function numberOrNull(inputId, label, min, max) {
+    var raw = $(inputId).value.trim();
+    if (raw === '') { return { value: null }; }
+    var value = Number(raw);
+    if (!isFinite(value)) { return { error: label + ' phải là số.' }; }
+    if (value < min || value > max) {
+      return { error: label + ' phải nằm trong khoảng ' + min + ' – ' + max + '.' };
+    }
+    return { value: value };
+  }
+
+  async function loadAccount() {
+    try {
+      var data = await ANA.get('/users/me');
+      fillAccount(data);
+      $('profile-status').textContent = '';
+    } catch (err) {
+      ANA.error(err);
+      $('account-info').innerHTML =
+        '<div class="empty-state">Không tải được thông tin tài khoản. Hãy kiểm tra máy chủ rồi tải lại trang.</div>';
+      $('account-sub').textContent = 'Không tải được dữ liệu';
+    }
+  }
+
+  $('profile-form').addEventListener('submit', async function (event) {
+    event.preventDefault();
+    var button = $('save-profile');
+    var fields = [
+      numberOrNull('birth-year', 'Năm sinh', 1900, 2025),
+      numberOrNull('height', 'Chiều cao', 60, 260),
+      numberOrNull('weight', 'Cân nặng', 20, 400),
+      numberOrNull('target', 'Mục tiêu năng lượng', 500, 8000)
+    ];
+    var bad = fields.filter(function (f) { return f.error; })[0];
+    if (bad) {
+      ANA.flash(bad.error, 'error');
+      $('profile-status').textContent = 'Chưa lưu — dữ liệu nhập chưa hợp lệ.';
+      return;
+    }
+
+    var payload = {
+      full_name: $('full-name').value.trim() || null,
+      profile: {
+        gender: $('gender').value || null,
+        birth_year: fields[0].value,
+        height_cm: fields[1].value,
+        weight_kg: fields[2].value,
+        activity_level: $('activity').value || null,
+        goal: $('goal').value || null,
+        daily_kcal_target: fields[3].value,
+        note: $('note').value.trim() || null
+      }
+    };
+
+    ANA.busy(button, true, 'Đang lưu…');
+    try {
+      await ANA.put('/users/me', payload);
+      var fresh = await ANA.get('/users/me');
+      var profile = fresh.profile || {};
+      var same = [
+        (fresh.full_name || '') === (payload.full_name || ''),
+        (profile.height_cm === payload.profile.height_cm),
+        (profile.weight_kg === payload.profile.weight_kg),
+        (profile.daily_kcal_target === payload.profile.daily_kcal_target),
+        (profile.goal === payload.profile.goal)
+      ];
+      fillAccount(fresh);
+      if (same.every(Boolean)) {
+        ANA.toast('Đã lưu hồ sơ và kiểm tra lại: máy chủ trả về đúng giá trị vừa gửi.', 'success');
+        $('profile-status').textContent = 'Đã lưu lúc ' + new Date().toLocaleTimeString('vi-VN') + '.';
+      } else {
+        ANA.flash('Máy chủ chưa lưu đủ các trường vừa gửi. Hãy tải lại trang để xem giá trị thật.', 'error');
+        $('profile-status').textContent = 'Đã gửi nhưng giá trị đọc lại chưa khớp.';
+      }
+    } catch (err) {
+      ANA.error(err);
+      $('profile-status').textContent = 'Chưa lưu được.';
+    } finally {
+      ANA.busy(button, false);
+    }
+  });
+
+  $('password-form').addEventListener('submit', async function (event) {
+    event.preventDefault();
+    var button = $('save-password');
+    var current = $('current-password').value;
+    var next = $('new-password').value;
+    var repeat = $('repeat-password').value;
+    if (next.length < 8) {
+      ANA.flash('Mật khẩu mới phải có ít nhất 8 ký tự.', 'error');
+      return;
+    }
+    if (next !== repeat) {
+      ANA.flash('Hai lần nhập mật khẩu mới không giống nhau.', 'error');
+      return;
+    }
+    ANA.busy(button, true, 'Đang đổi…');
+    try {
+      await ANA.put('/users/me/password', { current_password: current, new_password: next });
+      $('password-form').reset();
+      ANA.toast('Đã đổi mật khẩu. Hãy dùng mật khẩu mới cho lần đăng nhập sau.', 'success');
+    } catch (err) {
+      ANA.error(err);
+    } finally {
+      ANA.busy(button, false);
+    }
+  });
+
+  var deleteConfirm = $('delete-confirm');
+  var deleteButton = $('delete-account');
+  deleteConfirm.addEventListener('input', function () {
+    var ready = deleteConfirm.value.trim() === 'DELETE';
+    deleteButton.disabled = !ready;
+    $('delete-status').textContent = ready
+      ? 'Nút đã bật. Bấm vào sẽ xoá vĩnh viễn tài khoản này.'
+      : 'Nút chỉ bật khi bạn gõ đúng chữ DELETE.';
+  });
+
+  $('delete-form').addEventListener('submit', async function (event) {
+    event.preventDefault();
+    if (deleteConfirm.value.trim() !== 'DELETE') {
+      ANA.flash('Hãy gõ đúng chữ DELETE để xác nhận.', 'error');
+      return;
+    }
+    ANA.busy(deleteButton, true, 'Đang xoá…');
+    try {
+      await ANA.del('/users/me', {
+        password: $('delete-password').value,
+        confirm: 'DELETE'
+      });
+      ANA.toast('Tài khoản đã được xoá. Đang chuyển về trang đăng nhập…', 'success');
+      setTimeout(function () { window.location.href = '/login'; }, 1500);
+    } catch (err) {
+      ANA.error(err);
+      ANA.busy(deleteButton, false);
+    }
+  });
+
+  loadAccount();
+});
+</script>
+{% endblock %}

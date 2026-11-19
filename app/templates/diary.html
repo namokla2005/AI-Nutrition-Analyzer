@@ -1,0 +1,782 @@
+{% extends "base.html" %}
+
+{% block title %}Nhật ký ăn uống · AI Nutrition Analyzer{% endblock %}
+{% block page_id %}diary{% endblock %}
+{% block heading %}Nhật ký ăn uống{% endblock %}
+
+{% block actions %}
+<button class="btn btn-primary btn-sm" id="open-add-meal" type="button">+ Thêm món</button>
+{% endblock %}
+
+{% block head %}
+<style>
+  .diary-toolbar { display: flex; align-items: end; justify-content: space-between; gap: .75rem; flex-wrap: wrap; }
+  .date-nav { display: flex; align-items: end; gap: .5rem; flex-wrap: wrap; }
+  .date-nav .field { margin: 0; min-width: 170px; }
+  .date-nav .btn { min-height: 41px; }
+  .day-label { font-size: .9rem; color: var(--muted); }
+  .summary-stats { grid-template-columns: repeat(5, minmax(120px, 1fr)); }
+  .summary-stats .stat { padding: .75rem; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+  .summary-note { margin-top: .75rem; }
+  .target-row { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: .45rem; flex-wrap: wrap; }
+  .target-bar > span { max-width: 100%; }
+  .meal-groups { display: flex; flex-direction: column; gap: 1rem; }
+  .meal-group > h2 { margin: 0 0 .65rem; font-size: 1.08rem; }
+  .meal-list { display: grid; gap: .8rem; }
+  .meal-entry { border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
+  .meal-entry-head { display: flex; align-items: flex-start; justify-content: space-between; gap: .75rem; padding: .75rem .85rem; background: var(--bg); }
+  .meal-entry-head strong { display: block; }
+  .meal-note { white-space: pre-wrap; overflow-wrap: anywhere; }
+  .meal-entry .table-wrap { padding: 0 .25rem; }
+  .meal-total { display: flex; align-items: center; justify-content: flex-end; gap: .9rem; flex-wrap: wrap; padding: .65rem .85rem; background: var(--bg); font-size: .88rem; }
+  .meal-total strong { font-variant-numeric: tabular-nums; }
+  .missing-warning { margin: .7rem .85rem; padding: .55rem .7rem; border: 1px solid var(--amber-600); border-radius: var(--radius-sm); color: var(--amber-600); background: var(--amber-50); }
+  .source-legend { padding: .65rem .85rem; border-top: 1px solid var(--border); }
+  .item-form { scroll-margin-top: 5.5rem; }
+  .form-heading { display: flex; justify-content: space-between; align-items: start; gap: .75rem; margin-bottom: .8rem; }
+  .form-heading h2 { margin-bottom: .1rem; }
+  .form-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, .85fr); gap: 1rem; }
+  .form-panel { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: .85rem; }
+  .form-panel h3 { margin-bottom: .75rem; }
+  .search-line { display: grid; grid-template-columns: 1fr auto; gap: .5rem; }
+  .food-results { display: grid; gap: .4rem; max-height: 260px; overflow-y: auto; margin-top: .6rem; }
+  .food-result { width: 100%; text-align: left; justify-content: flex-start; font-weight: 500; }
+  .food-result.selected { border-color: var(--green-600); background: var(--green-50); }
+  .food-result span { display: block; }
+  .food-result small { color: var(--muted); font-weight: 400; }
+  .selected-food { padding: .6rem .7rem; margin-bottom: .75rem; border-radius: var(--radius-sm); background: var(--green-50); }
+  .preview-box { min-height: 110px; padding: .7rem; border: 1px dashed var(--border); border-radius: var(--radius-sm); margin: .7rem 0; }
+  .preview-grid { display: grid; grid-template-columns: repeat(3, minmax(85px, 1fr)); gap: .5rem; }
+  .preview-grid div { display: flex; flex-direction: column; }
+  .draft-list { display: grid; gap: .5rem; }
+  .draft-row { display: flex; align-items: center; justify-content: space-between; gap: .6rem; padding: .65rem; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+  .draft-row-main { min-width: 0; }
+  .draft-row-main strong { display: block; overflow-wrap: anywhere; }
+  .draft-actions { flex: 0 0 auto; }
+  .form-actions { display: flex; justify-content: flex-end; gap: .55rem; margin-top: 1rem; flex-wrap: wrap; }
+  .mode-banner { margin-bottom: .65rem; padding: .5rem .65rem; border-radius: var(--radius-sm); background: var(--blue-50); color: var(--blue-600); }
+  .diary-error { text-align: center; padding: 1rem; color: var(--red-600); }
+  .actions-cell { min-width: 125px; }
+  table.data td { vertical-align: top; }
+  @media (max-width: 1080px) {
+    .summary-stats { grid-template-columns: repeat(3, minmax(130px, 1fr)); }
+    .form-layout { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .summary-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .summary-stats .stat:first-child { grid-column: 1 / -1; }
+    .diary-toolbar, .date-nav { width: 100%; }
+    .date-nav .field { flex: 1; min-width: 145px; }
+    .date-nav .btn { padding-inline: .65rem; }
+    .meal-entry-head, .draft-row { align-items: stretch; flex-direction: column; }
+    .draft-actions { display: flex; gap: .4rem; }
+    .preview-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .form-actions .btn { flex: 1; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="card diary-toolbar" aria-label="Chọn ngày">
+  <div>
+    <strong id="selected-day-heading">Nhật ký trong ngày</strong>
+    <div class="day-label">Múi giờ Việt Nam (UTC+07:00)</div>
+  </div>
+  <div class="date-nav">
+    <button class="btn btn-ghost" id="previous-day" type="button" aria-label="Ngày trước">← Trước</button>
+    <div class="field">
+      <label for="diary-date">Ngày xem</label>
+      <input id="diary-date" type="date">
+    </div>
+    <button class="btn btn-ghost" id="next-day" type="button" aria-label="Ngày sau">Sau →</button>
+  </div>
+</section>
+
+<section class="card" id="day-summary" aria-live="polite" aria-busy="true">
+  <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+</section>
+
+<section class="card item-form hidden" id="meal-form-card" aria-labelledby="meal-form-title">
+  <div class="form-heading">
+    <div>
+      <h2 id="meal-form-title">Thêm món</h2>
+      <div class="muted small" id="meal-form-subtitle">Chọn thực phẩm có thật trong cơ sở dữ liệu.</div>
+    </div>
+    <button class="btn btn-ghost btn-sm" id="close-meal-form" type="button" aria-label="Đóng biểu mẫu">Đóng</button>
+  </div>
+
+  <form id="meal-form">
+    <div class="grid grid-2">
+      <div class="field">
+        <label for="meal-type">Loại bữa ăn</label>
+        <select id="meal-type" required>
+          <option value="breakfast">Bữa sáng</option>
+          <option value="lunch">Bữa trưa</option>
+          <option value="dinner">Bữa tối</option>
+          <option value="snack">Bữa phụ</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="meal-eaten-at">Thời gian ăn</label>
+        <input id="meal-eaten-at" type="datetime-local" required>
+        <span class="hint">Thời gian địa phương tại Việt Nam.</span>
+      </div>
+    </div>
+    <div class="field">
+      <label for="meal-note">Ghi chú (không bắt buộc)</label>
+      <textarea id="meal-note" rows="2" maxlength="500" placeholder="Ví dụ: ăn tại nhà"></textarea>
+    </div>
+
+    <div class="form-layout">
+      <section class="form-panel" aria-labelledby="food-search-title">
+        <h3 id="food-search-title">1. Tìm thực phẩm</h3>
+        <div class="search-line">
+          <input id="food-search" type="search" maxlength="120" placeholder="Nhập tên có dấu hoặc không dấu" aria-label="Tìm thực phẩm">
+          <button class="btn btn-ghost" id="search-food-button" type="button">Tìm</button>
+        </div>
+        <div id="food-results" class="food-results" aria-live="polite">
+          <div class="muted small">Nhập tên thực phẩm để tìm.</div>
+        </div>
+      </section>
+
+      <section class="form-panel" aria-labelledby="portion-title">
+        <h3 id="portion-title">2. Khẩu phần và dinh dưỡng</h3>
+        <div id="item-edit-mode" class="mode-banner hidden"></div>
+        <div id="selected-food" class="selected-food hidden"></div>
+        <div class="grid grid-2">
+          <div class="field">
+            <label for="portion-weight">Khối lượng mỗi phần (g)</label>
+            <input id="portion-weight" type="number" min="0.01" max="20000" step="0.01" value="100">
+          </div>
+          <div class="field">
+            <label for="portion-quantity">Số phần</label>
+            <input id="portion-quantity" type="number" min="0.01" max="100" step="0.01" value="1">
+          </div>
+        </div>
+        <div id="portion-preview" class="preview-box" aria-live="polite">
+          <span class="muted">Chọn một thực phẩm để xem số liệu thật theo khẩu phần.</span>
+        </div>
+        <div class="row-actions">
+          <button class="btn btn-primary" id="add-draft-item" type="button" disabled>Thêm vào bữa</button>
+          <button class="btn btn-ghost hidden" id="cancel-item-edit" type="button">Hủy sửa món</button>
+        </div>
+      </section>
+    </div>
+
+    <section class="form-panel" style="margin-top:1rem" aria-labelledby="draft-title">
+      <h3 id="draft-title">3. Các món trong bữa</h3>
+      <div id="draft-items" class="draft-list">
+        <div class="empty-state">Chưa có món nào. Hãy tìm và thêm ít nhất một món.</div>
+      </div>
+    </section>
+
+    <div class="form-actions">
+      <button class="btn btn-ghost" id="cancel-meal-form" type="button">Hủy</button>
+      <button class="btn btn-primary" id="save-meal" type="submit">Lưu bữa ăn</button>
+    </div>
+  </form>
+</section>
+
+<section id="meals-region" aria-live="polite" aria-busy="true">
+  <div class="card"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+  'use strict';
+
+  var MEAL_TYPES = ['breakfast', 'lunch', 'dinner', 'snack'];
+  var NUTRIENT_LABELS = {
+    energy_kcal: 'năng lượng', protein_g: 'protein', carbohydrate_g: 'carbohydrate',
+    fat_g: 'chất béo', fiber_g: 'chất xơ', sugar_g: 'đường', sodium_mg: 'natri'
+  };
+  var state = {
+    day: localDateKey(new Date()),
+    meals: [],
+    stats: null,
+    editingMealId: null,
+    draftItems: [],
+    editingItemIndex: null,
+    selectedFood: null,
+    currentPreview: null,
+    loadSequence: 0,
+    searchSequence: 0,
+    previewSequence: 0,
+    previewTimer: null
+  };
+
+  var dateInput = document.getElementById('diary-date');
+  var summaryRegion = document.getElementById('day-summary');
+  var mealsRegion = document.getElementById('meals-region');
+  var formCard = document.getElementById('meal-form-card');
+  var form = document.getElementById('meal-form');
+  var foodResults = document.getElementById('food-results');
+  var previewRegion = document.getElementById('portion-preview');
+
+  function localDateKey(date) {
+    var y = date.getFullYear();
+    var m = String(date.getMonth() + 1).padStart(2, '0');
+    var d = String(date.getDate()).padStart(2, '0');
+    return y + '-' + m + '-' + d;
+  }
+
+  function localDateTimeValue(date) {
+    return localDateKey(date) + 'T' + String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0');
+  }
+
+  function dateWithOffset(day, offset) {
+    var parts = day.split('-').map(Number);
+    var date = new Date(parts[0], parts[1] - 1, parts[2]);
+    date.setDate(date.getDate() + offset);
+    return localDateKey(date);
+  }
+
+  function displayDate(day) {
+    var parts = day.split('-').map(Number);
+    return new Intl.DateTimeFormat('vi-VN', { weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' })
+      .format(new Date(parts[0], parts[1] - 1, parts[2]));
+  }
+
+  function displayTime(value) {
+    if (!value) return '—';
+    var date = new Date(value);
+    if (isNaN(date.getTime())) return ANA.escape(value);
+    return new Intl.DateTimeFormat('vi-VN', { hour: '2-digit', minute: '2-digit' }).format(date);
+  }
+
+  function nutrientNames(fields) {
+    return (fields || []).map(function (field) { return NUTRIENT_LABELS[field] || field; }).join(', ');
+  }
+
+  function sourceBadge(source) {
+    var map = {
+      measured: { label: 'Đo trực tiếp', cls: 'badge-ok', title: 'Năng lượng có số đo từ nguồn dữ liệu.' },
+      estimated_atwater: { label: 'Ước tính Atwater', cls: 'badge-warn', title: 'Năng lượng được ước tính từ protein, carbohydrate và chất béo theo hệ số Atwater 4/4/9.' },
+      unavailable: { label: 'Không có dữ liệu', cls: 'badge-muted', title: 'Không đủ số liệu để xác định năng lượng.' }
+    };
+    var info = map[source] || map.unavailable;
+    return '<span class="badge ' + info.cls + '" title="' + ANA.escape(info.title) + '">' + info.label + '</span>';
+  }
+
+  async function getAllMeals(day) {
+    var all = [];
+    var offset = 0;
+    var total = 1;
+    while (all.length < total) {
+      var page = await ANA.get('/meals?date_from=' + encodeURIComponent(day) + '&date_to=' + encodeURIComponent(day) + '&limit=200&offset=' + offset);
+      total = page.total;
+      all = all.concat(page.items || []);
+      if (!page.items || !page.items.length) break;
+      offset = all.length;
+    }
+    return all;
+  }
+
+  async function loadDay() {
+    var sequence = ++state.loadSequence;
+    var day = state.day;
+    dateInput.value = day;
+    document.getElementById('selected-day-heading').textContent = displayDate(day);
+    summaryRegion.setAttribute('aria-busy', 'true');
+    mealsRegion.setAttribute('aria-busy', 'true');
+    ANA.loading(summaryRegion, true, 3);
+    ANA.loading(mealsRegion, true, 5);
+
+    var results = await Promise.allSettled([
+      getAllMeals(day),
+      ANA.get('/statistics/daily?day=' + encodeURIComponent(day))
+    ]);
+    if (sequence !== state.loadSequence) return;
+
+    summaryRegion.setAttribute('aria-busy', 'false');
+    mealsRegion.setAttribute('aria-busy', 'false');
+
+    if (results[0].status === 'fulfilled') {
+      state.meals = results[0].value;
+      renderMeals();
+    } else {
+      state.meals = [];
+      mealsRegion.innerHTML = '<div class="card diary-error">Không tải được các bữa ăn. Vui lòng thử lại.</div>';
+      ANA.error(results[0].reason);
+    }
+
+    if (results[1].status === 'fulfilled') {
+      state.stats = results[1].value;
+      renderSummary();
+    } else {
+      state.stats = null;
+      summaryRegion.innerHTML = '<div class="diary-error">Không tải được tổng hợp dinh dưỡng trong ngày.</div>';
+      ANA.error(results[1].reason);
+    }
+  }
+
+  function renderSummary() {
+    var stats = state.stats;
+    var totalsBox = stats.totals || {};
+    var totals = totalsBox.totals || {};
+    var target = stats.target || {};
+    var missing = totalsBox.missing_fields || [];
+    var html = '<h2>Tổng hợp ngày</h2>' +
+      '<div class="grid summary-stats">' +
+        statHtml('Năng lượng', totals.energy_kcal, 'kcal', 1) +
+        statHtml('Protein', totals.protein_g, 'g', 2) +
+        statHtml('Carbohydrate', totals.carbohydrate_g, 'g', 2) +
+        statHtml('Chất béo', totals.fat_g, 'g', 2) +
+        statHtml('Chất xơ', totals.fiber_g, 'g', 2) +
+      '</div>';
+
+    if (missing.length) {
+      html += '<div class="flash flash-warn summary-note">Tổng hợp chưa đầy đủ vì một hoặc nhiều món thiếu: ' + ANA.escape(nutrientNames(missing)) + '.</div>';
+    }
+    if (totalsBox.items_without_energy > 0) {
+      html += '<div class="flash flash-warn summary-note">Có ' + totalsBox.items_without_energy + ' món không có dữ liệu năng lượng; tổng kcal trong ngày chưa đầy đủ.</div>';
+    }
+
+    if (target.target_kcal !== null && target.target_kcal !== undefined) {
+      html += '<div class="summary-note"><div class="target-row"><strong>Tiến độ mục tiêu năng lượng</strong>' +
+        '<span>' + ANA.num(totals.energy_kcal, 1) + ' / ' + ANA.num(target.target_kcal, 1) + ' kcal</span></div>';
+      if (target.percent !== null && target.percent !== undefined) {
+        var width = Math.max(0, Math.min(100, Number(target.percent)));
+        var remainingText = Number(target.remaining_kcal) >= 0
+          ? 'Còn ' + ANA.num(target.remaining_kcal, 1) + ' kcal'
+          : 'Vượt ' + ANA.num(Math.abs(Number(target.remaining_kcal)), 1) + ' kcal';
+        html += '<div class="bar target-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + ANA.escape(target.percent) + '"><span style="width:' + width + '%"></span></div>' +
+          '<div class="small muted" style="margin-top:.35rem">' + ANA.num(target.percent, 1) + '% · ' + remainingText + '</div>';
+      } else {
+        html += '<div class="small muted">Chưa có dữ liệu để tính tiến độ.</div>';
+      }
+      html += '</div>';
+    } else {
+      html += '<div class="small muted summary-note">Chưa đặt mục tiêu năng lượng hằng ngày.</div>';
+    }
+
+    html += '<h3 style="margin-top:1rem">Theo loại bữa ăn</h3>';
+    if (!stats.by_meal_type || !stats.by_meal_type.length) {
+      html += '<div class="muted small">Chưa có bữa ăn để tổng hợp.</div>';
+    } else {
+      html += '<div class="table-wrap"><table class="data"><thead><tr><th>Bữa ăn</th><th class="numeric">Món</th><th class="numeric">kcal</th><th class="numeric">Protein (g)</th><th class="numeric">Carb (g)</th><th class="numeric">Béo (g)</th></tr></thead><tbody>';
+      stats.by_meal_type.forEach(function (row) {
+        html += '<tr><td>' + ANA.escape(ANA.mealTypeLabel(row.meal_type)) + '</td>' +
+          '<td class="numeric">' + ANA.num(row.item_count, 0) + '</td>' +
+          '<td class="numeric">' + ANA.num(row.calories, 1) + (row.calories_incomplete ? ' <span title="Tổng chưa đầy đủ">*</span>' : '') + '</td>' +
+          '<td class="numeric">' + ANA.num(row.protein_g, 2) + '</td>' +
+          '<td class="numeric">' + ANA.num(row.carbohydrate_g, 2) + '</td>' +
+          '<td class="numeric">' + ANA.num(row.fat_g, 2) + '</td></tr>';
+      });
+      html += '</tbody></table></div>';
+      if (stats.by_meal_type.some(function (row) { return row.calories_incomplete; })) {
+        html += '<div class="small muted">* Có món thiếu dữ liệu năng lượng, tổng kcal của bữa chưa đầy đủ.</div>';
+      }
+    }
+    summaryRegion.innerHTML = html;
+  }
+
+  function statHtml(label, value, unit, digits) {
+    return '<div class="stat"><span class="stat-label">' + label + '</span><span class="stat-value">' + ANA.num(value, digits) + '</span><span class="stat-unit">' + unit + '</span></div>';
+  }
+
+  function renderMeals() {
+    if (!state.meals.length) {
+      mealsRegion.innerHTML = '<div class="empty-state"><strong>Chưa ghi món nào trong ngày này</strong><p>Thêm món để bắt đầu theo dõi dinh dưỡng.</p><button class="btn btn-primary" type="button" data-action="open-add">+ Thêm món</button></div>';
+      return;
+    }
+    var grouped = {};
+    MEAL_TYPES.forEach(function (type) { grouped[type] = []; });
+    state.meals.forEach(function (meal) {
+      (grouped[meal.meal_type] || (grouped[meal.meal_type] = [])).push(meal);
+    });
+    var html = '<div class="meal-groups">';
+    MEAL_TYPES.forEach(function (type) {
+      if (!grouped[type] || !grouped[type].length) return;
+      html += '<section class="card meal-group"><h2>' + ANA.escape(ANA.mealTypeLabel(type)) + '</h2><div class="meal-list">';
+      grouped[type].forEach(function (meal) { html += mealHtml(meal); });
+      html += '</div></section>';
+    });
+    html += '</div>';
+    mealsRegion.innerHTML = html;
+  }
+
+  function mealHtml(meal) {
+    var totalsBox = meal.totals || {};
+    var totals = totalsBox.totals || {};
+    var items = meal.items || [];
+    var html = '<article class="meal-entry" data-meal-id="' + meal.id + '">' +
+      '<div class="meal-entry-head"><div><strong>' + displayTime(meal.eaten_at_local || meal.eaten_at) + '</strong>' +
+      (meal.note ? '<div class="meal-note small">' + ANA.escape(meal.note) + '</div>' : '<div class="small muted">Không có ghi chú</div>') +
+      '</div><div class="row-actions"><button class="btn btn-ghost btn-sm" type="button" data-action="edit-meal" data-meal-id="' + meal.id + '">Sửa bữa</button>' +
+      '<button class="btn btn-danger btn-sm" type="button" data-action="delete-meal" data-meal-id="' + meal.id + '">Xóa bữa</button></div></div>';
+
+    if (totalsBox.items_without_energy > 0) {
+      html += '<div class="missing-warning"><strong>Cảnh báo:</strong> ' + totalsBox.items_without_energy + ' món không có dữ liệu năng lượng. Tổng kcal của bữa này chưa đầy đủ.</div>';
+    }
+    if (totalsBox.missing_fields && totalsBox.missing_fields.length) {
+      html += '<div class="missing-warning">Thiếu dữ liệu: ' + ANA.escape(nutrientNames(totalsBox.missing_fields)) + '. Các ô thiếu được ghi rõ, không thay bằng 0.</div>';
+    }
+
+    html += '<div class="table-wrap"><table class="data"><thead><tr><th>Thực phẩm</th><th>Khẩu phần</th><th class="numeric">kcal</th><th class="numeric">Protein</th><th class="numeric">Carb</th><th class="numeric">Béo</th><th>Nguồn kcal</th><th>Thao tác</th></tr></thead><tbody>';
+    items.forEach(function (item) {
+      html += '<tr><td><strong>' + ANA.escape(ANA.text(item.food_name, 'Thực phẩm #' + item.food_id)) + '</strong></td>' +
+        '<td class="nowrap">' + ANA.num(item.weight_grams, 2) + ' g × ' + ANA.num(item.quantity, 2) + '</td>' +
+        '<td class="numeric">' + ANA.num(item.kcal, 1) + '</td>' +
+        '<td class="numeric">' + ANA.num(item.protein_g, 2) + ' g</td>' +
+        '<td class="numeric">' + ANA.num(item.carbohydrate_g, 2) + ' g</td>' +
+        '<td class="numeric">' + ANA.num(item.fat_g, 2) + ' g</td>' +
+        '<td>' + sourceBadge(item.kcal_source) + '</td>' +
+        '<td class="actions-cell"><div class="row-actions"><button class="btn btn-ghost btn-sm" type="button" data-action="edit-meal" data-meal-id="' + meal.id + '">Sửa</button>' +
+        '<button class="btn btn-danger btn-sm" type="button" data-action="delete-meal" data-meal-id="' + meal.id + '">Xóa</button></div></td></tr>';
+    });
+    html += '</tbody></table></div><div class="meal-total"><span>Tổng bữa:</span>' +
+      '<strong>' + ANA.num(totals.energy_kcal, 1) + ' kcal</strong><span>' + ANA.num(totals.protein_g, 2) + ' g protein</span>' +
+      '<span>' + ANA.num(totals.carbohydrate_g, 2) + ' g carb</span><span>' + ANA.num(totals.fat_g, 2) + ' g béo</span></div>' +
+      '<div class="source-legend small muted"><strong>Nguồn kcal:</strong> Đo trực tiếp = có số đo từ nguồn; Ước tính Atwater = tính từ protein/carb/béo theo 4/4/9; Không có dữ liệu = không đủ dữ liệu để tính.</div></article>';
+    return html;
+  }
+
+  function openAddForm() {
+    state.editingMealId = null;
+    state.draftItems = [];
+    resetItemEditor();
+    form.reset();
+    document.getElementById('meal-type').value = defaultMealType();
+    var now = new Date();
+    if (state.day !== localDateKey(now)) {
+      var p = state.day.split('-').map(Number);
+      now = new Date(p[0], p[1] - 1, p[2], 12, 0, 0);
+    }
+    document.getElementById('meal-eaten-at').value = localDateTimeValue(now);
+    document.getElementById('meal-form-title').textContent = 'Thêm món';
+    document.getElementById('meal-form-subtitle').textContent = 'Tìm thực phẩm thật, xem trước dinh dưỡng rồi thêm vào bữa.';
+    document.getElementById('save-meal').textContent = 'Lưu bữa ăn';
+    renderDraftItems();
+    showForm();
+    searchFoods('');
+  }
+
+  function defaultMealType() {
+    var hour = new Date().getHours();
+    if (hour < 10) return 'breakfast';
+    if (hour < 15) return 'lunch';
+    if (hour < 21) return 'dinner';
+    return 'snack';
+  }
+
+  function openEditForm(mealId) {
+    var meal = state.meals.find(function (candidate) { return candidate.id === Number(mealId); });
+    if (!meal) {
+      ANA.toast('Không tìm thấy bữa ăn để sửa.', 'error');
+      return;
+    }
+    state.editingMealId = meal.id;
+    state.draftItems = (meal.items || []).map(function (item) {
+      return {
+        food_id: item.food_id,
+        food_name: item.food_name || ('Thực phẩm #' + item.food_id),
+        weight_grams: Number(item.weight_grams),
+        quantity: Number(item.quantity),
+        kcal: item.kcal,
+        protein_g: item.protein_g,
+        carbohydrate_g: item.carbohydrate_g,
+        fat_g: item.fat_g,
+        fiber_g: item.fiber_g,
+        kcal_source: item.kcal_source
+      };
+    });
+    resetItemEditor();
+    document.getElementById('meal-type').value = meal.meal_type;
+    document.getElementById('meal-note').value = meal.note || '';
+    var localValue = meal.eaten_at_local || meal.eaten_at;
+    document.getElementById('meal-eaten-at').value = localValue ? String(localValue).slice(0, 16) : localDateTimeValue(new Date());
+    document.getElementById('meal-form-title').textContent = 'Sửa bữa ăn';
+    document.getElementById('meal-form-subtitle').textContent = 'Có thể thêm, bỏ hoặc thay thực phẩm trước khi lưu.';
+    document.getElementById('save-meal').textContent = 'Lưu thay đổi';
+    renderDraftItems();
+    showForm();
+    searchFoods('');
+  }
+
+  function showForm() {
+    formCard.classList.remove('hidden');
+    formCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(function () { document.getElementById('food-search').focus(); }, 250);
+  }
+
+  function closeForm() {
+    formCard.classList.add('hidden');
+    resetItemEditor();
+  }
+
+  async function searchFoods(query) {
+    var sequence = ++state.searchSequence;
+    foodResults.innerHTML = '<div class="skeleton"></div><div class="skeleton"></div>';
+    try {
+      var data = await ANA.get('/foods?q=' + encodeURIComponent(query || '') + '&limit=12&offset=0');
+      if (sequence !== state.searchSequence) return;
+      if (!data.items || !data.items.length) {
+        foodResults.innerHTML = '<div class="empty-state">Không tìm thấy thực phẩm phù hợp.</div>';
+        return;
+      }
+      foodResults.innerHTML = data.items.map(function (food) {
+        var name = food.name_vi || food.name_en || ('Thực phẩm #' + food.id);
+        var sub = [food.name_vi && food.name_en ? food.name_en : '', ANA.cookingStateLabel(food.cooking_state),
+          food.energy_kcal_per_100g === null || food.energy_kcal_per_100g === undefined ? 'chưa có dữ liệu kcal' : Number(food.energy_kcal_per_100g).toFixed(1) + ' kcal/100 g']
+          .filter(Boolean).join(' · ');
+        return '<button class="btn food-result" type="button" data-action="select-food" data-food-id="' + food.id + '" data-food="' + ANA.escape(JSON.stringify(food)) + '"><span>' + ANA.escape(name) + '<small>' + ANA.escape(sub) + '</small></span></button>';
+      }).join('');
+    } catch (err) {
+      if (sequence !== state.searchSequence) return;
+      foodResults.innerHTML = '<div class="diary-error">Không tải được kết quả tìm kiếm.</div>';
+      ANA.error(err);
+    }
+  }
+
+  function selectFood(food) {
+    state.selectedFood = food;
+    state.currentPreview = null;
+    document.querySelectorAll('.food-result').forEach(function (button) {
+      button.classList.toggle('selected', Number(button.dataset.foodId) === Number(food.id));
+    });
+    var name = food.name_vi || food.name_en || ('Thực phẩm #' + food.id);
+    document.getElementById('selected-food').classList.remove('hidden');
+    document.getElementById('selected-food').innerHTML = '<strong>' + ANA.escape(name) + '</strong><div class="small">' + ANA.escape(ANA.cookingStateLabel(food.cooking_state)) + '</div>';
+    schedulePreview(0);
+  }
+
+  function schedulePreview(delay) {
+    clearTimeout(state.previewTimer);
+    state.previewTimer = setTimeout(loadPreview, delay === undefined ? 350 : delay);
+  }
+
+  async function loadPreview() {
+    if (!state.selectedFood) return;
+    var weight = Number(document.getElementById('portion-weight').value);
+    var quantity = Number(document.getElementById('portion-quantity').value);
+    var addButton = document.getElementById('add-draft-item');
+    if (!(weight > 0 && weight <= 20000 && quantity > 0 && quantity <= 100)) {
+      state.currentPreview = null;
+      addButton.disabled = true;
+      previewRegion.innerHTML = '<span class="muted">Khối lượng phải từ 0,01–20.000 g và số phần từ 0,01–100.</span>';
+      return;
+    }
+    var sequence = ++state.previewSequence;
+    addButton.disabled = true;
+    previewRegion.innerHTML = '<div class="skeleton"></div><div class="skeleton"></div>';
+    try {
+      var preview = await ANA.get('/foods/' + state.selectedFood.id + '/portion?weight_g=' + encodeURIComponent(weight) + '&quantity=' + encodeURIComponent(quantity));
+      if (sequence !== state.previewSequence) return;
+      state.currentPreview = preview;
+      renderPreview(preview);
+      addButton.disabled = false;
+    } catch (err) {
+      if (sequence !== state.previewSequence) return;
+      state.currentPreview = null;
+      previewRegion.innerHTML = '<div class="diary-error">Không tính được dinh dưỡng khẩu phần.</div>';
+      ANA.error(err);
+    }
+  }
+
+  function previewValue(preview, code) {
+    var found = (preview.values || []).find(function (value) { return value.code === code; });
+    return found ? found.total : null;
+  }
+
+  function renderPreview(preview) {
+    var html = '<div class="preview-grid">' +
+      previewMetric('Năng lượng', preview.kcal, 'kcal', 1) +
+      previewMetric('Protein', previewValue(preview, 'protein_g'), 'g', 2) +
+      previewMetric('Carbohydrate', previewValue(preview, 'carbohydrate_g'), 'g', 2) +
+      previewMetric('Chất béo', previewValue(preview, 'fat_g'), 'g', 2) +
+      previewMetric('Chất xơ', previewValue(preview, 'fiber_g'), 'g', 2) +
+      previewMetric('Tổng khối lượng', preview.total_weight_grams, 'g', 2) + '</div>' +
+      '<div style="margin-top:.65rem">' + sourceBadge(preview.kcal_source) + '</div>';
+    if (preview.missing_nutrients && preview.missing_nutrients.length) {
+      html += '<div class="small" style="margin-top:.5rem;color:var(--amber-600)">Thiếu dữ liệu: ' + ANA.escape(nutrientNames(preview.missing_nutrients)) + '.</div>';
+    }
+    previewRegion.innerHTML = html;
+  }
+
+  function previewMetric(label, value, unit, digits) {
+    return '<div><span class="small muted">' + label + '</span><strong>' + ANA.num(value, digits) + ' ' + unit + '</strong></div>';
+  }
+
+  function addOrUpdateDraftItem() {
+    if (!state.selectedFood || !state.currentPreview) {
+      ANA.toast('Hãy chọn thực phẩm và chờ xem trước dinh dưỡng.', 'warn');
+      return;
+    }
+    var preview = state.currentPreview;
+    var item = {
+      food_id: state.selectedFood.id,
+      food_name: preview.food_name || state.selectedFood.name_vi || state.selectedFood.name_en || ('Thực phẩm #' + state.selectedFood.id),
+      weight_grams: Number(document.getElementById('portion-weight').value),
+      quantity: Number(document.getElementById('portion-quantity').value),
+      kcal: preview.kcal,
+      protein_g: previewValue(preview, 'protein_g'),
+      carbohydrate_g: previewValue(preview, 'carbohydrate_g'),
+      fat_g: previewValue(preview, 'fat_g'),
+      fiber_g: previewValue(preview, 'fiber_g'),
+      kcal_source: preview.kcal_source
+    };
+    if (state.editingItemIndex === null) {
+      state.draftItems.push(item);
+    } else {
+      state.draftItems[state.editingItemIndex] = item;
+    }
+    renderDraftItems();
+    resetItemEditor();
+  }
+
+  function renderDraftItems() {
+    var region = document.getElementById('draft-items');
+    if (!state.draftItems.length) {
+      region.innerHTML = '<div class="empty-state">Chưa có món nào. Hãy tìm và thêm ít nhất một món.</div>';
+      return;
+    }
+    region.innerHTML = state.draftItems.map(function (item, index) {
+      return '<div class="draft-row"><div class="draft-row-main"><strong>' + ANA.escape(item.food_name) + '</strong>' +
+        '<span class="small muted">' + ANA.num(item.weight_grams, 2) + ' g × ' + ANA.num(item.quantity, 2) + ' · ' + ANA.num(item.kcal, 1) + ' kcal · ' +
+        sourceBadge(item.kcal_source) + '</span></div><div class="row-actions draft-actions">' +
+        '<button class="btn btn-ghost btn-sm" type="button" data-action="edit-draft" data-index="' + index + '">Thay / sửa</button>' +
+        '<button class="btn btn-danger btn-sm" type="button" data-action="remove-draft" data-index="' + index + '">Bỏ</button></div></div>';
+    }).join('');
+  }
+
+  function editDraftItem(index) {
+    var item = state.draftItems[index];
+    if (!item) return;
+    state.editingItemIndex = index;
+    state.selectedFood = { id: item.food_id, name_vi: item.food_name, cooking_state: 'unknown' };
+    state.currentPreview = null;
+    document.getElementById('portion-weight').value = item.weight_grams;
+    document.getElementById('portion-quantity').value = item.quantity;
+    document.getElementById('selected-food').classList.remove('hidden');
+    document.getElementById('selected-food').innerHTML = '<strong>' + ANA.escape(item.food_name) + '</strong><div class="small">Có thể tìm và chọn thực phẩm khác để thay món này.</div>';
+    var mode = document.getElementById('item-edit-mode');
+    mode.classList.remove('hidden');
+    mode.textContent = 'Đang sửa món số ' + (index + 1) + '. Chọn món khác nếu muốn thay thế.';
+    document.getElementById('add-draft-item').textContent = 'Cập nhật món';
+    document.getElementById('cancel-item-edit').classList.remove('hidden');
+    schedulePreview(0);
+    document.getElementById('food-search').focus();
+  }
+
+  function resetItemEditor() {
+    state.selectedFood = null;
+    state.currentPreview = null;
+    state.editingItemIndex = null;
+    state.previewSequence += 1;
+    clearTimeout(state.previewTimer);
+    document.getElementById('portion-weight').value = '100';
+    document.getElementById('portion-quantity').value = '1';
+    document.getElementById('selected-food').classList.add('hidden');
+    document.getElementById('selected-food').innerHTML = '';
+    document.getElementById('item-edit-mode').classList.add('hidden');
+    document.getElementById('add-draft-item').disabled = true;
+    document.getElementById('add-draft-item').textContent = 'Thêm vào bữa';
+    document.getElementById('cancel-item-edit').classList.add('hidden');
+    previewRegion.innerHTML = '<span class="muted">Chọn một thực phẩm để xem số liệu thật theo khẩu phần.</span>';
+    document.querySelectorAll('.food-result').forEach(function (button) { button.classList.remove('selected'); });
+  }
+
+  async function saveMeal(event) {
+    event.preventDefault();
+    if (!state.draftItems.length) {
+      ANA.toast('Bữa ăn phải có ít nhất một món.', 'warn');
+      return;
+    }
+    var dateTime = document.getElementById('meal-eaten-at').value;
+    var parsed = new Date(dateTime);
+    if (!dateTime || isNaN(parsed.getTime())) {
+      ANA.toast('Thời gian ăn không hợp lệ.', 'error');
+      return;
+    }
+    var payload = {
+      meal_type: document.getElementById('meal-type').value,
+      eaten_at: parsed.toISOString(),
+      note: document.getElementById('meal-note').value.trim() || null,
+      items: state.draftItems.map(function (item) {
+        return { food_id: item.food_id, weight_grams: item.weight_grams, quantity: item.quantity };
+      })
+    };
+    var button = document.getElementById('save-meal');
+    ANA.busy(button, true, 'Đang lưu…');
+    try {
+      if (state.editingMealId === null) {
+        await ANA.post('/meals', payload);
+        ANA.toast('Đã thêm bữa ăn.', 'success');
+      } else {
+        await ANA.put('/meals/' + state.editingMealId, payload);
+        ANA.toast('Đã cập nhật bữa ăn.', 'success');
+      }
+      var savedDay = dateTime.slice(0, 10);
+      state.day = savedDay;
+      closeForm();
+      await loadDay();
+    } catch (err) {
+      ANA.error(err);
+    } finally {
+      ANA.busy(button, false);
+    }
+  }
+
+  async function deleteMeal(mealId, button) {
+    var meal = state.meals.find(function (candidate) { return candidate.id === Number(mealId); });
+    if (!meal) {
+      ANA.toast('Không tìm thấy bữa ăn để xóa.', 'error');
+      return;
+    }
+    var confirmed = window.confirm('Xóa toàn bộ ' + ANA.mealTypeLabel(meal.meal_type).toLowerCase() + ' lúc ' + displayTime(meal.eaten_at_local || meal.eaten_at) + '? Thao tác này không thể hoàn tác.');
+    if (!confirmed) return;
+    ANA.busy(button, true, 'Đang xóa…');
+    try {
+      await ANA.del('/meals/' + meal.id);
+      ANA.toast('Đã xóa bữa ăn.', 'success');
+      await loadDay();
+    } catch (err) {
+      ANA.flash('Không xóa được bữa ăn: ' + ((err && err.message) || 'lỗi không xác định'), 'error');
+      ANA.error(err);
+      ANA.busy(button, false);
+    }
+  }
+
+  document.getElementById('open-add-meal').addEventListener('click', openAddForm);
+  document.getElementById('close-meal-form').addEventListener('click', closeForm);
+  document.getElementById('cancel-meal-form').addEventListener('click', closeForm);
+  document.getElementById('previous-day').addEventListener('click', function () { state.day = dateWithOffset(state.day, -1); closeForm(); loadDay(); });
+  document.getElementById('next-day').addEventListener('click', function () { state.day = dateWithOffset(state.day, 1); closeForm(); loadDay(); });
+  dateInput.addEventListener('change', function () { if (dateInput.value) { state.day = dateInput.value; closeForm(); loadDay(); } });
+  document.getElementById('search-food-button').addEventListener('click', function () { searchFoods(document.getElementById('food-search').value.trim()); });
+  document.getElementById('food-search').addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') { event.preventDefault(); searchFoods(event.currentTarget.value.trim()); }
+  });
+  document.getElementById('portion-weight').addEventListener('input', function () { schedulePreview(); });
+  document.getElementById('portion-quantity').addEventListener('input', function () { schedulePreview(); });
+  document.getElementById('add-draft-item').addEventListener('click', addOrUpdateDraftItem);
+  document.getElementById('cancel-item-edit').addEventListener('click', resetItemEditor);
+  form.addEventListener('submit', saveMeal);
+
+  document.addEventListener('click', function (event) {
+    var target = event.target.closest('[data-action]');
+    if (!target) return;
+    var action = target.dataset.action;
+    if (action === 'open-add') openAddForm();
+    if (action === 'edit-meal') openEditForm(target.dataset.mealId);
+    if (action === 'delete-meal') deleteMeal(target.dataset.mealId, target);
+    if (action === 'select-food') {
+      try { selectFood(JSON.parse(target.dataset.food)); } catch (err) { ANA.error(err); }
+    }
+    if (action === 'edit-draft') editDraftItem(Number(target.dataset.index));
+    if (action === 'remove-draft') {
+      var index = Number(target.dataset.index);
+      state.draftItems.splice(index, 1);
+      if (state.editingItemIndex === index) resetItemEditor();
+      renderDraftItems();
+    }
+  });
+
+  dateInput.value = state.day;
+  loadDay();
+})();
+</script>
+{% endblock %}

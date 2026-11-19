@@ -1,0 +1,636 @@
+{% extends "base.html" %}
+{% block title %}Tra cứu thực phẩm – AI Nutrition Analyzer{% endblock %}
+{% block page_id %}foods{% endblock %}
+{% block heading %}Tra cứu thực phẩm{% endblock %}
+{% block actions %}
+<button class="btn btn-primary btn-sm" id="show-add-food" type="button">+ Thêm thực phẩm</button>
+{% endblock %}
+
+{% block head %}
+<style>
+  .food-filter-grid {
+    display: grid;
+    grid-template-columns: minmax(240px, 2fr) repeat(3, minmax(150px, 1fr));
+    gap: .8rem;
+    align-items: end;
+  }
+  .food-filter-grid .field, .kcal-fields .field { margin: 0; }
+  .kcal-fields { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+  .filter-actions { display: flex; justify-content: space-between; align-items: center; gap: .75rem; margin-top: 1rem; flex-wrap: wrap; }
+  .results-heading { display: flex; justify-content: space-between; align-items: center; gap: .75rem; margin-bottom: .5rem; }
+  .results-heading h2 { margin: 0; }
+  .food-row { cursor: pointer; }
+  .food-row:focus { outline: 2px solid var(--green-600); outline-offset: -2px; }
+  /* Dữ liệu thật có nhãn trạng thái dài ("Chế biến sẵn") và danh mục Open Food Facts
+     dài tới 80 ký tự -> giữ nhãn trên một dòng, cắt danh mục kèm tooltip. */
+  .foods-table .badge { white-space: nowrap; }
+  .foods-table td.name-cell { max-width: 360px; }
+  .foods-table td.category-cell { max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .food-name-button { border: 0; padding: 0; background: transparent; color: inherit; font: inherit; font-weight: 650; text-align: left; cursor: pointer; }
+  .food-name-button:hover { color: var(--green-700); text-decoration: underline; }
+  .food-name-en { display: block; color: var(--muted); font-size: .82rem; font-weight: 400; }
+  .food-cards { display: none; gap: .7rem; }
+  .food-card { width: 100%; text-align: left; color: inherit; font: inherit; cursor: pointer; }
+  .food-card-top { display: flex; justify-content: space-between; gap: .6rem; align-items: flex-start; }
+  .food-card-meta { display: flex; justify-content: space-between; gap: .5rem; margin-top: .7rem; color: var(--muted); font-size: .84rem; }
+  .pagination { display: flex; justify-content: center; align-items: center; gap: .75rem; margin-top: 1rem; flex-wrap: wrap; }
+  .manual-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+    gap: 0 .9rem;
+  }
+  .manual-form-grid .wide { grid-column: 1 / -1; }
+  details.manual-add > summary { cursor: pointer; font-weight: 650; list-style-position: inside; }
+  details.manual-add[open] > summary { margin-bottom: 1rem; }
+  dialog.food-dialog {
+    border: 0;
+    padding: 0;
+    width: min(960px, calc(100vw - 2rem));
+    max-height: calc(100vh - 2rem);
+    border-radius: var(--radius);
+    color: var(--text);
+    background: var(--surface);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
+  }
+  dialog.food-dialog::backdrop { background: rgba(15, 23, 42, .58); }
+  .dialog-shell { display: flex; flex-direction: column; max-height: calc(100vh - 2rem); }
+  .dialog-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; padding: 1rem 1.1rem; border-bottom: 1px solid var(--border); }
+  .dialog-header h2 { margin: 0; font-size: 1.15rem; }
+  .dialog-body { padding: 1.1rem; overflow-y: auto; }
+  .provenance { padding: .85rem; background: var(--bg); border-radius: var(--radius-sm); overflow-wrap: anywhere; }
+  .portion-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .7rem; margin: .8rem 0; }
+  .portion-summary .stat { padding: .75rem; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+  .missing-warning { background: var(--amber-50); color: var(--amber-600); border: 1px solid var(--amber-600); border-radius: var(--radius-sm); padding: .7rem .8rem; }
+  .source-explanation { margin: .35rem 0 0; }
+  .dialog-section { margin-top: 1.1rem; }
+  .dialog-section > h3 { margin-bottom: .55rem; }
+  .source-counts { display: flex; gap: .35rem; flex-wrap: wrap; }
+  .form-note { padding: .7rem .8rem; background: var(--blue-50); color: var(--blue-600); border-radius: var(--radius-sm); margin-bottom: 1rem; }
+  @media (max-width: 1150px) {
+    .food-filter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 680px) {
+    .food-filter-grid { grid-template-columns: 1fr; }
+    .foods-table { display: none; }
+    .food-cards { display: grid; }
+    .filter-actions { align-items: stretch; }
+    .filter-actions .btn { width: 100%; }
+    .results-heading { align-items: flex-start; flex-direction: column; }
+    dialog.food-dialog { width: 100vw; max-width: 100vw; max-height: 100vh; height: 100vh; border-radius: 0; }
+    .dialog-shell { max-height: 100vh; height: 100vh; }
+    .dialog-body { padding: .85rem; }
+    .portion-controls .field { flex: 1 1 120px; }
+    .portion-controls .btn { width: 100%; }
+  }
+  @media (max-width: 390px) {
+    .kcal-fields { grid-template-columns: 1fr; }
+    .source-counts { display: none; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="card" aria-labelledby="search-heading">
+  <h2 id="search-heading">Tìm trong cơ sở dữ liệu</h2>
+  <p class="card-sub">Có thể nhập tiếng Việt có dấu hoặc không dấu, ví dụ “cơm” hoặc “com”.</p>
+  <div class="food-filter-grid">
+    <div class="field">
+      <label for="food-search">Tên thực phẩm</label>
+      <input id="food-search" type="search" maxlength="120" autocomplete="off" placeholder="Nhập tên tiếng Việt hoặc tiếng Anh…">
+    </div>
+    <div class="field">
+      <label for="category-filter">Danh mục</label>
+      <select id="category-filter"><option value="">Tất cả danh mục</option></select>
+    </div>
+    <div class="field">
+      <label for="food-group-filter">Nhóm thực phẩm</label>
+      <select id="food-group-filter"><option value="">Tất cả nhóm</option></select>
+    </div>
+    <div class="field">
+      <label for="cooking-state-filter">Trạng thái chế biến</label>
+      <select id="cooking-state-filter"><option value="">Tất cả trạng thái</option></select>
+    </div>
+  </div>
+  <div class="filter-actions">
+    <div class="kcal-fields" aria-label="Khoảng năng lượng trên 100 gam">
+      <div class="field">
+        <label for="min-kcal">Kcal tối thiểu / 100 g</label>
+        <input id="min-kcal" type="number" min="0" max="2000" step="0.1" inputmode="decimal" placeholder="0">
+      </div>
+      <div class="field">
+        <label for="max-kcal">Kcal tối đa / 100 g</label>
+        <input id="max-kcal" type="number" min="0" max="2000" step="0.1" inputmode="decimal" placeholder="2000">
+      </div>
+    </div>
+    <button class="btn btn-ghost" id="reset-filters" type="button">Xóa lọc</button>
+  </div>
+</section>
+
+<section class="card" aria-labelledby="results-heading-title">
+  <div class="results-heading">
+    <div>
+      <h2 id="results-heading-title">Kết quả</h2>
+      <div id="result-summary" class="card-sub" role="status" aria-live="polite">Đang tải dữ liệu…</div>
+    </div>
+    <div id="source-counts" class="source-counts" aria-label="Số bản ghi theo nguồn"></div>
+  </div>
+  <div id="food-results" aria-busy="false">
+    <div class="table-wrap foods-table">
+      <table class="data">
+        <thead>
+          <tr>
+            <th scope="col">Tên thực phẩm</th>
+            <th scope="col">Danh mục</th>
+            <th scope="col">Trạng thái</th>
+            <th scope="col" class="numeric">Kcal / 100 g</th>
+            <th scope="col">Nguồn</th>
+          </tr>
+        </thead>
+        <tbody id="foods-tbody"></tbody>
+      </table>
+    </div>
+    <div id="food-cards" class="food-cards"></div>
+  </div>
+  <nav class="pagination" aria-label="Phân trang kết quả">
+    <button class="btn btn-ghost btn-sm" id="previous-page" type="button">← Trang trước</button>
+    <span id="page-indicator" class="small muted">Trang 1</span>
+    <button class="btn btn-ghost btn-sm" id="next-page" type="button">Trang sau →</button>
+  </nav>
+</section>
+
+<details class="card manual-add" id="manual-add">
+  <summary>Thêm thực phẩm (nhập tay)</summary>
+  <p class="form-note"><strong>Yêu cầu về nguồn:</strong> Mỗi bản ghi phải khai báo tên nguồn để người dùng có thể truy vết dữ liệu. Không nhập số cho một chất nếu nguồn không cung cấp; giá trị thiếu sẽ được giữ là “chưa có dữ liệu”.</p>
+  <form id="add-food-form">
+    <div class="manual-form-grid">
+      <div class="field">
+        <label for="add-name-vi">Tên tiếng Việt</label>
+        <input id="add-name-vi" name="name_vi" type="text" maxlength="240">
+      </div>
+      <div class="field">
+        <label for="add-name-en">Tên tiếng Anh</label>
+        <input id="add-name-en" name="name_en" type="text" maxlength="240">
+        <span class="hint">Cần ít nhất một trong hai tên.</span>
+      </div>
+      <div class="field">
+        <label for="add-category">Danh mục</label>
+        <input id="add-category" name="category" type="text" maxlength="80">
+      </div>
+      <div class="field">
+        <label for="add-food-group">Nhóm thực phẩm</label>
+        <input id="add-food-group" name="food_group" type="text" maxlength="80">
+      </div>
+      <div class="field">
+        <label for="add-cooking-state">Trạng thái chế biến</label>
+        <select id="add-cooking-state" name="cooking_state">
+          <option value="unknown">Chưa rõ</option>
+          <option value="raw">Sống</option>
+          <option value="cooked">Đã nấu</option>
+          <option value="processed">Chế biến sẵn</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="add-energy">Năng lượng (kcal / 100 g)</label>
+        <input id="add-energy" name="energy_kcal_per_100g" type="number" min="0" max="1000" step="any" inputmode="decimal">
+      </div>
+      <div class="field"><label for="add-protein">Protein (g / 100 g)</label><input id="add-protein" name="protein_g_per_100g" type="number" min="0" max="100" step="any" inputmode="decimal"></div>
+      <div class="field"><label for="add-fat">Chất béo (g / 100 g)</label><input id="add-fat" name="fat_g_per_100g" type="number" min="0" max="100" step="any" inputmode="decimal"></div>
+      <div class="field"><label for="add-carb">Carbohydrate (g / 100 g)</label><input id="add-carb" name="carbohydrate_g_per_100g" type="number" min="0" max="100" step="any" inputmode="decimal"></div>
+      <div class="field"><label for="add-fiber">Chất xơ (g / 100 g)</label><input id="add-fiber" name="fiber_g_per_100g" type="number" min="0" max="100" step="any" inputmode="decimal"></div>
+      <div class="field"><label for="add-sugar">Đường (g / 100 g)</label><input id="add-sugar" name="sugar_g_per_100g" type="number" min="0" max="100" step="any" inputmode="decimal"></div>
+      <div class="field"><label for="add-sodium">Natri (mg / 100 g)</label><input id="add-sodium" name="sodium_mg_per_100g" type="number" min="0" max="40000" step="any" inputmode="decimal"></div>
+      <div class="field"><label for="add-moisture">Nước (g / 100 g)</label><input id="add-moisture" name="moisture_g_per_100g" type="number" min="0" max="100" step="any" inputmode="decimal"></div>
+      <div class="field"><label for="add-ash">Tro (g / 100 g)</label><input id="add-ash" name="ash_g_per_100g" type="number" min="0" max="100" step="any" inputmode="decimal"></div>
+      <div class="field wide">
+        <label for="add-aliases">Tên gọi khác</label>
+        <input id="add-aliases" name="aliases" type="text" placeholder="Phân cách bằng dấu phẩy">
+      </div>
+      <div class="field">
+        <label for="add-source-name">Tên nguồn <span aria-hidden="true">*</span></label>
+        <input id="add-source-name" name="source_name" type="text" maxlength="160" required aria-describedby="source-required-hint">
+        <span class="hint" id="source-required-hint">Bắt buộc: mọi thực phẩm nhập tay phải có nguồn.</span>
+      </div>
+      <div class="field">
+        <label for="add-source-url">Liên kết nguồn</label>
+        <input id="add-source-url" name="source_url" type="url" maxlength="400" placeholder="https://…">
+      </div>
+      <div class="field wide">
+        <label for="add-source-note">Ghi chú nguồn</label>
+        <textarea id="add-source-note" name="source_note" maxlength="500" rows="2"></textarea>
+      </div>
+    </div>
+    <button class="btn btn-primary" id="add-food-submit" type="submit">Lưu thực phẩm</button>
+  </form>
+</details>
+
+<dialog class="food-dialog" id="food-detail" aria-labelledby="detail-title">
+  <div class="dialog-shell">
+    <header class="dialog-header">
+      <div>
+        <h2 id="detail-title">Chi tiết thực phẩm</h2>
+        <div id="detail-subtitle" class="small muted"></div>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="close-detail" type="button" aria-label="Đóng chi tiết">Đóng</button>
+    </header>
+    <div class="dialog-body" id="detail-content"></div>
+  </div>
+</dialog>
+{% endblock %}
+
+{% block scripts %}
+<script>
+ANA.ready(function () {
+  'use strict';
+
+  var LIMIT = 20;
+  var offset = 0;
+  var total = 0;
+  var currentFoodId = null;
+  var debounceTimer = null;
+  var listRequest = 0;
+  var search = document.getElementById('food-search');
+  var category = document.getElementById('category-filter');
+  var foodGroup = document.getElementById('food-group-filter');
+  var cookingState = document.getElementById('cooking-state-filter');
+  var minKcal = document.getElementById('min-kcal');
+  var maxKcal = document.getElementById('max-kcal');
+  var results = document.getElementById('food-results');
+  var summary = document.getElementById('result-summary');
+  var previousButton = document.getElementById('previous-page');
+  var nextButton = document.getElementById('next-page');
+  var pageIndicator = document.getElementById('page-indicator');
+  var detailDialog = document.getElementById('food-detail');
+  var detailContent = document.getElementById('detail-content');
+
+  function escapeValue(value, fallback) {
+    return ANA.escape(ANA.text(value, fallback || '—'));
+  }
+
+  function queryParams() {
+    var params = new URLSearchParams();
+    var values = {
+      q: search.value.trim(),
+      category: category.value,
+      food_group: foodGroup.value,
+      cooking_state: cookingState.value,
+      min_kcal: minKcal.value,
+      max_kcal: maxKcal.value
+    };
+    Object.keys(values).forEach(function (key) {
+      if (values[key] !== '') params.set(key, values[key]);
+    });
+    params.set('limit', String(LIMIT));
+    params.set('offset', String(offset));
+    return params.toString();
+  }
+
+  function filtersAreValid() {
+    var min = minKcal.value === '' ? null : Number(minKcal.value);
+    var max = maxKcal.value === '' ? null : Number(maxKcal.value);
+    if (min !== null && max !== null && min > max) {
+      ANA.flash('Kcal tối thiểu không thể lớn hơn kcal tối đa.', 'warn');
+      return false;
+    }
+    return true;
+  }
+
+  function sourceBadge(code) {
+    return '<span class="badge badge-info">' + escapeValue(code, 'Chưa rõ') + '</span>';
+  }
+
+  function displayName(food) {
+    return escapeValue(food.name_vi || food.name_en, 'Chưa có tên');
+  }
+
+  function renderResults(data) {
+    total = Number(data.total) || 0;
+    var items = Array.isArray(data.items) ? data.items : [];
+    var first = total ? offset + 1 : 0;
+    var last = Math.min(offset + items.length, total);
+    summary.textContent = total
+      ? 'Tìm thấy ' + total.toLocaleString('vi-VN') + ' thực phẩm · đang hiển thị ' + first.toLocaleString('vi-VN') + '–' + last.toLocaleString('vi-VN')
+      : 'Không tìm thấy thực phẩm phù hợp.';
+
+    if (!items.length) {
+      results.innerHTML = '<div class="empty-state"><strong>Không có kết quả</strong><br>Hãy thử tên khác, bỏ bớt bộ lọc hoặc mở rộng khoảng kcal.</div>';
+    } else {
+      var rows = items.map(function (food) {
+        return '<tr class="food-row" tabindex="0" data-food-id="' + food.id + '">' +
+          '<td class="name-cell"><button class="food-name-button" type="button" data-food-id="' + food.id + '">' + displayName(food) + '</button>' +
+          (food.name_vi && food.name_en ? '<span class="food-name-en">' + escapeValue(food.name_en) + '</span>' : '') + '</td>' +
+          '<td class="category-cell" title="' + escapeValue(food.category) + '">' + escapeValue(food.category) + '</td>' +
+          '<td><span class="badge badge-muted">' + ANA.escape(ANA.cookingStateLabel(food.cooking_state)) + '</span></td>' +
+          '<td class="numeric nowrap">' + ANA.num(food.energy_kcal_per_100g, 1) + '</td>' +
+          '<td>' + sourceBadge(food.source_code) + '</td></tr>';
+      }).join('');
+      var cards = items.map(function (food) {
+        return '<button class="card food-card" type="button" data-food-id="' + food.id + '">' +
+          '<span class="food-card-top"><span><strong>' + displayName(food) + '</strong>' +
+          (food.name_vi && food.name_en ? '<span class="food-name-en">' + escapeValue(food.name_en) + '</span>' : '') +
+          '</span>' + sourceBadge(food.source_code) + '</span>' +
+          '<span class="food-card-meta"><span>' + escapeValue(food.category) + ' · ' + ANA.escape(ANA.cookingStateLabel(food.cooking_state)) + '</span>' +
+          '<span class="nowrap">' + ANA.num(food.energy_kcal_per_100g, 1) + ' kcal</span></span></button>';
+      }).join('');
+      results.innerHTML = '<div class="table-wrap foods-table"><table class="data"><thead><tr><th scope="col">Tên thực phẩm</th><th scope="col">Danh mục</th><th scope="col">Trạng thái</th><th scope="col" class="numeric">Kcal / 100 g</th><th scope="col">Nguồn</th></tr></thead><tbody id="foods-tbody">' + rows + '</tbody></table></div><div id="food-cards" class="food-cards">' + cards + '</div>';
+    }
+
+    var currentPage = total ? Math.floor(offset / LIMIT) + 1 : 1;
+    var pages = Math.max(1, Math.ceil(total / LIMIT));
+    pageIndicator.textContent = 'Trang ' + currentPage.toLocaleString('vi-VN') + ' / ' + pages.toLocaleString('vi-VN');
+    previousButton.disabled = offset <= 0;
+    nextButton.disabled = offset + LIMIT >= total;
+    results.setAttribute('aria-busy', 'false');
+  }
+
+  async function loadFoods() {
+    if (!filtersAreValid()) return;
+    var requestId = ++listRequest;
+    results.setAttribute('aria-busy', 'true');
+    ANA.loading(results, true, 6);
+    summary.textContent = 'Đang tìm thực phẩm…';
+    try {
+      var data = await ANA.get('/foods?' + queryParams());
+      if (requestId !== listRequest) return;
+      ANA.loading(results, false);
+      renderResults(data);
+    } catch (err) {
+      if (requestId !== listRequest) return;
+      ANA.loading(results, false);
+      results.setAttribute('aria-busy', 'false');
+      results.innerHTML = '<div class="empty-state">Không tải được danh sách thực phẩm. Vui lòng thử lại.</div>';
+      summary.textContent = 'Không tải được dữ liệu.';
+      ANA.error(err);
+    }
+  }
+
+  function fillSelect(select, values, firstLabel) {
+    var selected = select.value;
+    var options = '<option value="">' + ANA.escape(firstLabel) + '</option>';
+    (Array.isArray(values) ? values : []).forEach(function (value) {
+      options += '<option value="' + ANA.escape(value) + '">' + ANA.escape(value) + '</option>';
+    });
+    select.innerHTML = options;
+    if ([].some.call(select.options, function (option) { return option.value === selected; })) select.value = selected;
+  }
+
+  async function loadFilters() {
+    try {
+      var data = await ANA.get('/foods/filters');
+      fillSelect(category, data.categories, 'Tất cả danh mục');
+      fillSelect(foodGroup, data.food_groups, 'Tất cả nhóm');
+      fillSelect(cookingState, data.cooking_states, 'Tất cả trạng thái');
+      Array.from(cookingState.options).forEach(function (option) {
+        if (option.value) option.textContent = ANA.cookingStateLabel(option.value);
+      });
+      var sourceCounts = Array.isArray(data.count_by_source) ? data.count_by_source : [];
+      document.getElementById('source-counts').innerHTML = sourceCounts.map(function (item) {
+        return '<span class="badge badge-muted">' + escapeValue(item[0], 'Chưa rõ') + ': ' + ANA.escape(Number(item[1]).toLocaleString('vi-VN')) + '</span>';
+      }).join('');
+    } catch (err) {
+      ANA.error(err);
+    }
+  }
+
+  function scheduleSearch() {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(function () {
+      offset = 0;
+      loadFoods();
+    }, 350);
+  }
+
+  function safeSourceUrl(value) {
+    if (!value) return null;
+    try {
+      var url = new URL(value, window.location.origin);
+      return (url.protocol === 'http:' || url.protocol === 'https:') ? url.href : null;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  function renderDetail(food) {
+    var nutrients = Array.isArray(food.nutrients) ? food.nutrients : [];
+    var nutrientRows = nutrients.length ? nutrients.map(function (nutrient) {
+      return '<tr><td>' + escapeValue(nutrient.name_vi, nutrient.code) + '<span class="food-name-en mono">' + ANA.escape(nutrient.code) + '</span></td>' +
+        '<td class="numeric">' + ANA.num(nutrient.amount_per_100g, 2) + '</td><td>' + escapeValue(nutrient.unit) + '</td>' +
+        '<td>' + (nutrient.data_quality ? '<span class="badge badge-muted">' + ANA.escape(nutrient.data_quality) + '</span>' : '<span class="muted">—</span>') + '</td></tr>';
+    }).join('') : '<tr><td colspan="4" class="muted">Chưa có danh sách chất dinh dưỡng.</td></tr>';
+    var sourceUrl = safeSourceUrl(food.source_url);
+    var sourceLink = sourceUrl ? '<a href="' + ANA.escape(sourceUrl) + '" target="_blank" rel="noopener noreferrer">Mở liên kết nguồn</a>' : '<span class="muted">Không có liên kết</span>';
+
+    document.getElementById('detail-title').textContent = food.name_vi || food.name_en || 'Chi tiết thực phẩm';
+    document.getElementById('detail-subtitle').textContent = food.name_vi && food.name_en ? food.name_en : '';
+    detailContent.innerHTML =
+      '<div class="grid grid-3">' +
+        '<div class="stat"><span class="stat-label">Danh mục</span><span>' + escapeValue(food.category) + '</span></div>' +
+        '<div class="stat"><span class="stat-label">Nhóm thực phẩm</span><span>' + escapeValue(food.food_group) + '</span></div>' +
+        '<div class="stat"><span class="stat-label">Trạng thái</span><span>' + ANA.escape(ANA.cookingStateLabel(food.cooking_state)) + '</span></div>' +
+      '</div>' +
+      '<section class="dialog-section" aria-labelledby="nutrients-title"><h3 id="nutrients-title">Dinh dưỡng trên 100 g</h3>' +
+        '<div class="table-wrap"><table class="data"><thead><tr><th>Chất dinh dưỡng</th><th class="numeric">Hàm lượng</th><th>Đơn vị</th><th>Chất lượng</th></tr></thead><tbody>' + nutrientRows + '</tbody></table></div></section>' +
+      '<section class="dialog-section" aria-labelledby="source-title"><h3 id="source-title">Nguồn dữ liệu</h3><div class="provenance">' +
+        '<div><strong>' + escapeValue(food.source_name, 'Chưa rõ nguồn') + '</strong> · ' + sourceBadge(food.source_code) + '</div>' +
+        '<div class="small">Tham chiếu: <span class="mono">' + escapeValue(food.source_ref) + '</span></div>' +
+        '<div class="small">Giấy phép: ' + escapeValue(food.source_license, 'Chưa công bố') + '</div>' +
+        '<div class="small">' + sourceLink + '</div></div></section>' +
+      '<section class="dialog-section" aria-labelledby="portion-title"><h3 id="portion-title">Tính theo khẩu phần</h3>' +
+        '<form id="portion-form" class="inline portion-controls"><div class="field"><label for="portion-weight">Khối lượng mỗi phần (g)</label><input id="portion-weight" type="number" min="0.01" max="20000" step="any" value="100" required></div>' +
+        '<div class="field"><label for="portion-quantity">Số phần</label><input id="portion-quantity" type="number" min="0.01" max="100" step="any" value="1" required></div>' +
+        '<button class="btn btn-primary" id="calculate-portion" type="submit">Tính khẩu phần</button></form>' +
+        '<div id="portion-result" aria-live="polite"></div></section>';
+
+    document.getElementById('portion-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      loadPortion();
+    });
+  }
+
+  function kcalSourceInfo(source) {
+    var labels = {
+      measured: ['Đo trực tiếp', 'Năng lượng lấy từ giá trị được nguồn dữ liệu công bố.'],
+      estimated_atwater: ['Ước tính Atwater', 'Năng lượng được ước tính từ protein, chất béo và carbohydrate vì nguồn không có kcal trực tiếp.'],
+      unavailable: ['Không có dữ liệu', 'Không đủ dữ liệu để tính hoặc ước tính năng lượng.']
+    };
+    return labels[source] || [source || 'Chưa rõ', 'Nguồn tính năng lượng chưa được mô tả.'];
+  }
+
+  function renderPortion(data) {
+    var target = document.getElementById('portion-result');
+    if (!target) return;
+    var source = kcalSourceInfo(data.kcal_source);
+    var values = Array.isArray(data.values) ? data.values : [];
+    var rows = values.length ? values.map(function (item) {
+      return '<tr><td>' + escapeValue(item.name_vi, item.code) + '<span class="food-name-en mono">' + ANA.escape(item.code) + '</span></td>' +
+        '<td class="numeric">' + ANA.num(item.per_100g, 2) + '</td><td class="numeric">' + ANA.num(item.total, 2) + '</td><td>' + escapeValue(item.unit) + '</td></tr>';
+    }).join('') : '<tr><td colspan="4" class="muted">Chưa có chất dinh dưỡng để tính.</td></tr>';
+    var missing = Array.isArray(data.missing_nutrients) ? data.missing_nutrients : [];
+    var missingHtml = missing.length
+      ? '<div class="missing-warning"><strong>Thiếu dữ liệu:</strong> ' + missing.map(function (item) { return ANA.escape(item); }).join(', ') + '. Các giá trị này không được tự động coi là 0.</div>'
+      : '';
+
+    target.innerHTML = '<div class="portion-summary">' +
+      '<div class="stat"><span class="stat-label">Tổng khối lượng</span><span class="stat-value">' + ANA.num(data.total_weight_grams, 1) + ' <span class="stat-unit">g</span></span></div>' +
+      '<div class="stat"><span class="stat-label">Năng lượng</span><span class="stat-value">' + ANA.num(data.kcal, 1) + ' <span class="stat-unit">kcal</span></span></div>' +
+      '<div class="stat"><span class="stat-label">Nguồn kcal</span><span><span class="badge ' + (data.kcal_source === 'unavailable' ? 'badge-warn' : 'badge-ok') + '">' + ANA.escape(source[0]) + '</span></span><span class="small muted source-explanation">' + ANA.escape(source[1]) + '</span></div>' +
+      '</div>' + missingHtml +
+      '<div class="table-wrap"><table class="data"><thead><tr><th>Chất dinh dưỡng</th><th class="numeric">Trên 100 g</th><th class="numeric">Khẩu phần</th><th>Đơn vị</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+      '<p class="small muted">Công thức: <span class="mono">' + escapeValue(data.formula) + '</span></p>';
+  }
+
+  async function loadPortion() {
+    var weightInput = document.getElementById('portion-weight');
+    var quantityInput = document.getElementById('portion-quantity');
+    var target = document.getElementById('portion-result');
+    var button = document.getElementById('calculate-portion');
+    if (!currentFoodId || !weightInput || !quantityInput || !target) return;
+    var weight = Number(weightInput.value);
+    var quantity = Number(quantityInput.value);
+    if (!(weight > 0) || !(quantity > 0)) {
+      ANA.flash('Khối lượng và số phần phải lớn hơn 0.', 'warn');
+      return;
+    }
+    ANA.busy(button, true, 'Đang tính…');
+    ANA.loading(target, true, 4);
+    try {
+      var data = await ANA.get('/foods/' + currentFoodId + '/portion?weight_g=' + encodeURIComponent(weight) + '&quantity=' + encodeURIComponent(quantity));
+      ANA.loading(target, false);
+      renderPortion(data);
+    } catch (err) {
+      ANA.loading(target, false);
+      target.innerHTML = '<div class="empty-state">Không tính được khẩu phần.</div>';
+      ANA.error(err);
+    } finally {
+      ANA.busy(button, false);
+    }
+  }
+
+  async function openDetail(foodId) {
+    currentFoodId = Number(foodId);
+    document.getElementById('detail-title').textContent = 'Đang tải chi tiết…';
+    document.getElementById('detail-subtitle').textContent = '';
+    detailContent.innerHTML = '';
+    if (!detailDialog.open) detailDialog.showModal();
+    ANA.loading(detailContent, true, 8);
+    try {
+      var food = await ANA.get('/foods/' + currentFoodId);
+      ANA.loading(detailContent, false);
+      renderDetail(food);
+      loadPortion();
+    } catch (err) {
+      ANA.loading(detailContent, false);
+      detailContent.innerHTML = '<div class="empty-state">Không tải được chi tiết thực phẩm.</div>';
+      ANA.error(err);
+    }
+  }
+
+  function optionalText(form, name) {
+    var value = form.elements[name].value.trim();
+    return value || null;
+  }
+
+  function optionalNumber(form, name) {
+    var value = form.elements[name].value;
+    return value === '' ? null : Number(value);
+  }
+
+  document.getElementById('add-food-form').addEventListener('submit', async function (event) {
+    event.preventDefault();
+    var form = event.currentTarget;
+    var button = document.getElementById('add-food-submit');
+    if (!form.elements.name_vi.value.trim() && !form.elements.name_en.value.trim()) {
+      ANA.flash('Cần nhập ít nhất tên tiếng Việt hoặc tên tiếng Anh.', 'error');
+      return;
+    }
+    var aliases = form.elements.aliases.value.split(',').map(function (item) { return item.trim(); }).filter(Boolean);
+    var payload = {
+      name_vi: optionalText(form, 'name_vi'),
+      name_en: optionalText(form, 'name_en'),
+      category: optionalText(form, 'category'),
+      food_group: optionalText(form, 'food_group'),
+      cooking_state: form.elements.cooking_state.value,
+      energy_kcal_per_100g: optionalNumber(form, 'energy_kcal_per_100g'),
+      protein_g_per_100g: optionalNumber(form, 'protein_g_per_100g'),
+      fat_g_per_100g: optionalNumber(form, 'fat_g_per_100g'),
+      carbohydrate_g_per_100g: optionalNumber(form, 'carbohydrate_g_per_100g'),
+      fiber_g_per_100g: optionalNumber(form, 'fiber_g_per_100g'),
+      sugar_g_per_100g: optionalNumber(form, 'sugar_g_per_100g'),
+      sodium_mg_per_100g: optionalNumber(form, 'sodium_mg_per_100g'),
+      moisture_g_per_100g: optionalNumber(form, 'moisture_g_per_100g'),
+      ash_g_per_100g: optionalNumber(form, 'ash_g_per_100g'),
+      source_name: form.elements.source_name.value.trim(),
+      source_url: optionalText(form, 'source_url'),
+      source_note: optionalText(form, 'source_note'),
+      aliases: aliases
+    };
+    ANA.busy(button, true, 'Đang lưu…');
+    try {
+      var created = await ANA.post('/foods', payload);
+      ANA.flash('Đã thêm thực phẩm “' + (created.name_vi || created.name_en || '') + '” thành công.', 'success');
+      form.reset();
+      document.getElementById('manual-add').open = false;
+      offset = 0;
+      await Promise.all([loadFilters(), loadFoods()]);
+    } catch (err) {
+      ANA.flash(err.message || 'Không thể thêm thực phẩm.', 'error');
+      ANA.error(err);
+    } finally {
+      ANA.busy(button, false);
+    }
+  });
+
+  search.addEventListener('input', scheduleSearch);
+  [category, foodGroup, cookingState, minKcal, maxKcal].forEach(function (control) {
+    control.addEventListener('change', function () { offset = 0; loadFoods(); });
+  });
+  [minKcal, maxKcal].forEach(function (control) {
+    control.addEventListener('input', scheduleSearch);
+  });
+  document.getElementById('reset-filters').addEventListener('click', function () {
+    clearTimeout(debounceTimer);
+    search.value = '';
+    category.value = '';
+    foodGroup.value = '';
+    cookingState.value = '';
+    minKcal.value = '';
+    maxKcal.value = '';
+    offset = 0;
+    loadFoods();
+  });
+  previousButton.addEventListener('click', function () {
+    offset = Math.max(0, offset - LIMIT);
+    loadFoods();
+    document.getElementById('results-heading-title').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  nextButton.addEventListener('click', function () {
+    if (offset + LIMIT < total) offset += LIMIT;
+    loadFoods();
+    document.getElementById('results-heading-title').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  results.addEventListener('click', function (event) {
+    var target = event.target.closest('[data-food-id]');
+    if (target) openDetail(target.getAttribute('data-food-id'));
+  });
+  results.addEventListener('keydown', function (event) {
+    if ((event.key === 'Enter' || event.key === ' ') && event.target.matches('.food-row')) {
+      event.preventDefault();
+      openDetail(event.target.getAttribute('data-food-id'));
+    }
+  });
+  document.getElementById('close-detail').addEventListener('click', function () { detailDialog.close(); });
+  detailDialog.addEventListener('click', function (event) {
+    if (event.target === detailDialog) detailDialog.close();
+  });
+  detailDialog.addEventListener('close', function () { currentFoodId = null; });
+  document.getElementById('show-add-food').addEventListener('click', function () {
+    var panel = document.getElementById('manual-add');
+    panel.open = true;
+    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(function () { document.getElementById('add-name-vi').focus(); }, 250);
+  });
+
+  loadFilters();
+  loadFoods();
+});
+</script>
+{% endblock %}

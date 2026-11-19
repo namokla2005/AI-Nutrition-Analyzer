@@ -1,0 +1,185 @@
+{
+  "created_at_utc": "2026-11-18T20:43:53.397207+00:00",
+  "target": "energy_kcal_per_100g",
+  "target_units": "kcal per 100 g",
+  "feature_units": {
+    "protein_g": "g per 100 g",
+    "fat_g": "g per 100 g",
+    "carbohydrate_g": "g per 100 g",
+    "fiber_g": "g per 100 g",
+    "water_g": "g per 100 g",
+    "ash_g": "g per 100 g",
+    "food_category": "categorical",
+    "cooking_state": "categorical"
+  },
+  "feature_list": [
+    "protein_g",
+    "fat_g",
+    "carbohydrate_g",
+    "fiber_g",
+    "water_g",
+    "ash_g",
+    "food_category",
+    "cooking_state"
+  ],
+  "provenance": {
+    "sources": {
+      "SR Legacy": "data/external/usda/FoodData_Central_sr_legacy_food_csv_2018-04",
+      "Foundation": "data/external/usda/FoodData_Central_foundation_food_csv_2024-10-31",
+      "Survey/FNDDS (join audit only)": "data/external/usda/FoodData_Central_survey_food_csv_2022-10-28"
+    },
+    "source_counts": {
+      "SR Legacy": 7793,
+      "Foundation": 135
+    },
+    "source_audits": [
+      {
+        "source": "SR Legacy",
+        "candidate_food_rows": 7793,
+        "measured_target_rows_retained": 7793,
+        "missing_measured_target_rows_removed": 0,
+        "atwater_nutrient_rows_excluded": 0,
+        "atwater_unique_foods": 0,
+        "atwater_only_foods_excluded": 0,
+        "foods_with_measured_and_atwater_energy": 0,
+        "energy_kj_nutrient_rows_excluded": 7793,
+        "duplicate_relevant_nutrient_rows": 0,
+        "unknown_food_category_rows_filled": 0,
+        "missing_features_before_imputation": {
+          "protein_g": 0,
+          "fat_g": 0,
+          "carbohydrate_g": 0,
+          "fiber_g": 562,
+          "water_g": 0,
+          "ash_g": 3,
+          "food_category": 0,
+          "cooking_state": 0
+        }
+      },
+      {
+        "source": "Foundation",
+        "candidate_food_rows": 387,
+        "measured_target_rows_retained": 135,
+        "missing_measured_target_rows_removed": 252,
+        "atwater_nutrient_rows_excluded": 608,
+        "atwater_unique_foods": 309,
+        "atwater_only_foods_excluded": 205,
+        "foods_with_measured_and_atwater_energy": 104,
+        "energy_kj_nutrient_rows_excluded": 135,
+        "duplicate_relevant_nutrient_rows": 0,
+        "unknown_food_category_rows_filled": 0,
+        "missing_features_before_imputation": {
+          "protein_g": 0,
+          "fat_g": 0,
+          "carbohydrate_g": 0,
+          "fiber_g": 76,
+          "water_g": 0,
+          "ash_g": 0,
+          "food_category": 0,
+          "cooking_state": 0
+        }
+      }
+    ],
+    "join_key_audit": {
+      "SR Legacy": {
+        "unique_food_nutrient_ids": 149,
+        "resolved_via_nutrient_id": 149,
+        "resolved_via_nutrient_nbr": 0
+      },
+      "Foundation": {
+        "unique_food_nutrient_ids": 227,
+        "resolved_via_nutrient_id": 226,
+        "resolved_via_nutrient_nbr": 0
+      },
+      "Survey/FNDDS": {
+        "unique_food_nutrient_ids": 65,
+        "resolved_via_nutrient_id": 0,
+        "resolved_via_nutrient_nbr": 65
+      }
+    }
+  },
+  "missing_value_rules": {
+    "target": "drop; never impute",
+    "numeric_features": "training-set median via SimpleImputer",
+    "actually_imputed_features_and_train_medians": {
+      "fiber_g": 0.3,
+      "ash_g": 1.15
+    },
+    "food_category": "Unknown when missing",
+    "cooking_state": "deterministic keyword rule; never missing",
+    "rows_removed_for_feature_missingness": 0
+  },
+  "split": {
+    "method": "GroupShuffleSplit by normalized food description",
+    "random_state_train_holdout": 42,
+    "random_state_validation_test": 43,
+    "sizes": {
+      "train": 5552,
+      "validation": 1189,
+      "test": 1187
+    },
+    "group_counts": {
+      "train": 5486,
+      "validation": 1176,
+      "test": 1176
+    },
+    "group_overlap_counts": {
+      "train_validation": 0,
+      "train_test": 0,
+      "validation_test": 0
+    }
+  },
+  "leakage_controls": {
+    "target_selection": "Only nutrient_nbr 208 Energy [KCAL]",
+    "excluded_target_nutrients": [
+      "957 Energy (Atwater General Factors) [KCAL]",
+      "958 Energy (Atwater Specific Factors) [KCAL]"
+    ],
+    "excluded_feature_nutrients": [
+      "208 Energy [KCAL]",
+      "268 Energy [kJ]",
+      "957/958 Atwater-derived energy",
+      "all energy-derived columns"
+    ],
+    "preprocessing_fit_scope": "training split only",
+    "model_selection_scope": "validation RMSE only"
+  },
+  "library_versions": {
+    "python": "3.12.8",
+    "scikit-learn": "1.9.1",
+    "pandas": "3.1.1",
+    "numpy": "2.5.5",
+    "joblib": "1.6.0",
+    "matplotlib": "3.11.2"
+  },
+  "model_key": "random_forest",
+  "algorithm": "RandomForestRegressor",
+  "hyperparameters": {
+    "n_estimators": 250,
+    "min_samples_leaf": 2,
+    "max_features": 1.0,
+    "max_depth": null,
+    "random_state": 42,
+    "n_jobs": -1
+  },
+  "metrics": {
+    "train": {
+      "mae": 2.57100865305414,
+      "rmse": 6.9217431764557436,
+      "r2": 0.9983066935574464
+    },
+    "validation": {
+      "mae": 5.300414321227158,
+      "rmse": 10.217451038357263,
+      "r2": 0.9962183176879205
+    },
+    "test": {
+      "mae": 5.200254118679722,
+      "rmse": 10.275084990878339,
+      "r2": 0.9964894678565969
+    }
+  },
+  "fit_seconds": 4.79,
+  "model_file": "models/regression/random_forest.joblib",
+  "selected_best_model": true
+}

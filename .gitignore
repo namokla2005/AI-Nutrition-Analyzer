@@ -1,0 +1,50 @@
+# --- Python ---
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- Secrets ---
+.env
+*.pem
+*.key
+
+# --- Database / backup ---
+data/nutrition.db
+data/nutrition.db-wal
+data/nutrition.db-shm
+data/backups/
+*.sqlite
+*.sqlite3
+
+# --- Dữ liệu nặng không commit ---
+data/external/*
+!data/external/README.md
+data/raw/*
+!data/raw/README.md
+data/processed/*
+!data/processed/README.md
+data/external/usda/**
+data/external/openfoodfacts/**
+
+# --- Model nhị phân ---
+models/image/*.pt
+models/image/*.pth
+models/regression/*.joblib
+models/regression/*.pkl
+models/**/latest.json
+
+# --- Ảnh người dùng tải lên ---
+uploads/*
+!uploads/.gitkeep
+
+# --- Hệ điều hành / IDE ---
+Thumbs.db
+desktop.ini
+.DS_Store
+.idea/
+.vscode/
+*.log

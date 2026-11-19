@@ -1,0 +1,5 @@
+{
+  "database_url": "sqlite+pysqlite:///D:/Documents/BaoCao/TriTueNhanTao/AI-Nutrition-Analyzer/data/nutrition.db",
+  "report_path": "D:\\Documents\\BaoCao\\TriTueNhanTao\\AI-Nutrition-Analyzer\\data\\reports\\data_quality_report.md",
+  "status": "WARN"
+}
