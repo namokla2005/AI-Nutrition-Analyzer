@@ -327,3 +327,87 @@ kiểm thử chức năng toàn hệ thống chạy lại vẫn **92/0**.
 
 Hướng cải thiện tiếp (chưa làm): thêm bảng **FTS5** của SQLite cho tên thực phẩm và tên thay thế —
 tìm kiếm toàn văn sẽ nhanh hơn nhiều so với `LIKE '%...%'`, nhưng cần migration và trigger đồng bộ.
+
+### 7.3 Kiểm toán dữ liệu ảnh sau đợt thu thập bổ sung (27/11/2026)
+
+Một luồng phụ trách thu thập ảnh đã tải **89 ảnh mới** từ Wikimedia Commons (giấy phép tự do: CC0,
+CC BY, CC BY-SA, Public domain) cho 9 lớp món Việt còn mỏng, rồi **duyệt từng ảnh bằng vision** và
+chuyển ảnh sai sang `data/raw/images/_rejected/`. Tôi kiểm chứng lại độc lập và phát hiện hai điều
+quan trọng — một đúng, một sai:
+
+**Đúng: lớp `canh_chua` trước đây gần như toàn ảnh rác.** Tôi soi lại 20 ảnh bị loại của lớp này:
+**20/20 là vườn, chùa, cây cảnh trong chậu, lối đi lát gạch, bia đá** — không một ảnh nào là món ăn
+(kiểm hai lần, hai lần đều 0/20). Nghĩa là 23/28 ảnh cũ của lớp `canh_chua` là rác, và chỉ số
+**F1 = 1,0000 của lớp này trong model 24 lớp là vô nghĩa** (ảnh test cũng thuộc nhóm rác nên model
+"đoán đúng" cả). Sau kiểm toán lớp này chỉ còn **5 ảnh sạch** → không đủ để huấn luyện.
+
+**Sai (loại quá tay): lớp `banh_khot`.** Luồng đó loại 26 ảnh, trong đó 14 ảnh với lý do "bánh căn,
+không phải bánh khọt". Tôi soi 20 ảnh bị loại: **17/20 đúng là bánh khọt** (bánh nhỏ chiên có tôm,
+xếp trên khay) → tiêu chí phân biệt bánh khọt với bánh căn bị áp dụng quá nghiêm. Tôi đã **khôi phục
+14 ảnh** bị loại chỉ vì lý do đó; giữ nguyên các ảnh rác đã loại đúng (người bán, biển hiệu, bánh căn,
+nguyên liệu, tranh vẽ).
+
+**Hệ quả lên tập dữ liệu (số đo thật):**
+
+| | Trước kiểm toán | Sau kiểm toán |
+|---|---:|---:|
+| Số dòng manifest | 1.711 | **1.665** |
+| Đường dẫn trỏ vào file không còn tồn tại | **100** (do ảnh bị chuyển sang `_rejected`) | **0** |
+| Số lớp | 29 | 29 (7 lớp dưới ngưỡng bị loại khỏi huấn luyện) |
+
+Số ảnh sạch của các lớp bị ảnh hưởng: `banh_cuon` 47 · `hu_tieu` 39 · `xoi` 34 · `banh_khot` 22 ·
+`bun_rieu` 15 · `banh_beo` 12 · `bun_thit_nuong` 12 · `pho_ga` 10 · `bun_dau_mam_tom` 10 · `canh_chua` 5.
+
+**Bảy lớp bị loại khỏi lần huấn luyện v4** vì dưới ngưỡng 34 ảnh sạch/lớp (tài liệu dự án: dưới ~35 ảnh
+là quá yếu để học): `banh_beo` (12), `banh_khot` (22), `bun_dau_mam_tom` (10), `bun_rieu` (15),
+`bun_thit_nuong` (12), `canh_chua` (5), `pho_ga` (10). Đây là các món cần **ảnh do người dùng tự chụp**
+(30–50 ảnh/món) — Commons không còn ảnh đúng cho các món này.
+
+**Ghi chú trung thực về mốc so sánh:** các lớp vừa bị phát hiện nhiễu dữ liệu (đặc biệt `canh_chua`,
+`banh_khot`, `banh_beo`) có chỉ số cao trong model 24 lớp **không đáng tin** — cả tập train và tập test
+của chúng đều lẫn ảnh sai chủ đề. Vì vậy lần huấn luyện v4 chỉ dùng 22 lớp sạch (14 món Việt + 8 lớp
+Food-101) và mọi so sánh với model cũ phải nói rõ tập lớp khác nhau.
+
+### 7.4 Thêm chỉ mục toàn văn FTS5 cho tra cứu thực phẩm
+
+Tra cứu cũ dùng `LIKE '%từ khoá%'` trên `name_normalized` (102.847 dòng) và `alias_normalized`
+(98.721 dòng) — mỗi truy vấn phải quét cả hai bảng. Nhánh nhận diện ảnh gọi tra cứu này để gợi ý món,
+nên nó là nút cổ chai thật của `/predict/image` (§7.2).
+
+Đã thêm chỉ mục toàn văn **FTS5** của SQLite:
+
+- Bảng ảo `food_search` với `tokenize='unicode61 remove_diacritics 2'` (tìm không dấu ra kết quả có dấu),
+  lưu tên chính, toàn bộ tên thay thế, và thêm cột `suffix_norm` để vẫn khớp được kiểu **giữa từ** như
+  `LIKE '%…%'` trước đây.
+- **6 trigger** đồng bộ khi INSERT/UPDATE/DELETE trên `foods` và `food_aliases`; view
+  `food_search_documents` gộp tên + tên thay thế; migration Alembic
+  `9b1c2d3e4f5a_add_food_search_fts5.py` tạo chỉ mục và **nạp sẵn 102.847 dòng** (có đủ hàm `downgrade`).
+- Truy vấn được thoát an toàn (`"token"*` nối bằng `AND`), nên người dùng gõ `"`, `*`, `AND`, `NEAR`
+  không làm sập endpoint. Nếu CSDL chưa migrate hoặc MATCH lỗi, mã **tự hạ cấp về `LIKE`** (kiểm tra
+  một lần cho mỗi engine, có nhớ kết quả) — không có chuyện tra cứu ngừng chạy vì thiếu chỉ mục.
+
+**Đo qua HTTP thật sau khi migrate (máy chủ khởi động lại, không tính lần gọi đầu):**
+
+| Truy vấn | Số kết quả | Thời gian |
+|---|---:|---:|
+| `/foods?q=ga` (khớp nhiều nhất) | 4.166 | **114 ms** |
+| `/foods?q=thit ga` | 0 | 10 ms |
+| `/foods?q=pho bo` | 11 | 12 ms |
+| `/foods?q=sushi` | 26 | 10 ms |
+| `/foods?q=banh mi` | 16 | 16 ms |
+| `/foods?q=nem` | 25 | 8 ms |
+| **`POST /predict/image`** (sau khi nạp model) | — | **64–68 ms** |
+
+So với trước khi có FTS5: `/predict/image` **297–370 ms → 64–68 ms** (nhanh ~4,5 lần, gồm cả suy luận
+model); tra cứu đơn lẻ từ vài trăm ms xuống 8–114 ms. Lần gọi **đầu tiên** sau khi khởi động máy chủ vẫn
+mất ~12 giây vì phải nạp model — đây là hành vi bình thường, không phải lỗi.
+
+**Kiểm thử:** `python -m pytest -q` → **175 bài, 0 hỏng, 1 bỏ qua** (trước khi thêm FTS5: 169 bài), và
+kiểm thử chức năng toàn hệ thống vẫn **92/0**. Không truy vấn nào mất kết quả: `ga` giữ đúng 4.166;
+`pho bo` và `banh mi` **nhiều hơn** trước (2 → 11 và 11 → 16) vì truy vấn nhiều từ nay hiểu là "có đủ
+các từ" thay vì "khớp đúng chuỗi liền nhau" — nghĩa rộng hơn, đã kiểm chứng không làm mất kết quả cũ.
+
+**Giá phải trả (đo trực tiếp bằng cách xoá chỉ mục rồi `VACUUM` bản sao CSDL):** chỉ mục FTS5 chiếm
+**66,3 MB**, đưa CSDL từ **68,8 MB lên 135,1 MB**. Nguyên nhân chính là cột `suffix_norm`. Nếu cần CSDL
+nhỏ hơn, có thể bỏ cột này (mất kiểu khớp giữa từ, đổi lại giảm ~60 MB) — hiện giữ nguyên vì tốc độ là
+mục tiêu chính và CSDL không nằm trong kho mã nguồn.

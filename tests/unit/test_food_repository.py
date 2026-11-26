@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import pytest
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.pool import StaticPool
 
@@ -311,3 +311,84 @@ class TestXepHangKetQua:
         rows, total = FoodRepository(db).search(query="ga", limit=10)
         assert total == 2
         assert [f.source_ref for f in rows] == ["by_name", "alias_only"]
+
+
+class TestFtsSearch:
+    def test_create_all_tao_bang_fts(self, db: Session):
+        table = db.scalar(
+            text("SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'food_search'")
+        )
+        assert table == "food_search"
+
+    def test_truy_van_nhieu_tu_dung_and(self, db: Session):
+        src = FoodSource(code="fts_and", name="Nguồn FTS", kind="manual")
+        db.add(src)
+        db.flush()
+        db.add(
+            Food(
+                source_id=src.id,
+                source_ref="and",
+                name_en="Thit uc ga nuong",
+                name_normalized=normalize_name("Thit uc ga nuong"),
+                energy_kcal_per_100g=180.0,
+            )
+        )
+        db.commit()
+
+        rows, total = FoodRepository(db).search(query="thịt gà")
+        assert total == 1
+        assert [row.source_ref for row in rows] == ["and"]
+
+    def test_trigger_food_dong_bo_insert_update_delete(self, db: Session):
+        src = FoodSource(code="fts_food", name="Nguồn trigger", kind="manual")
+        db.add(src)
+        db.flush()
+        food = Food(
+            source_id=src.id,
+            source_ref="trigger",
+            name_en="Mon cu",
+            name_normalized="mon cu",
+        )
+        db.add(food)
+        db.commit()
+        repo = FoodRepository(db)
+        assert repo.has_match("mon cu") is True
+
+        food.name_normalized = "mon moi"
+        db.commit()
+        assert repo.has_match("mon cu") is False
+        assert repo.has_match("mon moi") is True
+
+        db.delete(food)
+        db.commit()
+        assert repo.has_match("mon moi") is False
+
+    def test_trigger_alias_dong_bo_insert_update_delete(self, seeded: Session):
+        food = seeded.query(Food).filter(Food.source_ref == "1").one()
+        alias = FoodAlias(food_id=food.id, alias="Nước dùng", alias_normalized="nuoc dung")
+        seeded.add(alias)
+        seeded.commit()
+        repo = FoodRepository(seeded)
+        assert repo.has_match("nuoc dung") is True
+
+        alias.alias_normalized = "canh bo"
+        seeded.commit()
+        assert repo.has_match("nuoc dung") is False
+        assert repo.has_match("canh bo") is True
+
+        seeded.delete(alias)
+        seeded.commit()
+        assert repo.has_match("canh bo") is False
+
+    def test_ky_tu_fts_dac_biet_khong_gay_loi(self, seeded: Session):
+        rows, total = FoodRepository(seeded).search(query='ga" OR * NEAR (')
+        assert rows == []
+        assert total == 0
+
+    def test_thieu_bang_fts_tu_ha_cap_ve_like(self, seeded: Session):
+        seeded.execute(text("DROP TABLE food_search"))
+        seeded.commit()
+
+        rows, total = FoodRepository(seeded).search(query="pho bo")
+        assert total == 1
+        assert _names(rows) == {"Phở bò"}

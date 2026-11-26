@@ -13,9 +13,11 @@ from sqlalchemy import (
     String,
     Text,
     UniqueConstraint,
+    event,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from app.core.food_search import create_food_search
 from app.models.base import Base, TimestampMixin
 
 COOKING_STATES = ("raw", "cooked", "processed", "unknown")
@@ -148,6 +150,10 @@ class FoodAlias(Base):
     lang: Mapped[str] = mapped_column(String(8), default="vi", server_default="vi", nullable=False)
 
     food: Mapped[Food] = relationship(back_populates="aliases")
+
+
+# Bảng ảo không thuộc SQLAlchemy metadata; tạo kèm schema cho test/in-memory DB.
+event.listen(Base.metadata, "after_create", create_food_search)
 
 
 class FoodImage(Base, TimestampMixin):

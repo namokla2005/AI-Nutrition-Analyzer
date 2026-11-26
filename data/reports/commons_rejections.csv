@@ -651,3 +651,144 @@ bun_dau_mam_tom,data/raw/images/bun_dau_mam_tom/commons_89599052.jpg,Bún đậu
 bun_dau_mam_tom,data/raw/images/bun_dau_mam_tom/commons_89599054.jpg,Bún đậu mắm tôm quán 3 chị em tại Nguyễn Sơn năm 2016 (2).jpg,89599054,excluded_subject
 bun_dau_mam_tom,data/raw/images/bun_dau_mam_tom/commons_89599070.jpg,Bún đậu mắm tôm (phần bánh đậu hũ chiên) quán 3 chị em tại Nguyễn Sơn năm 2016 (1).jpg,89599070,excluded_subject
 pho_ga,data/raw/images/pho_ga/commons_58085271.jpg,"Phở gà bò, 32 Bát Đàn, Hà Nội 001.JPG",58085271,manual_contact_sheet_storefront
+pho_ga,data/raw/images/pho_ga/commons_10881011,,10881011,"visual_review: đĩa rau/thịt, không phải bát phở gà"
+pho_ga,data/raw/images/pho_ga/commons_12648022,,12648022,"visual_review: cảnh bàn/quán, món không rõ"
+pho_ga,data/raw/images/pho_ga/commons_135577013,,135577013,"visual_review: cảnh phục vụ/quầy, không thấy bát phở"
+pho_ga,data/raw/images/pho_ga/commons_135577014,,135577014,"visual_review: cảnh phục vụ/quầy, không thấy bát phở"
+pho_ga,data/raw/images/pho_ga/commons_135577016,,135577016,"visual_review: gà quay/nướng, không phải phở"
+pho_ga,data/raw/images/pho_ga/commons_135577024,,135577024,"visual_review: gà quay/nướng, không phải phở"
+pho_ga,data/raw/images/pho_ga/commons_135577025,,135577025,"visual_review: bàn nhiều món, không xác định phở gà"
+pho_ga,data/raw/images/pho_ga/commons_135577027,,135577027,"visual_review: gà nướng, không phải phở"
+pho_ga,data/raw/images/pho_ga/commons_163078923,,163078923,"visual_review: đĩa thức ăn, không phải bát phở"
+pho_ga,data/raw/images/pho_ga/commons_46920425,,46920425,"visual_review: người và gà nguyên con, không phải phở"
+pho_ga,data/raw/images/pho_ga/commons_58085271,,58085271,visual_review: biển hiệu/mặt tiền quán
+pho_ga,data/raw/images/pho_ga/commons_59206471,,59206471,visual_review: đàn gà
+pho_ga,data/raw/images/pho_ga/commons_59206472,,59206472,visual_review: đàn gà
+pho_ga,data/raw/images/pho_ga/commons_59206473,,59206473,visual_review: đàn gà
+pho_ga,data/raw/images/pho_ga/commons_59206474,,59206474,visual_review: đàn gà
+pho_ga,data/raw/images/pho_ga/commons_59206475,,59206475,visual_review: đàn gà
+pho_ga,data/raw/images/pho_ga/commons_59243249,,59243249,visual_review: đàn gà
+pho_ga,data/raw/images/pho_ga/commons_59243250,,59243250,visual_review: đàn gà
+pho_ga,data/raw/images/pho_ga/commons_59243251,,59243251,visual_review: đàn gà
+pho_ga,data/raw/images/pho_ga/commons_59243253,,59243253,visual_review: đàn gà
+pho_ga,data/raw/images/pho_ga/commons_59243254,,59243254,visual_review: gà sống
+pho_ga,data/raw/images/pho_ga/commons_59243255,,59243255,visual_review: gà sống
+pho_ga,data/raw/images/pho_ga/commons_59243256,,59243256,visual_review: gà sống
+pho_ga,data/raw/images/pho_ga/commons_59243258,,59243258,visual_review: gà sống
+pho_ga,data/raw/images/pho_ga/commons_59309674,,59309674,visual_review: đàn gà
+pho_ga,data/raw/images/pho_ga/commons_59309675,,59309675,visual_review: đàn gà
+pho_ga,data/raw/images/pho_ga/commons_59309676,,59309676,visual_review: đàn gà
+pho_ga,data/raw/images/pho_ga/commons_59309677,,59309677,visual_review: đàn gà
+pho_ga,data/raw/images/pho_ga/commons_59309678,,59309678,visual_review: chuồng/đàn gà
+pho_ga,data/raw/images/pho_ga/commons_59309679,,59309679,visual_review: đàn gà
+pho_ga,data/raw/images/pho_ga/commons_59309680,,59309680,visual_review: chuồng gà
+pho_ga,data/raw/images/pho_ga/commons_59309681,,59309681,visual_review: chuồng gà
+pho_ga,data/raw/images/pho_ga/commons_59309682,,59309682,visual_review: chuồng gà
+pho_ga,data/raw/images/pho_ga/commons_59309684,,59309684,visual_review: đàn gà
+pho_ga,data/raw/images/pho_ga/commons_59309685,,59309685,visual_review: đàn gà
+pho_ga,data/raw/images/pho_ga/commons_63512004,,63512004,"visual_review: cơm/đùi gà, không phải phở"
+pho_ga,data/raw/images/pho_ga/commons_83364532,,83364532,"visual_review: món trộn, không rõ là phở gà"
+pho_ga,data/raw/images/pho_ga/commons_89819712,,89819712,"visual_review: gà luộc/nước gà, không phải phở"
+pho_ga,data/raw/images/pho_ga/commons_89820035,,89820035,"visual_review: gà và nước chấm, không phải phở"
+pho_ga,data/raw/images/pho_ga/commons_89820038,,89820038,"visual_review: gà luộc, không phải phở"
+pho_ga,data/raw/images/pho_ga/commons_89820039,,89820039,"visual_review: món gà, không phải phở"
+pho_ga,data/raw/images/pho_ga/commons_89820042,,89820042,"visual_review: món gà chiên, không phải phở"
+pho_ga,data/raw/images/pho_ga/commons_89820056,,89820056,"visual_review: gà chặt, không phải phở"
+pho_ga,data/raw/images/pho_ga/commons_89820065,,89820065,"visual_review: gà nguyên liệu, không phải phở"
+pho_ga,data/raw/images/pho_ga/commons_89820069,,89820069,"visual_review: gà nguyên liệu, không phải phở"
+pho_ga,data/raw/images/pho_ga/commons_89820073,,89820073,"visual_review: chế biến gà, không phải phở"
+pho_ga,data/raw/images/pho_ga/commons_89820075,,89820075,"visual_review: mâm món gà, không phải phở"
+pho_ga,data/raw/images/pho_ga/commons_89820076,,89820076,"visual_review: mâm món gà, không phải phở"
+pho_ga,data/raw/images/pho_ga/commons_89820083,,89820083,"visual_review: mâm món gà, không phải phở"
+pho_ga,data/raw/images/pho_ga/commons_94729551,,94729551,visual_review: bát mì/súp không đủ rõ là phở gà
+banh_cuon,data/raw/images/banh_cuon/commons_123548565,,123548565,visual_review: cảnh chợ/người bán
+banh_cuon,data/raw/images/banh_cuon/commons_123548585,,123548585,visual_review: cảnh chợ/người bán
+banh_cuon,data/raw/images/banh_cuon/commons_148505322,,148505322,"visual_review: cảnh chế biến, không phải món hoàn chỉnh"
+banh_cuon,data/raw/images/banh_cuon/commons_148505324,,148505324,"visual_review: cảnh chế biến, không phải món hoàn chỉnh"
+banh_cuon,data/raw/images/banh_cuon/commons_16214880,,16214880,visual_review: món rau trộn khác
+banh_cuon,data/raw/images/banh_cuon/commons_169380668,,169380668,visual_review: bề mặt/vật thể không phải món ăn
+banh_cuon,data/raw/images/banh_cuon/commons_20197480,,20197480,visual_review: mặt tiền/biển hiệu quán
+banh_cuon,data/raw/images/banh_cuon/commons_3474929,,3474929,visual_review: thực phẩm đóng gói/không phải bánh cuốn
+banh_cuon,data/raw/images/banh_cuon/commons_4278799,,4278799,"visual_review: đĩa giò/chả, không phải bánh cuốn"
+banh_cuon,data/raw/images/banh_cuon/commons_6099340,,6099340,visual_review: món khác/không đủ rõ là bánh cuốn
+banh_cuon,data/raw/images/banh_cuon/commons_89254952,,89254952,visual_review: món cuốn rau khác
+banh_cuon,data/raw/images/banh_cuon/commons_92995067,,92995067,visual_review: sản phẩm đóng gói
+banh_cuon,data/raw/images/banh_cuon/commons_94877181,,94877181,"visual_review: thịt/giò cuộn, không phải bánh cuốn"
+hu_tieu,data/raw/images/hu_tieu/commons_121668290,,121668290,"visual_review: món tôm/sốt, không thấy hủ tiếu"
+hu_tieu,data/raw/images/hu_tieu/commons_53463830,,53463830,"visual_review: canh rau, không thấy sợi hủ tiếu"
+hu_tieu,data/raw/images/hu_tieu/commons_81671438,,81671438,visual_review: ảnh con chó
+canh_chua,data/raw/images/canh_chua/commons_10639657,,10639657,visual_review: cảnh vườn
+canh_chua,data/raw/images/canh_chua/commons_113953922,,113953922,visual_review: cảnh vườn
+canh_chua,data/raw/images/canh_chua/commons_113953924,,113953924,visual_review: cảnh vườn
+canh_chua,data/raw/images/canh_chua/commons_114012932,,114012932,visual_review: cảnh chùa/vườn
+canh_chua,data/raw/images/canh_chua/commons_114012935,,114012935,visual_review: cảnh cây/vườn
+canh_chua,data/raw/images/canh_chua/commons_114012937,,114012937,visual_review: bia/đá trong vườn
+canh_chua,data/raw/images/canh_chua/commons_114012938,,114012938,visual_review: bia/đá trong vườn
+canh_chua,data/raw/images/canh_chua/commons_114012939,,114012939,visual_review: cảnh vườn
+canh_chua,data/raw/images/canh_chua/commons_117947442,,117947442,visual_review: tranh/bản đồ
+canh_chua,data/raw/images/canh_chua/commons_117947449,,117947449,visual_review: tranh/bản đồ
+canh_chua,data/raw/images/canh_chua/commons_117947453,,117947453,visual_review: tranh/bản đồ
+canh_chua,data/raw/images/canh_chua/commons_144410273,,144410273,visual_review: cảnh đêm công trình
+canh_chua,data/raw/images/canh_chua/commons_163691883,,163691883,visual_review: cảnh chùa
+canh_chua,data/raw/images/canh_chua/commons_16960399,,16960399,visual_review: cảnh chùa/hồ
+canh_chua,data/raw/images/canh_chua/commons_175669585,,175669585,visual_review: cảnh công trình
+canh_chua,data/raw/images/canh_chua/commons_24901896,,24901896,visual_review: cảnh vườn/chùa
+canh_chua,data/raw/images/canh_chua/commons_47120608,,47120608,visual_review: cảnh sân/vườn
+canh_chua,data/raw/images/canh_chua/commons_58078787,,58078787,visual_review: cây cảnh
+canh_chua,data/raw/images/canh_chua/commons_58078821,,58078821,visual_review: cây cảnh
+canh_chua,data/raw/images/canh_chua/commons_58078835,,58078835,visual_review: cây cảnh
+canh_chua,data/raw/images/canh_chua/commons_58081554,,58081554,visual_review: đường phố
+canh_chua,data/raw/images/canh_chua/commons_58081718,,58081718,visual_review: đường phố
+canh_chua,data/raw/images/canh_chua/commons_6938170,,6938170,visual_review: cảnh hồ/công trình
+banh_khot,data/raw/images/banh_khot/commons_123548574,,123548574,visual_review: cảnh người bán/chợ
+banh_khot,data/raw/images/banh_khot/commons_123548577,,123548577,"visual_review: khay đang chế biến, chưa phải món hoàn chỉnh"
+banh_khot,data/raw/images/banh_khot/commons_131611479,,131611479,"visual_review: đang chiên nguyên liệu, món không rõ"
+banh_khot,data/raw/images/banh_khot/commons_132009966,,132009966,visual_review: món khác/không đủ rõ là bánh khọt
+banh_khot,data/raw/images/banh_khot/commons_132074704,,132074704,visual_review: người đang chế biến
+banh_khot,data/raw/images/banh_khot/commons_132075103,,132075103,visual_review: người đang chế biến
+banh_khot,data/raw/images/banh_khot/commons_147231956,,147231956,"visual_review: bánh căn, không phải bánh khọt"
+banh_khot,data/raw/images/banh_khot/commons_147231957,,147231957,"visual_review: bánh căn, không phải bánh khọt"
+banh_khot,data/raw/images/banh_khot/commons_147231958,,147231958,"visual_review: bánh căn, không phải bánh khọt"
+banh_khot,data/raw/images/banh_khot/commons_147231961,,147231961,"visual_review: bánh căn, không phải bánh khọt"
+banh_khot,data/raw/images/banh_khot/commons_147231962,,147231962,"visual_review: bánh căn, không phải bánh khọt"
+banh_khot,data/raw/images/banh_khot/commons_147231964,,147231964,"visual_review: bánh căn, không phải bánh khọt"
+banh_khot,data/raw/images/banh_khot/commons_147231967,,147231967,"visual_review: bánh căn, không phải bánh khọt"
+banh_khot,data/raw/images/banh_khot/commons_147231968,,147231968,"visual_review: bánh căn, không phải bánh khọt"
+banh_khot,data/raw/images/banh_khot/commons_147231969,,147231969,"visual_review: bánh căn, không phải bánh khọt"
+banh_khot,data/raw/images/banh_khot/commons_147231972,,147231972,"visual_review: bánh căn, không phải bánh khọt"
+banh_khot,data/raw/images/banh_khot/commons_147231973,,147231973,"visual_review: bánh căn, không phải bánh khọt"
+banh_khot,data/raw/images/banh_khot/commons_147231975,,147231975,"visual_review: bánh căn, không phải bánh khọt"
+banh_khot,data/raw/images/banh_khot/commons_147231978,,147231978,"visual_review: bánh căn/bàn ăn, không phải bánh khọt"
+banh_khot,data/raw/images/banh_khot/commons_147231981,,147231981,"visual_review: bát nước chấm, không phải món bánh khọt"
+banh_khot,data/raw/images/banh_khot/commons_147231983,,147231983,"visual_review: rổ rau, không phải món bánh khọt"
+banh_khot,data/raw/images/banh_khot/commons_147231986,,147231986,"visual_review: nguyên liệu sợi, không phải bánh khọt"
+banh_khot,data/raw/images/banh_khot/commons_147231989,,147231989,"visual_review: nguyên liệu sợi, không phải bánh khọt"
+banh_khot,data/raw/images/banh_khot/commons_23257359,,23257359,"visual_review: bánh căn, không phải bánh khọt"
+banh_khot,data/raw/images/banh_khot/commons_81312089,,81312089,visual_review: tranh vẽ
+banh_khot,data/raw/images/banh_khot/commons_98818322,,98818322,"visual_review: chảo đang chế biến, chưa phải món hoàn chỉnh"
+bun_rieu,data/raw/images/bun_rieu/commons_10730605,,10730605,"visual_review: món cơm/cháo, không rõ là bún riêu"
+bun_rieu,data/raw/images/bun_rieu/commons_10730616,,10730616,"visual_review: bàn nhiều món, không rõ bún riêu"
+bun_rieu,data/raw/images/bun_rieu/commons_148510367,,148510367,visual_review: biển hiệu/quầy hàng
+bun_rieu,data/raw/images/bun_rieu/commons_150072952,,150072952,"visual_review: món cà ri/rau củ, không phải bún riêu"
+bun_rieu,data/raw/images/bun_rieu/commons_150072953,,150072953,"visual_review: món cà ri/rau củ, không phải bún riêu"
+bun_rieu,data/raw/images/bun_rieu/commons_163078434,,163078434,"visual_review: món cà ri, không phải bún riêu"
+bun_rieu,data/raw/images/bun_rieu/commons_87338929,,87338929,"visual_review: món hầm, không thấy bún"
+bun_rieu,data/raw/images/bun_rieu/commons_93423762,,93423762,visual_review: món cơm/canh khác
+bun_rieu,data/raw/images/bun_rieu/commons_93423771,,93423771,visual_review: món cơm/canh khác
+bun_rieu,data/raw/images/bun_rieu/commons_93423781,,93423781,visual_review: ảnh dàn dựng với sách/sản phẩm
+bun_rieu,data/raw/images/bun_rieu/commons_93423791,,93423791,visual_review: ảnh dàn dựng với sách/sản phẩm
+banh_beo,data/raw/images/banh_beo/commons_123548580,,123548580,visual_review: cảnh người/quán
+banh_beo,data/raw/images/banh_beo/commons_16945732,,16945732,visual_review: bánh/món áp chảo khác
+banh_beo,data/raw/images/banh_beo/commons_3096402,,3096402,visual_review: khay dim sum/món khác
+banh_beo,data/raw/images/banh_beo/commons_41599482,,41599482,visual_review: món trộn khác
+banh_beo,data/raw/images/banh_beo/commons_69845464,,69845464,visual_review: bánh vàng/món khác
+banh_beo,data/raw/images/banh_beo/commons_69880584,,69880584,visual_review: hộp thức ăn/món chưa rõ
+banh_beo,data/raw/images/banh_beo/commons_81311981,,81311981,visual_review: tranh vẽ
+banh_beo,data/raw/images/banh_beo/commons_83134786,,83134786,visual_review: nồi nguyên liệu/món khác
+banh_beo,data/raw/images/banh_beo/commons_8401356,,8401356,"visual_review: gỏi cuốn, không phải bánh bèo"
+bun_thit_nuong,data/raw/images/bun_thit_nuong/commons_150072353,,150072353,"visual_review: thịt nướng riêng, không có bún"
+bun_thit_nuong,data/raw/images/bun_thit_nuong/commons_150072354,,150072354,"visual_review: thịt nướng riêng, không có bún"
+bun_thit_nuong,data/raw/images/bun_thit_nuong/commons_150072355,,150072355,"visual_review: thịt nướng riêng, không có bún"
+bun_dau_mam_tom,data/raw/images/bun_dau_mam_tom/commons_7759352,,7759352,visual_review: mắm tôm riêng
+bun_dau_mam_tom,data/raw/images/bun_dau_mam_tom/commons_89599060,,89599060,visual_review: bát mắm tôm riêng
+bun_dau_mam_tom,data/raw/images/bun_dau_mam_tom/commons_89599062,,89599062,visual_review: bát mắm tôm riêng

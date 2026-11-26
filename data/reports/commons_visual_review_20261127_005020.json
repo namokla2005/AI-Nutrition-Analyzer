@@ -1,0 +1,2095 @@
+[
+  {
+    "our_class": "banh_beo",
+    "page_id": 3096402,
+    "local_file": "data/raw/images/banh_beo/commons_3096402.jpg",
+    "verdict": "SAI",
+    "reason": "khay dim sum/món khác"
+  },
+  {
+    "our_class": "banh_beo",
+    "page_id": 4274202,
+    "local_file": "data/raw/images/banh_beo/commons_4274202.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_beo",
+    "page_id": 5677641,
+    "local_file": "data/raw/images/banh_beo/commons_5677641.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_beo",
+    "page_id": 8401356,
+    "local_file": "data/raw/images/banh_beo/commons_8401356.jpg",
+    "verdict": "SAI",
+    "reason": "gỏi cuốn, không phải bánh bèo"
+  },
+  {
+    "our_class": "banh_beo",
+    "page_id": 10748783,
+    "local_file": "data/raw/images/banh_beo/commons_10748783.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_beo",
+    "page_id": 11113947,
+    "local_file": "data/raw/images/banh_beo/commons_11113947.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_beo",
+    "page_id": 13317988,
+    "local_file": "data/raw/images/banh_beo/commons_13317988.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_beo",
+    "page_id": 13354053,
+    "local_file": "data/raw/images/banh_beo/commons_13354053.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_beo",
+    "page_id": 16945732,
+    "local_file": "data/raw/images/banh_beo/commons_16945732.jpg",
+    "verdict": "SAI",
+    "reason": "bánh/món áp chảo khác"
+  },
+  {
+    "our_class": "banh_beo",
+    "page_id": 32647598,
+    "local_file": "data/raw/images/banh_beo/commons_32647598.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_beo",
+    "page_id": 38151875,
+    "local_file": "data/raw/images/banh_beo/commons_38151875.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_beo",
+    "page_id": 41599482,
+    "local_file": "data/raw/images/banh_beo/commons_41599482.jpg",
+    "verdict": "SAI",
+    "reason": "món trộn khác"
+  },
+  {
+    "our_class": "banh_beo",
+    "page_id": 69845464,
+    "local_file": "data/raw/images/banh_beo/commons_69845464.jpg",
+    "verdict": "SAI",
+    "reason": "bánh vàng/món khác"
+  },
+  {
+    "our_class": "banh_beo",
+    "page_id": 69880425,
+    "local_file": "data/raw/images/banh_beo/commons_69880425.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_beo",
+    "page_id": 69880584,
+    "local_file": "data/raw/images/banh_beo/commons_69880584.jpg",
+    "verdict": "SAI",
+    "reason": "hộp thức ăn/món chưa rõ"
+  },
+  {
+    "our_class": "banh_beo",
+    "page_id": 81311981,
+    "local_file": "data/raw/images/banh_beo/commons_81311981.jpg",
+    "verdict": "SAI",
+    "reason": "tranh vẽ"
+  },
+  {
+    "our_class": "banh_beo",
+    "page_id": 83134783,
+    "local_file": "data/raw/images/banh_beo/commons_83134783.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_beo",
+    "page_id": 83134786,
+    "local_file": "data/raw/images/banh_beo/commons_83134786.jpg",
+    "verdict": "SAI",
+    "reason": "nồi nguyên liệu/món khác"
+  },
+  {
+    "our_class": "banh_beo",
+    "page_id": 123548580,
+    "local_file": "data/raw/images/banh_beo/commons_123548580.jpg",
+    "verdict": "SAI",
+    "reason": "cảnh người/quán"
+  },
+  {
+    "our_class": "banh_beo",
+    "page_id": 158193981,
+    "local_file": "data/raw/images/banh_beo/commons_158193981.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_beo",
+    "page_id": 163077758,
+    "local_file": "data/raw/images/banh_beo/commons_163077758.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 2500254,
+    "local_file": "data/raw/images/banh_cuon/commons_2500254.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 3474929,
+    "local_file": "data/raw/images/banh_cuon/commons_3474929.jpg",
+    "verdict": "SAI",
+    "reason": "thực phẩm đóng gói/không phải bánh cuốn"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 3649645,
+    "local_file": "data/raw/images/banh_cuon/commons_3649645.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 4278799,
+    "local_file": "data/raw/images/banh_cuon/commons_4278799.jpg",
+    "verdict": "SAI",
+    "reason": "đĩa giò/chả, không phải bánh cuốn"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 6099340,
+    "local_file": "data/raw/images/banh_cuon/commons_6099340.jpg",
+    "verdict": "SAI",
+    "reason": "món khác/không đủ rõ là bánh cuốn"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 10818796,
+    "local_file": "data/raw/images/banh_cuon/commons_10818796.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 10824398,
+    "local_file": "data/raw/images/banh_cuon/commons_10824398.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 16214880,
+    "local_file": "data/raw/images/banh_cuon/commons_16214880.jpg",
+    "verdict": "SAI",
+    "reason": "món rau trộn khác"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 16888836,
+    "local_file": "data/raw/images/banh_cuon/commons_16888836.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 16888837,
+    "local_file": "data/raw/images/banh_cuon/commons_16888837.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 16888840,
+    "local_file": "data/raw/images/banh_cuon/commons_16888840.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 19963787,
+    "local_file": "data/raw/images/banh_cuon/commons_19963787.png",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 20197480,
+    "local_file": "data/raw/images/banh_cuon/commons_20197480.jpg",
+    "verdict": "SAI",
+    "reason": "mặt tiền/biển hiệu quán"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 52766924,
+    "local_file": "data/raw/images/banh_cuon/commons_52766924.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 52766951,
+    "local_file": "data/raw/images/banh_cuon/commons_52766951.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 52767008,
+    "local_file": "data/raw/images/banh_cuon/commons_52767008.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 70249636,
+    "local_file": "data/raw/images/banh_cuon/commons_70249636.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 77827990,
+    "local_file": "data/raw/images/banh_cuon/commons_77827990.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 89254952,
+    "local_file": "data/raw/images/banh_cuon/commons_89254952.jpg",
+    "verdict": "SAI",
+    "reason": "món cuốn rau khác"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 89259026,
+    "local_file": "data/raw/images/banh_cuon/commons_89259026.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 92995067,
+    "local_file": "data/raw/images/banh_cuon/commons_92995067.jpg",
+    "verdict": "SAI",
+    "reason": "sản phẩm đóng gói"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 94877181,
+    "local_file": "data/raw/images/banh_cuon/commons_94877181.jpg",
+    "verdict": "SAI",
+    "reason": "thịt/giò cuộn, không phải bánh cuốn"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 121315172,
+    "local_file": "data/raw/images/banh_cuon/commons_121315172.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 122592577,
+    "local_file": "data/raw/images/banh_cuon/commons_122592577.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 123548565,
+    "local_file": "data/raw/images/banh_cuon/commons_123548565.jpg",
+    "verdict": "SAI",
+    "reason": "cảnh chợ/người bán"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 123548585,
+    "local_file": "data/raw/images/banh_cuon/commons_123548585.jpg",
+    "verdict": "SAI",
+    "reason": "cảnh chợ/người bán"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 123548592,
+    "local_file": "data/raw/images/banh_cuon/commons_123548592.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 123548593,
+    "local_file": "data/raw/images/banh_cuon/commons_123548593.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 123548595,
+    "local_file": "data/raw/images/banh_cuon/commons_123548595.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 135262906,
+    "local_file": "data/raw/images/banh_cuon/commons_135262906.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 135776161,
+    "local_file": "data/raw/images/banh_cuon/commons_135776161.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 137723395,
+    "local_file": "data/raw/images/banh_cuon/commons_137723395.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 137723396,
+    "local_file": "data/raw/images/banh_cuon/commons_137723396.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 137723397,
+    "local_file": "data/raw/images/banh_cuon/commons_137723397.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 137723400,
+    "local_file": "data/raw/images/banh_cuon/commons_137723400.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 137723407,
+    "local_file": "data/raw/images/banh_cuon/commons_137723407.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 137723409,
+    "local_file": "data/raw/images/banh_cuon/commons_137723409.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 137723410,
+    "local_file": "data/raw/images/banh_cuon/commons_137723410.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 138045764,
+    "local_file": "data/raw/images/banh_cuon/commons_138045764.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 138045765,
+    "local_file": "data/raw/images/banh_cuon/commons_138045765.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 138045766,
+    "local_file": "data/raw/images/banh_cuon/commons_138045766.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 138045774,
+    "local_file": "data/raw/images/banh_cuon/commons_138045774.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 138045775,
+    "local_file": "data/raw/images/banh_cuon/commons_138045775.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 138045776,
+    "local_file": "data/raw/images/banh_cuon/commons_138045776.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 138045780,
+    "local_file": "data/raw/images/banh_cuon/commons_138045780.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 138045781,
+    "local_file": "data/raw/images/banh_cuon/commons_138045781.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 138045782,
+    "local_file": "data/raw/images/banh_cuon/commons_138045782.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 138045786,
+    "local_file": "data/raw/images/banh_cuon/commons_138045786.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 138045788,
+    "local_file": "data/raw/images/banh_cuon/commons_138045788.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 138045789,
+    "local_file": "data/raw/images/banh_cuon/commons_138045789.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 148505322,
+    "local_file": "data/raw/images/banh_cuon/commons_148505322.jpg",
+    "verdict": "SAI",
+    "reason": "cảnh chế biến, không phải món hoàn chỉnh"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 148505324,
+    "local_file": "data/raw/images/banh_cuon/commons_148505324.jpg",
+    "verdict": "SAI",
+    "reason": "cảnh chế biến, không phải món hoàn chỉnh"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 148505640,
+    "local_file": "data/raw/images/banh_cuon/commons_148505640.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 148505642,
+    "local_file": "data/raw/images/banh_cuon/commons_148505642.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 148505644,
+    "local_file": "data/raw/images/banh_cuon/commons_148505644.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 148505646,
+    "local_file": "data/raw/images/banh_cuon/commons_148505646.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 160692952,
+    "local_file": "data/raw/images/banh_cuon/commons_160692952.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 160693216,
+    "local_file": "data/raw/images/banh_cuon/commons_160693216.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 163397443,
+    "local_file": "data/raw/images/banh_cuon/commons_163397443.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_cuon",
+    "page_id": 169380668,
+    "local_file": "data/raw/images/banh_cuon/commons_169380668.jpg",
+    "verdict": "SAI",
+    "reason": "bề mặt/vật thể không phải món ăn"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 3096115,
+    "local_file": "data/raw/images/banh_khot/commons_3096115.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 3945019,
+    "local_file": "data/raw/images/banh_khot/commons_3945019.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 10945051,
+    "local_file": "data/raw/images/banh_khot/commons_10945051.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 23257359,
+    "local_file": "data/raw/images/banh_khot/commons_23257359.jpg",
+    "verdict": "SAI",
+    "reason": "bánh căn, không phải bánh khọt"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 81312089,
+    "local_file": "data/raw/images/banh_khot/commons_81312089.jpg",
+    "verdict": "SAI",
+    "reason": "tranh vẽ"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 83135142,
+    "local_file": "data/raw/images/banh_khot/commons_83135142.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 98015921,
+    "local_file": "data/raw/images/banh_khot/commons_98015921.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 98818322,
+    "local_file": "data/raw/images/banh_khot/commons_98818322.jpg",
+    "verdict": "SAI",
+    "reason": "chảo đang chế biến, chưa phải món hoàn chỉnh"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 114219273,
+    "local_file": "data/raw/images/banh_khot/commons_114219273.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 123548574,
+    "local_file": "data/raw/images/banh_khot/commons_123548574.jpg",
+    "verdict": "SAI",
+    "reason": "cảnh người bán/chợ"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 123548576,
+    "local_file": "data/raw/images/banh_khot/commons_123548576.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 123548577,
+    "local_file": "data/raw/images/banh_khot/commons_123548577.jpg",
+    "verdict": "SAI",
+    "reason": "khay đang chế biến, chưa phải món hoàn chỉnh"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 123548578,
+    "local_file": "data/raw/images/banh_khot/commons_123548578.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 131611479,
+    "local_file": "data/raw/images/banh_khot/commons_131611479.jpg",
+    "verdict": "SAI",
+    "reason": "đang chiên nguyên liệu, món không rõ"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 132009966,
+    "local_file": "data/raw/images/banh_khot/commons_132009966.jpg",
+    "verdict": "SAI",
+    "reason": "món khác/không đủ rõ là bánh khọt"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 132074704,
+    "local_file": "data/raw/images/banh_khot/commons_132074704.jpg",
+    "verdict": "SAI",
+    "reason": "người đang chế biến"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 132075103,
+    "local_file": "data/raw/images/banh_khot/commons_132075103.jpg",
+    "verdict": "SAI",
+    "reason": "người đang chế biến"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 147231956,
+    "local_file": "data/raw/images/banh_khot/commons_147231956.jpg",
+    "verdict": "SAI",
+    "reason": "bánh căn, không phải bánh khọt"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 147231957,
+    "local_file": "data/raw/images/banh_khot/commons_147231957.jpg",
+    "verdict": "SAI",
+    "reason": "bánh căn, không phải bánh khọt"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 147231958,
+    "local_file": "data/raw/images/banh_khot/commons_147231958.jpg",
+    "verdict": "SAI",
+    "reason": "bánh căn, không phải bánh khọt"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 147231961,
+    "local_file": "data/raw/images/banh_khot/commons_147231961.jpg",
+    "verdict": "SAI",
+    "reason": "bánh căn, không phải bánh khọt"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 147231962,
+    "local_file": "data/raw/images/banh_khot/commons_147231962.jpg",
+    "verdict": "SAI",
+    "reason": "bánh căn, không phải bánh khọt"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 147231964,
+    "local_file": "data/raw/images/banh_khot/commons_147231964.jpg",
+    "verdict": "SAI",
+    "reason": "bánh căn, không phải bánh khọt"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 147231967,
+    "local_file": "data/raw/images/banh_khot/commons_147231967.jpg",
+    "verdict": "SAI",
+    "reason": "bánh căn, không phải bánh khọt"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 147231968,
+    "local_file": "data/raw/images/banh_khot/commons_147231968.jpg",
+    "verdict": "SAI",
+    "reason": "bánh căn, không phải bánh khọt"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 147231969,
+    "local_file": "data/raw/images/banh_khot/commons_147231969.jpg",
+    "verdict": "SAI",
+    "reason": "bánh căn, không phải bánh khọt"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 147231972,
+    "local_file": "data/raw/images/banh_khot/commons_147231972.jpg",
+    "verdict": "SAI",
+    "reason": "bánh căn, không phải bánh khọt"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 147231973,
+    "local_file": "data/raw/images/banh_khot/commons_147231973.jpg",
+    "verdict": "SAI",
+    "reason": "bánh căn, không phải bánh khọt"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 147231975,
+    "local_file": "data/raw/images/banh_khot/commons_147231975.jpg",
+    "verdict": "SAI",
+    "reason": "bánh căn, không phải bánh khọt"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 147231978,
+    "local_file": "data/raw/images/banh_khot/commons_147231978.jpg",
+    "verdict": "SAI",
+    "reason": "bánh căn/bàn ăn, không phải bánh khọt"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 147231981,
+    "local_file": "data/raw/images/banh_khot/commons_147231981.jpg",
+    "verdict": "SAI",
+    "reason": "bát nước chấm, không phải món bánh khọt"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 147231983,
+    "local_file": "data/raw/images/banh_khot/commons_147231983.jpg",
+    "verdict": "SAI",
+    "reason": "rổ rau, không phải món bánh khọt"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 147231986,
+    "local_file": "data/raw/images/banh_khot/commons_147231986.jpg",
+    "verdict": "SAI",
+    "reason": "nguyên liệu sợi, không phải bánh khọt"
+  },
+  {
+    "our_class": "banh_khot",
+    "page_id": 147231989,
+    "local_file": "data/raw/images/banh_khot/commons_147231989.jpg",
+    "verdict": "SAI",
+    "reason": "nguyên liệu sợi, không phải bánh khọt"
+  },
+  {
+    "our_class": "bun_dau_mam_tom",
+    "page_id": 4275530,
+    "local_file": "data/raw/images/bun_dau_mam_tom/commons_4275530.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_dau_mam_tom",
+    "page_id": 7759352,
+    "local_file": "data/raw/images/bun_dau_mam_tom/commons_7759352.jpg",
+    "verdict": "SAI",
+    "reason": "mắm tôm riêng"
+  },
+  {
+    "our_class": "bun_dau_mam_tom",
+    "page_id": 19859238,
+    "local_file": "data/raw/images/bun_dau_mam_tom/commons_19859238.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_dau_mam_tom",
+    "page_id": 89599060,
+    "local_file": "data/raw/images/bun_dau_mam_tom/commons_89599060.jpg",
+    "verdict": "SAI",
+    "reason": "bát mắm tôm riêng"
+  },
+  {
+    "our_class": "bun_dau_mam_tom",
+    "page_id": 89599062,
+    "local_file": "data/raw/images/bun_dau_mam_tom/commons_89599062.jpg",
+    "verdict": "SAI",
+    "reason": "bát mắm tôm riêng"
+  },
+  {
+    "our_class": "bun_dau_mam_tom",
+    "page_id": 89599077,
+    "local_file": "data/raw/images/bun_dau_mam_tom/commons_89599077.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_dau_mam_tom",
+    "page_id": 89599085,
+    "local_file": "data/raw/images/bun_dau_mam_tom/commons_89599085.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_dau_mam_tom",
+    "page_id": 89599087,
+    "local_file": "data/raw/images/bun_dau_mam_tom/commons_89599087.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_dau_mam_tom",
+    "page_id": 92824682,
+    "local_file": "data/raw/images/bun_dau_mam_tom/commons_92824682.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_dau_mam_tom",
+    "page_id": 92824703,
+    "local_file": "data/raw/images/bun_dau_mam_tom/commons_92824703.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_dau_mam_tom",
+    "page_id": 92983615,
+    "local_file": "data/raw/images/bun_dau_mam_tom/commons_92983615.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_dau_mam_tom",
+    "page_id": 98845911,
+    "local_file": "data/raw/images/bun_dau_mam_tom/commons_98845911.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_dau_mam_tom",
+    "page_id": 103375716,
+    "local_file": "data/raw/images/bun_dau_mam_tom/commons_103375716.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 7120550,
+    "local_file": "data/raw/images/bun_rieu/commons_7120550.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 10730598,
+    "local_file": "data/raw/images/bun_rieu/commons_10730598.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 10730605,
+    "local_file": "data/raw/images/bun_rieu/commons_10730605.jpg",
+    "verdict": "SAI",
+    "reason": "món cơm/cháo, không rõ là bún riêu"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 10730616,
+    "local_file": "data/raw/images/bun_rieu/commons_10730616.jpg",
+    "verdict": "SAI",
+    "reason": "bàn nhiều món, không rõ bún riêu"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 10730623,
+    "local_file": "data/raw/images/bun_rieu/commons_10730623.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 34370658,
+    "local_file": "data/raw/images/bun_rieu/commons_34370658.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 35224258,
+    "local_file": "data/raw/images/bun_rieu/commons_35224258.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 35224344,
+    "local_file": "data/raw/images/bun_rieu/commons_35224344.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 54831236,
+    "local_file": "data/raw/images/bun_rieu/commons_54831236.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 73693282,
+    "local_file": "data/raw/images/bun_rieu/commons_73693282.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 87338929,
+    "local_file": "data/raw/images/bun_rieu/commons_87338929.jpg",
+    "verdict": "SAI",
+    "reason": "món hầm, không thấy bún"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 87521837,
+    "local_file": "data/raw/images/bun_rieu/commons_87521837.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 87521860,
+    "local_file": "data/raw/images/bun_rieu/commons_87521860.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 93423762,
+    "local_file": "data/raw/images/bun_rieu/commons_93423762.jpg",
+    "verdict": "SAI",
+    "reason": "món cơm/canh khác"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 93423771,
+    "local_file": "data/raw/images/bun_rieu/commons_93423771.jpg",
+    "verdict": "SAI",
+    "reason": "món cơm/canh khác"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 93423781,
+    "local_file": "data/raw/images/bun_rieu/commons_93423781.jpg",
+    "verdict": "SAI",
+    "reason": "ảnh dàn dựng với sách/sản phẩm"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 93423791,
+    "local_file": "data/raw/images/bun_rieu/commons_93423791.jpg",
+    "verdict": "SAI",
+    "reason": "ảnh dàn dựng với sách/sản phẩm"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 126907918,
+    "local_file": "data/raw/images/bun_rieu/commons_126907918.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 146140713,
+    "local_file": "data/raw/images/bun_rieu/commons_146140713.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 148510367,
+    "local_file": "data/raw/images/bun_rieu/commons_148510367.jpg",
+    "verdict": "SAI",
+    "reason": "biển hiệu/quầy hàng"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 150072952,
+    "local_file": "data/raw/images/bun_rieu/commons_150072952.jpg",
+    "verdict": "SAI",
+    "reason": "món cà ri/rau củ, không phải bún riêu"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 150072953,
+    "local_file": "data/raw/images/bun_rieu/commons_150072953.jpg",
+    "verdict": "SAI",
+    "reason": "món cà ri/rau củ, không phải bún riêu"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 162964269,
+    "local_file": "data/raw/images/bun_rieu/commons_162964269.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 163078434,
+    "local_file": "data/raw/images/bun_rieu/commons_163078434.jpg",
+    "verdict": "SAI",
+    "reason": "món cà ri, không phải bún riêu"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 163512626,
+    "local_file": "data/raw/images/bun_rieu/commons_163512626.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_rieu",
+    "page_id": 178546098,
+    "local_file": "data/raw/images/bun_rieu/commons_178546098.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_thit_nuong",
+    "page_id": 3649626,
+    "local_file": "data/raw/images/bun_thit_nuong/commons_3649626.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_thit_nuong",
+    "page_id": 17065497,
+    "local_file": "data/raw/images/bun_thit_nuong/commons_17065497.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_thit_nuong",
+    "page_id": 37525778,
+    "local_file": "data/raw/images/bun_thit_nuong/commons_37525778.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_thit_nuong",
+    "page_id": 77139908,
+    "local_file": "data/raw/images/bun_thit_nuong/commons_77139908.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_thit_nuong",
+    "page_id": 87521851,
+    "local_file": "data/raw/images/bun_thit_nuong/commons_87521851.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_thit_nuong",
+    "page_id": 87521852,
+    "local_file": "data/raw/images/bun_thit_nuong/commons_87521852.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_thit_nuong",
+    "page_id": 109634937,
+    "local_file": "data/raw/images/bun_thit_nuong/commons_109634937.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_thit_nuong",
+    "page_id": 109634939,
+    "local_file": "data/raw/images/bun_thit_nuong/commons_109634939.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_thit_nuong",
+    "page_id": 120990598,
+    "local_file": "data/raw/images/bun_thit_nuong/commons_120990598.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_thit_nuong",
+    "page_id": 125994882,
+    "local_file": "data/raw/images/bun_thit_nuong/commons_125994882.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_thit_nuong",
+    "page_id": 143979390,
+    "local_file": "data/raw/images/bun_thit_nuong/commons_143979390.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "bun_thit_nuong",
+    "page_id": 150072353,
+    "local_file": "data/raw/images/bun_thit_nuong/commons_150072353.jpg",
+    "verdict": "SAI",
+    "reason": "thịt nướng riêng, không có bún"
+  },
+  {
+    "our_class": "bun_thit_nuong",
+    "page_id": 150072354,
+    "local_file": "data/raw/images/bun_thit_nuong/commons_150072354.jpg",
+    "verdict": "SAI",
+    "reason": "thịt nướng riêng, không có bún"
+  },
+  {
+    "our_class": "bun_thit_nuong",
+    "page_id": 150072355,
+    "local_file": "data/raw/images/bun_thit_nuong/commons_150072355.jpg",
+    "verdict": "SAI",
+    "reason": "thịt nướng riêng, không có bún"
+  },
+  {
+    "our_class": "bun_thit_nuong",
+    "page_id": 150154274,
+    "local_file": "data/raw/images/bun_thit_nuong/commons_150154274.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 2500892,
+    "local_file": "data/raw/images/canh_chua/commons_2500892.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 2986165,
+    "local_file": "data/raw/images/canh_chua/commons_2986165.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 6938170,
+    "local_file": "data/raw/images/canh_chua/commons_6938170.jpg",
+    "verdict": "SAI",
+    "reason": "cảnh hồ/công trình"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 10639657,
+    "local_file": "data/raw/images/canh_chua/commons_10639657.jpg",
+    "verdict": "SAI",
+    "reason": "cảnh vườn"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 16960399,
+    "local_file": "data/raw/images/canh_chua/commons_16960399.jpg",
+    "verdict": "SAI",
+    "reason": "cảnh chùa/hồ"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 24901896,
+    "local_file": "data/raw/images/canh_chua/commons_24901896.jpg",
+    "verdict": "SAI",
+    "reason": "cảnh vườn/chùa"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 39591301,
+    "local_file": "data/raw/images/canh_chua/commons_39591301.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 47120608,
+    "local_file": "data/raw/images/canh_chua/commons_47120608.jpg",
+    "verdict": "SAI",
+    "reason": "cảnh sân/vườn"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 58078787,
+    "local_file": "data/raw/images/canh_chua/commons_58078787.jpg",
+    "verdict": "SAI",
+    "reason": "cây cảnh"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 58078821,
+    "local_file": "data/raw/images/canh_chua/commons_58078821.jpg",
+    "verdict": "SAI",
+    "reason": "cây cảnh"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 58078835,
+    "local_file": "data/raw/images/canh_chua/commons_58078835.jpg",
+    "verdict": "SAI",
+    "reason": "cây cảnh"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 58081554,
+    "local_file": "data/raw/images/canh_chua/commons_58081554.jpg",
+    "verdict": "SAI",
+    "reason": "đường phố"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 58081718,
+    "local_file": "data/raw/images/canh_chua/commons_58081718.jpg",
+    "verdict": "SAI",
+    "reason": "đường phố"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 91855916,
+    "local_file": "data/raw/images/canh_chua/commons_91855916.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 113953922,
+    "local_file": "data/raw/images/canh_chua/commons_113953922.jpg",
+    "verdict": "SAI",
+    "reason": "cảnh vườn"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 113953924,
+    "local_file": "data/raw/images/canh_chua/commons_113953924.jpg",
+    "verdict": "SAI",
+    "reason": "cảnh vườn"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 114012932,
+    "local_file": "data/raw/images/canh_chua/commons_114012932.jpg",
+    "verdict": "SAI",
+    "reason": "cảnh chùa/vườn"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 114012935,
+    "local_file": "data/raw/images/canh_chua/commons_114012935.jpg",
+    "verdict": "SAI",
+    "reason": "cảnh cây/vườn"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 114012937,
+    "local_file": "data/raw/images/canh_chua/commons_114012937.jpg",
+    "verdict": "SAI",
+    "reason": "bia/đá trong vườn"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 114012938,
+    "local_file": "data/raw/images/canh_chua/commons_114012938.jpg",
+    "verdict": "SAI",
+    "reason": "bia/đá trong vườn"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 114012939,
+    "local_file": "data/raw/images/canh_chua/commons_114012939.jpg",
+    "verdict": "SAI",
+    "reason": "cảnh vườn"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 117947442,
+    "local_file": "data/raw/images/canh_chua/commons_117947442.jpg",
+    "verdict": "SAI",
+    "reason": "tranh/bản đồ"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 117947449,
+    "local_file": "data/raw/images/canh_chua/commons_117947449.jpg",
+    "verdict": "SAI",
+    "reason": "tranh/bản đồ"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 117947453,
+    "local_file": "data/raw/images/canh_chua/commons_117947453.jpg",
+    "verdict": "SAI",
+    "reason": "tranh/bản đồ"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 123366939,
+    "local_file": "data/raw/images/canh_chua/commons_123366939.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 144410273,
+    "local_file": "data/raw/images/canh_chua/commons_144410273.jpg",
+    "verdict": "SAI",
+    "reason": "cảnh đêm công trình"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 163691883,
+    "local_file": "data/raw/images/canh_chua/commons_163691883.jpg",
+    "verdict": "SAI",
+    "reason": "cảnh chùa"
+  },
+  {
+    "our_class": "canh_chua",
+    "page_id": 175669585,
+    "local_file": "data/raw/images/canh_chua/commons_175669585.jpg",
+    "verdict": "SAI",
+    "reason": "cảnh công trình"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 4211762,
+    "local_file": "data/raw/images/hu_tieu/commons_4211762.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 6099645,
+    "local_file": "data/raw/images/hu_tieu/commons_6099645.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 6099660,
+    "local_file": "data/raw/images/hu_tieu/commons_6099660.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 6347756,
+    "local_file": "data/raw/images/hu_tieu/commons_6347756.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 10881004,
+    "local_file": "data/raw/images/hu_tieu/commons_10881004.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 53463830,
+    "local_file": "data/raw/images/hu_tieu/commons_53463830.jpg",
+    "verdict": "SAI",
+    "reason": "canh rau, không thấy sợi hủ tiếu"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 53463831,
+    "local_file": "data/raw/images/hu_tieu/commons_53463831.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 81671438,
+    "local_file": "data/raw/images/hu_tieu/commons_81671438.jpg",
+    "verdict": "SAI",
+    "reason": "ảnh con chó"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 89820352,
+    "local_file": "data/raw/images/hu_tieu/commons_89820352.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 89820355,
+    "local_file": "data/raw/images/hu_tieu/commons_89820355.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 89820357,
+    "local_file": "data/raw/images/hu_tieu/commons_89820357.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 89820365,
+    "local_file": "data/raw/images/hu_tieu/commons_89820365.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 89820372,
+    "local_file": "data/raw/images/hu_tieu/commons_89820372.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 89820376,
+    "local_file": "data/raw/images/hu_tieu/commons_89820376.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 92984134,
+    "local_file": "data/raw/images/hu_tieu/commons_92984134.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 97857532,
+    "local_file": "data/raw/images/hu_tieu/commons_97857532.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 121668290,
+    "local_file": "data/raw/images/hu_tieu/commons_121668290.jpg",
+    "verdict": "SAI",
+    "reason": "món tôm/sốt, không thấy hủ tiếu"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 135776177,
+    "local_file": "data/raw/images/hu_tieu/commons_135776177.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 135778213,
+    "local_file": "data/raw/images/hu_tieu/commons_135778213.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 135778214,
+    "local_file": "data/raw/images/hu_tieu/commons_135778214.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 135778215,
+    "local_file": "data/raw/images/hu_tieu/commons_135778215.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 135778224,
+    "local_file": "data/raw/images/hu_tieu/commons_135778224.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 135778227,
+    "local_file": "data/raw/images/hu_tieu/commons_135778227.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 139292103,
+    "local_file": "data/raw/images/hu_tieu/commons_139292103.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 150071401,
+    "local_file": "data/raw/images/hu_tieu/commons_150071401.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 150071402,
+    "local_file": "data/raw/images/hu_tieu/commons_150071402.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 150071403,
+    "local_file": "data/raw/images/hu_tieu/commons_150071403.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 150071404,
+    "local_file": "data/raw/images/hu_tieu/commons_150071404.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 150072959,
+    "local_file": "data/raw/images/hu_tieu/commons_150072959.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 150072961,
+    "local_file": "data/raw/images/hu_tieu/commons_150072961.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 150072964,
+    "local_file": "data/raw/images/hu_tieu/commons_150072964.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 150072965,
+    "local_file": "data/raw/images/hu_tieu/commons_150072965.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 150072967,
+    "local_file": "data/raw/images/hu_tieu/commons_150072967.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 150072993,
+    "local_file": "data/raw/images/hu_tieu/commons_150072993.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 150072994,
+    "local_file": "data/raw/images/hu_tieu/commons_150072994.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 156170656,
+    "local_file": "data/raw/images/hu_tieu/commons_156170656.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 163077342,
+    "local_file": "data/raw/images/hu_tieu/commons_163077342.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 163077473,
+    "local_file": "data/raw/images/hu_tieu/commons_163077473.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 163078310,
+    "local_file": "data/raw/images/hu_tieu/commons_163078310.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 163947244,
+    "local_file": "data/raw/images/hu_tieu/commons_163947244.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 178591476,
+    "local_file": "data/raw/images/hu_tieu/commons_178591476.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "hu_tieu",
+    "page_id": 178911266,
+    "local_file": "data/raw/images/hu_tieu/commons_178911266.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 10881011,
+    "local_file": "data/raw/images/pho_ga/commons_10881011.jpg",
+    "verdict": "SAI",
+    "reason": "đĩa rau/thịt, không phải bát phở gà"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 12648022,
+    "local_file": "data/raw/images/pho_ga/commons_12648022.jpg",
+    "verdict": "SAI",
+    "reason": "cảnh bàn/quán, món không rõ"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 46452117,
+    "local_file": "data/raw/images/pho_ga/commons_46452117.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 46452118,
+    "local_file": "data/raw/images/pho_ga/commons_46452118.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 46920425,
+    "local_file": "data/raw/images/pho_ga/commons_46920425.jpg",
+    "verdict": "SAI",
+    "reason": "người và gà nguyên con, không phải phở"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 56763783,
+    "local_file": "data/raw/images/pho_ga/commons_56763783.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 58085271,
+    "local_file": "data/raw/images/pho_ga/commons_58085271.jpg",
+    "verdict": "SAI",
+    "reason": "biển hiệu/mặt tiền quán"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 59206471,
+    "local_file": "data/raw/images/pho_ga/commons_59206471.jpg",
+    "verdict": "SAI",
+    "reason": "đàn gà"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 59206472,
+    "local_file": "data/raw/images/pho_ga/commons_59206472.jpg",
+    "verdict": "SAI",
+    "reason": "đàn gà"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 59206473,
+    "local_file": "data/raw/images/pho_ga/commons_59206473.jpg",
+    "verdict": "SAI",
+    "reason": "đàn gà"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 59206474,
+    "local_file": "data/raw/images/pho_ga/commons_59206474.jpg",
+    "verdict": "SAI",
+    "reason": "đàn gà"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 59206475,
+    "local_file": "data/raw/images/pho_ga/commons_59206475.jpg",
+    "verdict": "SAI",
+    "reason": "đàn gà"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 59243249,
+    "local_file": "data/raw/images/pho_ga/commons_59243249.jpg",
+    "verdict": "SAI",
+    "reason": "đàn gà"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 59243250,
+    "local_file": "data/raw/images/pho_ga/commons_59243250.jpg",
+    "verdict": "SAI",
+    "reason": "đàn gà"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 59243251,
+    "local_file": "data/raw/images/pho_ga/commons_59243251.jpg",
+    "verdict": "SAI",
+    "reason": "đàn gà"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 59243253,
+    "local_file": "data/raw/images/pho_ga/commons_59243253.jpg",
+    "verdict": "SAI",
+    "reason": "đàn gà"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 59243254,
+    "local_file": "data/raw/images/pho_ga/commons_59243254.jpg",
+    "verdict": "SAI",
+    "reason": "gà sống"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 59243255,
+    "local_file": "data/raw/images/pho_ga/commons_59243255.jpg",
+    "verdict": "SAI",
+    "reason": "gà sống"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 59243256,
+    "local_file": "data/raw/images/pho_ga/commons_59243256.jpg",
+    "verdict": "SAI",
+    "reason": "gà sống"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 59243258,
+    "local_file": "data/raw/images/pho_ga/commons_59243258.jpg",
+    "verdict": "SAI",
+    "reason": "gà sống"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 59309674,
+    "local_file": "data/raw/images/pho_ga/commons_59309674.jpg",
+    "verdict": "SAI",
+    "reason": "đàn gà"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 59309675,
+    "local_file": "data/raw/images/pho_ga/commons_59309675.jpg",
+    "verdict": "SAI",
+    "reason": "đàn gà"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 59309676,
+    "local_file": "data/raw/images/pho_ga/commons_59309676.jpg",
+    "verdict": "SAI",
+    "reason": "đàn gà"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 59309677,
+    "local_file": "data/raw/images/pho_ga/commons_59309677.jpg",
+    "verdict": "SAI",
+    "reason": "đàn gà"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 59309678,
+    "local_file": "data/raw/images/pho_ga/commons_59309678.jpg",
+    "verdict": "SAI",
+    "reason": "chuồng/đàn gà"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 59309679,
+    "local_file": "data/raw/images/pho_ga/commons_59309679.jpg",
+    "verdict": "SAI",
+    "reason": "đàn gà"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 59309680,
+    "local_file": "data/raw/images/pho_ga/commons_59309680.jpg",
+    "verdict": "SAI",
+    "reason": "chuồng gà"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 59309681,
+    "local_file": "data/raw/images/pho_ga/commons_59309681.jpg",
+    "verdict": "SAI",
+    "reason": "chuồng gà"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 59309682,
+    "local_file": "data/raw/images/pho_ga/commons_59309682.jpg",
+    "verdict": "SAI",
+    "reason": "chuồng gà"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 59309684,
+    "local_file": "data/raw/images/pho_ga/commons_59309684.jpg",
+    "verdict": "SAI",
+    "reason": "đàn gà"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 59309685,
+    "local_file": "data/raw/images/pho_ga/commons_59309685.jpg",
+    "verdict": "SAI",
+    "reason": "đàn gà"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 63512004,
+    "local_file": "data/raw/images/pho_ga/commons_63512004.jpg",
+    "verdict": "SAI",
+    "reason": "cơm/đùi gà, không phải phở"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 83364532,
+    "local_file": "data/raw/images/pho_ga/commons_83364532.jpg",
+    "verdict": "SAI",
+    "reason": "món trộn, không rõ là phở gà"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 89819712,
+    "local_file": "data/raw/images/pho_ga/commons_89819712.jpg",
+    "verdict": "SAI",
+    "reason": "gà luộc/nước gà, không phải phở"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 89820035,
+    "local_file": "data/raw/images/pho_ga/commons_89820035.jpg",
+    "verdict": "SAI",
+    "reason": "gà và nước chấm, không phải phở"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 89820038,
+    "local_file": "data/raw/images/pho_ga/commons_89820038.jpg",
+    "verdict": "SAI",
+    "reason": "gà luộc, không phải phở"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 89820039,
+    "local_file": "data/raw/images/pho_ga/commons_89820039.jpg",
+    "verdict": "SAI",
+    "reason": "món gà, không phải phở"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 89820042,
+    "local_file": "data/raw/images/pho_ga/commons_89820042.jpg",
+    "verdict": "SAI",
+    "reason": "món gà chiên, không phải phở"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 89820056,
+    "local_file": "data/raw/images/pho_ga/commons_89820056.jpg",
+    "verdict": "SAI",
+    "reason": "gà chặt, không phải phở"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 89820065,
+    "local_file": "data/raw/images/pho_ga/commons_89820065.jpg",
+    "verdict": "SAI",
+    "reason": "gà nguyên liệu, không phải phở"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 89820069,
+    "local_file": "data/raw/images/pho_ga/commons_89820069.jpg",
+    "verdict": "SAI",
+    "reason": "gà nguyên liệu, không phải phở"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 89820073,
+    "local_file": "data/raw/images/pho_ga/commons_89820073.jpg",
+    "verdict": "SAI",
+    "reason": "chế biến gà, không phải phở"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 89820075,
+    "local_file": "data/raw/images/pho_ga/commons_89820075.jpg",
+    "verdict": "SAI",
+    "reason": "mâm món gà, không phải phở"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 89820076,
+    "local_file": "data/raw/images/pho_ga/commons_89820076.jpg",
+    "verdict": "SAI",
+    "reason": "mâm món gà, không phải phở"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 89820083,
+    "local_file": "data/raw/images/pho_ga/commons_89820083.jpg",
+    "verdict": "SAI",
+    "reason": "mâm món gà, không phải phở"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 94729551,
+    "local_file": "data/raw/images/pho_ga/commons_94729551.jpg",
+    "verdict": "SAI",
+    "reason": "bát mì/súp không đủ rõ là phở gà"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 101595442,
+    "local_file": "data/raw/images/pho_ga/commons_101595442.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 101595836,
+    "local_file": "data/raw/images/pho_ga/commons_101595836.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 105761035,
+    "local_file": "data/raw/images/pho_ga/commons_105761035.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 105761057,
+    "local_file": "data/raw/images/pho_ga/commons_105761057.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 129624877,
+    "local_file": "data/raw/images/pho_ga/commons_129624877.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 135577013,
+    "local_file": "data/raw/images/pho_ga/commons_135577013.jpg",
+    "verdict": "SAI",
+    "reason": "cảnh phục vụ/quầy, không thấy bát phở"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 135577014,
+    "local_file": "data/raw/images/pho_ga/commons_135577014.jpg",
+    "verdict": "SAI",
+    "reason": "cảnh phục vụ/quầy, không thấy bát phở"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 135577016,
+    "local_file": "data/raw/images/pho_ga/commons_135577016.jpg",
+    "verdict": "SAI",
+    "reason": "gà quay/nướng, không phải phở"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 135577024,
+    "local_file": "data/raw/images/pho_ga/commons_135577024.jpg",
+    "verdict": "SAI",
+    "reason": "gà quay/nướng, không phải phở"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 135577025,
+    "local_file": "data/raw/images/pho_ga/commons_135577025.jpg",
+    "verdict": "SAI",
+    "reason": "bàn nhiều món, không xác định phở gà"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 135577027,
+    "local_file": "data/raw/images/pho_ga/commons_135577027.jpg",
+    "verdict": "SAI",
+    "reason": "gà nướng, không phải phở"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 145970414,
+    "local_file": "data/raw/images/pho_ga/commons_145970414.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 163078923,
+    "local_file": "data/raw/images/pho_ga/commons_163078923.jpg",
+    "verdict": "SAI",
+    "reason": "đĩa thức ăn, không phải bát phở"
+  },
+  {
+    "our_class": "pho_ga",
+    "page_id": 163397647,
+    "local_file": "data/raw/images/pho_ga/commons_163397647.jpg",
+    "verdict": "ĐÚNG",
+    "reason": "Đúng món theo duyệt contact sheet"
+  }
+]

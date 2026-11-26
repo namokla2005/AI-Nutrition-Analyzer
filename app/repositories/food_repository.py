@@ -2,8 +2,12 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
+from threading import Lock
+from weakref import WeakKeyDictionary
 
-from sqlalchemy import Select, case, func, or_, select
+from sqlalchemy import Select, case, func, or_, select, text
+from sqlalchemy.engine import Engine
+from sqlalchemy.exc import DBAPIError
 from sqlalchemy.orm import Session, selectinload
 
 from app.core.utils import normalize_name
@@ -11,10 +15,43 @@ from app.models import Food, FoodAlias, FoodNutrient, Nutrient
 
 ENERGY_CODE = "energy_kcal"
 
+_FTS_AVAILABLE: WeakKeyDictionary[Engine, bool] = WeakKeyDictionary()
+_FTS_CACHE_LOCK = Lock()
+
+
+def _fts_query(normalized_query: str) -> str:
+    """Biến đầu vào đã chuẩn hoá thành các token prefix AND được quote an toàn."""
+    return " AND ".join(f'"{token.replace(chr(34), chr(34) * 2)}"*' for token in normalized_query.split())
+
 
 class FoodRepository:
     def __init__(self, db: Session) -> None:
         self.db = db
+
+    def _engine(self) -> Engine:
+        bind = self.db.get_bind()
+        return bind.engine if hasattr(bind, "engine") else bind
+
+    def _has_fts(self) -> bool:
+        """Kiểm tra đúng một lần cho mỗi engine để hỗ trợ CSDL chưa migrate."""
+        engine = self._engine()
+        with _FTS_CACHE_LOCK:
+            cached = _FTS_AVAILABLE.get(engine)
+        if cached is not None:
+            return cached
+        try:
+            available = self.db.scalar(
+                text("SELECT 1 FROM sqlite_master WHERE type='table' AND name='food_search' LIMIT 1")
+            ) is not None
+        except DBAPIError:
+            available = False
+        with _FTS_CACHE_LOCK:
+            _FTS_AVAILABLE[engine] = available
+        return available
+
+    def _disable_fts(self) -> None:
+        with _FTS_CACHE_LOCK:
+            _FTS_AVAILABLE[self._engine()] = False
 
     # ---------- truy vấn ----------
 
@@ -38,16 +75,27 @@ class FoodRepository:
         food_group: str | None,
         min_kcal: float | None,
         max_kcal: float | None,
+        *,
+        use_fts: bool = False,
     ) -> Select:
         if query:
-            like = f"%{normalize_name(query)}%"
-            sub = select(FoodAlias.food_id).where(FoodAlias.alias_normalized.like(like))
-            stmt = stmt.where(
-                or_(
-                    Food.name_normalized.like(like),
-                    Food.id.in_(sub),
+            normalized = normalize_name(query)
+            if use_fts and normalized:
+                stmt = stmt.where(
+                    text(
+                        "foods.id IN (SELECT food_id FROM food_search "
+                        "WHERE food_search MATCH :fts_query)"
+                    )
+                ).params(fts_query=_fts_query(normalized))
+            else:
+                like = f"%{normalized}%"
+                sub = select(FoodAlias.food_id).where(FoodAlias.alias_normalized.like(like))
+                stmt = stmt.where(
+                    or_(
+                        Food.name_normalized.like(like),
+                        Food.id.in_(sub),
+                    )
                 )
-            )
         if category:
             stmt = stmt.where(Food.category == category)
         if cooking_state:
@@ -70,6 +118,18 @@ class FoodRepository:
         q = normalize_name(query)
         if not q:
             return False
+        if self._has_fts():
+            try:
+                return self.db.scalar(
+                    text(
+                        "SELECT 1 FROM food_search "
+                        "WHERE food_search MATCH :fts_query LIMIT 1"
+                    ),
+                    {"fts_query": _fts_query(q)},
+                ) is not None
+            except DBAPIError:
+                # CSDL có thể bị downgrade sau khi cache được điền, hoặc FTS từ chối cú pháp.
+                self._disable_fts()
         like = f"%{q}%"
         if self.db.scalar(select(Food.id).where(Food.name_normalized.like(like)).limit(1)) is not None:
             return True
@@ -95,14 +155,17 @@ class FoodRepository:
         dùng cho các chỗ chỉ cần danh sách gợi ý, không cần số trang.
         """
         limit = max(1, min(int(limit), 100))
+        use_fts = bool(query and normalize_name(query) and self._has_fts())
         base = self._apply_filters(
-            select(Food), query, category, cooking_state, food_group, min_kcal, max_kcal
+            select(Food),
+            query,
+            category,
+            cooking_state,
+            food_group,
+            min_kcal,
+            max_kcal,
+            use_fts=use_fts,
         )
-        if with_total:
-            count_stmt = select(func.count()).select_from(base.subquery())
-            total = int(self.db.scalar(count_stmt) or 0)
-        else:
-            total = 0
         # Xếp hạng kết quả cho dễ dùng với dữ liệu thật nhiều nguồn:
         #  - Open Food Facts có tên tiếng Bulgaria/Nga/Thái... ; `normalize_name` bỏ ký tự
         #    không phải Latin nên chúng thành chuỗi rỗng hoặc chỉ còn chữ số và chen lên đầu.
@@ -133,14 +196,39 @@ class FoodRepository:
             Food.name_normalized.asc(),
             Food.id.asc(),
         ]
-        rows = list(
-            self.db.scalars(
-                base.order_by(*order_by)
-                .limit(limit)
-                .offset(max(0, offset))
+        def execute(current_base: Select) -> tuple[list[Food], int]:
+            if with_total:
+                count_stmt = select(func.count()).select_from(current_base.subquery())
+                current_total = int(self.db.scalar(count_stmt) or 0)
+            else:
+                current_total = 0
+            current_rows = list(
+                self.db.scalars(
+                    current_base.order_by(*order_by)
+                    .limit(limit)
+                    .offset(max(0, offset))
+                )
             )
-        )
-        return rows, total
+            return current_rows, current_total
+
+        try:
+            return execute(base)
+        except DBAPIError:
+            if not use_fts:
+                raise
+            # Hạ cấp an toàn nếu bảng vừa bị xoá hoặc SQLite từ chối biểu thức MATCH.
+            self._disable_fts()
+            fallback = self._apply_filters(
+                select(Food),
+                query,
+                category,
+                cooking_state,
+                food_group,
+                min_kcal,
+                max_kcal,
+                use_fts=False,
+            )
+            return execute(fallback)
 
     def nutrient_values_per_100g(self, food_id: int) -> dict[str, float | None]:
         """Lấy giá trị/100 g theo mã chất. Chất thiếu sẽ KHÔNG xuất hiện với giá trị 0."""
