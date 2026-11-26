@@ -19,8 +19,16 @@ _FTS_AVAILABLE: WeakKeyDictionary[Engine, bool] = WeakKeyDictionary()
 _FTS_CACHE_LOCK = Lock()
 
 
-def _fts_query(normalized_query: str) -> str:
-    """Biến đầu vào đã chuẩn hoá thành các token prefix AND được quote an toàn."""
+def _fts_query(normalized_query: str, mode: str = "and") -> str:
+    """Biến đầu vào đã chuẩn hoá thành truy vấn FTS5 đã quote an toàn.
+
+    - mode="and" (tra cứu người dùng): mọi từ phải xuất hiện — rộng hơn, hợp với ô tìm kiếm.
+    - mode="phrase" (gợi ý món cho nhãn nhận diện): các từ phải đứng LIỀN NHAU, đúng như
+      `LIKE '%a b%'` trước đây. Cần thiết vì AND rời từng từ khớp bậy: 'nem ran' từng trả về
+      "Medite-rran-e" (chữ "ran" nằm giữa từ) làm gợi ý món ra phô mai Đức.
+    """
+    if mode == "phrase":
+        return '"' + normalized_query.replace('"', '""') + '"'
     return " AND ".join(f'"{token.replace(chr(34), chr(34) * 2)}"*' for token in normalized_query.split())
 
 
@@ -77,6 +85,7 @@ class FoodRepository:
         max_kcal: float | None,
         *,
         use_fts: bool = False,
+        match_mode: str = "and",
     ) -> Select:
         if query:
             normalized = normalize_name(query)
@@ -86,7 +95,7 @@ class FoodRepository:
                         "foods.id IN (SELECT food_id FROM food_search "
                         "WHERE food_search MATCH :fts_query)"
                     )
-                ).params(fts_query=_fts_query(normalized))
+                ).params(fts_query=_fts_query(normalized, match_mode))
             else:
                 like = f"%{normalized}%"
                 sub = select(FoodAlias.food_id).where(FoodAlias.alias_normalized.like(like))
@@ -108,12 +117,11 @@ class FoodRepository:
             stmt = stmt.where(Food.energy_kcal_per_100g <= max_kcal)
         return stmt
 
-    def has_match(self, query: str) -> bool:
+    def has_match(self, query: str, match_mode: str = "and") -> bool:
         """Kiểm tra nhanh có bản ghi nào khớp từ khoá không (không xếp hạng, không đếm).
 
-        Dùng để bỏ qua các từ khoá không có kết quả trước khi chạy truy vấn xếp hạng đầy đủ:
-        với 102.847 thực phẩm, một truy vấn xếp hạng tốn khoảng 300 ms, còn phép kiểm này chỉ
-        tốn vài chục ms.
+        Phải dùng CÙNG kiểu khớp với `search()` mà nơi gọi sẽ dùng, nếu không cổng kiểm tra
+        sẽ cho qua những từ khoá mà truy vấn thật không trả về kết quả đúng.
         """
         q = normalize_name(query)
         if not q:
@@ -125,7 +133,7 @@ class FoodRepository:
                         "SELECT 1 FROM food_search "
                         "WHERE food_search MATCH :fts_query LIMIT 1"
                     ),
-                    {"fts_query": _fts_query(q)},
+                    {"fts_query": _fts_query(q, match_mode)},
                 ) is not None
             except DBAPIError:
                 # CSDL có thể bị downgrade sau khi cache được điền, hoặc FTS từ chối cú pháp.
@@ -148,11 +156,13 @@ class FoodRepository:
         limit: int = 20,
         offset: int = 0,
         with_total: bool = True,
+        match_mode: str = "and",
     ) -> tuple[list[Food], int]:
         """Trả về (danh sách thực phẩm, tổng số bản ghi khớp).
 
         `with_total=False` bỏ truy vấn COUNT toàn bảng (khoảng 45 ms với 102.847 thực phẩm);
         dùng cho các chỗ chỉ cần danh sách gợi ý, không cần số trang.
+        `match_mode="phrase"` yêu cầu các từ đứng liền nhau (dùng cho gợi ý món theo nhãn).
         """
         limit = max(1, min(int(limit), 100))
         use_fts = bool(query and normalize_name(query) and self._has_fts())
@@ -165,6 +175,7 @@ class FoodRepository:
             min_kcal,
             max_kcal,
             use_fts=use_fts,
+            match_mode=match_mode,
         )
         # Xếp hạng kết quả cho dễ dùng với dữ liệu thật nhiều nguồn:
         #  - Open Food Facts có tên tiếng Bulgaria/Nga/Thái... ; `normalize_name` bỏ ký tự

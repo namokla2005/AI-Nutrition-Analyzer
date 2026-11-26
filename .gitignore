@@ -48,3 +48,6 @@ desktop.ini
 .idea/
 .vscode/
 *.log
+
+# venv thu nghiem GPU (torch cu121)
+.venv-gpu/

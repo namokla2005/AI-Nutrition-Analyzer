@@ -113,9 +113,9 @@ def _suggest_foods(db: Session, label: str, limit: int = 5) -> list[dict]:
             if not query or query in tried:
                 continue
             tried.add(query)
-            if not repo.has_match(query):
+            if not repo.has_match(query, match_mode="phrase"):
                 continue
-            rows, _ = repo.search(query=query, limit=limit, with_total=False)
+            rows, _ = repo.search(query=query, limit=limit, with_total=False, match_mode="phrase")
             if rows:
                 break
     return [

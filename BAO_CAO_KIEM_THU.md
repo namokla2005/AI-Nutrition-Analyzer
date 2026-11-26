@@ -411,3 +411,71 @@ các từ" thay vì "khớp đúng chuỗi liền nhau" — nghĩa rộng hơn, 
 **66,3 MB**, đưa CSDL từ **68,8 MB lên 135,1 MB**. Nguyên nhân chính là cột `suffix_norm`. Nếu cần CSDL
 nhỏ hơn, có thể bỏ cột này (mất kiểu khớp giữa từ, đổi lại giảm ~60 MB) — hiện giữ nguyên vì tốc độ là
 mục tiêu chính và CSDL không nằm trong kho mã nguồn.
+
+### 7.5 Chọn model cuối (v5) và sửa một lỗi do chính chỉ mục FTS5 gây ra
+
+Ba lần huấn luyện được so công bằng **trên đúng tập test của 20 lớp chung** (tập chia giống nhau
+hoàn toàn, nên so sánh này hợp lệ):
+
+| Lần chạy | Số lớp | Món Việt | Accuracy test (20 lớp chung) | F1 có trọng số | Accuracy toàn bộ |
+|---|---:|---:|---:|---:|---:|
+| v3 (model cũ) | 24 | 16 | **0,7511** (166/221) | 0,7445 | 0,7521 |
+| v4 | 22 | 14 | 0,6802 | 0,6698 | 0,6624 |
+| **v5 (đang dùng)** | **22** | **14** | 0,7207 (160/222) | 0,7197 | 0,7137 |
+
+**Chọn v5 làm model phục vụ** dù v3 nhỉnh hơn về số: v3 có **4 lớp được huấn luyện trên dữ liệu rác**
+(đặc biệt `canh_chua` — model v3 đã học "vườn/chùa → canh chua"), nên chỉ số của các lớp đó vô nghĩa và
+hành vi thực tế sai. v5 huấn luyện trên dữ liệu đã kiểm toán, không lớp nào học sai chủ đề, và có thêm
+**bánh cuốn** + **xôi** so với v3. Model v3 vẫn được giữ nguyên ở `models/image_v3/` để đối chiếu.
+
+Kiểm chứng model v5 đang chạy: **22 lớp · accuracy test 0,7137 · macro F1 0,7062**; nhận diện 12 ảnh
+**món Việt thuộc tập test** (model chưa từng thấy): **top-1 đúng 8/12, top-3 chứa đáp án 11/12**, tên
+tiếng Việt hiện đúng ("Hủ tiếu", "Xôi", "Mì Quảng", "Nem rán (chả giò)", "Bánh mì"…).
+
+**Lỗi do chỉ mục FTS5 gây ra và cách sửa.** Chỉ mục FTS5 ban đầu dựng truy vấn kiểu `"từ1"* AND "từ2"*`.
+Vì chỉ mục có thêm cột hậu tố (để giữ kiểu khớp giữa từ như `LIKE`), truy vấn AND rời từng từ khớp **bậy**:
+tra cứu gợi ý cho nhãn `nem_ran` trả về **"Mediterrane Creme - Weißer Grieche"** (phô mai Đức — chữ "ran"
+nằm giữa từ "Medite**rran**e"), thay vì món nem rán/chả giò. Trước khi có FTS5, truy vấn dạng cụm liền
+`LIKE '%nem ran%'` không khớp bậy nên gợi ý vẫn đúng.
+
+Cách sửa: thêm `match_mode` cho tầng tra cứu — **`phrase`** (các từ phải đứng liền nhau, đúng như
+`LIKE '%a b%'` trước đây) dùng cho **gợi ý món theo nhãn nhận diện**, còn ô tra cứu của người dùng giữ
+**AND** (rộng hơn, phù hợp tìm kiếm). Kết quả sau khi sửa:
+
+| Nhãn | Gợi ý món (3 đầu) | Thời gian |
+|---|---|---:|
+| `nem_ran` | Spring Roll Rice Paper – Sen Foods | 38 ms |
+| `pho_bo` | Gia Vị Nấu Phở Bò Sài Gòn · Beef flavored "pho" soup base | 5 ms |
+| `banh_mi` | Vietnamese Roll BBQ Pork · Bánh Mì Vàng · Bánh Mì Gối Đen | 2 ms |
+| `hu_tieu` | Hủ Tiếu Nam Vang | 2 ms |
+| `banh_cuon` | Rice flakes sheet · Banh Cuốn Pho Mai | 3 ms |
+| `bun_bo_hue` | Bún bò huê' (Rice noodle) | 2 ms |
+
+Bốn nhãn chưa có gợi ý nào (`com_tam`, `banh_xeo`, `mi_quang`, `banh_chung`) vì cơ sở dữ liệu chưa có
+thực phẩm khớp — đúng như hạn chế `name_vi = 0` đã nêu, giao diện hiển thị danh sách rỗng thay vì bịa.
+
+### 7.6 Thí nghiệm dùng GPU: hạ PyTorch xuống bản còn hỗ trợ Pascal (sm_61)
+
+Máy có **Quadro P2000 (Pascal, compute capability 6.1, 4 GB VRAM)**, driver 572.76 (hỗ trợ CUDA 12.8).
+PyTorch trong `.venv` là bản **CPU-only (2.15.0+cpu)** nên `torch.cuda.is_available()` trả `False`.
+Các bản CUDA mới nhất (cu126/cu128/cu129) **đã bỏ Pascal**, nhưng kênh **cu121** còn wheel cho Python 3.12.
+
+Đã cài thử trong **venv riêng** (`.venv-gpu`, không đụng `.venv` của dự án):
+`torch==2.5.1+cu121`, `torchvision==0.20.1+cu121`. Kết quả đo thật:
+
+| Phép kiểm | Kết quả |
+|---|---|
+| `torch.cuda.is_available()` | **True** |
+| `torch.cuda.get_arch_list()` | `sm_50, sm_60, **sm_61**, sm_70, sm_75, sm_80, sm_86, sm_90` → **có sm_61** |
+| GPU nhận được | Quadro P2000 · 4.096 MB |
+| Huấn luyện 2 epoch (manifest v4, batch 16, `--device cuda`) | **29,7 s rồi 25,8 s mỗi epoch** |
+| So với CPU (cùng manifest) | **50–75 s/epoch** khi máy rảnh (110–120 s khi CPU còn việc khác) |
+
+**Kết luận: dùng được GPU, nhanh hơn khoảng 2–2,5 lần mỗi epoch** — không nhanh hơn nữa vì P2000 thuộc
+dòng yếu và `DataLoader` đang chạy một tiến trình (`num_workers=0`) nên phần đọc/tiền xử lý ảnh vẫn tốn CPU.
+Phần **chạy ứng dụng không cần GPU**: suy luận 1 ảnh trên CPU chỉ ~20 ms, độ trễ `/predict/image` hiện
+32–53 ms là do tra cứu cơ sở dữ liệu chứ không phải model.
+
+Đổi sang GPU cần **hạ PyTorch từ 2.15.0 xuống 2.5.1** trong venv của dự án (kèm cài lại torchvision) và
+chạy lại toàn bộ kiểm thử để chứng minh không hỏng gì — việc này chưa thực hiện, đang chờ quyết định của
+người dùng vì đó là thay đổi ảnh hưởng tới cả ứng dụng chứ không chỉ lúc huấn luyện.

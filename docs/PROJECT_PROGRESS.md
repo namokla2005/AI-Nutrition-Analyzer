@@ -317,3 +317,30 @@ viết 2 trang này trong phiên:
   trỏ vào ảnh đã chuyển sang `_rejected`).
 - Bảy lớp dưới ngưỡng 34 ảnh sạch bị loại khỏi huấn luyện; manifest huấn luyện:
   `data/processed/image_dataset_manifest_v4.csv` (22 lớp / 1.579 ảnh).
+---
+
+## 27/11/2026 (tiếp) — chọn model v5, sửa lỗi FTS5, thử GPU
+
+**Model đang phục vụ: v5 — 22 lớp (14 món Việt + 8 lớp Food-101), 1.579 ảnh (1.105/240/234).**
+Accuracy test **0,7137**, macro F1 **0,7062**; trên đúng tập test của 20 lớp chung với model cũ:
+0,7207 so với 0,7511 của v3. So sánh đầy đủ:
+
+| Lần chạy | Lớp | Accuracy test (20 lớp chung) | F1 có trọng số | Accuracy toàn bộ |
+|---|---:|---:|---:|---:|
+| v3 | 24 | 0,7511 | 0,7445 | 0,7521 |
+| v4 | 22 | 0,6802 | 0,6698 | 0,6624 |
+| **v5 (đang dùng)** | 22 | 0,7207 | 0,7197 | 0,7137 |
+
+Chọn v5 dù v3 nhỉnh hơn về số, vì v3 có 4 lớp huấn luyện trên dữ liệu rác (lớp `canh_chua` 23/28 ảnh
+là vườn/chùa) nên chỉ số các lớp đó vô nghĩa; v5 còn có thêm `banh_cuon` và `xoi`. Model v3 giữ ở
+`models/image_v3/`. Kiểm chứng: 12 ảnh món Việt thuộc tập test → top-1 8/12, top-3 11/12.
+
+**Sửa lỗi do chỉ mục FTS5 gây ra:** truy vấn AND rời từng từ + cột hậu tố làm gợi ý món khớp bậy
+(`nem_ran` → "Medite**rran**e Creme"). Đã thêm `match_mode`: **phrase** cho gợi ý món theo nhãn
+(đúng như `LIKE '%a b%'` trước đây), **and** cho ô tra cứu người dùng. Sau khi sửa: `nem_ran` →
+"Spring Roll Rice Paper", `hu_tieu` → "Hủ Tiếu Nam Vang"; gợi ý mất 1–38 ms (trước 425–1.535 ms).
+
+**GPU:** thử trong venv riêng `.venv-gpu` với `torch==2.5.1+cu121` → `torch.cuda.is_available() = True`
+và `get_arch_list()` **có sm_61**, nên Quadro P2000 dùng được; huấn luyện **26–30 s/epoch** so với
+**50–75 s/epoch** trên CPU (nhanh hơn ~2–2,5 lần). Ứng dụng vẫn chạy `.venv` CPU (2.15.0+cpu) —
+suy luận 1 ảnh chỉ ~20 ms nên GPU không cần cho lúc chạy.
