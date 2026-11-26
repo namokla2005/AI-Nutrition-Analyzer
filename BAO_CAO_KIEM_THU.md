@@ -479,3 +479,52 @@ Phần **chạy ứng dụng không cần GPU**: suy luận 1 ảnh trên CPU ch
 Đổi sang GPU cần **hạ PyTorch từ 2.15.0 xuống 2.5.1** trong venv của dự án (kèm cài lại torchvision) và
 chạy lại toàn bộ kiểm thử để chứng minh không hỏng gì — việc này chưa thực hiện, đang chờ quyết định của
 người dùng vì đó là thay đổi ảnh hưởng tới cả ứng dụng chứ không chỉ lúc huấn luyện.
+
+### 7.7 Chuyển dự án sang PyTorch CUDA cu121 (dùng được Quadro P2000)
+
+Theo yêu cầu, `.venv` của dự án đã được chuyển từ bản CPU (2.15.0+cpu) sang bản CUDA:
+
+```text
+torch 2.5.1+cu121 · torchvision 0.20.1+cu121
+uv pip install --python .venv/Scripts/python.exe --reinstall --no-deps \
+  --index-strategy unsafe-best-match \
+  torch==2.5.1+cu121 torchvision==0.20.1+cu121 \
+  --index-url https://download.pytorch.org/whl/cu121
+```
+
+**Hai sự cố thật gặp phải khi chuyển và cách xử lý:**
+
+1. **`.venv` của dự án không có pip** (`No module named pip`) nên lệnh cài bằng `-m pip` không chạy gì cả
+   (torch vẫn là bản CPU cũ, bộ test vẫn xanh — không hỏng gì). Chuyển sang dùng **uv**.
+2. **Lần cài bằng uv đầu tiên làm hỏng môi trường**: uv gỡ `torch`/`torchvision` rồi bị chặn khi xoá
+   `PIL/_imaging.cp312-win_amd64.pyd` (`Access is denied` — tệp đang bị một tiến trình Python khác giữ),
+   nên `torchvision` mất, gói `PIL` mất gần hết tệp `.py` (import báo *unknown location*) và `sympy` cũng
+   bị gỡ → `pytest` lỗi **8 bài**. Đã sửa: chép lại `PIL` 13.0.0 từ `.venv-gpu` (bỏ qua tệp đang bị khoá),
+   `uv pip install` bù `sympy/networkx/jinja2/filelock/markupsafe`, rồi cài `torch`/`torchvision` bằng
+   `--no-deps` để **không đụng tới PIL/numpy** nữa.
+
+**Kiểm chứng sau khi sửa (số đo thật):**
+
+| Phép kiểm | Kết quả |
+|---|---|
+| `torch.cuda.is_available()` | **True** |
+| `torch.cuda.get_arch_list()` | có **sm_61** (Pascal) |
+| GPU nhận được | Quadro P2000 |
+| Forward 4 ảnh 224×224 trên GPU (lần 2, đã khởi động) | **8 ms** |
+| `python -m pytest -q` | **175 bài, 0 hỏng, 1 bỏ qua** (exit 0) |
+| Kiểm thử chức năng toàn hệ thống | **92 đạt / 0 hỏng** |
+| Nhận diện 12 ảnh món Việt thuộc tập test sau khi đổi | top-1 **8/12**, top-3 **11/12** (không đổi) |
+
+**Ứng dụng không đổi hành vi**: `app/ml/image_classifier.py` nạp checkpoint với `map_location="cpu"` và
+không có nhánh chọn thiết bị, nên phần chạy web vẫn suy luận trên CPU (~20 ms/ảnh). GPU chỉ dùng khi huấn
+luyện (`train.py --device cuda`, nhanh hơn 2–2,5 lần mỗi epoch, xem §7.6). `requirements.txt` và
+`scripts/setup_env.bat` đã được cập nhật theo bản cu121; dòng mô tả thiết bị trong `train.py` nay in đúng
+theo thiết bị thực tế thay vì ghi cứng "GPU sm_61 không dùng được".
+
+**Một phép kiểm thử quá cứng nhắc được sửa trong lần này.** Bài "Số kcal trong câu trả lời khớp dữ liệu
+thật" so **chuỗi con** (`"842"` phải xuất hiện nguyên văn trong câu trả lời). Lần chạy đầu sau khi đổi sang
+CUDA báo 91/1 vì Qwen 0,8B trả lời với con số đã làm tròn/định dạng khác. Dữ liệu gốc vẫn đúng 842,0 kcal
+(các bài 45/54/55 xác nhận qua API thống kê), nên đây **không phải lỗi ứng dụng** mà là phép kiểm thử đo
+sai thứ cần đo. Đã sửa thành: trích mọi số trong câu trả lời, chấp nhận cả định dạng Việt Nam (`842,0`,
+`1.842`) và Anh (`842.0`), chỉ đạt khi có số **lệch ≤ 1,5 kcal** so với số thật, vẫn giữ điều kiện
+`grounded = true`. Chạy lại: **92/0**.

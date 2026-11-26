@@ -38,7 +38,10 @@ if errorlevel 1 goto :err
 
 echo.
 echo [3/3] Cai dat PyTorch ban CPU ^(khong dung CUDA: GPU Quadro P2000 la sm_61^) ...
-uv pip install --python "%PY%" torch torchvision --index-url https://download.pytorch.org/whl/cpu
+uv pip install --python "%PY%" --reinstall --no-deps --index-strategy unsafe-best-match ^
+  torch==2.5.1+cu121 torchvision==0.20.1+cu121 --index-url https://download.pytorch.org/whl/cu121
+REM Ban cu121 la kenh CUDA cuoi con ho tro Quadro P2000 (Pascal sm_61); cac ban moi hon da bo Pascal.
+REM Neu may khong co GPU NVIDIA: doi --index-url thanh https://download.pytorch.org/whl/cpu va bo phan phien ban.
 if errorlevel 1 goto :err
 
 echo.

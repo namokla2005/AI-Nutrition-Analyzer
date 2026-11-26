@@ -18,6 +18,7 @@ import datetime as dt
 import glob
 import json
 import pathlib
+import re
 import sys
 
 import httpx
@@ -359,10 +360,33 @@ def main() -> int:
           "grounded = True + context_used", f"grounded={ch.get('grounded')} "
           f"khoá ngữ cảnh={list((ch.get('context_used') or {}).keys())}")
     ans = (ch.get("answer") or "").replace(",", ".")
+
+    def answer_has_kcal(text: str, expected: float, tol: float = 1.5) -> bool:
+        """Câu trả lời có nêu đúng con số thật không (chấp nhận làm tròn/định dạng khác nhau).
+
+        Không so chuỗi con vì Qwen 0,8B có lúc viết "841,7 kcal" hoặc "1.842" thay vì đúng "842".
+        Dữ liệu gốc vẫn phải khớp: số tìm được phải lệch không quá `tol` kcal so với số thật.
+        """
+        for match in re.finditer(r"\d[\d.,]*", text):
+            raw = match.group(0)
+            candidates = {
+                raw.replace(".", "").replace(",", "."),  # kiểu Việt Nam: . hàng nghìn, , thập phân
+                raw.replace(",", ""),                    # kiểu Anh: , hàng nghìn
+                raw.replace(",", "."),                   # , thập phân
+            }
+            for cand in candidates:
+                try:
+                    if abs(float(cand) - expected) <= tol:
+                        return True
+                except ValueError:
+                    continue
+        return False
+
     kcal_str = f"{expect:.0f}"
-    grounded_num = kcal_str in ans or f"{expect:.1f}".replace(".", ",") in (ch.get("answer") or "")
+    grounded_num = answer_has_kcal(ch.get("answer") or "", float(expect))
     check(g, "Số kcal trong câu trả lời khớp dữ liệu thật", grounded_num if ch.get("grounded") else None,
-          f"câu trả lời chứa {kcal_str} kcal", f"chứa số khớp: {grounded_num} | trả lời: {ans[:120]}")
+          f"câu trả lời chứa số khớp {kcal_str} (sai lệch ≤ 1,5 kcal)",
+          f"chứa số khớp: {grounded_num} | trả lời: {ans[:120]}")
     r = A.post("/api/v1/assistant/chat", json={"message": ""})
     check(g, "Câu hỏi rỗng bị từ chối", r.status_code == 422, "422", str(r.status_code))
     r = A.get("/api/v1/assistant/history")

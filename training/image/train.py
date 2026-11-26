@@ -474,7 +474,12 @@ def main() -> int:
         f"- Thời điểm chạy (UTC): {metadata['trained_at']}",
         f"- Kiến trúc: MobileNetV3-Small (transfer learning từ ImageNet: "
         f"{'có' if not args.no_pretrained else 'KHÔNG'})",
-        f"- Thiết bị: **{args.device}** (xem TD-03: GPU Quadro P2000 sm_61 không dùng được)",
+        f"- Thiết bị: **{args.device}**" + (
+            " (GPU Quadro P2000 · Pascal sm_61 — dùng bản PyTorch cu121 vì các bản CUDA mới hơn đã bỏ Pascal)"
+            if args.device.startswith("cuda") else
+            " (TD-03: lần huấn luyện ghi trong báo cáo này chạy trên CPU; GPU dùng được nếu cài "
+            "PyTorch bản cu121, xem mục 7.6 của BAO_CAO_KIEM_THU.md)"
+        ),
         f"- Nguồn dữ liệu: {source_note}",
         f"- Số lớp: **{len(labels_present)}**",
         f"- Thời gian huấn luyện: **{total_seconds:.1f} s** cho {len(history)} epoch "

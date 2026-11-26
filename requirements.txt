@@ -1,10 +1,15 @@
 # ============================================================
 # AI NUTRITION ANALYZER - Python dependencies
 # Python: 3.12.8 (venv .venv)
-# NOTE: torch/torchvision are installed from the PyTorch CPU index
-#       (see scripts/setup_env.bat) because the Quadro P2000 is sm_61
-#       (Pascal) and newer PyTorch CUDA wheels no longer build for it.
-#       Rationale: docs/TECHNICAL_DECISIONS.md
+# NOTE: torch/torchvision dùng bản CUDA **cu121** — đây là kênh CUDA cuối cùng
+#       còn build cho Quadro P2000 (Pascal, sm_61). Các kênh cu126/cu128/cu129
+#       đã bỏ Pascal. Cài bằng uv (venv này không có pip):
+#         uv pip install --python .venv/Scripts/python.exe --reinstall --no-deps \
+#           --index-strategy unsafe-best-match \
+#           torch==2.5.1+cu121 torchvision==0.20.1+cu121 \
+#           --index-url https://download.pytorch.org/whl/cu121
+#       Lý do & số đo (26-30 s/epoch trên GPU so với 50-75 s trên CPU):
+#       BAO_CAO_KIEM_THU.md muc 7.6, docs/TECHNICAL_DECISIONS.md
 # ============================================================
 
 # ---- Web backend ----
@@ -32,9 +37,13 @@ joblib>=1.4
 pillow>=10.3
 matplotlib>=3.9
 
-# ---- Deep learning (CPU build) ----
-torch>=2.6
-torchvision>=0.21
+# ---- Deep learning (bản CUDA cu121 — hỗ trợ Pascal sm_61 của Quadro P2000) ----
+# Cài: uv pip install --python .venv/Scripts/python.exe --reinstall --no-deps \
+#        --index-strategy unsafe-best-match \
+#        torch==2.5.1+cu121 torchvision==0.20.1+cu121 \
+#        --index-url https://download.pytorch.org/whl/cu121
+torch==2.5.1+cu121
+torchvision==0.20.1+cu121
 
 # ---- Tests ----
 pytest>=8.2

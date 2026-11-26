@@ -344,3 +344,9 @@ là vườn/chùa) nên chỉ số các lớp đó vô nghĩa; v5 còn có thêm
 và `get_arch_list()` **có sm_61**, nên Quadro P2000 dùng được; huấn luyện **26–30 s/epoch** so với
 **50–75 s/epoch** trên CPU (nhanh hơn ~2–2,5 lần). Ứng dụng vẫn chạy `.venv` CPU (2.15.0+cpu) —
 suy luận 1 ảnh chỉ ~20 ms nên GPU không cần cho lúc chạy.
+- **Chuyển sang CUDA (27/11/2026):** `.venv` nay dùng `torch 2.5.1+cu121` + `torchvision 0.20.1+cu121`
+  (cài bằng `uv` vì venv không có pip; bản cu121 là kênh cuối còn hỗ trợ Pascal sm_61). Kiểm chứng:
+  `cuda.is_available() = True`, `get_arch_list()` có sm_61, forward 4 ảnh GPU 8 ms, pytest **175/0/1**,
+  e2e **92/0**, nhận diện món Việt không đổi (top-1 8/12). Ứng dụng vẫn suy luận trên CPU
+  (`map_location="cpu"`) nên hành vi web không đổi. Sự cố khi cài: uv bị chặn xoá `PIL/_imaging*.pyd`
+  đang bị giữ → mất PIL + sympy; đã chép lại PIL 13.0.0 từ `.venv-gpu` và cài bù gói phụ thuộc.
