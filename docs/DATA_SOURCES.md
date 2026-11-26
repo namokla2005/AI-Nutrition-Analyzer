@@ -126,10 +126,8 @@ chỉ có số liệu chi tiết cho một phần nhỏ thực phẩm.
    **Hệ quả hiện tại:** tra cứu bằng tiếng Việt chỉ tìm được trong số tên tiếng Việt có
    trong Open Food Facts và bản ghi nhập tay (ví dụ “Ức Gà Ăn Liền”); các món Việt thuần
    như “cơm trắng” chưa có trong database.
-4. **Ảnh huấn luyện.** Tập ảnh hiện có **1.711 ảnh / 29 lớp** (911 ảnh món Việt từ Wikimedia Commons
-   + 800 ảnh Food-101); Food-101 cung cấp chính xác 8 lớp trong số đó. Model đang dùng huấn luyện
-   trên **24 lớp / 1.577 ảnh**; 5 lớp chưa đủ ảnh (`banh_cuon` 30, `bun_rieu` 26, `bun_thit_nuong` 15,
-   `pho_ga` 21, `xoi` 42) đạt F1 = 0 khi huấn luyện đủ 29 lớp nên bị loại
-   (xem `data/reports/v3/image_experiment.md` và `data/reports/v2/image_experiment.md`).
+4. **Ảnh huấn luyện (sau kiểm toán 27/11/2026).** Tập ảnh có **1.665 ảnh / 29 lớp**, mọi đường dẫn trong manifest đều tồn tại thật; ảnh sai chủ đề đã chuyển sang `data/raw/images/_rejected/` (819 ảnh). Trong đó **911 ảnh món Việt từ Wikimedia Commons** (giấy phép tự do: CC0, CC BY, CC BY-SA, Public domain; truy nguyên từng ảnh ở `data/reports/commons_provenance.json` — 1.021 dòng) và **800 ảnh Food-101** (fair use).
+   Kiểm toán bằng mắt phát hiện nhiều lớp từng lẫn ảnh sai chủ đề rất nặng — ví dụ `canh_chua`: 20/20 ảnh bị loại là vườn/chùa/cây cảnh, không có ảnh món ăn nào, nên chỉ số F1 = 1,0000 của lớp này trong model 24 lớp **không có giá trị** (cả tập test cũng lẫn ảnh sai).
+   Vì vậy lần huấn luyện đang dùng chỉ giữ **22 lớp / 1.579 ảnh** (14 món Việt + 8 lớp Food-101); bảy lớp dưới ngưỡng 34 ảnh sạch bị loại: `banh_beo` 12 · `bun_dau_mam_tom` 10 · `bun_rieu` 15 · `bun_thit_nuong` 12 · `canh_chua` 5 · `pho_ga` 10 · `banh_khot` 22 — cần ảnh do người dùng tự chụp.
 5. **Giấy phép ảnh.** Ảnh Food-101 thuộc Foodspotting, chỉ dùng cho mục đích học thuật
    (scientific fair use); không được tuyên bố giấy phép mở bao trùm cho toàn bộ dataset.

@@ -292,3 +292,28 @@ viết 2 trang này trong phiên:
 - Tối ưu tra cứu gợi ý (`has_match` + `with_total=False` + bỏ từ khoá trùng): `POST /predict/image`
   từ **630–1.040 ms xuống 297–370 ms** (suy luận model chỉ ~20 ms — nút cổ chai là tra cứu SQL trên
   102.847 thực phẩm). Chi tiết và số đo ở `BAO_CAO_KIEM_THU.md` §7.2.
+---
+
+## 27/11/2026 — FTS5 cho tra cứu + kiểm toán dữ liệu ảnh
+
+**Tra cứu toàn văn FTS5** (migration `9b1c2d3e4f5a`; `app/core/food_search.py`):
+
+- Bảng ảo `food_search` (`unicode61 remove_diacritics 2`) + 6 trigger đồng bộ + view
+  `food_search_documents`; nạp sẵn 102.847 dòng; truy vấn thoát an toàn; tự hạ cấp về `LIKE`
+  nếu CSDL chưa migrate.
+- Đo qua HTTP: `POST /predict/image` **297–370 ms → 64–68 ms**; `/foods` **8–114 ms**
+  (truy vấn khớp nhiều nhất "ga" 4.166 kết quả = 114 ms).
+- `pytest` **175 bài / 0 hỏng / 1 bỏ qua**; e2e **92/0**.
+- Chi phí thật: chỉ mục chiếm **66,3 MB** → CSDL 68,8 MB lên 135,1 MB (bỏ cột `suffix_norm` sẽ
+  tiết kiệm ~60 MB nhưng mất kiểu khớp giữa từ).
+
+**Kiểm toán dữ liệu ảnh** (thu thêm 89 ảnh Commons có giấy phép tự do cho 9 lớp mỏng):
+
+- Phát hiện đúng: lớp `canh_chua` gần như toàn ảnh rác — soi lại 20/20 ảnh bị loại là
+  vườn/chùa/cây cảnh; F1 = 1,0000 trước đây của lớp này là vô nghĩa.
+- Phát hiện sai của luồng thu thập: lớp `banh_khot` bị loại oan (soi 20 ảnh bị loại: 17/20 đúng là
+  bánh khọt) → đã khôi phục 14 ảnh.
+- Manifest dựng lại: **1.665 dòng / 29 lớp / 0 đường dẫn chết** (trước: 1.711 dòng, 100 đường dẫn
+  trỏ vào ảnh đã chuyển sang `_rejected`).
+- Bảy lớp dưới ngưỡng 34 ảnh sạch bị loại khỏi huấn luyện; manifest huấn luyện:
+  `data/processed/image_dataset_manifest_v4.csv` (22 lớp / 1.579 ảnh).
