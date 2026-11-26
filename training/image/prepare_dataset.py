@@ -18,6 +18,7 @@ import json
 import math
 import mimetypes
 import random
+import re
 import shutil
 import sys
 import time
@@ -59,6 +60,20 @@ TARGET_CLASSES = {
     "pasta",
     "steak",
     "fried_chicken",
+    "xoi",
+    "pho_ga",
+    "banh_cuon",
+    "hu_tieu",
+    "mi_quang",
+    "cha_ca",
+    "nem_ran",
+    "canh_chua",
+    "banh_chung",
+    "banh_khot",
+    "bun_rieu",
+    "banh_beo",
+    "bun_dau_mam_tom",
+    "bun_thit_nuong",
 }
 MANIFEST_COLUMNS = [
     "our_class",
@@ -91,7 +106,7 @@ def load_class_map(path: Path = CLASS_MAP_PATH) -> list[dict[str, Any]]:
     mapping = json.loads(path.read_text(encoding="utf-8"))
     names = [item["our_class"] for item in mapping]
     if len(names) != len(set(names)) or set(names) != TARGET_CLASSES:
-        raise ValueError("class_map.json phải chứa đúng 15 lớp đích, không trùng tên")
+        raise ValueError(f"class_map.json phải chứa đúng {len(TARGET_CLASSES)} lớp đích, không trùng tên")
     valid_coverage = {"exact", "approximate", "not_covered"}
     for item in mapping:
         if item["coverage_type"] not in valid_coverage:
@@ -373,6 +388,42 @@ def collect_food101_parquet_fallback(
 def collect_food101(
     mapping: list[dict[str, Any]], cap: int, seen_identities: set[str]
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Reuse complete local Food-101 classes before attempting network streaming."""
+    local_records: list[dict[str, Any]] = []
+    local_counts: dict[str, int] = {}
+    local_complete = True
+    for item in mapping:
+        if item["selected_source"] != "food101":
+            continue
+        candidates = sorted((RAW_IMAGE_ROOT / item["our_class"]).glob("food101_*.jpg"))[:cap]
+        local_counts[item["our_class"]] = len(candidates)
+        if len(candidates) < cap:
+            local_complete = False
+            break
+        for path in candidates:
+            try:
+                with Image.open(path) as image:
+                    width, height = image.size
+                identity = _file_identity(path)
+            except (OSError, UnidentifiedImageError):
+                local_complete = False
+                break
+            if identity in seen_identities:
+                continue
+            seen_identities.add(identity)
+            local_records.append({
+                "our_class": item["our_class"], "source_class": item["source_class"],
+                "source": "food101", "relative_path": _relative(path), "width": width,
+                "height": height, "bytes": path.stat().st_size, "licence/source note": FOOD101_NOTE,
+                "identity": identity, "source_payload_bytes": path.stat().st_size,
+            })
+    if local_complete:
+        return local_records, {
+            "method": "existing_local_food101_images", "rows_scanned": 0,
+            "selected_source_payload_bytes": sum(item["source_payload_bytes"] for item in local_records),
+            "downloaded_shards": [], "counts": dict(sorted(local_counts.items())),
+        }
+    seen_identities.difference_update(item["identity"] for item in local_records)
     try:
         return collect_food101_streaming(mapping, cap, seen_identities)
     except Exception as exc:
@@ -467,74 +518,71 @@ def _stage_commons_category(
 def collect_commons(
     mapping: list[dict[str, Any]], cap: int, seen_identities: set[str]
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    collector = _load_commons_collector()
+    """Normalize already collected Commons files and preserve sidecar provenance."""
     records: list[dict[str, Any]] = []
     summaries: list[dict[str, Any]] = []
     failed_processing: list[str] = []
+    image_suffixes = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".tif", ".tiff", ".bmp"}
     for item in mapping:
         if item["selected_source"] != "commons":
             continue
-        category = item["source_class"]
-        # A few Commons food categories contain audio or other non-image files.
-        # Fetch at most five bounded spare candidates so the final JPEG cap can
-        # still be reached after Pillow rejects those members.
-        collector_limit = min(DEFAULT_CAP, cap + 5)
-        summary = _stage_commons_category(collector, category, collector_limit)
-        summaries.append(summary)
-        source_dir = COMMONS_STAGING_ROOT / collector.class_directory_name(category)
+        class_dir = RAW_IMAGE_ROOT / item["our_class"]
+        candidates = sorted(path for path in class_dir.glob("*") if path.suffix.lower() in image_suffixes)
         accepted = 0
-        for sidecar in sorted(source_dir.glob("*.json")):
+        for source_image in candidates:
             if accepted >= cap:
                 break
-            source_image = _source_image_for_sidecar(sidecar)
-            if source_image is None:
-                failed_processing.append(f"{sidecar}: thiếu tệp ảnh")
-                continue
-            metadata = json.loads(sidecar.read_text(encoding="utf-8"))
-            page_id = metadata.get("page_id", sidecar.stem.split("_", 1)[0])
-            destination = RAW_IMAGE_ROOT / item["our_class"] / f"commons_{page_id}.jpg"
+            page_match = re.search(r"(?:commons_)?(\d+)", source_image.stem)
+            page_id = page_match.group(1) if page_match else source_image.stem
+            sidecar = source_image.with_suffix(".json")
+            metadata: dict[str, Any] = {}
+            if sidecar.exists():
+                try:
+                    metadata = json.loads(sidecar.read_text(encoding="utf-8"))
+                except (OSError, json.JSONDecodeError) as exc:
+                    failed_processing.append(f"{sidecar}: metadata lỗi: {exc}")
+            destination = class_dir / f"commons_{page_id}.jpg"
+            temporary = class_dir / f".prepare_{page_id}.jpg"
             try:
-                width, height, size = resize_to_jpeg(source_image, destination)
+                width, height, size = resize_to_jpeg(source_image, temporary)
+                temporary.replace(destination)
+                if source_image != destination:
+                    source_image.unlink(missing_ok=True)
+                if sidecar.exists() and sidecar != destination.with_suffix(".json"):
+                    sidecar.replace(destination.with_suffix(".json"))
             except (OSError, UnidentifiedImageError, ValueError) as exc:
-                destination.unlink(missing_ok=True)
+                temporary.unlink(missing_ok=True)
                 failed_processing.append(f"{source_image}: {exc}")
                 continue
             identity = _file_identity(destination)
             if identity in seen_identities:
-                destination.unlink(missing_ok=True)
                 failed_processing.append(f"{source_image}: ảnh trùng nội dung")
                 continue
             seen_identities.add(identity)
+            source_class = item.get("search_term") or item["source_class"]
             note_parts = [
                 f"Wikimedia Commons {metadata.get('license', 'không rõ giấy phép')}",
                 f"author={metadata.get('author', '')}",
-                f"source={metadata.get('source_url', '')}",
+                f"source={metadata.get('commons_url') or metadata.get('source_url', '')}",
                 f"license_url={metadata.get('license_url', '')}",
             ]
-            records.append(
-                {
-                    "our_class": item["our_class"],
-                    "source_class": category,
-                    "source": "commons",
-                    "relative_path": _relative(destination),
-                    "width": width,
-                    "height": height,
-                    "bytes": size,
-                    "licence/source note": "; ".join(note_parts),
-                    "identity": identity,
-                    "source_payload_bytes": int(metadata.get("downloaded_size_bytes") or source_image.stat().st_size),
-                    "commons_license": metadata.get("license", ""),
-                }
-            )
+            records.append({
+                "our_class": item["our_class"], "source_class": source_class, "source": "commons",
+                "relative_path": _relative(destination), "width": width, "height": height, "bytes": size,
+                "licence/source note": "; ".join(note_parts), "identity": identity,
+                "source_payload_bytes": int(metadata.get("downloaded_size_bytes") or size),
+                "commons_license": metadata.get("license", ""),
+            })
             accepted += 1
-    stats = {
-        "method": "scripts/collect_vn_images.py",
+        summaries.append({"our_class": item["our_class"], "source_class": item.get("search_term") or item["source_class"],
+                          "available": len(candidates), "accepted": accepted, "failed": len(candidates[:cap]) - accepted})
+    return records, {
+        "method": "existing data/raw/images with Commons sidecars",
         "collector_summaries": summaries,
         "selected_source_payload_bytes": sum(item["source_payload_bytes"] for item in records),
         "processing_failures": failed_processing,
         "counts": dict(sorted(Counter(item["our_class"] for item in records).items())),
     }
-    return records, stats
 
 
 def _format_bytes(value: int) -> str:
@@ -643,7 +691,7 @@ def write_report(
             "",
             "## Ánh xạ lớp và giới hạn nhãn",
             "",
-            "Ánh xạ máy đọc được nằm tại `training/image/class_map.json`. Bốn lớp Food-101 phủ chính xác là `pizza`, `hamburger`, `sushi`, `steak`; các ánh xạ khác là gần đúng hoặc không được Food-101 phủ. Ảnh cho bảy món Việt được lấy từ Commons thay vì gán nhãn sai bằng lớp Food-101 rộng/khác món.",
+            "Ánh xạ máy đọc được nằm tại `training/image/class_map.json`. Bốn lớp Food-101 phủ chính xác là `pizza`, `hamburger`, `sushi`, `steak`; các ánh xạ khác là gần đúng hoặc không được Food-101 phủ. Các món Việt dùng ảnh Commons và cần duyệt contact sheet trước khi huấn luyện.",
             "",
             "## Tệp đầu ra",
             "",

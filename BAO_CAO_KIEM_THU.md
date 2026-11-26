@@ -1,11 +1,11 @@
 # BÁO CÁO KIỂM THỬ TOÀN WEBSITE — AI NUTRITION ANALYZER
 
-Thời điểm: 19/11/2026, khoảng 05:20–05:30 (giờ Việt Nam) · Máy chủ: `http://127.0.0.1:8000`
+Thời điểm: 19/11/2026, khoảng 05:20–05:30 (giờ Việt Nam); **chạy lại toàn bộ lúc 27/11/2026 00:07 (giờ Việt Nam), sau khi thay model nhận diện ảnh từ 15 lớp lên 24 lớp** · Máy chủ: `http://127.0.0.1:8000`
 Ứng dụng chạy bằng: `.venv\Scripts\python.exe` (Python 3.12.8) · FastAPI 0.165.0 · SQLAlchemy 2.1.9 · scikit-learn 1.9.1 · torch 2.15.0+cpu · pytest 9.2.0
 
 **Kết luận ngắn:** website đã đủ **9/9 trang**, mọi chức năng chính đã được kiểm thử trên hệ thống đang chạy thật.
 **92/92 bài kiểm thử chức năng đạt**, **168 bài kiểm thử đơn vị/tích hợp đạt** (1 bài bỏ qua vì cần bật cờ gọi Qwen thật).
-Trong quá trình kiểm thử đã tìm và sửa **9 lỗi thật** (chi tiết ở §5), trong đó có một lỗi khiến chức năng ước lượng calo bằng model **không bao giờ chạy được**.
+Trong quá trình kiểm thử đã tìm và sửa **10 lỗi thật** (chi tiết ở §5), trong đó có một lỗi khiến chức năng ước lượng calo bằng model **không bao giờ chạy được**.
 
 ---
 
@@ -35,7 +35,7 @@ Tài liệu API: `http://127.0.0.1:8000/docs` (29 endpoint) · Trạng thái h�
 | Hạng mục | Kết quả thật |
 |---|---|
 | Bộ kiểm thử đơn vị + tích hợp | ✅ **168 passed, 1 skipped** trong 53,73 giây (169 bài) |
-| Kiểm thử chức năng toàn hệ thống (API thật) | ✅ **92 đạt / 0 hỏng / 0 ghi nhận** — báo cáo chi tiết: `data/reports/e2e_web_test.md`. Lần chạy cuối: **19/11/2026 05:47** (giờ Việt Nam), thực hiện **sau** khi siết prompt trợ lý AI, nên con số khớp đúng bản code đang chạy |
+| Kiểm thử chức năng toàn hệ thống (API thật) | ✅ **92 đạt / 0 hỏng / 0 ghi nhận** — báo cáo chi tiết: `data/reports/e2e_web_test.md`. Lần chạy cuối: **27/11/2026 00:07** (giờ Việt Nam), thực hiện sau khi thay model ảnh 24 lớp — vẫn **92/0**, báo cáo ở `data/reports/e2e_web_test.md` |
 | Kiểm thử 9 tuyến trang | ✅ 21 passed |
 | Kiểm thử trình duyệt thật | ✅ 9 trang + khổ điện thoại 390 px: **không lỗi JS**, biểu đồ vẽ thật, số liệu khớp API |
 
@@ -43,7 +43,7 @@ Tài liệu API: `http://127.0.0.1:8000/docs` (29 endpoint) · Trạng thái h�
 
 | Nhóm | Số bài | Nội dung chính |
 |---|---:|---|
-| Thực phẩm | 12 | phân trang 102.284 bản ghi, tìm có dấu/không dấu, lọc theo kcal/trạng thái, chi tiết, khẩu phần 150 g = 1,5 × giá trị/100 g, khối lượng âm bị chặn, thêm thực phẩm nhập tay |
+| Thực phẩm | 12 | phân trang 102.847 bản ghi, tìm có dấu/không dấu, lọc theo kcal/trạng thái, chi tiết, khẩu phần 150 g = 1,5 × giá trị/100 g, khối lượng âm bị chặn, thêm thực phẩm nhập tay |
 | Dự đoán | 12 | trạng thái 2 model, nhận diện ảnh món thật (Top-3), chặn tệp không phải ảnh/rỗng, xem lại ảnh theo chủ sở hữu, tra năng lượng, ước lượng bằng model, thiếu feature thì báo rõ |
 | Bữa ăn | 11 | ghi bữa 2 món + kiểm tra phép cộng, món không tồn tại → 404, khối lượng 0 g và 25.000 g bị chặn, sửa bữa ăn, snapshot không đổi |
 | Xác thực | 10 | đăng ký, trùng email, mật khẩu ngắn, email sai định dạng, đăng nhập sai/đúng, phiên, đăng xuất |
@@ -88,7 +88,7 @@ kiểm thử nốt toàn bộ luồng bằng cách tải ảnh thật lên qua g
 | Ô chọn tệp | ✅ `input[type=file]` nhận `image/jpeg,image/png,image/webp`, tối đa 8 MB; có vùng kéo–thả |
 | Chọn ảnh | ✅ hiện ảnh xem trước + tên tệp `food101_train_067500_sushi.jpg` (0,03 MB); nút "Nhận diện ảnh" bật |
 | Bấm "Nhận diện ảnh" | ✅ **sushi 98,1 %** · fried_chicken 0,9 % · hamburger 0,3 %, mỗi dòng có nút "Chọn kết quả này" |
-| Trạng thái model | ✅ "Model ảnh sẵn sàng" + "mobilenet_v3_small · 15 lớp · huấn luyện 04:25 19 thg 11, 2026" |
+| Trạng thái model | ✅ "Model ảnh sẵn sàng" + "mobilenet_v3_small · 24 lớp · huấn luyện 23:52 26 thg 11, 2026" |
 | Cảnh báo trung thực | ✅ "Kết quả từ model chỉ là gợi ý. Hãy xác nhận đúng món trong cơ sở dữ liệu." và "Kết quả nhận diện có thể chưa đúng – hãy kiểm tra lại trước khi ghi vào nhật ký." |
 | Xác nhận món | ✅ chọn "Rice, brown and wild, cooked, no added fat · Rice · Đã nấu · 120,0 kcal/100 g" → hiện "Đã xác nhận món" |
 | Tính khẩu phần | ✅ 100 g → **120,0 kcal**; đổi sang 250 g → **300,0 kcal** (= 120 × 2,5), đạm 7,22 g, carb 62,25 g, natri 515 mg, kèm nhãn **"Số liệu đo trong cơ sở dữ liệu"** (không dùng model ước lượng) |
@@ -99,16 +99,16 @@ kiểm thử nốt toàn bộ luồng bằng cách tải ảnh thật lên qua g
 review trở về đúng **3 bữa · 1.105 kcal (55,2 %)**. Lưu ý cho lần sau: thông báo thành công tự ẩn khá nhanh
 nên phải đọc ngay, nếu đọc sau vài giây sẽ tưởng là không có phản hồi.
 
-Kiểm chứng nhận diện qua API với ảnh thật khác: pizza → **pizza 96,9 %**, bánh mì → **bánh mì 99,1 %**;
+Kiểm chứng nhận diện qua API với ảnh thật khác **khi còn model 15 lớp**: pizza → **pizza 96,9 %**, bánh mì → **bánh mì 99,1 %**;
 ảnh `pho_bo` → salad 60,8 % (sai — lớp này chỉ có 46 ảnh, F1 0,5, đúng như báo cáo huấn luyện).
-Model 15 lớp, **accuracy test 0,7889 · macro F1 0,763**. Lần gọi đầu 7,8 giây (nạp model), sau đó **23–27 ms**.
+Sau khi thay model 24 lớp (26/11/2026), đo lại trên 10 ảnh **món Việt thuộc tập test** (model chưa từng thấy): top-1 đúng **7/10**, top-3 chứa đáp án đúng **9/10** (chi tiết §7.1). Model 24 lớp: **accuracy test 0,7521 · macro F1 0,7619**; đo lại độ trễ sau khi nạp model: **717–1500 ms**.
 
 ### 3.4 Tra cứu thực phẩm — `/foods`
 Ảnh: `data/reports/figures/web_foods.jpg`
 
 ![Tra cứu thực phẩm](data/reports/figures/web_foods.jpg)
 
-Trang hiển thị **102.284 thực phẩm** chia đúng theo nguồn (openfoodfacts 20.000 · usda_foundation 68.867 · usda_sr_legacy 7.793 · usda_fndds 5.624), phân trang "Trang 1 / 5.115". Tìm "gà" → 4.146 kết quả; bấm tên món → mở hộp thoại chi tiết có bảng chất dinh dưỡng kèm chú thích chất lượng dữ liệu (`reported`/`measured`). Đã sửa 2 lỗi hiển thị và 1 lỗi xếp hạng (xem §5).
+Trang hiển thị **102.847 thực phẩm** chia đúng theo nguồn (openfoodfacts 20.563 · usda_foundation 68.867 · usda_sr_legacy 7.793 · usda_fndds 5.624), phân trang "Trang 1 / 5.143". Tìm "gà" → 4.146 kết quả; bấm tên món → mở hộp thoại chi tiết có bảng chất dinh dưỡng kèm chú thích chất lượng dữ liệu (`reported`/`measured`). Đã sửa 2 lỗi hiển thị và 1 lỗi xếp hạng (xem §5).
 
 ### 3.5 Nhật ký ăn uống — `/diary`
 Ảnh: `data/reports/figures/web_diary.jpg` (hiển thị ngày) · `web_diary_preview.jpg` (xem trước khẩu phần trực tiếp)
@@ -203,7 +203,7 @@ Kiểm chứng thao tác thật:
 
 ![Trang trạng thái](data/reports/figures/web_status.jpg)
 
-Báo cáo thật: máy chủ FastAPI hoạt động, database SQLite hoạt động **102.284 thực phẩm · 6 nguồn**.
+Báo cáo thật: máy chủ FastAPI hoạt động, database SQLite hoạt động **102.847 thực phẩm · 6 nguồn**.
 
 ### 3.10 Bằng chứng từ phần Machine Learning (do chính lần huấn luyện sinh ra)
 `data/reports/figures/image_training_curves.png` · `image_confusion_matrix.png` · `random_forest_predicted_vs_actual.png`
@@ -249,7 +249,81 @@ Ngoài ra, chính bộ kiểm thử chức năng mới phát hiện 1 điểm kh
 ## 6. Hạn chế còn lại (nói rõ để không hiểu sai kết quả)
 
 1. **Chưa có tên món Việt trong database.** `select count(*) from foods where name_vi <> ''` → **0**. Tên thực phẩm là tiếng Anh/ngôn ngữ khác; một số ít sản phẩm đóng gói có tên tiếng Việt nằm trong trường `name_en` (ví dụ "Sữa Fami Canxi hộp 200ml"). Hệ quả: tra cứu "gà" ra sản phẩm nước ngoài, "cơm trắng" không có kết quả. Cách khắc phục đã chuẩn bị sẵn: điền `data/external/vn_fct_template.csv` (mẫu 17 cột, quy định giá trị chưa biết để trống) rồi chạy `scripts/import_vn_fct.py`.
-2. **Lớp `pho_bo` nhận diện sai** (F1 0,5 — chỉ 46 ảnh so với 100 ảnh ở lớp khác). Muốn chính xác hơn thì cần thêm ảnh cho lớp này.
-3. **68.732 thực phẩm không có năng lượng đo được** (phần lớn thuộc USDA Foundation Foods — bộ dữ liệu lấy mẫu). Giao diện hiển thị "chưa có dữ liệu" chứ không hiển thị 0, và có thể ước lượng bằng model kèm ghi chú là giá trị ước lượng.
-4. **54 thực phẩm có năng lượng > 900 kcal/100 g** và **198 dòng có tổng đa lượng > 100 g/100 g** — sai sót từ dữ liệu cộng đồng của Open Food Facts; danh sách nằm trong `data/reports/data_quality_report.md` (không sửa tay trong database để giữ dấu vết truy nguyên).
-5. **Hạn mức ChatGPT/Codex đã cạn (HTTP 429, reset ~07:49)** nên 2 luồng subagent giao lại đều thất bại ngay; do đó 2 trang `statistics` và `profile` do tôi tự viết trong phiên này. Khi hạn mức hồi phục có thể dùng lại `codex exec -m gpt-5.6-sol -c model_reasoning_effort=high` để rà soát độc lập.
+2. **Năm lớp món Việt chưa đủ ảnh nên chưa đưa vào huấn luyện**: `banh_cuon` (30 ảnh), `bun_rieu` (26), `bun_thit_nuong` (15), `pho_ga` (21), `xoi` (42). Khi huấn luyện đủ 29 lớp, cả năm lớp này đều đạt **F1 = 0** trên tập test, nên lần huấn luyện đang dùng chỉ giữ 24 lớp. `pho_bo` đã được cải thiện (91 ảnh, F1 0,6667) nhưng vẫn thuộc nhóm yếu. Cần 30–50 ảnh thật mỗi lớp.
+3. **69.198 thực phẩm không có năng lượng đo được** (phần lớn thuộc USDA Foundation Foods — bộ dữ liệu lấy mẫu). Giao diện hiển thị "chưa có dữ liệu" chứ không hiển thị 0, và có thể ước lượng bằng model kèm ghi chú là giá trị ước lượng.
+4. **55 thực phẩm có năng lượng > 900 kcal/100 g** và **199 dòng có tổng đa lượng > 100 g/100 g** — sai sót từ dữ liệu cộng đồng của Open Food Facts; danh sách nằm trong `data/reports/data_quality_report.md` (không sửa tay trong database để giữ dấu vết truy nguyên).
+5. **Hạn mức ChatGPT/Codex đã cạn (HTTP 429, reset ~07:49)** nên 2 luồng subagent giao lại đều thất bại ngay; do đó 2 trang `statistics` và `profile` do tôi tự viết trong phiên này. Khi hạn mức hồi phục có thể dùng lại `codex exec -m gpt-5.6-sol -c model_reasoning_effort=high` để rà soát độc lập. **Hạn mức lại cạn lần hai trong ngày 26/11/2026 (HTTP 429, reset ~19:06)**, nên vòng nâng cấp nhận diện ảnh được thực hiện trực tiếp trong phiên.
+
+---
+
+## 7. Vòng nâng cấp nhận diện ảnh (26/11/2026): từ 15 lớp lên 24 lớp
+
+Người dùng phản hồi danh sách món Việt còn ít. Tập ảnh được thu thập lại và huấn luyện **ba lần**,
+mỗi lần đều lưu model riêng để so sánh (không ghi đè bản đang chạy cho tới khi có số đo):
+
+| Lần chạy | Lớp | Món Việt | Ảnh huấn luyện | Accuracy test | Macro F1 | Kết luận |
+|---|---:|---:|---:|---:|---:|---|
+| 19/11/2026 | 15 | 7 | 847 / 181 / 180 | 0,7889 | 0,763 | bản đã kiểm thử trước đó |
+| 26/11/2026 (v2) | 29 | 21 | 1.198 / 260 / 253 | 0,6640 | 0,7217 | **không dùng** — 5 lớp F1 = 0 |
+| 26/11/2026 (v3) | **24** | **16** | 1.103 / 240 / 234 | **0,7521** | **0,7619** | **đang dùng** |
+
+- **5 lớp bị loại** khỏi lần huấn luyện đang dùng vì quá ít ảnh và đạt F1 = 0 khi huấn luyện đủ 29 lớp:
+  `banh_cuon` (30 ảnh), `bun_rieu` (26), `bun_thit_nuong` (15), `pho_ga` (21), `xoi` (42).
+- **8 ảnh sai của lớp `xoi`** (cơm trắng, cánh gà chiên, bánh da lợn) đã được chuyển sang
+  `data/raw/images/_rejected/xoi/`. Cổng lọc mới của `scripts/collect_vn_images.py` chỉ nhận ảnh khi
+  tên file gốc chứa **từ trọn vẹn** tên món hoặc ảnh thuộc đúng danh mục món — nguyên nhân cũ là tìm kiếm
+  toàn văn của Commons khớp **chuỗi con** (ví dụ biển số xe "XOI 2526" bị nhận là xôi).
+- Giao diện nay hiển thị **tên tiếng Việt** cho nhãn lớp (`app/ml/labels_vi.py`, 29 nhãn) và gợi ý món
+  trong cơ sở dữ liệu theo từ khoá Việt (ví dụ `nem_ran` → "nem rán", "chả giò", "spring roll").
+- Model 15 lớp cũ **không bị mất**: giữ nguyên tại `models/image_v15_backup/`.
+- Lưu ý khi so sánh: 24 lớp **không cùng độ khó** với 15 lớp, nên accuracy thấp hơn một chút là bình thường;
+  giá trị tăng thêm là 16 món Việt thay vì 7, và **không lớp nào còn F1 = 0**.
+
+### 7.1 Kiểm chứng model 24 lớp đang chạy (số đo thật)
+
+| Phép kiểm | Kết quả |
+|---|---|
+| Model nạp trong ứng dụng | ✅ 24 lớp · accuracy test 0,7521 · macro F1 0,7619 (`GET /api/v1/predict/models`) |
+| Nhận diện 10 ảnh **món Việt thuộc tập test** (model chưa từng thấy) | ✅ top-1 đúng **7/10**, top-3 chứa đáp án **9/10** (3 ảnh sai: bánh mì → sushi ×2, cơm chiên → pasta) |
+| Tên hiển thị tiếng Việt | ✅ "Phở bò", "Nem rán (chả giò)", "Bánh khọt", "Hủ tiếu", "Cơm chiên", "Bánh mì" |
+| Kiểm thử chức năng toàn hệ thống (sau khi thay model) | ✅ **92 đạt / 0 hỏng** |
+| Kiểm thử đơn vị + tích hợp | ✅ **168 passed, 1 skipped** (exit code 0) |
+| Vệ sinh dữ liệu kiểm thử | ✅ tài khoản tạm và 21 dòng dữ liệu kèm theo đã xoá; CSDL còn 2 tài khoản thật |
+
+### 7.2 Tối ưu tốc độ nhận diện: bỏ truy vấn thừa khi tra cứu gợi ý món
+
+Khi đo lại độ trễ để ghi số liệu vào báo cáo, phát hiện **nút cổ chai thật không nằm ở model**:
+
+| Công đoạn | Thời gian đo được |
+|---|---:|
+| Suy luận MobileNetV3-Small (1 ảnh, CPU, tiến trình riêng) | ~20 ms |
+| Các endpoint khác (`/health`, `/predict/models`) | 3–22 ms |
+| **Tra cứu gợi ý món trong `_suggest_foods`** | **425–1.535 ms** |
+| **Tổng `POST /predict/image`** | **630–1.040 ms** (độ trễ báo cáo trong ảnh là 880 ms) |
+
+Nguyên nhân: với 102.847 thực phẩm, mỗi từ khoá gợi ý phải chạy 3 việc tốn kém —
+`COUNT` toàn bảng (~45 ms), quét bảng tên thay thế 98.721 dòng (~40 ms) và truy vấn xếp hạng
+theo độ liên quan (hàng trăm ms) — mà mỗi nhãn có tới 5 từ khoá, trong đó nhiều từ khoá
+**không có kết quả nào** (ví dụ `nem_ran` thử "nem rán", "chả giò", "cha gio", "spring roll",
+"egg roll"). Việc đo tách từng phần cũng phát hiện hai từ khoá "chả giò" và "cha gio" bị chạy
+**trùng nhau** sau khi bỏ dấu.
+
+Đã sửa (`app/api/v1/predict.py`, `app/repositories/food_repository.py`):
+
+1. `FoodRepository.search(..., with_total=False)` — bỏ truy vấn `COUNT` ở chỗ chỉ cần danh sách gợi ý.
+2. `FoodRepository.has_match(query)` — kiểm tra nhanh có kết quả hay không (vài chục ms) trước khi
+   chạy truy vấn xếp hạng; từ khoá không có kết quả bị bỏ qua hoàn toàn.
+3. Bỏ từ khoá trùng sau khi chuẩn hoá tên (`chả giò` ≡ `cha gio`).
+
+Kết quả đo lại sau khi sửa (cùng máy, cùng ảnh, 4 lớp khác nhau):
+
+| | Trước | Sau |
+|---|---:|---:|
+| `POST /predict/image` (không tính lần gọi đầu) | 630–1.040 ms (trung vị 744 ms) | **297–370 ms (trung vị 351 ms)** |
+
+Lần gọi đầu tiên sau khi khởi động máy chủ là 13,2 giây vì phải nạp model và làm ấm SQLite —
+đây là hành vi bình thường, không phải lỗi. Kiểm thử đơn vị + tích hợp vẫn **168 passed, 1 skipped**;
+kiểm thử chức năng toàn hệ thống chạy lại vẫn **92/0**.
+
+Hướng cải thiện tiếp (chưa làm): thêm bảng **FTS5** của SQLite cho tên thực phẩm và tên thay thế —
+tìm kiếm toàn văn sẽ nhanh hơn nhiều so với `LIKE '%...%'`, nhưng cần migration và trigger đồng bộ.

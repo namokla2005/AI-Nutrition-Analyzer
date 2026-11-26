@@ -31,8 +31,8 @@ data/external/usda/**
 data/external/openfoodfacts/**
 
 # --- Model nhị phân ---
-models/image/*.pt
-models/image/*.pth
+models/**/*.pt
+models/**/*.pth
 models/regression/*.joblib
 models/regression/*.pkl
 models/**/latest.json

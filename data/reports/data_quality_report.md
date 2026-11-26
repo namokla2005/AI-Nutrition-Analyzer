@@ -2,12 +2,12 @@
 
 - CSDL: `sqlite+pysqlite:///D:/Documents/BaoCao/TriTueNhanTao/AI-Nutrition-Analyzer/data/nutrition.db`
 - Chế độ truy cập: **chỉ đọc** (`mode=ro`, `PRAGMA query_only=ON`)
-- Tổng thực phẩm: **102284**
+- Tổng thực phẩm: **102847**
 
 ## 1. Trùng lặp
 
 - Nhóm trùng chính xác theo `source_id + source_ref`: **0**
-- Nhóm gần trùng theo `name_normalized` ở nhiều nguồn: **210** (tối đa 30 ví dụ)
+- Nhóm gần trùng theo `name_normalized` ở nhiều nguồn: **213** (tối đa 30 ví dụ)
 
 ### Trùng chính xác
 
@@ -44,9 +44,9 @@ Không có.
 | blueberries raw | 4 | 3 | usda_sr_legacy,usda_foundation,usda_fndds |
 | broccoli raw | 4 | 3 | usda_sr_legacy,usda_foundation,usda_fndds |
 | cheese swiss | 4 | 3 | usda_sr_legacy,usda_foundation,usda_fndds |
+| fish sauce | 4 | 2 | usda_fndds,openfoodfacts |
 | raspberries raw | 4 | 3 | usda_sr_legacy,usda_foundation,usda_fndds |
 | sauerkraut | 4 | 2 | usda_fndds,openfoodfacts |
-| beef loin tenderloin roast separable lean only boneless trimmed to 0 fat select cooked roasted | 3 | 2 | usda_sr_legacy,usda_foundation |
 
 ## 2. Đồng bộ bộ nhớ đệm năng lượng
 
@@ -56,7 +56,7 @@ Không có.
 
 ## 3. Thiếu năng lượng
 
-Thực phẩm không có năng lượng ở cả cache lẫn bảng chuẩn: **68732**.
+Thực phẩm không có năng lượng ở cả cache lẫn bảng chuẩn: **69198**.
 
 | id | ten |
 |---|---|
@@ -93,11 +93,11 @@ Thực phẩm không có năng lượng ở cả cache lẫn bảng chuẩn: **6
 
 ## 4. Giá trị phi lý
 
-- Năng lượng > 900 kcal/100 g: **54**
-- Tổng protein + carbohydrate + fat > 100 g/100 g: **198**
+- Năng lượng > 900 kcal/100 g: **55**
+- Tổng protein + carbohydrate + fat > 100 g/100 g: **199**
 - Giá trị âm trong `food_nutrients`: **0** thực phẩm
 - Cache năng lượng âm: **0** thực phẩm
-- Natri > 40000 mg/100 g: **22**
+- Natri > 40000 mg/100 g: **24**
 
 | id | ten | energy | macro_sum | sodium |
 |---|---|---|---|---|
@@ -138,25 +138,25 @@ Thực phẩm không có năng lượng ở cả cache lẫn bảng chuẩn: **6
 
 | nutrient_code | Có giá trị | NULL | Độ phủ | Đánh giá |
 |---|---:|---:|---:|---|
-| ash_g | 11386 | 90898 | 11.1% | thưa |
-| calcium_mg | 17557 | 84727 | 17.2% | thưa |
-| carbohydrate_g | 33756 | 68528 | 33.0% | thưa |
-| cholesterol_mg | 13901 | 88383 | 13.6% | thưa |
-| energy_kcal | 33552 | 68732 | 32.8% | thưa |
-| energy_kj | 7928 | 94356 | 7.8% | thưa |
-| fat_g | 37885 | 64399 | 37.0% | thưa |
-| fiber_g | 28076 | 74208 | 27.4% | thưa |
-| iron_mg | 17558 | 84726 | 17.2% | thưa |
-| moisture_g | 17896 | 84388 | 17.5% | thưa |
-| potassium_mg | 17354 | 84930 | 17.0% | thưa |
-| protein_g | 34769 | 67515 | 34.0% | thưa |
-| sodium_mg | 34813 | 67471 | 34.0% | thưa |
-| sugar_g | 30449 | 71835 | 29.8% | thưa |
-| vitamin_c_mg | 13702 | 88582 | 13.4% | thưa |
+| ash_g | 11386 | 91461 | 11.1% | thưa |
+| calcium_mg | 17557 | 85290 | 17.1% | thưa |
+| carbohydrate_g | 33832 | 69015 | 32.9% | thưa |
+| cholesterol_mg | 13901 | 88946 | 13.5% | thưa |
+| energy_kcal | 33649 | 69198 | 32.7% | thưa |
+| energy_kj | 7928 | 94919 | 7.7% | thưa |
+| fat_g | 37930 | 64917 | 36.9% | thưa |
+| fiber_g | 28078 | 74769 | 27.3% | thưa |
+| iron_mg | 17558 | 85289 | 17.1% | thưa |
+| moisture_g | 17896 | 84951 | 17.4% | thưa |
+| potassium_mg | 17354 | 85493 | 16.9% | thưa |
+| protein_g | 34826 | 68021 | 33.9% | thưa |
+| sodium_mg | 34840 | 68007 | 33.9% | thưa |
+| sugar_g | 30500 | 72347 | 29.7% | thưa |
+| vitamin_c_mg | 13702 | 89145 | 13.3% | thưa |
 
 ## 6. Trạng thái chế biến
 
-`cooking_state='unknown'`: **57286/102284 (56.0%)**.
+`cooking_state='unknown'`: **57286/102847 (55.7%)**.
 
 ## 7. Đối chiếu Atwater
 

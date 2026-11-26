@@ -91,19 +91,17 @@ def test_class_map_has_all_targets_and_uses_commons_for_vietnamese_dishes():
     module = load_module()
     mapping = module.load_class_map(Path(__file__).with_name("class_map.json"))
 
-    assert len(mapping) == 15
+    assert len(mapping) == 29
     assert {item["our_class"] for item in mapping} == module.TARGET_CLASSES
     commons_classes = {item["our_class"] for item in mapping if item["selected_source"] == "commons"}
     assert commons_classes == {
-        "pho_bo",
-        "bun_bo_hue",
-        "banh_mi",
-        "com_tam",
-        "goi_cuon",
-        "banh_xeo",
-        "bun_cha",
+        "pho_bo", "bun_bo_hue", "banh_mi", "com_tam", "goi_cuon", "banh_xeo", "bun_cha",
+        "xoi", "pho_ga", "banh_cuon", "hu_tieu", "mi_quang", "cha_ca", "nem_ran",
+        "canh_chua", "banh_chung", "banh_khot", "bun_rieu", "banh_beo",
+        "bun_dau_mam_tom", "bun_thit_nuong",
     }
     assert all(item["coverage_type"] in {"exact", "approximate", "not_covered"} for item in mapping)
+    assert all(item.get("search_term") for item in mapping if item["our_class"] in commons_classes)
 
 
 def test_rejects_duplicate_image_identity_across_splits():

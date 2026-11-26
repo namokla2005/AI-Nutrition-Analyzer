@@ -9,6 +9,7 @@ from pydantic import BaseModel, Field
 class TopKItem(BaseModel):
     rank: int
     label: str
+    display_label: str | None = None
     confidence: float
 
 

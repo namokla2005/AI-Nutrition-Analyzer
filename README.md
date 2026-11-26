@@ -77,7 +77,7 @@ START_WEBSITE.bat  khởi chạy một chạm
 | Đăng nhập / Đăng ký | `/login`, `/register` | Xác thực bằng cookie phiên |
 | Tổng quan | `/dashboard` | Năng lượng hôm nay so với mục tiêu, biểu đồ tròn 4/4/9, biểu đồ 7 ngày, danh sách bữa ăn |
 | Nhận diện ảnh | `/recognize` | Tải ảnh → Top-3 nhãn + độ tin cậy → xác nhận món có thật trong database |
-| Tra cứu thực phẩm | `/foods` | Tra 102.284 thực phẩm (có dấu/không dấu), lọc, chi tiết + khẩu phần, nhập tay |
+| Tra cứu thực phẩm | `/foods` | Tra 102.847 thực phẩm (có dấu/không dấu), lọc, chi tiết + khẩu phần, nhập tay |
 | Nhật ký ăn uống | `/diary` | Thêm/sửa/xoá bữa ăn theo ngày (giờ Việt Nam) |
 | Thống kê | `/statistics` | 3 chế độ Ngày/Tuần/Tháng, biểu đồ + bảng; ngày thiếu dữ liệu là khoảng trống |
 | Trợ lý AI | `/assistant` | Hỏi đáp với Qwen3.5-0.8B, ngữ cảnh do backend dựng |

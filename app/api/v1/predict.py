@@ -19,7 +19,7 @@ from app.core.config import settings
 from app.core.database import get_db
 from app.core.deps import require_user
 from app.core.utils import normalize_name, utcnow
-from app.ml import get_classifier, get_regression_model
+from app.ml import get_classifier, get_regression_model, labels_vi
 from app.ml.exceptions import ModelUnavailableError, PredictionError
 from app.ml.regression_model import FEATURE_TO_NUTRIENT_CODE
 from app.models import Food, FoodImage, Prediction, User
@@ -101,9 +101,23 @@ def _suggest_foods(db: Session, label: str, limit: int = 5) -> list[dict]:
     )
     rows = list(db.scalars(stmt))
     if not rows:
-        query = normalize_name(label.replace("_", " "))
-        if query:
-            rows, _ = FoodRepository(db).search(query=query, limit=limit)
+        # Nhãn là mã lớp (vd 'nem_ran'); thử lần lượt các từ khoá tiếng Việt/tiếng Anh
+        # của món đó để tìm ra thực phẩm thật, thay vì chỉ đổi '_' thành khoảng trắng.
+        # Bỏ qua từ khoá trùng sau khi bỏ dấu ('chả giò' và 'cha gio' là một) và từ khoá
+        # chắc chắn không có kết quả: mỗi truy vấn xếp hạng trên 102.847 thực phẩm tốn
+        # khoảng 300 ms, còn phép kiểm nhanh chỉ vài chục ms (số đo trong BAO_CAO_KIEM_THU.md).
+        repo = FoodRepository(db)
+        tried: set[str] = set()
+        for term in labels_vi.search_terms(label):
+            query = normalize_name(term)
+            if not query or query in tried:
+                continue
+            tried.add(query)
+            if not repo.has_match(query):
+                continue
+            rows, _ = repo.search(query=query, limit=limit, with_total=False)
+            if rows:
+                break
     return [
         {
             "food_id": f.id,
@@ -160,7 +174,12 @@ async def predict_image(
         user_id=user.id,
         kind="image",
         image_id=image.id,
-        top_k=[{"rank": p.rank, "label": p.label, "confidence": p.confidence} for p in predictions],
+        top_k=[{
+            "rank": p.rank,
+            "label": p.label,
+            "display_label": labels_vi.display_label(p.label),
+            "confidence": p.confidence,
+        } for p in predictions],
         confidence=top1.confidence if top1 else None,
         latency_ms=latency_ms,
     )
@@ -182,7 +201,11 @@ async def predict_image(
             "num_classes": len(classifier.metadata().get("labels") or []),
             "test_metrics": (classifier.metadata().get("metrics") or {}),
         },
-        "top_k": [TopKItem(rank=p.rank, label=p.label, confidence=p.confidence) for p in predictions],
+        "top_k": [
+            TopKItem(rank=p.rank, label=p.label,
+                     display_label=labels_vi.display_label(p.label), confidence=p.confidence)
+            for p in predictions
+        ],
         "confidence": top1.confidence if top1 else None,
         "needs_confirmation": needs_confirmation,
         "message": message,

@@ -1,0 +1,265 @@
+{
+  "endpoint": "https://world.openfoodfacts.org/api/v2/search",
+  "filter": "countries_tags=vietnam",
+  "user_agent": "AI-Nutrition-Analyzer/1.0 (academic nutrition research; contact: review@example.com)",
+  "started_utc": "2026-11-26T07:13:41.521385+00:00",
+  "finished_utc": "2026-11-26T07:30:15.522853+00:00",
+  "successful_page_requests": 29,
+  "api_reported_count": 1735,
+  "records_written": 1620,
+  "collection_complete_against_api_count": false,
+  "sort_windows": [
+    "default",
+    "last_modified_t",
+    "created_t",
+    "product_name"
+  ],
+  "jsonl_path": "D:\\Documents\\BaoCao\\TriTueNhanTao\\AI-Nutrition-Analyzer\\data\\external\\openfoodfacts\\off_vietnam.jsonl",
+  "csv_path": "D:\\Documents\\BaoCao\\TriTueNhanTao\\AI-Nutrition-Analyzer\\data\\external\\openfoodfacts\\off_vietnam.csv",
+  "sha256": "16d1e734b592f9a5cfab018f8d5257178b5eb92b9a56e7ccbf52b15d70462b21",
+  "request_delay_seconds": 2.0,
+  "request_log": [
+    {
+      "sort_by": "default",
+      "page": 1,
+      "received": 100,
+      "new_unique": 100,
+      "unique_total": 100,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "default",
+      "page": 2,
+      "received": 100,
+      "new_unique": 100,
+      "unique_total": 200,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "default",
+      "page": 3,
+      "received": 100,
+      "new_unique": 100,
+      "unique_total": 300,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "default",
+      "page": 4,
+      "received": 100,
+      "new_unique": 100,
+      "unique_total": 400,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "default",
+      "page": 5,
+      "received": 100,
+      "new_unique": 100,
+      "unique_total": 500,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "default",
+      "page": 6,
+      "received": 99,
+      "new_unique": 99,
+      "unique_total": 599,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "default",
+      "page": 7,
+      "received": 100,
+      "new_unique": 100,
+      "unique_total": 699,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "default",
+      "page": 8,
+      "received": 100,
+      "new_unique": 100,
+      "unique_total": 799,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "default",
+      "page": 9,
+      "received": 100,
+      "new_unique": 100,
+      "unique_total": 899,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "default",
+      "page": 10,
+      "received": 100,
+      "new_unique": 100,
+      "unique_total": 999,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "last_modified_t",
+      "page": 1,
+      "received": 100,
+      "new_unique": 75,
+      "unique_total": 1074,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "last_modified_t",
+      "page": 2,
+      "received": 100,
+      "new_unique": 73,
+      "unique_total": 1147,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "last_modified_t",
+      "page": 3,
+      "received": 100,
+      "new_unique": 81,
+      "unique_total": 1228,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "last_modified_t",
+      "page": 4,
+      "received": 100,
+      "new_unique": 81,
+      "unique_total": 1309,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "last_modified_t",
+      "page": 5,
+      "received": 100,
+      "new_unique": 71,
+      "unique_total": 1380,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "last_modified_t",
+      "page": 6,
+      "received": 100,
+      "new_unique": 54,
+      "unique_total": 1434,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "last_modified_t",
+      "page": 7,
+      "http_error": 503
+    },
+    {
+      "sort_by": "created_t",
+      "page": 1,
+      "received": 100,
+      "new_unique": 0,
+      "unique_total": 1434,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "created_t",
+      "page": 2,
+      "received": 100,
+      "new_unique": 0,
+      "unique_total": 1434,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "created_t",
+      "page": 3,
+      "received": 100,
+      "new_unique": 0,
+      "unique_total": 1434,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "created_t",
+      "page": 4,
+      "http_error": 503
+    },
+    {
+      "sort_by": "product_name",
+      "page": 1,
+      "received": 100,
+      "new_unique": 15,
+      "unique_total": 1449,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "product_name",
+      "page": 2,
+      "received": 100,
+      "new_unique": 22,
+      "unique_total": 1471,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "product_name",
+      "page": 3,
+      "received": 100,
+      "new_unique": 19,
+      "unique_total": 1490,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "product_name",
+      "page": 4,
+      "received": 100,
+      "new_unique": 20,
+      "unique_total": 1510,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "product_name",
+      "page": 5,
+      "received": 100,
+      "new_unique": 23,
+      "unique_total": 1533,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "product_name",
+      "page": 6,
+      "received": 99,
+      "new_unique": 21,
+      "unique_total": 1554,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "product_name",
+      "page": 7,
+      "received": 100,
+      "new_unique": 16,
+      "unique_total": 1570,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "product_name",
+      "page": 8,
+      "received": 100,
+      "new_unique": 13,
+      "unique_total": 1583,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "product_name",
+      "page": 9,
+      "received": 100,
+      "new_unique": 16,
+      "unique_total": 1599,
+      "api_count": 1735
+    },
+    {
+      "sort_by": "product_name",
+      "page": 10,
+      "received": 100,
+      "new_unique": 21,
+      "unique_total": 1620,
+      "api_count": 1735
+    }
+  ]
+}

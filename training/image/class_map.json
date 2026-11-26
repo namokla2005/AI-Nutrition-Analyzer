@@ -4,9 +4,12 @@
     "display_name_vi": "Phở bò",
     "selected_source": "commons",
     "source_class": "Category:Phở",
-    "food101_classes": ["pho"],
+    "food101_classes": [
+      "pho"
+    ],
     "coverage_type": "approximate",
-    "coverage_note_vi": "Food-101 chỉ có lớp pho rộng; dùng Commons Category:Phở và vẫn cần kiểm duyệt để loại phở không phải phở bò."
+    "coverage_note_vi": "Food-101 chỉ có lớp pho rộng; dùng Commons Category:Phở và vẫn cần kiểm duyệt để loại phở không phải phở bò.",
+    "search_term": "phở bò"
   },
   {
     "our_class": "bun_bo_hue",
@@ -15,7 +18,8 @@
     "source_class": "Category:Bún bò Huế",
     "food101_classes": [],
     "coverage_type": "not_covered",
-    "coverage_note_vi": "Food-101 không có lớp tương ứng; dùng Commons."
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; dùng Commons.",
+    "search_term": "bún bò Huế"
   },
   {
     "our_class": "banh_mi",
@@ -24,7 +28,8 @@
     "source_class": "Category:Bánh mì",
     "food101_classes": [],
     "coverage_type": "not_covered",
-    "coverage_note_vi": "Food-101 không có banh_mi; dùng Commons."
+    "coverage_note_vi": "Food-101 không có banh_mi; dùng Commons.",
+    "search_term": "bánh mì"
   },
   {
     "our_class": "com_tam",
@@ -33,16 +38,20 @@
     "source_class": "Category:Cơm tấm",
     "food101_classes": [],
     "coverage_type": "not_covered",
-    "coverage_note_vi": "Food-101 không có lớp tương ứng; dùng Commons."
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; dùng Commons.",
+    "search_term": "cơm tấm"
   },
   {
     "our_class": "goi_cuon",
     "display_name_vi": "Gỏi cuốn",
     "selected_source": "commons",
     "source_class": "Category:Gỏi cuốn",
-    "food101_classes": ["spring_rolls"],
+    "food101_classes": [
+      "spring_rolls"
+    ],
     "coverage_type": "approximate",
-    "coverage_note_vi": "spring_rolls không tách gỏi cuốn tươi khỏi các loại cuốn khác; dùng Commons."
+    "coverage_note_vi": "spring_rolls không tách gỏi cuốn tươi khỏi các loại cuốn khác; dùng Commons.",
+    "search_term": "gỏi cuốn"
   },
   {
     "our_class": "banh_xeo",
@@ -51,7 +60,8 @@
     "source_class": "Category:Bánh xèo",
     "food101_classes": [],
     "coverage_type": "not_covered",
-    "coverage_note_vi": "Food-101 không có lớp tương ứng; pancakes không phải bánh xèo."
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; pancakes không phải bánh xèo.",
+    "search_term": "bánh xèo"
   },
   {
     "our_class": "bun_cha",
@@ -60,14 +70,17 @@
     "source_class": "Category:Bún chả",
     "food101_classes": [],
     "coverage_type": "not_covered",
-    "coverage_note_vi": "Food-101 không có lớp tương ứng; dùng Commons."
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; dùng Commons.",
+    "search_term": "bún chả"
   },
   {
     "our_class": "com_chien",
     "display_name_vi": "Cơm chiên",
     "selected_source": "food101",
     "source_class": "fried_rice",
-    "food101_classes": ["fried_rice"],
+    "food101_classes": [
+      "fried_rice"
+    ],
     "coverage_type": "approximate",
     "coverage_note_vi": "fried_rice là lớp tổng quát, không đặc tả biến thể Việt Nam."
   },
@@ -76,7 +89,9 @@
     "display_name_vi": "Pizza",
     "selected_source": "food101",
     "source_class": "pizza",
-    "food101_classes": ["pizza"],
+    "food101_classes": [
+      "pizza"
+    ],
     "coverage_type": "exact",
     "coverage_note_vi": "Khớp đúng tên lớp Food-101."
   },
@@ -85,7 +100,9 @@
     "display_name_vi": "Hamburger",
     "selected_source": "food101",
     "source_class": "hamburger",
-    "food101_classes": ["hamburger"],
+    "food101_classes": [
+      "hamburger"
+    ],
     "coverage_type": "exact",
     "coverage_note_vi": "Khớp đúng tên lớp Food-101."
   },
@@ -94,7 +111,9 @@
     "display_name_vi": "Sushi",
     "selected_source": "food101",
     "source_class": "sushi",
-    "food101_classes": ["sushi"],
+    "food101_classes": [
+      "sushi"
+    ],
     "coverage_type": "exact",
     "coverage_note_vi": "Khớp đúng tên lớp Food-101."
   },
@@ -103,7 +122,13 @@
     "display_name_vi": "Salad",
     "selected_source": "food101",
     "source_class": "beet_salad|caesar_salad|caprese_salad|greek_salad|seaweed_salad",
-    "food101_classes": ["beet_salad", "caesar_salad", "caprese_salad", "greek_salad", "seaweed_salad"],
+    "food101_classes": [
+      "beet_salad",
+      "caesar_salad",
+      "caprese_salad",
+      "greek_salad",
+      "seaweed_salad"
+    ],
     "coverage_type": "approximate",
     "coverage_note_vi": "Food-101 không có salad chung; gộp năm lớp salad cụ thể vào nhãn đích rộng hơn."
   },
@@ -112,7 +137,13 @@
     "display_name_vi": "Pasta",
     "selected_source": "food101",
     "source_class": "gnocchi|lasagna|ravioli|spaghetti_bolognese|spaghetti_carbonara",
-    "food101_classes": ["gnocchi", "lasagna", "ravioli", "spaghetti_bolognese", "spaghetti_carbonara"],
+    "food101_classes": [
+      "gnocchi",
+      "lasagna",
+      "ravioli",
+      "spaghetti_bolognese",
+      "spaghetti_carbonara"
+    ],
     "coverage_type": "approximate",
     "coverage_note_vi": "Food-101 không có pasta chung; gộp năm lớp pasta cụ thể vào nhãn đích rộng hơn."
   },
@@ -121,7 +152,9 @@
     "display_name_vi": "Steak",
     "selected_source": "food101",
     "source_class": "steak",
-    "food101_classes": ["steak"],
+    "food101_classes": [
+      "steak"
+    ],
     "coverage_type": "exact",
     "coverage_note_vi": "Khớp đúng tên lớp Food-101."
   },
@@ -130,8 +163,150 @@
     "display_name_vi": "Fried Chicken",
     "selected_source": "food101",
     "source_class": "chicken_wings",
-    "food101_classes": ["chicken_wings"],
+    "food101_classes": [
+      "chicken_wings"
+    ],
     "coverage_type": "approximate",
     "coverage_note_vi": "Phủ yếu: chicken_wings hẹp hơn theo phần thịt và không bảo đảm phương pháp chiên."
+  },
+  {
+    "our_class": "xoi",
+    "display_name_vi": "Xôi",
+    "selected_source": "commons",
+    "source_class": "xôi",
+    "search_term": "xôi",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; thu thập bằng tìm kiếm toàn văn Wikimedia Commons và cần duyệt thủ công."
+  },
+  {
+    "our_class": "pho_ga",
+    "display_name_vi": "Phở gà",
+    "selected_source": "commons",
+    "source_class": "phở gà",
+    "search_term": "phở gà",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; thu thập bằng tìm kiếm toàn văn Wikimedia Commons và cần duyệt thủ công."
+  },
+  {
+    "our_class": "banh_cuon",
+    "display_name_vi": "Bánh cuốn",
+    "selected_source": "commons",
+    "source_class": "bánh cuốn",
+    "search_term": "bánh cuốn",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; thu thập bằng tìm kiếm toàn văn Wikimedia Commons và cần duyệt thủ công."
+  },
+  {
+    "our_class": "hu_tieu",
+    "display_name_vi": "Hủ tiếu",
+    "selected_source": "commons",
+    "source_class": "hủ tiếu",
+    "search_term": "hủ tiếu",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; thu thập bằng tìm kiếm toàn văn Wikimedia Commons và cần duyệt thủ công."
+  },
+  {
+    "our_class": "mi_quang",
+    "display_name_vi": "Mì Quảng",
+    "selected_source": "commons",
+    "source_class": "mì Quảng",
+    "search_term": "mì Quảng",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; thu thập bằng tìm kiếm toàn văn Wikimedia Commons và cần duyệt thủ công."
+  },
+  {
+    "our_class": "cha_ca",
+    "display_name_vi": "Chả cá",
+    "selected_source": "commons",
+    "source_class": "chả cá",
+    "search_term": "chả cá",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; thu thập bằng tìm kiếm toàn văn Wikimedia Commons và cần duyệt thủ công."
+  },
+  {
+    "our_class": "nem_ran",
+    "display_name_vi": "Nem rán / Chả giò",
+    "selected_source": "commons",
+    "source_class": "nem rán|chả giò",
+    "search_term": "nem rán|chả giò",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; thu thập bằng tìm kiếm toàn văn Wikimedia Commons và cần duyệt thủ công."
+  },
+  {
+    "our_class": "canh_chua",
+    "display_name_vi": "Canh chua",
+    "selected_source": "commons",
+    "source_class": "canh chua",
+    "search_term": "canh chua",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; thu thập bằng tìm kiếm toàn văn Wikimedia Commons và cần duyệt thủ công."
+  },
+  {
+    "our_class": "banh_chung",
+    "display_name_vi": "Bánh chưng",
+    "selected_source": "commons",
+    "source_class": "bánh chưng",
+    "search_term": "bánh chưng",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; thu thập bằng tìm kiếm toàn văn Wikimedia Commons và cần duyệt thủ công."
+  },
+  {
+    "our_class": "banh_khot",
+    "display_name_vi": "Bánh khọt",
+    "selected_source": "commons",
+    "source_class": "bánh khọt",
+    "search_term": "bánh khọt",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; thu thập bằng tìm kiếm toàn văn Wikimedia Commons và cần duyệt thủ công."
+  },
+  {
+    "our_class": "bun_rieu",
+    "display_name_vi": "Bún riêu",
+    "selected_source": "commons",
+    "source_class": "bún riêu",
+    "search_term": "bún riêu",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; thu thập bằng tìm kiếm toàn văn Wikimedia Commons và cần duyệt thủ công."
+  },
+  {
+    "our_class": "banh_beo",
+    "display_name_vi": "Bánh bèo",
+    "selected_source": "commons",
+    "source_class": "bánh bèo",
+    "search_term": "bánh bèo",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; thu thập bằng tìm kiếm toàn văn Wikimedia Commons và cần duyệt thủ công."
+  },
+  {
+    "our_class": "bun_dau_mam_tom",
+    "display_name_vi": "Bún đậu mắm tôm",
+    "selected_source": "commons",
+    "source_class": "bún đậu mắm tôm",
+    "search_term": "bún đậu mắm tôm",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; thu thập bằng tìm kiếm toàn văn Wikimedia Commons và cần duyệt thủ công."
+  },
+  {
+    "our_class": "bun_thit_nuong",
+    "display_name_vi": "Bún thịt nướng",
+    "selected_source": "commons",
+    "source_class": "bún thịt nướng",
+    "search_term": "bún thịt nướng",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; thu thập bằng tìm kiếm toàn văn Wikimedia Commons và cần duyệt thủ công."
   }
 ]

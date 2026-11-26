@@ -1,6 +1,6 @@
 # NGUỒN DỮ LIỆU VÀ CHẤT LƯỢNG DỮ LIỆU
 
-Cập nhật: 2026-11-19 (UTC+07:00). Mọi con số dưới đây lấy từ truy vấn thật trên
+Cập nhật: 2026-11-26 (UTC+07:00). Mọi con số dưới đây lấy từ truy vấn thật trên
 `data/nutrition.db` và từ `scripts/check_data_quality.py`, không phải ước lượng.
 
 ---
@@ -10,12 +10,12 @@ Cập nhật: 2026-11-19 (UTC+07:00). Mọi con số dưới đây lấy từ tr
 | Mã nguồn | Tên nguồn | Giấy phép | Bản ghi đã nhập |
 |---|---|---|---:|
 | `usda_foundation` | USDA FoodData Central – Foundation Foods (2024-10-31) | CC0 1.0 (phạm vi công cộng) | 68.867 |
-| `openfoodfacts` | Open Food Facts – trích lọc có giới hạn | Open Database License (ODbL) 1.0 | 20.000 |
+| `openfoodfacts` | Open Food Facts – trích lọc có giới hạn | Open Database License (ODbL) 1.0 | 20.563 |
 | `usda_sr_legacy` | USDA FoodData Central – SR Legacy (2018-04) | CC0 1.0 | 7.793 |
 | `usda_fndds` | USDA FoodData Central – Survey/FNDDS (2022-10-28) | CC0 1.0 | 5.624 |
-| `vn_fct` | Bảng thành phần dinh dưỡng thực phẩm Việt Nam (nhập thủ công) | chưa xác định – không tự ý tái phân phối | **0** (xem §6) |
+| `vn_fct` | Bảng thành phần dinh dưỡng thực phẩm Việt Nam 2007 (chưa nhập) | **Chưa rõ – không tái phân phối** | **0** (xem §6) |
 | `manual` | Người vận hành nhập tay qua API, có khai báo nguồn | theo người nhập | 0 |
-| **Tổng** | | | **102.284** |
+| **Tổng** | | | **102.847** |
 
 Trích nguyên văn giấy phép USDA (đọc từ `https://fdc.nal.usda.gov/api-guide`):
 > “USDA FoodData Central data are in the public domain and they are not copyrighted.
@@ -25,6 +25,16 @@ Trích nguyên văn giấy phép USDA (đọc từ `https://fdc.nal.usda.gov/api
 Open Food Facts: “The Open Food Facts database is available under the Open Database
 License (ODbL).” (`https://world.openfoodfacts.org/data`) → khi tái sử dụng phải ghi nguồn
 và giữ nguyên tính mở của dữ liệu phái sinh.
+
+**Đợt bổ sung sản phẩm Việt Nam ngày 2026-11-26:** API v2 với bộ lọc
+`countries_tags=vietnam` báo 1.735 sản phẩm; lần thu thập lấy được **1.620 mã vạch duy nhất**,
+trong đó importer thêm **563 bản ghi mới** và cập nhật 1.057 bản ghi đã có. Dữ liệu vẫn thuộc
+**ODbL 1.0**. Tệp JSONL lưu tại `data/external/openfoodfacts/off_vietnam.jsonl`; chi tiết truy
+xuất, giới hạn thu thập và kết quả nhập ở `data/reports/off_vietnam_import_report.md`.
+
+Bảng thành phần dinh dưỡng thực phẩm Việt Nam 2007 có tình trạng giấy phép **chưa rõ**.
+Dự án chỉ giữ mẫu nhập liệu, không chép và không tái phân phối nội dung bảng này cho đến khi
+có nguồn hợp lệ và quyền sử dụng rõ ràng.
 
 ## 2. Tệp nguồn gốc đã tải (đã kiểm tra sha256)
 
@@ -72,25 +82,25 @@ Xem chi tiết trong `data/reports/data_quality_report.md`. Tóm tắt:
 | Hạng mục | Kết quả |
 |---|---|
 | Trùng chính xác (`source_id + source_ref`) | **0** |
-| Nhóm gần trùng theo tên ở nhiều nguồn | **210** (cùng một loại thực phẩm xuất hiện ở SR Legacy/Foundation/FNDDS — có chủ đích, vì mỗi nguồn là một nguồn riêng) |
+| Nhóm gần trùng theo tên ở nhiều nguồn | **213** (cùng một loại thực phẩm xuất hiện ở nhiều nguồn; giữ riêng để bảo toàn truy nguyên) |
 | Lệch giữa cache `foods.energy_kcal_per_100g` và bảng chuẩn | **0** |
-| Thực phẩm không có số liệu năng lượng | **68.732** (xem §6) |
-| Năng lượng > 900 kcal/100 g | **54** (chủ yếu là dầu/mỡ ~902 kcal — hợp lý; một số bản ghi Open Food Facts sai rõ rệt, ví dụ “gg” có tổng đa lượng 183 g/100 g) |
-| Tổng protein + carb + fat > 100 g/100 g | **198** (lỗi dữ liệu cộng đồng của OFF) |
-| Natri > 40.000 mg/100 g | **22** (muối ~40.100 mg là hợp lý; một số sản phẩm OFF sai) |
+| Thực phẩm không có số liệu năng lượng | **69.198** (xem §6) |
+| Năng lượng > 900 kcal/100 g | **55** (có ngoại lệ OFF sai rõ rệt như “Bún” 1.485 kcal/100 g và “Black olives” 2.000 kcal/100 g) |
+| Tổng protein + carb + fat > 100 g/100 g | **199** (lỗi dữ liệu cộng đồng của OFF) |
+| Natri > 40.000 mg/100 g | **24** (muối ~40.100 mg là hợp lý; một số sản phẩm OFF sai) |
 | Giá trị âm | **0** |
-| Độ phủ chất dinh dưỡng | 7,8 % (`energy_kj`) đến 37,0 % (`fat_g`) |
+| Độ phủ chất dinh dưỡng | 7,7 % (`energy_kj`) đến 36,9 % (`fat_g`) |
 | Đối chiếu năng lượng đo với công thức Atwater (4/4/9) | 23 trong 30 dòng bị gắn cờ “lệch >25 %” có **sai khác tuyệt đối < 25 kcal/100 g** → đây là hệ quả toán học của thực phẩm ít năng lượng (mẫu số nhỏ làm sai số tương đối phóng đại), **không phải lỗi đơn vị**. Chỉ **7 dòng** vừa lệch >25 % vừa lệch ≥25 kcal/100 g là đáng rà lại; sai khác tuyệt đối lớn nhất trong bảng là 150,5 kcal/100 g |
 
 **Kết luận về chất lượng:** phiên bản dữ liệu này **dùng được** cho tra cứu và tính khẩu phần
 (sai khác cache = 0, không có giá trị âm, không trùng chính xác), nhưng **không được coi là
-sạch tuyệt đối**: còn 54 giá trị năng lượng >900 kcal và 198 dòng có tổng đa lượng >100 g/100 g
+sạch tuyệt đối**: còn 55 giá trị năng lượng >900 kcal và 199 dòng có tổng đa lượng >100 g/100 g
 — hầu hết đến từ dữ liệu cộng đồng của Open Food Facts. Hướng xử lý đề xuất: rà soát theo
 `id` trong `data/reports/data_quality_report.md` rồi sửa hoặc loại ở nguồn, **không sửa tay
 trong database** (sẽ làm mất dấu vết truy nguyên).
 
 Đây là dữ liệu thật nhiều nguồn ghép lại nên độ phủ thưa là **thực tế**, không phải lỗi:
-68.732 thực phẩm thiếu năng lượng phần lớn thuộc Foundation Foods — bộ dữ liệu lấy mẫu,
+69.198 thực phẩm thiếu năng lượng phần lớn thuộc Foundation Foods — bộ dữ liệu lấy mẫu,
 chỉ có số liệu chi tiết cho một phần nhỏ thực phẩm.
 
 ## 6. Hạn chế đã biết (ghi rõ để không hiểu sai kết quả)
@@ -103,11 +113,11 @@ chỉ có số liệu chi tiết cho một phần nhỏ thực phẩm.
    vào làm **nhãn huấn luyện** thì mô hình sẽ học được đáp án (rò rỉ dữ liệu). Vì vậy 608
    bản ghi Atwater đã bị loại khỏi nhãn; đổi lại các thực phẩm chỉ có Atwater sẽ thiếu
    năng lượng đo.
-3. **Dữ liệu Việt Nam hiện trống (0 bản ghi), và `name_vi` = 0.** Bảng thành phần dinh dưỡng
-   Việt Nam có bản quyền không rõ ràng nên **không thể tự ý sao chép**; ngoài ra bộ lọc Open
-   Food Facts chỉ giữ sản phẩm đóng gói nên tên thực phẩm trong database **hoàn toàn là tiếng
-   Anh và các ngôn ngữ khác** (kiểm tra thật: `select count(*) from foods where name_vi is not
-   null and name_vi <> ''` → **0**). Đã chuẩn bị sẵn:
+3. **Nguồn `vn_fct` hiện trống (0 bản ghi), và `name_vi` = 0.** Bảng thành phần dinh dưỡng
+   Việt Nam 2007 có giấy phép chưa rõ nên **không sao chép hoặc tái phân phối**. Đợt OFF Việt
+   Nam đã bổ sung sản phẩm đóng gói có tên tiếng Việt, nhưng importer lưu tên nguồn vào trường
+   tên chung/tiếng Anh; kiểm tra thật `select count(*) from foods where name_vi is not null and
+   trim(name_vi) <> ''` vẫn cho **0**. Đã chuẩn bị sẵn:
    - `data/external/vn_fct_template.csv` – mẫu 17 cột, có dòng chú thích đơn vị, quy định
      rõ “giá trị chưa biết để trống, tuyệt đối không điền 0”;
    - `scripts/import_vn_fct.py` – importer kiểm tra nghiêm ngặt (khoảng giá trị hợp lệ,
@@ -116,8 +126,10 @@ chỉ có số liệu chi tiết cho một phần nhỏ thực phẩm.
    **Hệ quả hiện tại:** tra cứu bằng tiếng Việt chỉ tìm được trong số tên tiếng Việt có
    trong Open Food Facts và bản ghi nhập tay (ví dụ “Ức Gà Ăn Liền”); các món Việt thuần
    như “cơm trắng” chưa có trong database.
-4. **Ảnh huấn luyện.** Food-101 chỉ phủ **chính xác 4/15** lớp món ăn mục tiêu; 5 món Việt
-   phải thu thập riêng từ Wikimedia Commons với 41–100 ảnh/lớp — vì vậy độ chính xác của
-   lớp `pho_bo` (46 ảnh) thấp hơn hẳn các lớp 100 ảnh (xem `data/reports/image_experiment.md`).
+4. **Ảnh huấn luyện.** Tập ảnh hiện có **1.711 ảnh / 29 lớp** (911 ảnh món Việt từ Wikimedia Commons
+   + 800 ảnh Food-101); Food-101 cung cấp chính xác 8 lớp trong số đó. Model đang dùng huấn luyện
+   trên **24 lớp / 1.577 ảnh**; 5 lớp chưa đủ ảnh (`banh_cuon` 30, `bun_rieu` 26, `bun_thit_nuong` 15,
+   `pho_ga` 21, `xoi` 42) đạt F1 = 0 khi huấn luyện đủ 29 lớp nên bị loại
+   (xem `data/reports/v3/image_experiment.md` và `data/reports/v2/image_experiment.md`).
 5. **Giấy phép ảnh.** Ảnh Food-101 thuộc Foodspotting, chỉ dùng cho mục đích học thuật
    (scientific fair use); không được tuyên bố giấy phép mở bao trùm cho toàn bộ dataset.

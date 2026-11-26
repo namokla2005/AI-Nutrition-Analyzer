@@ -296,7 +296,7 @@ def main() -> int:
         check(g, "Nhận diện ảnh món ăn thật", r.status_code == 200 and len(pred.get("top_k", [])) == 3,
               "200 + Top-3", f"{r.status_code} top1={pred.get('top_k', [{}])[0].get('label')} "
               f"{(pred.get('top_k', [{}])[0].get('confidence') or 0) * 100:.1f}% | {pred.get('latency_ms')} ms")
-        check(g, "Nhãn trả về thuộc 15 lớp đã huấn luyện",
+        check(g, f"Nhãn trả về thuộc {len(labels)} lớp đã huấn luyện",
               all(p["label"] in labels for p in pred.get("top_k", [])), "nhãn hợp lệ",
               str([p["label"] for p in pred.get("top_k", [])]))
         image_id = pred.get("image_id")

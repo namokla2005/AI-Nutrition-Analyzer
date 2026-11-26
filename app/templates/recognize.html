@@ -345,7 +345,8 @@
     els['prediction-list'].innerHTML = top.map(function (item) {
       var confidence = Math.max(0, Math.min(100, Number(item.confidence) * 100));
       return '<div class="prediction-item" data-rank="' + ANA.escape(item.rank) + '">' +
-        '<div class="prediction-head"><span class="prediction-label mono">' + ANA.escape(item.label) + '</span>' +
+        '<div class="prediction-head"><span class="prediction-label">' + ANA.escape(item.display_label || item.label) +
+        ' <span class="mono" style="font-weight:400;opacity:.7">' + ANA.escape(item.label) + '</span></span>' +
         '<span class="prediction-confidence">' + ANA.num(confidence, 1) + '%</span></div>' +
         '<div class="bar" aria-label="Độ tin cậy ' + ANA.escape(confidence.toFixed(1)) + '%"><span style="width:' +
         confidence.toFixed(2) + '%"></span></div>' +

@@ -268,3 +268,27 @@ viết 2 trang này trong phiên:
 - **GPT-5.6-Sol qua Codex CLI và subagent không dùng được đến ~07:49** do hạn mức ChatGPT/Codex
   đã cạn (HTTP 429), nên 2 trang cuối do tôi tự viết.
 
+---
+
+## 26/11/2026 — vòng nâng cấp nhận diện ảnh: 15 → 24 lớp
+
+| Lần chạy | Lớp | Món Việt | Ảnh | Accuracy test | Macro F1 |
+|---|---:|---:|---:|---:|---:|
+| 19/11/2026 (bản cũ) | 15 | 7 | 1.208 (847/181/180) | 0,7889 | 0,763 |
+| 26/11/2026 v2 | 29 | 21 | 1.711 (1.198/260/253) | 0,6640 | 0,7217 |
+| 26/11/2026 v3 (**đang dùng**) | 24 | 16 | 1.577 (1.103/240/234) | 0,7521 | 0,7619 |
+
+- Nhiễu dữ liệu: cổng lọc ảnh cũ nhận ảnh sai vì tìm kiếm Commons khớp chuỗi con; lớp `xoi` có
+  **0/31 ảnh đúng**. Cổng lọc mới yêu cầu khớp **từ trọn vẹn** hoặc đúng danh mục món → loại 1.304 ảnh rác;
+  soi mắt loại thêm 21 ảnh (`goi_cuon` 11, `banh_xeo` 10) và 8 ảnh sai của `xoi`.
+- 5 lớp đạt F1 = 0 khi huấn luyện 29 lớp → loại khỏi lần huấn luyện đang dùng; manifest đầy đủ vẫn giữ.
+- Model đang chạy: `models/image/best.pt` (24 lớp); bản 15 lớp giữ ở `models/image_v15_backup/`;
+  manifest v3: `data/processed/image_dataset_manifest_v3.csv`.
+- `app/ml/labels_vi.py`: tên hiển thị tiếng Việt cho 29 nhãn + từ khoá tra cứu món, nối vào
+  `app/api/v1/predict.py` và `app/templates/recognize.html`.
+- Kiểm chứng: 10 ảnh món Việt thuộc tập test → top-1 **7/10**, top-3 **9/10**; e2e **92/0**; pytest **168/1**.
+- Số liệu CSDL sau đợt nhập Open Food Facts Việt Nam: **102.847 thực phẩm · 364.611 food_nutrients ·
+  98.721 alias · 69.198 thiếu năng lượng**; không sửa giá trị dinh dưỡng nào (đối chiếu bản sao lưu).
+- Tối ưu tra cứu gợi ý (`has_match` + `with_total=False` + bỏ từ khoá trùng): `POST /predict/image`
+  từ **630–1.040 ms xuống 297–370 ms** (suy luận model chỉ ~20 ms — nút cổ chai là tra cứu SQL trên
+  102.847 thực phẩm). Chi tiết và số đo ở `BAO_CAO_KIEM_THU.md` §7.2.
