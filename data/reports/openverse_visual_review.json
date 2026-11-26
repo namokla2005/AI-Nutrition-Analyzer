@@ -1,0 +1,836 @@
+[
+  {
+    "lớp": "banh_beo",
+    "tên file": "ov_1313da41.jpg",
+    "kết luận": "loại",
+    "lý do": "Danh thiếp/biển quảng cáo, không có món ăn."
+  },
+  {
+    "lớp": "banh_beo",
+    "tên file": "ov_237df811.jpg",
+    "kết luận": "loại",
+    "lý do": "Tranh vẽ món ăn, không phải ảnh món thật."
+  },
+  {
+    "lớp": "banh_beo",
+    "tên file": "ov_33237631.jpg",
+    "kết luận": "loại",
+    "lý do": "Mâm há cảo/xúc xích và đồ hấp hỗn hợp, không phải bánh bèo."
+  },
+  {
+    "lớp": "banh_beo",
+    "tên file": "ov_43665278.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_22db915c.jpg."
+  },
+  {
+    "lớp": "banh_beo",
+    "tên file": "ov_4fdea2cc.jpg",
+    "kết luận": "loại",
+    "lý do": "Suất ăn có bánh mì và đồ uống, không phải bánh bèo."
+  },
+  {
+    "lớp": "banh_beo",
+    "tên file": "ov_5cceea01.jpg",
+    "kết luận": "loại",
+    "lý do": "Người trong quán, món ăn không phải chủ thể."
+  },
+  {
+    "lớp": "banh_beo",
+    "tên file": "ov_67993b42.jpg",
+    "kết luận": "loại",
+    "lý do": "Người trong quán, món ăn không phải chủ thể."
+  },
+  {
+    "lớp": "banh_beo",
+    "tên file": "ov_69930428.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_33237631.jpg."
+  },
+  {
+    "lớp": "banh_beo",
+    "tên file": "ov_90fafcf2.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng suất bánh mì/đồ uống, không phải bánh bèo."
+  },
+  {
+    "lớp": "banh_beo",
+    "tên file": "ov_9d43538c.jpg",
+    "kết luận": "loại",
+    "lý do": "Bánh chiên màu cam, rõ ràng không phải bánh bèo hấp."
+  },
+  {
+    "lớp": "banh_beo",
+    "tên file": "ov_a07d3538.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_22db915c.jpg."
+  },
+  {
+    "lớp": "banh_beo",
+    "tên file": "ov_a3d9e2ec.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng suất bánh mì/đồ uống, không phải bánh bèo."
+  },
+  {
+    "lớp": "banh_beo",
+    "tên file": "ov_a44eeea1.jpg",
+    "kết luận": "loại",
+    "lý do": "Chậu nguyên liệu/bột đang sơ chế, không phải món hoàn chỉnh."
+  },
+  {
+    "lớp": "banh_beo",
+    "tên file": "ov_a73416bd.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng bánh chiên ov_9d43538c.jpg, không phải bánh bèo."
+  },
+  {
+    "lớp": "banh_beo",
+    "tên file": "ov_a932be2c.jpg",
+    "kết luận": "loại",
+    "lý do": "Cảnh người đang sơ chế, món ăn không phải chủ thể rõ."
+  },
+  {
+    "lớp": "banh_beo",
+    "tên file": "ov_b70bf85f.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng chậu nguyên liệu ov_a44eeea1.jpg."
+  },
+  {
+    "lớp": "banh_beo",
+    "tên file": "ov_c19a80f7.jpg",
+    "kết luận": "loại",
+    "lý do": "Đĩa món sợi/trộn, không phải bánh bèo."
+  },
+  {
+    "lớp": "banh_beo",
+    "tên file": "ov_cf75652e.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_22db915c.jpg."
+  },
+  {
+    "lớp": "banh_beo",
+    "tên file": "ov_e1d7d40a.jpg",
+    "kết luận": "loại",
+    "lý do": "Cảnh người bán hàng, món ăn không phải chủ thể."
+  },
+  {
+    "lớp": "banh_beo",
+    "tên file": "ov_eca2eff1.jpg",
+    "kết luận": "loại",
+    "lý do": "Người bán hàng là chủ thể, không phải ảnh món bánh bèo."
+  },
+  {
+    "lớp": "banh_khot",
+    "tên file": "ov_111f8493.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_4493dedb.jpg."
+  },
+  {
+    "lớp": "banh_khot",
+    "tên file": "ov_1324ef3a.jpg",
+    "kết luận": "loại",
+    "lý do": "Rau sống/nguyên liệu rời, không có bánh khọt."
+  },
+  {
+    "lớp": "banh_khot",
+    "tên file": "ov_55325a10.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_4493dedb.jpg."
+  },
+  {
+    "lớp": "banh_khot",
+    "tên file": "ov_83b1e7f9.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_4493dedb.jpg."
+  },
+  {
+    "lớp": "banh_khot",
+    "tên file": "ov_a11d20eb.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_4493dedb.jpg."
+  },
+  {
+    "lớp": "banh_khot",
+    "tên file": "ov_a73416bd.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_9d43538c.jpg."
+  },
+  {
+    "lớp": "banh_khot",
+    "tên file": "ov_af8c2d9d.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_4493dedb.jpg."
+  },
+  {
+    "lớp": "banh_khot",
+    "tên file": "ov_b40d1fcd.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_2b690c59.jpg."
+  },
+  {
+    "lớp": "banh_khot",
+    "tên file": "ov_c99497b3.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_4493dedb.jpg."
+  },
+  {
+    "lớp": "banh_khot",
+    "tên file": "ov_e0042dd4.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_4493dedb.jpg."
+  },
+  {
+    "lớp": "banh_khot",
+    "tên file": "ov_e15cd601.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_4493dedb.jpg."
+  },
+  {
+    "lớp": "banh_khot",
+    "tên file": "ov_f066a130.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_4493dedb.jpg."
+  },
+  {
+    "lớp": "banh_khot",
+    "tên file": "ov_f1d55dff.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_4493dedb.jpg."
+  },
+  {
+    "lớp": "banh_khot",
+    "tên file": "ov_fccc7958.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_89162d57.jpg."
+  },
+  {
+    "lớp": "banh_khot",
+    "tên file": "ov_ffb3518d.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_4493dedb.jpg."
+  },
+  {
+    "lớp": "bun_dau_mam_tom",
+    "tên file": "ov_1d91c488.jpg",
+    "kết luận": "loại",
+    "lý do": "Chân dung người, không có món ăn."
+  },
+  {
+    "lớp": "bun_dau_mam_tom",
+    "tên file": "ov_233bff9d.jpg",
+    "kết luận": "loại",
+    "lý do": "Bánh/khối bột trắng, không phải bún đậu mắm tôm."
+  },
+  {
+    "lớp": "bun_dau_mam_tom",
+    "tên file": "ov_23f5d621.jpg",
+    "kết luận": "loại",
+    "lý do": "Tô bún nước, không phải bún đậu mắm tôm."
+  },
+  {
+    "lớp": "bun_dau_mam_tom",
+    "tên file": "ov_315c08c1.jpg",
+    "kết luận": "loại",
+    "lý do": "Hộp cơm/bento, không phải bún đậu mắm tôm."
+  },
+  {
+    "lớp": "bun_dau_mam_tom",
+    "tên file": "ov_4e844c25.jpg",
+    "kết luận": "loại",
+    "lý do": "Bánh mì và đồ uống, không phải bún đậu mắm tôm."
+  },
+  {
+    "lớp": "bun_dau_mam_tom",
+    "tên file": "ov_4fdea2cc.jpg",
+    "kết luận": "loại",
+    "lý do": "Suất bánh mì và đồ uống, không phải bún đậu mắm tôm."
+  },
+  {
+    "lớp": "bun_dau_mam_tom",
+    "tên file": "ov_5a0fe612.jpg",
+    "kết luận": "loại",
+    "lý do": "Bánh/khối bột trắng có nhân, không phải bún đậu mắm tôm."
+  },
+  {
+    "lớp": "bun_dau_mam_tom",
+    "tên file": "ov_5ac6a4f4.jpg",
+    "kết luận": "loại",
+    "lý do": "Chân dung người, không có món ăn."
+  },
+  {
+    "lớp": "bun_dau_mam_tom",
+    "tên file": "ov_5e54407b.jpg",
+    "kết luận": "loại",
+    "lý do": "Chân dung người, không có món ăn."
+  },
+  {
+    "lớp": "bun_dau_mam_tom",
+    "tên file": "ov_645ce633.jpg",
+    "kết luận": "loại",
+    "lý do": "Bánh/đồ ăn khác trong bát, không phải bún đậu mắm tôm."
+  },
+  {
+    "lớp": "bun_dau_mam_tom",
+    "tên file": "ov_768482e4.jpg",
+    "kết luận": "loại",
+    "lý do": "Biển hiệu/mặt tiền quán, không phải ảnh món ăn."
+  },
+  {
+    "lớp": "bun_dau_mam_tom",
+    "tên file": "ov_7a33b6e2.jpg",
+    "kết luận": "loại",
+    "lý do": "Người ăn ngoài đường là chủ thể, món không rõ."
+  },
+  {
+    "lớp": "bun_dau_mam_tom",
+    "tên file": "ov_81b838c8.jpg",
+    "kết luận": "loại",
+    "lý do": "Chân dung người, không có món ăn."
+  },
+  {
+    "lớp": "bun_dau_mam_tom",
+    "tên file": "ov_8f8afffc.jpg",
+    "kết luận": "loại",
+    "lý do": "Ốc/hải sản trong bát, không phải bún đậu mắm tôm."
+  },
+  {
+    "lớp": "bun_dau_mam_tom",
+    "tên file": "ov_90fafcf2.jpg",
+    "kết luận": "loại",
+    "lý do": "Suất bánh mì và đồ uống, không phải bún đậu mắm tôm."
+  },
+  {
+    "lớp": "bun_dau_mam_tom",
+    "tên file": "ov_95b46687.jpg",
+    "kết luận": "loại",
+    "lý do": "Đám đông trong quán, món ăn không phải chủ thể."
+  },
+  {
+    "lớp": "bun_dau_mam_tom",
+    "tên file": "ov_961b1e01.jpg",
+    "kết luận": "loại",
+    "lý do": "Người bán hàng là chủ thể, món không rõ."
+  },
+  {
+    "lớp": "bun_dau_mam_tom",
+    "tên file": "ov_9cd01538.jpg",
+    "kết luận": "loại",
+    "lý do": "Ốc/hải sản, không phải bún đậu mắm tôm."
+  },
+  {
+    "lớp": "bun_dau_mam_tom",
+    "tên file": "ov_a3d9e2ec.jpg",
+    "kết luận": "loại",
+    "lý do": "Suất bánh mì và đồ uống, không phải bún đậu mắm tôm."
+  },
+  {
+    "lớp": "bun_dau_mam_tom",
+    "tên file": "ov_ccf79f38.jpg",
+    "kết luận": "loại",
+    "lý do": "Ốc/hải sản, không phải bún đậu mắm tôm."
+  },
+  {
+    "lớp": "bun_dau_mam_tom",
+    "tên file": "ov_d0f19ac8.jpg",
+    "kết luận": "loại",
+    "lý do": "Ốc/hải sản trong bát, không phải bún đậu mắm tôm."
+  },
+  {
+    "lớp": "bun_dau_mam_tom",
+    "tên file": "ov_e4fcbe4e.jpg",
+    "kết luận": "loại",
+    "lý do": "Đĩa đồ chiên/salad, không phải bún đậu mắm tôm."
+  },
+  {
+    "lớp": "bun_dau_mam_tom",
+    "tên file": "ov_f230abb4.jpg",
+    "kết luận": "loại",
+    "lý do": "Món tráng miệng/đồ ngọt, không phải bún đậu mắm tôm."
+  },
+  {
+    "lớp": "bun_rieu",
+    "tên file": "ov_0e10fb4a.jpg",
+    "kết luận": "loại",
+    "lý do": "Đĩa rau/đậu khô, không phải bún riêu."
+  },
+  {
+    "lớp": "bun_rieu",
+    "tên file": "ov_1a2c69f1.jpg",
+    "kết luận": "loại",
+    "lý do": "Đĩa chả giò, không phải bún riêu."
+  },
+  {
+    "lớp": "bun_rieu",
+    "tên file": "ov_1b644fe0.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_7d989d1e.jpg."
+  },
+  {
+    "lớp": "bun_rieu",
+    "tên file": "ov_242b0bb7.jpg",
+    "kết luận": "loại",
+    "lý do": "Cảnh phòng tối, không có món ăn rõ."
+  },
+  {
+    "lớp": "bun_rieu",
+    "tên file": "ov_254a4112.jpg",
+    "kết luận": "loại",
+    "lý do": "Đĩa chả giò/rau, không phải bún riêu."
+  },
+  {
+    "lớp": "bun_rieu",
+    "tên file": "ov_2e64b69f.jpg",
+    "kết luận": "loại",
+    "lý do": "Đĩa món khô rau/đậu, không phải bún riêu."
+  },
+  {
+    "lớp": "bun_rieu",
+    "tên file": "ov_3926c75d.jpg",
+    "kết luận": "loại",
+    "lý do": "Tô cơm/thịt, không phải bún riêu."
+  },
+  {
+    "lớp": "bun_rieu",
+    "tên file": "ov_3fc2e819.jpg",
+    "kết luận": "loại",
+    "lý do": "Đĩa chả giò/rau, không phải bún riêu."
+  },
+  {
+    "lớp": "bun_rieu",
+    "tên file": "ov_4c10fac9.jpg",
+    "kết luận": "loại",
+    "lý do": "Đĩa giá/rau sống rời, không phải tô bún riêu."
+  },
+  {
+    "lớp": "bun_rieu",
+    "tên file": "ov_6820d9f5.jpg",
+    "kết luận": "loại",
+    "lý do": "Xe/quầy hàng đường phố, không phải ảnh món ăn."
+  },
+  {
+    "lớp": "bun_rieu",
+    "tên file": "ov_68cb7b18.jpg",
+    "kết luận": "loại",
+    "lý do": "Cảnh nhiều người, món ăn không phải chủ thể."
+  },
+  {
+    "lớp": "bun_rieu",
+    "tên file": "ov_833cd400.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_460833cc.jpg."
+  },
+  {
+    "lớp": "bun_rieu",
+    "tên file": "ov_847f7619.jpg",
+    "kết luận": "loại",
+    "lý do": "Người bán/quầy hàng là chủ thể, không phải tô bún riêu."
+  },
+  {
+    "lớp": "bun_rieu",
+    "tên file": "ov_85a77030.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_36b99853.jpg."
+  },
+  {
+    "lớp": "bun_rieu",
+    "tên file": "ov_9792144e.jpg",
+    "kết luận": "loại",
+    "lý do": "Đĩa giá/rau sống rời, không phải tô bún riêu."
+  },
+  {
+    "lớp": "bun_rieu",
+    "tên file": "ov_a1df4a5a.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_031821c2.jpg."
+  },
+  {
+    "lớp": "bun_rieu",
+    "tên file": "ov_b232ab42.jpg",
+    "kết luận": "loại",
+    "lý do": "Đĩa thịt/mì khô, không phải bún riêu nước."
+  },
+  {
+    "lớp": "bun_rieu",
+    "tên file": "ov_bb0dc227.jpg",
+    "kết luận": "loại",
+    "lý do": "Tô cơm/thịt, không phải bún riêu."
+  },
+  {
+    "lớp": "bun_rieu",
+    "tên file": "ov_c21c5967.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_36b99853.jpg."
+  },
+  {
+    "lớp": "bun_rieu",
+    "tên file": "ov_cabd4078.jpg",
+    "kết luận": "loại",
+    "lý do": "Đĩa chả giò/rau, không phải bún riêu."
+  },
+  {
+    "lớp": "bun_rieu",
+    "tên file": "ov_cb4c5a41.jpg",
+    "kết luận": "loại",
+    "lý do": "Đĩa chả giò/rau, không phải bún riêu."
+  },
+  {
+    "lớp": "bun_rieu",
+    "tên file": "ov_d71f95eb.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng cảnh bát và danh thiếp với ov_e3b57326.jpg."
+  },
+  {
+    "lớp": "bun_rieu",
+    "tên file": "ov_e17646b6.jpg",
+    "kết luận": "loại",
+    "lý do": "Gia vị/chanh trên bàn, không phải tô bún riêu."
+  },
+  {
+    "lớp": "bun_rieu",
+    "tên file": "ov_e96b2c97.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng đĩa chả giò, không phải bún riêu."
+  },
+  {
+    "lớp": "bun_rieu",
+    "tên file": "ov_ed5bc4ce.jpg",
+    "kết luận": "loại",
+    "lý do": "Bát nước dùng trong không có bún/cua/cà chua, không phải bún riêu."
+  },
+  {
+    "lớp": "bun_thit_nuong",
+    "tên file": "ov_03d549b7.jpg",
+    "kết luận": "loại",
+    "lý do": "Mâm nhiều món/súp, không phải bún thịt nướng."
+  },
+  {
+    "lớp": "bun_thit_nuong",
+    "tên file": "ov_07b363d6.jpg",
+    "kết luận": "loại",
+    "lý do": "Bún trắng nguyên liệu trong rổ, chưa phải món hoàn chỉnh."
+  },
+  {
+    "lớp": "bun_thit_nuong",
+    "tên file": "ov_2edd4490.jpg",
+    "kết luận": "loại",
+    "lý do": "Người tại quầy buffet là chủ thể, không phải ảnh món ăn."
+  },
+  {
+    "lớp": "bun_thit_nuong",
+    "tên file": "ov_30865edd.jpg",
+    "kết luận": "loại",
+    "lý do": "Người trong bếp/quầy, không phải ảnh món ăn."
+  },
+  {
+    "lớp": "bun_thit_nuong",
+    "tên file": "ov_3ff88325.jpg",
+    "kết luận": "loại",
+    "lý do": "Bún trắng nguyên liệu trong rổ, chưa phải món hoàn chỉnh."
+  },
+  {
+    "lớp": "bun_thit_nuong",
+    "tên file": "ov_7942b6c7.jpg",
+    "kết luận": "loại",
+    "lý do": "Đĩa thịt nướng rời, không có bún/món hoàn chỉnh."
+  },
+  {
+    "lớp": "bun_thit_nuong",
+    "tên file": "ov_7bbececa.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_1efcedbb.jpg."
+  },
+  {
+    "lớp": "bun_thit_nuong",
+    "tên file": "ov_8735ad3c.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng mâm nhiều món ov_03d549b7.jpg."
+  },
+  {
+    "lớp": "bun_thit_nuong",
+    "tên file": "ov_988f8a1b.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_7fc0266c.jpg."
+  },
+  {
+    "lớp": "bun_thit_nuong",
+    "tên file": "ov_9fc9e87d.jpg",
+    "kết luận": "loại",
+    "lý do": "Đĩa thịt nướng rời, không có bún."
+  },
+  {
+    "lớp": "bun_thit_nuong",
+    "tên file": "ov_a565f4c6.jpg",
+    "kết luận": "loại",
+    "lý do": "Đĩa thịt nướng rời, không có bún."
+  },
+  {
+    "lớp": "bun_thit_nuong",
+    "tên file": "ov_b3b29935.jpg",
+    "kết luận": "loại",
+    "lý do": "Người ăn là chủ thể, món ăn bị che khuất."
+  },
+  {
+    "lớp": "bun_thit_nuong",
+    "tên file": "ov_e2b1a1de.jpg",
+    "kết luận": "loại",
+    "lý do": "Đĩa thịt nướng rời, không có bún."
+  },
+  {
+    "lớp": "bun_thit_nuong",
+    "tên file": "ov_f2b224dd.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_ac7dcf50.jpg."
+  },
+  {
+    "lớp": "bun_thit_nuong",
+    "tên file": "ov_fe59bdb6.jpg",
+    "kết luận": "loại",
+    "lý do": "Đĩa thịt nướng rời, không có bún."
+  },
+  {
+    "lớp": "bun_thit_nuong",
+    "tên file": "ov_ff6831b1.jpg",
+    "kết luận": "loại",
+    "lý do": "Đĩa cơm/thịt/chả giò, không phải bún thịt nướng."
+  },
+  {
+    "lớp": "canh_chua",
+    "tên file": "ov_03b5e115.jpg",
+    "kết luận": "loại",
+    "lý do": "Cảnh hồ/khu nghỉ dưỡng, không có món ăn."
+  },
+  {
+    "lớp": "canh_chua",
+    "tên file": "ov_0bcecf88.jpg",
+    "kết luận": "loại",
+    "lý do": "Phong cảnh đồng ruộng và công trình, không có món ăn."
+  },
+  {
+    "lớp": "canh_chua",
+    "tên file": "ov_1733427b.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh phong cảnh nhìn từ trên cao, không có món ăn."
+  },
+  {
+    "lớp": "canh_chua",
+    "tên file": "ov_1a02983b.jpg",
+    "kết luận": "loại",
+    "lý do": "Món cơm/trộn khô, rõ ràng không phải canh."
+  },
+  {
+    "lớp": "canh_chua",
+    "tên file": "ov_22ff666c.jpg",
+    "kết luận": "loại",
+    "lý do": "Đĩa thịt/gà quay, không phải món canh."
+  },
+  {
+    "lớp": "canh_chua",
+    "tên file": "ov_307906e9.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh ghép nhiều món, không thể hiện riêng món canh chua."
+  },
+  {
+    "lớp": "canh_chua",
+    "tên file": "ov_538c3bee.jpg",
+    "kết luận": "loại",
+    "lý do": "Cảnh đường phố/công trình, không có món ăn."
+  },
+  {
+    "lớp": "canh_chua",
+    "tên file": "ov_8a25986c.jpg",
+    "kết luận": "loại",
+    "lý do": "Đĩa bánh gạo, không phải món canh."
+  },
+  {
+    "lớp": "canh_chua",
+    "tên file": "ov_90721333.jpg",
+    "kết luận": "loại",
+    "lý do": "Cảnh đường phố, không có món ăn."
+  },
+  {
+    "lớp": "canh_chua",
+    "tên file": "ov_9fe4fe5d.jpg",
+    "kết luận": "loại",
+    "lý do": "Các cốc/bát đồ uống hoặc tráng miệng, không phải canh."
+  },
+  {
+    "lớp": "canh_chua",
+    "tên file": "ov_a5247bf3.jpg",
+    "kết luận": "loại",
+    "lý do": "Bánh/viên bột hấp, không phải món canh."
+  },
+  {
+    "lớp": "canh_chua",
+    "tên file": "ov_a8569e23.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh ghép cảnh đêm và nhiều món nhỏ, không thể hiện riêng món canh chua."
+  },
+  {
+    "lớp": "canh_chua",
+    "tên file": "ov_b7928bfa.jpg",
+    "kết luận": "loại",
+    "lý do": "Người trong vườn, không có món ăn."
+  },
+  {
+    "lớp": "canh_chua",
+    "tên file": "ov_d3640cd6.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_09033615.jpg."
+  },
+  {
+    "lớp": "canh_chua",
+    "tên file": "ov_ea3b75fd.jpg",
+    "kết luận": "loại",
+    "lý do": "Mâm nhiều món nhìn từ trên, không thể hiện riêng món canh chua."
+  },
+  {
+    "lớp": "canh_chua",
+    "tên file": "ov_ed0faac2.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh công trình/phong cảnh, không có món ăn."
+  },
+  {
+    "lớp": "canh_chua",
+    "tên file": "ov_fc3bacf2.jpg",
+    "kết luận": "loại",
+    "lý do": "Đĩa đồ chiên, không phải món canh."
+  },
+  {
+    "lớp": "pho_ga",
+    "tên file": "ov_001e1c70.jpg",
+    "kết luận": "loại",
+    "lý do": "Trẻ em/người bên bàn ăn là chủ thể, không phải ảnh tô phở."
+  },
+  {
+    "lớp": "pho_ga",
+    "tên file": "ov_0adbca95.jpg",
+    "kết luận": "loại",
+    "lý do": "Mặt tiền/biển hiệu quán, không phải tô phở."
+  },
+  {
+    "lớp": "pho_ga",
+    "tên file": "ov_0bf2b00c.jpg",
+    "kết luận": "loại",
+    "lý do": "Mì trộn khô màu đỏ, không phải phở gà nước."
+  },
+  {
+    "lớp": "pho_ga",
+    "tên file": "ov_23aca99f.jpg",
+    "kết luận": "loại",
+    "lý do": "Mì khô/trộn không có nước dùng, không phải phở gà."
+  },
+  {
+    "lớp": "pho_ga",
+    "tên file": "ov_27e0ba62.jpg",
+    "kết luận": "loại",
+    "lý do": "Người bán/quầy hàng là chủ thể, không phải ảnh tô phở."
+  },
+  {
+    "lớp": "pho_ga",
+    "tên file": "ov_393e06ef.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_07b078ad.jpg."
+  },
+  {
+    "lớp": "pho_ga",
+    "tên file": "ov_3b726729.jpg",
+    "kết luận": "loại",
+    "lý do": "Quầy/chợ thức ăn, không phải tô phở."
+  },
+  {
+    "lớp": "pho_ga",
+    "tên file": "ov_42b037b1.jpg",
+    "kết luận": "loại",
+    "lý do": "Người trong cảnh tối là chủ thể, không có tô phở rõ."
+  },
+  {
+    "lớp": "pho_ga",
+    "tên file": "ov_4c309948.jpg",
+    "kết luận": "loại",
+    "lý do": "Bát nguyên liệu/bánh phở rời, không phải món hoàn chỉnh."
+  },
+  {
+    "lớp": "pho_ga",
+    "tên file": "ov_5698979b.jpg",
+    "kết luận": "loại",
+    "lý do": "Gà quay nguyên con ở quầy, không phải phở gà."
+  },
+  {
+    "lớp": "pho_ga",
+    "tên file": "ov_7fd194f5.jpg",
+    "kết luận": "loại",
+    "lý do": "Phong cảnh đường phố, không có món ăn."
+  },
+  {
+    "lớp": "pho_ga",
+    "tên file": "ov_85ba4e91.jpg",
+    "kết luận": "loại",
+    "lý do": "Ảnh trùng rõ với ov_5e04c92c.jpg."
+  },
+  {
+    "lớp": "pho_ga",
+    "tên file": "ov_8fd1f401.jpg",
+    "kết luận": "loại",
+    "lý do": "Cảnh bàn/quán vỉa hè, tô phở không phải chủ thể rõ."
+  },
+  {
+    "lớp": "pho_ga",
+    "tên file": "ov_9107aec8.jpg",
+    "kết luận": "loại",
+    "lý do": "Quầy bán gà quay, không phải tô phở gà."
+  },
+  {
+    "lớp": "pho_ga",
+    "tên file": "ov_ae0621ac.jpg",
+    "kết luận": "loại",
+    "lý do": "Khay đồ ăn ở quầy, không phải tô phở gà."
+  },
+  {
+    "lớp": "pho_ga",
+    "tên file": "ov_b4922288.jpg",
+    "kết luận": "loại",
+    "lý do": "Khay nguyên liệu/quầy chế biến, không phải tô phở hoàn chỉnh."
+  },
+  {
+    "lớp": "pho_ga",
+    "tên file": "ov_bab130ae.jpg",
+    "kết luận": "loại",
+    "lý do": "Bao bì mì/phở ăn liền, không phải ảnh món ăn thật."
+  },
+  {
+    "lớp": "pho_ga",
+    "tên file": "ov_bda39033.jpg",
+    "kết luận": "loại",
+    "lý do": "Khay thức ăn tại quầy, không phải tô phở."
+  },
+  {
+    "lớp": "pho_ga",
+    "tên file": "ov_bf3ce04d.jpg",
+    "kết luận": "loại",
+    "lý do": "Đĩa rau/mì khô không có nước dùng, không phải phở gà."
+  },
+  {
+    "lớp": "pho_ga",
+    "tên file": "ov_d320dfaa.jpg",
+    "kết luận": "loại",
+    "lý do": "Mặt tiền/biển hiệu quán, không phải tô phở."
+  },
+  {
+    "lớp": "pho_ga",
+    "tên file": "ov_ee335616.jpg",
+    "kết luận": "loại",
+    "lý do": "Món thịt/sốt trắng không có bánh phở/nước dùng."
+  },
+  {
+    "lớp": "pho_ga",
+    "tên file": "ov_f40e3ffc.jpg",
+    "kết luận": "loại",
+    "lý do": "Biển/quầy bán hàng, không phải ảnh món phở."
+  },
+  {
+    "lớp": "pho_ga",
+    "tên file": "ov_fca0d02f.jpg",
+    "kết luận": "loại",
+    "lý do": "Khay gà quay ở quầy, không phải tô phở gà."
+  }
+]

@@ -22,14 +22,16 @@ _FTS_CACHE_LOCK = Lock()
 def _fts_query(normalized_query: str, mode: str = "and") -> str:
     """Biến đầu vào đã chuẩn hoá thành truy vấn FTS5 đã quote an toàn.
 
-    - mode="and" (tra cứu người dùng): mọi từ phải xuất hiện — rộng hơn, hợp với ô tìm kiếm.
+    - mode="and" (tra cứu người dùng): mọi từ phải xuất hiện, khớp TIỀN TỐ theo từng từ và chỉ
+      trên hai cột tên/tên phụ. Phải giới hạn cột vì trước đây truy vấn quét cả cột hậu tố nên
+      'nem ran' trả về "Medite-rran-e" (chữ "ran" nằm giữa từ) — rác ngay kết quả đầu.
     - mode="phrase" (gợi ý món cho nhãn nhận diện): các từ phải đứng LIỀN NHAU, đúng như
-      `LIKE '%a b%'` trước đây. Cần thiết vì AND rời từng từ khớp bậy: 'nem ran' từng trả về
-      "Medite-rran-e" (chữ "ran" nằm giữa từ) làm gợi ý món ra phô mai Đức.
+      `LIKE '%a b%'` trước đây.
     """
     if mode == "phrase":
         return '"' + normalized_query.replace('"', '""') + '"'
-    return " AND ".join(f'"{token.replace(chr(34), chr(34) * 2)}"*' for token in normalized_query.split())
+    safe = (token.replace(chr(34), chr(34) * 2) for token in normalized_query.split())
+    return " AND ".join(f'(name_norm : "{token}"* OR alias_norm : "{token}"*)' for token in safe)
 
 
 class FoodRepository:

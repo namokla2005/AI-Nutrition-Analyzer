@@ -5,11 +5,15 @@ Nguyên tắc bắt buộc (§8.6, §9, §13):
 - Qwen KHÔNG truy cập SQLite, không nhận SQL, không thấy dữ liệu của tài khoản khác.
 - Nếu thiếu dữ liệu thì phải nói rõ là thiếu (giao diện hiển thị cả `context_used` để
   người dùng tự kiểm chứng con số).
+- Sau khi model trả lời, backend còn ĐỐI CHIẾU từng con số có đơn vị với dữ liệu thật
+  (`verify_numbers`): sai thì hỏi lại model một lần, vẫn sai thì gắn số liệu chính thức
+  lấy trực tiếp từ dữ liệu vào cuối câu trả lời.
 - Ollama không chạy thì API trả 503 kèm hướng dẫn; các chức năng khác không bị ảnh hưởng.
 """
 from __future__ import annotations
 
 import logging
+import re
 
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session, selectinload
@@ -49,6 +53,165 @@ QUY TẮC BẮT BUỘC:
 
 CONTEXT_BUDGET_NOTE = "(Ngữ cảnh được hệ thống cắt bớt để giới hạn độ dài.)"
 
+# --------------------------------------------------------------------------------------
+# Kiểm chứng số liệu: Qwen 0,8B có lúc viết sai/không có con số. Sau khi model trả lời,
+# backend đối chiếu từng con số CÓ ĐƠN VỊ với con số có thật trong ngữ cảnh; nếu lệch thì
+# thử lại một lần, còn vẫn sai thì gắn thẳng số liệu chính thức lấy từ dữ liệu vào cuối câu
+# trả lời. Nhờ vậy giao diện không bao giờ hiển thị con số do model tự nghĩ ra.
+# --------------------------------------------------------------------------------------
+_NUMBER_CLAIM = re.compile(r"(\d[\d.,]*)\s*(kcal|calo|calories|kj|grams|gram|gam|mg|g|%)", re.IGNORECASE)
+_UNIT_KIND = {"kcal": "energy", "calo": "energy", "calories": "energy", "kj": "energy",
+              "g": "mass", "gam": "mass", "gram": "mass", "grams": "mass", "mg": "mass",
+              "%": "percent"}
+_ENERGY_KEYS = ("kcal", "calor", "energy", "kj")
+_MASS_KEYS = ("protein", "carbohydrate", "fat", "fiber", "sugar", "sodium", "weight", "grams")
+_PERCENT_KEYS = ("percent", "pct", "%")
+
+
+def _float_candidates(raw: str) -> list[float]:
+    """Các cách đọc một con số: '1.842,5' (Việt Nam), '1,842.5' (Anh), '842.5', '842'.
+
+    Phải trả về NHIỀU cách đọc vì '260.0' kiểu Anh là 260 còn '1.842' kiểu Việt Nam là 1842;
+    chỉ chọn một cách sẽ báo động nhầm những con số hoàn toàn đúng.
+    """
+    cleaned = (raw or "").strip().rstrip(".")
+    out: list[float] = []
+
+    def add(text: str) -> None:
+        try:
+            value = float(text)
+        except ValueError:
+            return
+        if value not in out:
+            out.append(value)
+
+    if "," in cleaned and "." in cleaned:
+        if cleaned.rfind(",") > cleaned.rfind("."):
+            add(cleaned.replace(".", "").replace(",", "."))  # 1.842,5 -> 1842.5
+        else:
+            add(cleaned.replace(",", ""))  # 1,842.5 -> 1842.5
+    elif "," in cleaned:
+        add(cleaned.replace(",", ""))  # 1,842 -> 1842
+        add(cleaned.replace(",", "."))  # 842,5 -> 842.5
+    elif "." in cleaned:
+        add(cleaned)  # 260.0 -> 260.0
+        add(cleaned.replace(".", ""))  # 1.842 -> 1842
+    else:
+        add(cleaned)
+    return out
+
+
+def _to_float(raw: str) -> float | None:
+    """Cách đọc đầu tiên của một con số (dùng khi chỉ cần một giá trị)."""
+    candidates = _float_candidates(raw)
+    return candidates[0] if candidates else None
+
+
+def context_numbers(context: dict) -> dict[str, list[float]]:
+    """Các con số CÓ THẬT trong ngữ cảnh, phân theo loại đơn vị (energy/mass/percent)."""
+    buckets: dict[str, list[float]] = {"energy": [], "mass": [], "percent": []}
+
+    def classify(key: str) -> str | None:
+        k = key.lower()
+        if any(token in k for token in _PERCENT_KEYS):
+            return "percent"
+        if any(token in k for token in _ENERGY_KEYS):
+            return "energy"
+        if any(token in k for token in _MASS_KEYS) or k.endswith(("_g", "_mg")):
+            return "mass"
+        return None
+
+    def walk(node) -> None:
+        if isinstance(node, dict):
+            for key, value in node.items():
+                if isinstance(value, (dict, list)):
+                    walk(value)
+                    continue
+                kind = classify(str(key))
+                if kind and isinstance(value, (int, float)) and not isinstance(value, bool):
+                    buckets[kind].append(float(value))
+                if isinstance(value, str):
+                    for match in _NUMBER_CLAIM.finditer(value):
+                        number = _to_float(match.group(1))
+                        if number is not None:
+                            buckets[_UNIT_KIND.get(match.group(2).lower(), "mass")].append(number)
+        elif isinstance(node, list):
+            for item in node:
+                walk(item)
+
+    walk(context)
+    return buckets
+
+
+def empty_kinds(context: dict) -> set[str]:
+    """Đơn vị mà dữ liệu CHẮC CHẮN không có số nào.
+
+    Người dùng chưa ghi bữa ăn nào và không hỏi về món nào thì mọi con số kcal/g trong câu
+    trả lời đều là bịa (chỉ 0 được coi là đúng). Nếu không xét trường hợp này thì lớp kiểm
+    chứng sẽ bỏ qua vì "không có giá trị tham chiếu" — đúng lỗ hổng cần bịt.
+    """
+    no_meals = (not context.get("today_meals") and not context.get("today_by_meal_type")
+                and context.get("today_meal_count") in (0, None))
+    if no_meals and not context.get("foods_mentioned"):
+        return {"energy", "mass"}
+    return set()
+
+
+def verify_numbers(answer_text: str | None, context: dict, tolerance: float = 1.5) -> dict:
+    """Đối chiếu con số model viết ra với con số có thật trong ngữ cảnh.
+
+    Chỉ xét con số CÓ ĐƠN VỊ (kcal/g/mg/%); con số trần bị bỏ qua vì không đủ căn cứ (có thể
+    là ngày tháng, mã sản phẩm). Loại đơn vị nào không có giá trị tham chiếu trong ngữ cảnh
+    thì cũng bỏ qua để không buộc tội oan cho model — trừ khi dữ liệu chắc chắn đang trống
+    (`empty_kinds`), lúc đó con số khác 0 bị coi là bịa.
+    """
+    allowed = context_numbers(context)
+    absent = empty_kinds(context)
+    checked = 0
+    unsupported: list[str] = []
+    for match in _NUMBER_CLAIM.finditer(answer_text or ""):
+        kind = _UNIT_KIND.get(match.group(2).lower())
+        values = _float_candidates(match.group(1))
+        if not values or kind is None:
+            continue
+        reference = allowed.get(kind) or []
+        if not reference:
+            if kind not in absent:
+                continue
+            reference = [0.0]
+        checked += 1
+        # chấp nhận nếu BẤT KỲ cách đọc nào của con số khớp dữ liệu (tránh báo động nhầm
+        # kiểu "260.0" bị đọc thành 2600)
+        if not any(abs(value - ref) <= tolerance for value in values for ref in reference):
+            unsupported.append(match.group(0).strip())
+    return {"checked": checked, "unsupported": unsupported, "verified": not unsupported,
+            "absent_kinds": sorted(absent),
+            "reference_sizes": {key: len(values) for key, values in allowed.items()}}
+
+
+def official_numbers_text(context: dict) -> str:
+    """Câu chốt số liệu chính thức lấy thẳng từ dữ liệu (dùng khi model viết sai số).
+
+    Khi người dùng chưa ghi bữa ăn nào thì phải nói thẳng là chưa có dữ liệu, không được để
+    câu trả lời của model đứng một mình với con số tự nghĩ ra.
+    """
+    totals = context.get("today_totals") or {}
+    parts: list[str] = []
+    if totals.get("energy_kcal") is not None:
+        parts.append(f"tổng hôm nay {totals['energy_kcal']:.1f} kcal".replace(".", ","))
+    for key, label in (("protein_g", "đạm"), ("carbohydrate_g", "carbohydrate"), ("fat_g", "béo")):
+        if totals.get(key) is not None:
+            parts.append(f"{label} {totals[key]:.1f} g".replace(".", ","))
+    target = (context.get("today_target") or {}).get("target_kcal")
+    if target is not None:
+        parts.append(f"mục tiêu {target:.0f} kcal")
+    for meal in context.get("today_by_meal_type") or []:
+        if meal.get("calories") is not None:
+            parts.append(f"{meal['meal_type']} {meal['calories']:.1f} kcal".replace(".", ","))
+    if not parts:
+        return "hôm nay chưa ghi nhận bữa ăn nào (0 kcal)"
+    return "; ".join(parts)
+
 
 class AssistantError(Exception):
     def __init__(self, message: str, code: str = "assistant_error") -> None:
@@ -60,10 +223,19 @@ class AssistantError(Exception):
 # ---------------------------------------------------------------- dựng ngữ cảnh
 
 
+_STOPWORDS = frozenset("""
+hom nay toi ban minh cua cho va la gi bao nhieu the nao trong ngoai co khong duoc an uong mon
+thuc pham xin hay giup voi ta mot cac nhung rat qua lam sao khi and the for with how what today
+eat food calories calorie kcal bao nhung gi va cung nhu de tren duoi
+""".split())
+
+
 def _match_foods_in_question(db: Session, question: str, limit: int = 3) -> list[dict]:
     """Tìm thực phẩm được nhắc tới trong câu hỏi (khớp cả khi không dấu).
 
-    Ưu tiên cụm dài trước để tránh khớp nhầm từng từ đơn.
+    Ưu tiên cụm dài trước để tránh khớp nhầm từng từ đơn, và BỎ QUA từ dừng/từ quá ngắn: từng
+    bị 'an' (từ 'ăn') khớp tiền tố với 'and' nên câu hỏi "hôm nay tôi ăn gì" lại khiến trợ lý
+    nhắc tới "Beef and vegetables" — rác trong ngữ cảnh.
     """
     normalized = normalize_name(question)
     words = normalized.split()
@@ -76,7 +248,14 @@ def _match_foods_in_question(db: Session, question: str, limit: int = 3) -> list
         if len(found) >= limit:
             break
         for start in range(0, len(words) - size + 1):
-            phrase = " ".join(words[start:start + size])
+            chunk = words[start:start + size]
+            if size == 1:
+                # một từ đơn chỉ được coi là tên món khi đủ dài và không phải từ dừng
+                if len(chunk[0]) < 3 or chunk[0] in _STOPWORDS:
+                    continue
+            elif all(word in _STOPWORDS for word in chunk):
+                continue
+            phrase = " ".join(chunk)
             if len(phrase) < 3:
                 continue
             rows, _ = repo.search(query=phrase, limit=limit)
@@ -303,6 +482,32 @@ def answer(db: Session, user: User, question: str, session_id: int | None = None
     else:
         answer_text = result.content
 
+    # Kiểm chứng số liệu: model chỉ được nêu con số có trong DỮ LIỆU.
+    check = verify_numbers(answer_text, context) if result.content else {
+        "checked": 0, "unsupported": [], "verified": True, "reference_sizes": {}}
+    retried = False
+    if result.content and not check["verified"]:
+        logger.warning("Trợ lý nêu số không có trong dữ liệu: %s", check["unsupported"][:5])
+        messages.append({"role": "assistant", "content": answer_text[:800]})
+        messages.append({"role": "user", "content": (
+            "Câu trả lời vừa rồi chứa con số KHÔNG có trong DỮ LIỆU: "
+            + ", ".join(check["unsupported"][:5])
+            + ". Hãy trả lời lại, chỉ dùng đúng các con số có trong phần DỮ LIỆU.")})
+        try:
+            retry = client.chat(messages)
+        except OllamaUnavailable:
+            retry = None
+        if retry is not None and retry.content:
+            result = retry
+            answer_text = retry.content
+            retried = True
+            check = verify_numbers(answer_text, context)
+    if result.content and not check["verified"]:
+        # Vẫn sai thì chốt bằng số liệu chính thức lấy trực tiếp từ dữ liệu.
+        official = official_numbers_text(context)
+        if official:
+            answer_text = f"{answer_text}\n\nSố liệu chính thức từ dữ liệu: {official}."
+
     db.add(ChatMessage(
         session_id=session.id,
         role="assistant",
@@ -322,6 +527,10 @@ def answer(db: Session, user: User, question: str, session_id: int | None = None
         "tokens_out": result.tokens_out,
         "context_used": context,
         "grounded": True,
+        "numbers_verified": check["verified"],
+        "numbers_checked": check["checked"],
+        "unsupported_numbers": check["unsupported"],
+        "retried": retried,
         "notice": notice,
     }
 

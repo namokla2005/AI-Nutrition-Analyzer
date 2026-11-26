@@ -350,3 +350,37 @@ suy luận 1 ảnh chỉ ~20 ms nên GPU không cần cho lúc chạy.
   e2e **92/0**, nhận diện món Việt không đổi (top-1 8/12). Ứng dụng vẫn suy luận trên CPU
   (`map_location="cpu"`) nên hành vi web không đổi. Sự cố khi cài: uv bị chặn xoá `PIL/_imaging*.pyd`
   đang bị giữ → mất PIL + sympy; đã chép lại PIL 13.0.0 từ `.venv-gpu` và cài bù gói phụ thuộc.
+
+## 7.8. Vòng hoàn thiện ngày 28/11/2026: model 25 lớp, bỏ cột hậu tố FTS5, lớp kiểm chứng số liệu
+
+### Model nhận diện ảnh
+- Tập dữ liệu sau khi khôi phục ảnh Openverse: **1.784 ảnh / 29 lớp** (865 Wikimedia Commons +
+  119 Openverse + 800 Food-101), chia 1.181 / 257 / 250.
+- Lần chạy đang dùng **v8: 25 lớp** (17 món Việt + 8 lớp Food-101), **1.688 ảnh**, huấn luyện
+  trên GPU (Quadro P2000) với **`CrossEntropyLoss(weight=balanced)`** để chống lệch lớp
+  (lớp món Việt 24–27 ảnh train so với 70 ảnh của lớp Food-101).
+- Kết quả test **0,7000 · macro F1 0,6629**; trên 234 ảnh test của 22 lớp chung đạt **168/234 =
+  0,7179** (v5 0,7137 · v6 0,6923 · v7 0,6795) nên v8 được chọn làm bản phục vụ; bản cũ giữ ở
+  `models/image_v5/`. Kiểm chứng HTTP thật: top-1 14/24, top-3 21/24.
+- Ba lớp mới `bun_rieu`, `bun_thit_nuong`, `pho_ga` đã vào model; nhóm món nước còn nhầm lẫn
+  nhau và cần thêm 30–50 ảnh thật mỗi món.
+- `training/image/train.py` có thêm cờ `--class-weights balanced` (và `--device cuda`).
+
+### Tra cứu (FTS5)
+- Bỏ hẳn cột `suffix_norm` (mọi hậu tố của mọi từ) khỏi bảng ảo: cột này gây kết quả rác
+  ("nem rán" → "Mediterrane Creme") và chiếm 66,3 MB. Migration `c4a7b1e9d2f3`.
+- Truy vấn dùng khớp tiền tố theo từng từ, chỉ trên `name_norm`/`alias_norm`.
+- CSDL **135,1 MB → 82,0 MB** (−53,1 MB), `integrity_check = ok`, 102.847 dòng đồng bộ.
+
+### Trợ lý AI
+- Thêm lớp kiểm chứng số liệu: `context_numbers`, `verify_numbers`, `official_numbers_text`;
+  sai số thì hỏi lại model một lần, vẫn sai thì gắn số liệu chính thức lấy từ dữ liệu.
+- API trả thêm `numbers_verified`, `numbers_checked`, `unsupported_numbers`, `retried`.
+- Bỏ từ dừng/từ ngắn khi dò món trong câu hỏi (trước đây "ăn" → "and" nên nhắc "Beef and
+  vegetables").
+
+### Kiểm thử
+- pytest **193 đạt / 1 bỏ qua / 0 hỏng**; e2e web **92 đạt / 0 hỏng** (chạy lại sau mỗi lần đổi
+  model, đổi chỉ mục và sau khi thêm lớp kiểm chứng).
+- Lượt kiểm thử lái trình duyệt thật: đăng nhập, `/recognize` (Top-3), `/foods`, `/assistant`.
+- Dữ liệu kiểm thử đã dọn: 102.847 thực phẩm, 364.611 giá trị dinh dưỡng, 2 tài khoản thật.

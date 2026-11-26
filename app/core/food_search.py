@@ -8,7 +8,6 @@ CREATE VIRTUAL TABLE IF NOT EXISTS food_search USING fts5(
     food_id UNINDEXED,
     name_norm,
     alias_norm,
-    suffix_norm,
     tokenize='unicode61 remove_diacritics 2'
 )
 """
@@ -25,36 +24,26 @@ SELECT f.id AS food_id,
 FROM foods AS f
 """
 
-_SUFFIXES_SQL = """
-COALESCE((
-    WITH RECURSIVE
-    words(rest, word) AS (
-        SELECT trim(d.name_norm || ' ' || d.alias_norm) || ' ', ''
-        UNION ALL
-        SELECT ltrim(substr(rest, instr(rest, ' ') + 1)),
-               substr(rest, 1, instr(rest, ' ') - 1)
-        FROM words WHERE rest <> ''
-    ),
-    suffixes(suffix) AS (
-        SELECT word FROM words WHERE word <> ''
-        UNION ALL
-        SELECT substr(suffix, 2) FROM suffixes WHERE length(suffix) > 1
-    )
-    SELECT group_concat(suffix, ' ') FROM suffixes
-), '')
+_REMOVED_SUFFIX_NOTE = """
+Ghi chú lịch sử: bảng từng có thêm cột `suffix_norm` chứa MỌI hậu tố của mọi từ trong tên
+(sinh bằng truy vấn đệ quy) để khớp được giữa chuỗi. Cột này vừa làm CSDL phình thêm 66 MB
+(vì mỗi tên sinh ra hàng chục hậu tố) vừa gây khớp bậy: 'nem ran' trả về "Medite-rran-e"
+và 'ga' trả về "Grow & ga-in". Đã bỏ hẳn; tra cứu dùng khớp TIỀN TỐ theo từng từ trên hai
+cột tên/tên phụ.
 """
 
-FOOD_SEARCH_BACKFILL_SQL = f"""
-INSERT INTO food_search(rowid, food_id, name_norm, alias_norm, suffix_norm)
-SELECT d.food_id, d.food_id, d.name_norm, d.alias_norm, {_SUFFIXES_SQL}
+FOOD_SEARCH_BACKFILL_SQL = """
+INSERT INTO food_search(rowid, food_id, name_norm, alias_norm)
+SELECT d.food_id, d.food_id, d.name_norm, d.alias_norm
 FROM food_search_documents AS d
 WHERE NOT EXISTS (SELECT 1 FROM food_search AS s WHERE s.rowid = d.food_id)
 """
 
+
 def _rebuild_sql(food_id: str) -> str:
     return f"""
-        INSERT INTO food_search(rowid, food_id, name_norm, alias_norm, suffix_norm)
-        SELECT d.food_id, d.food_id, d.name_norm, d.alias_norm, {_SUFFIXES_SQL}
+        INSERT INTO food_search(rowid, food_id, name_norm, alias_norm)
+        SELECT d.food_id, d.food_id, d.name_norm, d.alias_norm
         FROM food_search_documents AS d WHERE d.food_id = {food_id};
     """
 

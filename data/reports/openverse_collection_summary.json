@@ -1,0 +1,94 @@
+{
+  "classes": [
+    {
+      "class": "canh_chua",
+      "before": 5,
+      "downloaded_new": 39,
+      "rejected": 17,
+      "clean_new": 22,
+      "clean_final": 27,
+      "target_met": false
+    },
+    {
+      "class": "banh_beo",
+      "before": 12,
+      "downloaded_new": 30,
+      "rejected": 20,
+      "clean_new": 10,
+      "clean_final": 22,
+      "target_met": false
+    },
+    {
+      "class": "banh_khot",
+      "before": 22,
+      "downloaded_new": 26,
+      "rejected": 15,
+      "clean_new": 11,
+      "clean_final": 33,
+      "target_met": false
+    },
+    {
+      "class": "bun_dau_mam_tom",
+      "before": 10,
+      "downloaded_new": 27,
+      "rejected": 23,
+      "clean_new": 4,
+      "clean_final": 14,
+      "target_met": false
+    },
+    {
+      "class": "bun_rieu",
+      "before": 15,
+      "downloaded_new": 45,
+      "rejected": 25,
+      "clean_new": 20,
+      "clean_final": 35,
+      "target_met": true
+    },
+    {
+      "class": "bun_thit_nuong",
+      "before": 12,
+      "downloaded_new": 43,
+      "rejected": 16,
+      "clean_new": 27,
+      "clean_final": 39,
+      "target_met": true
+    },
+    {
+      "class": "pho_ga",
+      "before": 10,
+      "downloaded_new": 49,
+      "rejected": 23,
+      "clean_new": 26,
+      "clean_final": 36,
+      "target_met": true
+    }
+  ],
+  "provenance_records": 259,
+  "provenance_physical_lines": 6477,
+  "provenance_csv_records": 259,
+  "visual_review_records": 139,
+  "missing_license_or_url": 0,
+  "invalid_license": 0,
+  "missing_required_fields": 0,
+  "missing_files": 0,
+  "bad_jpeg_or_long_edge": [],
+  "duplicate_active_sha256": {},
+  "review_matches_rejected": true,
+  "contact_sheets": [
+    "data/reports/openverse_contact_sheets_reviewed/banh_beo_01.jpg",
+    "data/reports/openverse_contact_sheets_reviewed/banh_beo_02.jpg",
+    "data/reports/openverse_contact_sheets_reviewed/banh_khot_01.jpg",
+    "data/reports/openverse_contact_sheets_reviewed/banh_khot_02.jpg",
+    "data/reports/openverse_contact_sheets_reviewed/bun_dau_mam_tom_01.jpg",
+    "data/reports/openverse_contact_sheets_reviewed/bun_dau_mam_tom_02.jpg",
+    "data/reports/openverse_contact_sheets_reviewed/bun_rieu_01.jpg",
+    "data/reports/openverse_contact_sheets_reviewed/bun_rieu_02.jpg",
+    "data/reports/openverse_contact_sheets_reviewed/bun_thit_nuong_01.jpg",
+    "data/reports/openverse_contact_sheets_reviewed/bun_thit_nuong_02.jpg",
+    "data/reports/openverse_contact_sheets_reviewed/canh_chua_01.jpg",
+    "data/reports/openverse_contact_sheets_reviewed/canh_chua_02.jpg",
+    "data/reports/openverse_contact_sheets_reviewed/pho_ga_01.jpg",
+    "data/reports/openverse_contact_sheets_reviewed/pho_ga_02.jpg"
+  ]
+}

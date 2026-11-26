@@ -532,8 +532,20 @@ def collect_commons(
         for source_image in candidates:
             if accepted >= cap:
                 break
-            page_match = re.search(r"(?:commons_)?(\d+)", source_image.stem)
-            page_id = page_match.group(1) if page_match else source_image.stem
+            # CHỈ ảnh thật từ Wikimedia Commons mới đổi tên thành commons_<page_id>. Ảnh từ nguồn
+            # khác (Openverse/Flickr đặt tên ov_<hex>) phải GIỮ NGUYÊN tên: lấy nhóm chữ số đầu
+            # của ov_<hex> cho ra tên trùng nhau giữa các ảnh khác nhau và chúng ghi đè lẫn nhau
+            # (sự cố 27/11/2026: 19 ảnh bị mất vì lý do này).
+            if source_image.stem.startswith("commons_"):
+                page_match = re.search(r"(\d+)", source_image.stem)
+                stem_out = f"commons_{page_match.group(1)}" if page_match else source_image.stem
+            else:
+                stem_out = source_image.stem
+            destination = class_dir / f"{stem_out}.jpg"
+            if destination.exists() and destination != source_image:
+                stem_out = f"{stem_out}_{hashlib.sha1(source_image.name.encode('utf-8')).hexdigest()[:6]}"
+                destination = class_dir / f"{stem_out}.jpg"
+            temporary = class_dir / f".prepare_{stem_out}.jpg"
             sidecar = source_image.with_suffix(".json")
             metadata: dict[str, Any] = {}
             if sidecar.exists():
@@ -541,8 +553,8 @@ def collect_commons(
                     metadata = json.loads(sidecar.read_text(encoding="utf-8"))
                 except (OSError, json.JSONDecodeError) as exc:
                     failed_processing.append(f"{sidecar}: metadata lỗi: {exc}")
-            destination = class_dir / f"commons_{page_id}.jpg"
-            temporary = class_dir / f".prepare_{page_id}.jpg"
+            destination = class_dir / f"{stem_out}.jpg"
+            temporary = class_dir / f".prepare_{stem_out}.jpg"
             try:
                 width, height, size = resize_to_jpeg(source_image, temporary)
                 temporary.replace(destination)
@@ -560,14 +572,20 @@ def collect_commons(
                 continue
             seen_identities.add(identity)
             source_class = item.get("search_term") or item["source_class"]
+            # Nguồn có thể là Wikimedia Commons hoặc Openverse/Flickr: ghi ĐÚNG nguồn, tác giả và
+            # đường dẫn gốc (trước đây gán sai tất cả thành "Wikimedia Commons" và để author/source rỗng).
+            is_commons = bool(metadata.get("commons_url")) or source_image.stem.startswith("commons_")
+            provider = (metadata.get("provider") or metadata.get("source") or "").strip()
             note_parts = [
-                f"Wikimedia Commons {metadata.get('license', 'không rõ giấy phép')}",
-                f"author={metadata.get('author', '')}",
-                f"source={metadata.get('commons_url') or metadata.get('source_url', '')}",
+                f"{'Wikimedia Commons' if is_commons else (provider or 'Openverse')} "
+                f"{metadata.get('license', 'không rõ giấy phép')}",
+                f"author={metadata.get('author') or metadata.get('creator') or ''}",
+                f"source={metadata.get('commons_url') or metadata.get('foreign_landing_url') or metadata.get('source_url') or metadata.get('url') or ''}",
                 f"license_url={metadata.get('license_url', '')}",
             ]
             records.append({
-                "our_class": item["our_class"], "source_class": source_class, "source": "commons",
+                "our_class": item["our_class"], "source_class": source_class,
+                "source": "commons" if is_commons else "openverse",
                 "relative_path": _relative(destination), "width": width, "height": height, "bytes": size,
                 "licence/source note": "; ".join(note_parts), "identity": identity,
                 "source_payload_bytes": int(metadata.get("downloaded_size_bytes") or size),

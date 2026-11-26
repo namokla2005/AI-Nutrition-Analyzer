@@ -22,7 +22,10 @@ router = APIRouter(prefix="/assistant", tags=["assistant"])
 
 GROUNDED_POLICY = (
     "Trợ lý chỉ diễn giải dữ liệu dinh dưỡng do backend dựng từ database của chính người "
-    "dùng; không tạo số liệu, không truy cập SQLite, không thấy dữ liệu của tài khoản khác."
+    "dùng; không tạo số liệu, không truy cập SQLite, không thấy dữ liệu của tài khoản khác. "
+    "Mọi con số có đơn vị trong câu trả lời đều được backend đối chiếu lại với dữ liệu thật "
+    "(numbers_verified); nếu model viết sai thì hệ thống hỏi lại một lần và cuối cùng luôn "
+    "gắn số liệu chính thức lấy trực tiếp từ dữ liệu."
 )
 
 

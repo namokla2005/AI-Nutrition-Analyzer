@@ -44,7 +44,9 @@ class FakeOllama:
         self.calls: list[list[dict]] = []
 
     def chat(self, messages, **kwargs) -> ChatResult:
-        self.calls.append(messages)
+        # ghi lại BẢN CHỤP tại thời điểm gọi (mã trợ lý có thể nối thêm tin nhắn vào cùng danh sách
+        # khi phải hỏi lại vì số liệu sai, nên không được giữ tham chiếu)
+        self.calls.append([dict(message) for message in messages])
         return ChatResult(content=self.content, model="fake-qwen", tokens_out=42, latency_ms=7)
 
     @property
@@ -129,7 +131,12 @@ class TestAssistantChat:
         r = c.post("/api/v1/assistant/chat", json={"message": "Bữa ăn của tôi có bao nhiêu calo?"})
         assert r.status_code == 200, r.text
         body = r.json()
-        assert body["answer"] == "Hôm nay bạn đã ăn 260 kcal."
+        # người dùng CHƯA ghi bữa ăn nào nên con số 260 kcal của model là bịa:
+        # câu trả lời phải kèm số liệu chính thức lấy từ dữ liệu và bị đánh dấu không kiểm chứng được
+        assert body["answer"].startswith("Hôm nay bạn đã ăn 260 kcal.")
+        assert "Số liệu chính thức từ dữ liệu" in body["answer"]
+        assert body["numbers_verified"] is False
+        assert body["retried"] is True
         assert body["model"] == "fake-qwen"
         assert body["session_id"] > 0
         assert body["grounded"] is True
@@ -140,6 +147,55 @@ class TestAssistantChat:
             assert messages[1].context_used is not None
             assert messages[1].model_name == "fake-qwen"
             assert messages[1].tokens_out == 42
+
+    def test_khong_hoi_lai_khi_so_lieu_dung(self, api):
+        new_client, _, fake = api
+        c = new_client()
+        _register(c)
+        _seed_meal(c)  # 260 kcal thật trong ngày
+        fake.content = "Tổng năng lượng hôm nay là 260 kcal."
+        body = c.post("/api/v1/assistant/chat", json={"message": "Hôm nay tôi ăn bao nhiêu calo?"}).json()
+        assert body["numbers_verified"] is True
+        assert body["numbers_checked"] == 1
+        assert body["retried"] is False
+        assert body["answer"] == "Tổng năng lượng hôm nay là 260 kcal."
+        assert len(fake.calls) == 1
+        assert "Số liệu chính thức" not in body["answer"]
+
+    def test_hoi_lai_mot_lan_va_dung_lai_khi_model_sua_dung(self, api):
+        new_client, _, fake = api
+        c = new_client()
+        _register(c)
+        _seed_meal(c)
+        fake.content = "Bạn đã ăn 999 kcal."  # lần đầu model viết sai
+        original = fake.chat
+
+        def flaky(messages, **kwargs):
+            result = original(messages, **kwargs)
+            if len(fake.calls) > 1:  # lần gọi thứ hai: model sửa đúng theo dữ liệu
+                return ChatResult(content="Tổng năng lượng hôm nay là 260 kcal.",
+                                  model="fake-qwen", tokens_out=42, latency_ms=7)
+            return result
+
+        fake.chat = flaky
+        body = c.post("/api/v1/assistant/chat", json={"message": "Hôm nay tôi ăn bao nhiêu calo?"}).json()
+        assert len(fake.calls) == 2, "phải hỏi lại model đúng một lần"
+        assert body["retried"] is True
+        assert body["numbers_verified"] is True
+        assert body["answer"] == "Tổng năng lượng hôm nay là 260 kcal."
+        assert "999" not in body["answer"]
+        # câu hỏi lại phải nêu rõ con số nào không có trong dữ liệu
+        assert "999 kcal" in fake.calls[1][-1]["content"]
+
+    def test_cau_hoi_khong_nhac_mon_thi_khong_keo_mon_rac_vao_ngu_canh(self, api):
+        new_client, _, _ = api
+        c = new_client()
+        _register(c)
+        c.post("/api/v1/foods", json=RICE)
+        body = c.post("/api/v1/assistant/chat",
+                      json={"message": "Hôm nay tôi đã ăn gì và tổng bao nhiêu kcal?"}).json()
+        # 'an' (từ 'ăn') từng khớp tiền tố với 'and' nên trợ lý nhắc "Beef and vegetables"
+        assert body["context_used"]["foods_mentioned"] == []
 
     def test_ngu_canh_chua_so_lieu_that_trong_ngay(self, api):
         new_client, _, fake = api
@@ -164,7 +220,8 @@ class TestAssistantChat:
         assert "CHỈ trả lời dựa trên" in system["content"]
         assert "không bịa số" in system["content"]
         assert "SQL" in system["content"]  # có quy tắc cấm nhắc tới SQL
-        assert last == {"role": "user", "content": "Giải thích thành phần dinh dưỡng."}
+        # câu hỏi phải là thông điệp cuối của LẦN GỌI ĐẦU (lần sau là câu hỏi lại khi số liệu sai)
+        assert fake.calls[0][-1] == {"role": "user", "content": "Giải thích thành phần dinh dưỡng."}
 
     def test_thieu_du_lieu_phai_duoc_bao_trong_ngu_canh(self, api):
         new_client, _, fake = api

@@ -190,6 +190,9 @@ def main() -> int:
     parser.add_argument("--report-dir", default=str(DEFAULT_REPORT_DIR))
     parser.add_argument("--no-pretrained", action="store_true", help="Không dùng trọng số ImageNet")
     parser.add_argument("--device", default="cpu", help="Mặc định cpu (xem TD-03)")
+    parser.add_argument("--class-weights", choices=("none", "balanced"), default="none",
+                        help="'balanced' = trọng số lớp nghịch với số ảnh train, chống lệch lớp "
+                             "(các lớp món Việt chỉ có ~25 ảnh trong khi lớp Food-101 có 70 ảnh)")
     args = parser.parse_args()
 
     import numpy as np
@@ -264,6 +267,22 @@ def main() -> int:
     model = build_model(len(labels_present), pretrained=not args.no_pretrained)
     model.to(args.device)
     criterion = nn.CrossEntropyLoss()
+    loss_note = "CrossEntropyLoss"
+    if args.class_weights == "balanced":
+        # Lớp món Việt chỉ có ~25 ảnh train trong khi lớp Food-101 có 70 ảnh: không cân bằng thì
+        # model nghiêng về lớp nhiều ảnh và các lớp món Việt (đặc biệt nhóm món nước) bị hút mất.
+        label_to_idx = {label: index for index, label in enumerate(labels_present)}
+        counts = np.zeros(len(labels_present), dtype=np.float64)
+        for _path, label in splits["train"]:
+            counts[label_to_idx[label]] += 1.0
+        counts[counts == 0] = 1.0
+        weights = counts.sum() / (len(counts) * counts)
+        criterion = nn.CrossEntropyLoss(
+            weight=torch.tensor(weights, dtype=torch.float32, device=args.device))
+        loss_note = "CrossEntropyLoss(weight=balanced)"
+        print("  trọng số lớp (balanced):")
+        for index, label in enumerate(labels_present):
+            print(f"    {label:18} {int(counts[index]):3} ảnh train | trọng số {weights[index]:.3f}")
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=max(1, args.epochs))
 
@@ -380,7 +399,7 @@ def main() -> int:
             "learning_rate": args.lr,
             "weight_decay": args.weight_decay,
             "optimizer": "AdamW",
-            "loss": "CrossEntropyLoss",
+            "loss": loss_note,
             "scheduler": "CosineAnnealingLR",
             "pretrained": not args.no_pretrained,
             "early_stopping_patience": args.patience,

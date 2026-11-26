@@ -528,3 +528,178 @@ CUDA báo 91/1 vì Qwen 0,8B trả lời với con số đã làm tròn/định 
 sai thứ cần đo. Đã sửa thành: trích mọi số trong câu trả lời, chấp nhận cả định dạng Việt Nam (`842,0`,
 `1.842`) và Anh (`842.0`), chỉ đạt khi có số **lệch ≤ 1,5 kcal** so với số thật, vẫn giữ điều kiện
 `grounded = true`. Chạy lại: **92/0**.
+
+### 7.8 Thu thập ảnh từ Openverse cho 7 lớp còn thiếu, và một sự cố mất dữ liệu đã khắc phục
+
+Wikimedia Commons đã cạn ảnh đúng chủ đề cho 7 lớp món Việt còn mỏng, nên đợt thu này dùng thêm
+**Openverse API** (không cần khoá; gom ảnh CC từ Flickr, Wikimedia, v.v.):
+
+```text
+GET https://api.openverse.org/v1/images/?q=<từ khoá>&page_size=50&license=cc0,by,by-sa
+```
+
+**Kết quả thu thập:** tải **259 ảnh**, duyệt bằng mắt **loại 139** (giữ ảnh trong `_rejected`,
+không xoá), **nhận 120**. Truy nguyên đầy đủ ở `data/reports/openverse_provenance.json`:
+259 bản ghi, **0 bản ghi thiếu giấy phép/URL/tác giả**, giấy phép chỉ gồm `cc0` (23), `by` (86),
+`by-sa` (150) — không có NC/ND. Tôi tự kiểm chứng độc lập bằng cách soi lại ảnh tiếp xúc:
+
+| Lớp | Ảnh bị loại tôi soi | Kết luận của tôi |
+|---|---:|---|
+| `bun_dau_mam_tom` | 20 | **20/20 loại đúng** (toàn người, biển hiệu quán, bánh bao, phở, bánh mì, hột vịt lộn) |
+| `banh_beo` | 20 | 18/20 loại đúng (2 ảnh hơi oan: 1 tranh vẽ, 1 ảnh thật) |
+| `pho_ga` | 20 (giữ) | **20/20 đúng là phở gà** |
+| `bun_thit_nuong` | 20 (giữ) | **20/20 đúng là bún thịt nướng** |
+
+Sau đợt này, ba lớp đạt ngưỡng 34 ảnh sạch và được đưa lại vào huấn luyện: `bun_rieu` 35,
+`bun_thit_nuong` 39, `pho_ga` 36; bốn lớp vẫn dưới ngưỡng: `canh_chua` 27, `banh_beo` 22,
+`banh_khot` 33, `bun_dau_mam_tom` 14.
+
+**Sự cố mất dữ liệu (đã khắc phục, ghi lại để không lặp lại).** `prepare_dataset.py` đổi tên mọi ảnh
+trong thư mục lớp thành `commons_<page_id>` bằng cách lấy **nhóm chữ số đầu tiên** trong tên tệp:
+
+```python
+page_match = re.search(r"(?:commons_)?(\d+)", source_image.stem)   # mã CŨ
+```
+
+Ảnh Openverse được đặt tên `ov_<8 ký tự hex>`, nên nhiều ảnh khác nhau cho ra **cùng một đích**
+(ví dụ `ov_2a0e9af8` và `ov_2b3d0a1d` đều ra `commons_2.jpg`) và **ghi đè lẫn nhau: 19 ảnh bị mất**
+(pho_ga 7, bun_thit_nuong 6, canh_chua 2, bun_rieu 2, banh_beo 1, banh_khot 1). Bằng chứng không thể
+nhầm: manifest có **hai dòng cùng trỏ `pho_ga/commons_2.jpg`** nhưng khác giấy phép (`by 2.0` và
+`by-sa 2.0`); số tệp trên đĩa giảm từ 36 xuống 29.
+
+**Cách khắc phục (đã làm, có kiểm chứng):**
+
+1. Tải lại ảnh đã mất từ chính truy nguyên Openverse (`url`), có phương án dự phòng `thumbnail` khi
+   máy chủ nguồn trả 403 — khôi phục 120/120 ảnh được nhận.
+2. Sinh lại tên gốc `ov_<id8>.jpg` cho ảnh đang có, và **khử bản trùng bằng sidecar**: sidecar giữ
+   khoá `id` nên biết chắc tệp `commons_<n>.jpg` nào là ảnh Openverse nào (so SHA-256 không dùng được vì
+   `prepare_dataset` **mã hoá lại ảnh** về tối đa 512 px nên hash đổi).
+3. Sửa `prepare_dataset.py`: chỉ ảnh **thật** từ Commons mới đổi tên `commons_<page_id>`; ảnh nguồn khác
+   **giữ nguyên tên**; **không bao giờ ghi đè** tệp đã tồn tại (nếu trùng thì thêm hậu tố hash); ghi chú
+   nguồn ghi **đúng nguồn/tác giả** (`flickr by; author=goosmurf; source=https://www.flickr.com/...`)
+   thay vì gán sai tất cả thành "Wikimedia Commons" với author rỗng; trường `source` nay là
+   `commons` hoặc `openverse`.
+4. Dựng lại manifest: **1.784 dòng, 1.784 đường dẫn phân biệt (0 trùng), 0 tệp thiếu**; nguồn
+   `commons 865 · openverse 119 · food101 800` (một ảnh Openverse bị chính bước khử trùng nội dung loại
+   vì trùng ảnh khác). Kiểm thử `training/image/test_prepare_dataset.py` vẫn **5 passed**.
+
+### 7.9 Vòng 2 của model ảnh: thêm ba món Việt, huấn luyện trên GPU và chống lệch lớp
+
+Sau khi khôi phục đủ ảnh Openverse, tập dữ liệu có **1.784 ảnh / 29 lớp** (865 ảnh Wikimedia
+Commons + 119 ảnh Openverse + 800 ảnh Food-101) và ba lớp vượt ngưỡng 34 ảnh sạch nên được đưa
+vào huấn luyện: `bun_rieu` 35, `bun_thit_nuong` 39, `pho_ga` 36. Lần huấn luyện đang dùng gồm
+**25 lớp** (17 món Việt + 8 lớp Food-101) với **1.688 ảnh** chia 1.181 / 257 / 250. Bốn lớp vẫn
+bị loại vì dưới ngưỡng: `canh_chua` 27, `banh_beo` 22, `banh_khot` 33, `bun_dau_mam_tom` 14.
+
+Bốn lần chạy được so trên **cùng một tập test** (234 ảnh của các lớp chung — số ảnh test mỗi lớp
+không đổi giữa các lần vì split dùng cùng seed):
+
+| Lần chạy | Lớp | Val accuracy | Test accuracy | Macro F1 | Epoch | Thời gian | Thiết bị | Hàm mất mát |
+|---|---:|---:|---:|---:|---:|---:|---|---|
+| v5 (bản cũ) | 22 | 0,7083 | 0,7137 | 0,7062 | 25 | 2.330,8 s | CPU | CrossEntropyLoss |
+| v6 | 25 | 0,7354 | 0,6760 | 0,6589 | 20 | 483,8 s | GPU | CrossEntropyLoss |
+| v7 | 25 | 0,7393 | 0,6680 | 0,6369 | 26 | 586,0 s | GPU | CrossEntropyLoss |
+| **v8 (đang dùng)** | **25** | **0,7354** | **0,7000** | **0,6629** | **27** | **622,0 s** | **GPU** | **CrossEntropyLoss(weight=balanced)** |
+
+**Vì sao có v7 và v8.** v6 chạy 20 epoch và val vẫn đang tăng ở epoch cuối (0,728 → 0,735), tức
+chưa huấn luyện xong. v7 chạy 35 epoch với patience 8: val tăng lên 0,7393 nhưng **test lại giảm**
+(0,6680) và lớp `hu_tieu` rơi xuống F1 = 0,18 — dấu hiệu lệch lớp: các lớp món Việt chỉ có 24–27
+ảnh train trong khi mỗi lớp Food-101 có 70 ảnh, nên model bị hút về phía lớp nhiều ảnh (kể cả các
+lớp món nước giống nhau: hủ tiếu bị đoán thành phở gà / bún thịt nướng). v8 thêm tuỳ chọn
+`--class-weights balanced` (trọng số lớp nghịch với số ảnh train) và đây là bản **tốt nhất**:
+trên 234 ảnh test của 22 lớp chung đạt **168/234 = 0,7179**, cao hơn bản cũ (167/234 = 0,7137),
+trong khi v6 đạt 162/234 và v7 đạt 159/234.
+
+Ba lớp mới của v8 đạt F1 lần lượt: `bun_rieu` 0,5000 · `bun_thit_nuong` 0,2667 · `pho_ga` 0,4286
+(mỗi lớp chỉ có 5–6 ảnh test nên các chỉ số này còn dao động mạnh). Tổng thể v8 đạt test accuracy
+**0,7000** và macro F1 **0,6629** — thấp hơn bản 22 lớp một chút vì bài toán nay có thêm 3 lớp
+khó (nhóm món nước) chứ không phải vì model yếu đi trên các lớp cũ.
+
+**Kiểm chứng qua HTTP thật** (tài khoản tạm, 24 ảnh lấy từ tập test, 3 ảnh mỗi lớp cho 8 lớp):
+**top-1 14/24 = 0,5833 · top-3 21/24 = 0,8750**. Mọi lỗi đều nằm trong nhóm món nước
+(`pho_ga` → `pho_bo` 42,6 %; `bun_rieu` → `bun_bo_hue` 55,2 %; `bun_thit_nuong` → `hu_tieu`
+59,8 %; `hu_tieu` → `bun_thit_nuong` 58,0 %) — đúng như bảng F1 cho thấy, và là lý do cần thêm
+ảnh thật cho các món này.
+
+**Kiểm chứng trên giao diện** (trình duyệt thật, tài khoản tạm): thẻ model hiện
+*"mobilenet_v3_small · 25 lớp · huấn luyện 04:33 27 thg 11, 2026 · 19 ms"* cùng
+*"Độ chính xác test 70,0 % · Macro F1 test 66,3 % · Test loss 1,1791"*; tải ảnh phở gà lên trang
+nhận diện cho Top-3 **Phở bò 42,6 % · Phở gà 37,0 % · Gỏi cuốn 18,6 %** kèm nút xác nhận.
+
+### 7.10 Bỏ cột hậu tố của chỉ mục FTS5: sửa kết quả rác và giảm 53 MB
+
+Chỉ mục FTS5 ban đầu có thêm cột `suffix_norm` chứa **mọi hậu tố** của mọi từ trong tên thực phẩm
+(sinh bằng truy vấn đệ quy) để khớp được giữa chuỗi. Cột này gây hai hệ quả xấu và cả hai đều lộ ra
+khi kiểm thử bằng dữ liệu thật:
+
+* **Kết quả rác ngay dòng đầu.** Ô tra cứu "nem rán" trả về **"Mediterrane Creme - Weißer
+  Grieche"** (phô mai Đức) vì từ "ran" khớp giữa từ "Medite-**rran**-e"; "nem" một mình trả về 25
+  bản ghi trong đó có "Assaisonne-**nem**-ent"; trước đó câu hỏi về "gà" từng nêu "Grow & ga-in".
+* **Dung lượng.** Mỗi tên sinh ra hàng chục hậu tố nên chỉ mục chiếm 66,3 MB: CSDL từ 68,8 MB
+  tăng lên **135,1 MB (+96 %)**.
+
+Đã xử lý bằng migration `c4a7b1e9d2f3` (dựng lại bảng ảo không còn cột hậu tố, nạp lại 102.847
+dòng) và đổi truy vấn sang **khớp tiền tố theo từng từ, chỉ trên hai cột tên/tên phụ**:
+
+```sql
+(name_norm : "nem"* OR alias_norm : "nem"*) AND (name_norm : "ran"* OR alias_norm : "ran"*)
+```
+
+Kết quả đo lại sau khi `VACUUM`:
+
+| Chỉ số | Trước | Sau |
+|---|---:|---:|
+| Dung lượng CSDL | 135,1 MB | **82,0 MB** (−53,1 MB) |
+| `PRAGMA integrity_check` | ok | **ok** |
+| Số dòng chỉ mục / số dòng foods | 102.847 | **102.847 = 102.847** |
+| "nem rán" | 1 dòng (phô mai Đức) | **0 dòng** |
+| "nem" | 25 dòng (có "Assaisonnement") | **1 dòng** ("Hat Nem Ngot Tom Thom Thit") |
+| "phở" · "bún" · "sữa" | 48 · 135 · 65 | 43 · 134 · 64 |
+| "hủ tiếu" | — | **"Hủ Tiếu Nam Vang"** |
+
+### 7.11 Lớp kiểm chứng số liệu của trợ lý AI (và một lỗi báo động nhầm do chính tôi gây ra)
+
+Trợ lý dùng Qwen3.5-0,8B nên có lúc viết sai con số (đã gặp: câu trả lời không chứa con số nào
+khớp tổng năng lượng thật). Trước đây trường `grounded` bị gán cứng bằng `True` — nghĩa là hệ
+thống luôn khẳng định câu trả lời "bám dữ liệu" mà không hề kiểm tra. Đã thêm lớp kiểm chứng:
+
+1. `context_numbers(context)` gom **mọi con số có thật** trong ngữ cảnh, phân theo đơn vị
+   (năng lượng / khối lượng / phần trăm).
+2. `verify_numbers(answer, context)` đối chiếu từng con số **có đơn vị** trong câu trả lời với
+   các con số đó, cho phép lệch 1,5 đơn vị (chấp nhận làm tròn 841,7 so với 842). Con số trần
+   (ngày tháng, mã sản phẩm) được bỏ qua; nếu người dùng **chưa có bữa ăn nào** thì mọi con số
+   kcal/g đều bị coi là bịa (`empty_kinds`).
+3. Sai thì **hỏi lại model đúng một lần** kèm danh sách con số sai; vẫn sai thì **gắn số liệu
+   chính thức lấy trực tiếp từ dữ liệu** vào cuối câu trả lời, đồng thời API trả thêm
+   `numbers_verified`, `numbers_checked`, `unsupported_numbers`, `retried`.
+
+**Lỗi báo động nhầm do chính lớp kiểm chứng gây ra (đã sửa).** Khi thử trên ứng dụng thật, câu
+trả lời ĐÚNG *"… với năng lượng 260.0 kcal"* bị đánh dấu sai vì hàm đọc số thử cách hiểu Việt Nam
+trước: "260.0" → bỏ dấu chấm → **2600**. Đã sửa thành `_float_candidates()` trả về **nhiều cách
+đọc** và chỉ cần **một cách đọc khớp** dữ liệu là đạt. Sau khi sửa, đo lại trên ứng dụng đang chạy:
+có bữa ăn thật → `numbers_verified = true`, `checked = 1`, không hỏi lại; hỏi ngoài dữ liệu (ví dụ
+xin mục tiêu calo khi chưa đặt) → không có con số nào bị coi là bịa.
+
+**Một sửa lỗi nhỏ liên quan.** Hàm dò món được nhắc trong câu hỏi từng thử mọi từ đơn, nên "ăn"
+(→ "an") khớp tiền tố với "and" và trợ lý lại nhắc *"Beef and vegetables"* trong câu hỏi
+"Hôm nay tôi đã ăn gì". Nay bỏ qua từ dừng và từ dưới 3 ký tự khi dò một từ đơn.
+
+Kiểm thử cho lớp này: `tests/unit/test_assistant_numbers.py` (17 bài: số đúng, làm tròn, số bịa,
+số trần, đơn vị không có tham chiếu, chưa có dữ liệu, số kiểu Việt Nam/Anh) và 3 bài tích hợp mới
+(không hỏi lại khi số đúng · hỏi lại một lần rồi dùng câu trả lời đã sửa · gắn số liệu chính thức
+khi model vẫn sai). Toàn bộ pytest: **193 bài đạt, 1 bỏ qua, 0 hỏng** (194 bài).
+
+### 7.12 Kiểm thử bằng trình duyệt thật và dọn dữ liệu kiểm thử
+
+Ngoài bộ e2e qua API (92 bài, chạy **92 đạt / 0 hỏng** ở cả ba lần: trước khi đổi model, sau khi
+đổi model v8 và sau khi bỏ cột FTS), lượt kiểm thử này còn lái **trình duyệt thật**:
+
+* Đăng nhập → chuyển hướng đúng về `/dashboard`; thanh điều hướng và nhãn hiển thị tiếng Việt.
+* `/recognize`: chọn ảnh qua hộp thoại tệp thật rồi bấm "Nhận diện ảnh" → Top-3 hiện tên tiếng
+  Việt kèm mã lớp và phần trăm; thẻ model hiện đúng số lớp/độ chính xác của model đang phục vụ.
+* `/foods`: gõ "phở" vào ô tra cứu → danh sách kết quả cập nhật; kiểm chéo bằng API cho cùng kết quả.
+* `/assistant`: gửi câu hỏi → câu trả lời và phần "Dữ liệu đưa cho model" hiển thị đầy đủ.
+
+Dữ liệu tạm do các bước kiểm thử tạo ra đã được dọn: CSDL trở về đúng **102.847 thực phẩm**,
+364.611 giá trị dinh dưỡng, chỉ mục FTS đồng bộ (102.847 = 102.847), `integrity_check = ok` và
+chỉ còn **2 tài khoản thật** (`pnamishere@gmail.com`, `review@example.com`).

@@ -126,8 +126,21 @@ chỉ có số liệu chi tiết cho một phần nhỏ thực phẩm.
    **Hệ quả hiện tại:** tra cứu bằng tiếng Việt chỉ tìm được trong số tên tiếng Việt có
    trong Open Food Facts và bản ghi nhập tay (ví dụ “Ức Gà Ăn Liền”); các món Việt thuần
    như “cơm trắng” chưa có trong database.
-4. **Ảnh huấn luyện (sau kiểm toán 27/11/2026).** Tập ảnh có **1.665 ảnh / 29 lớp**, mọi đường dẫn trong manifest đều tồn tại thật; ảnh sai chủ đề đã chuyển sang `data/raw/images/_rejected/` (819 ảnh). Trong đó **911 ảnh món Việt từ Wikimedia Commons** (giấy phép tự do: CC0, CC BY, CC BY-SA, Public domain; truy nguyên từng ảnh ở `data/reports/commons_provenance.json` — 1.021 dòng) và **800 ảnh Food-101** (fair use).
-   Kiểm toán bằng mắt phát hiện nhiều lớp từng lẫn ảnh sai chủ đề rất nặng — ví dụ `canh_chua`: 20/20 ảnh bị loại là vườn/chùa/cây cảnh, không có ảnh món ăn nào, nên chỉ số F1 = 1,0000 của lớp này trong model 24 lớp **không có giá trị** (cả tập test cũng lẫn ảnh sai).
-   Vì vậy lần huấn luyện đang dùng chỉ giữ **22 lớp / 1.579 ảnh** (14 món Việt + 8 lớp Food-101); bảy lớp dưới ngưỡng 34 ảnh sạch bị loại: `banh_beo` 12 · `bun_dau_mam_tom` 10 · `bun_rieu` 15 · `bun_thit_nuong` 12 · `canh_chua` 5 · `pho_ga` 10 · `banh_khot` 22 — cần ảnh do người dùng tự chụp.
-5. **Giấy phép ảnh.** Ảnh Food-101 thuộc Foodspotting, chỉ dùng cho mục đích học thuật
-   (scientific fair use); không được tuyên bố giấy phép mở bao trùm cho toàn bộ dataset.
+4. **Ảnh huấn luyện (cập nhật 28/11/2026).** Tập ảnh có **1.784 ảnh / 29 lớp**, mọi đường dẫn
+   trong manifest đều tồn tại thật, **không có đường dẫn trùng**; ảnh sai chủ đề đã chuyển sang
+   `data/raw/images/_rejected/`. Thành phần: **865 ảnh món Việt từ Wikimedia Commons** (CC0, CC BY,
+   CC BY-SA, Public domain; truy nguyên ở `data/reports/commons_provenance.json`), **119 ảnh món Việt
+   từ Openverse** (Flickr/Wikimedia qua Openverse API; giấy phép chỉ gồm CC0/CC BY/CC BY-SA — **0 ảnh
+   ngoài danh sách**; truy nguyên đủ 7 trường cho 259 ảnh tải về ở
+   `data/reports/openverse_provenance.json`) và **800 ảnh Food-101** (fair use).
+   Kiểm toán bằng mắt phát hiện nhiều lớp từng lẫn ảnh sai chủ đề rất nặng — ví dụ `canh_chua`:
+   23/28 ảnh là vườn, chùa, cây cảnh (không có ảnh món ăn nào), nên chỉ số F1 = 1,0000 của lớp này
+   trong model 24 lớp **không có giá trị**. Ngược lại có lớp bị **loại oan**: `banh_khot` 17/20 ảnh
+   bị loại nhưng đúng là bánh khọt → đã khôi phục 14 ảnh. Đợt Openverse cũng được soi lại: `bun_dau_mam_tom`
+   loại 20/20 đúng, `banh_beo` loại 18/20 đúng, `pho_ga` và `bun_thit_nuong` giữ 20/20 đúng.
+   Vì vậy lần huấn luyện đang dùng (**v8**) giữ **25 lớp / 1.688 ảnh** (17 món Việt + 8 lớp Food-101,
+   chia 1.181 / 257 / 250); bốn lớp dưới ngưỡng 34 ảnh sạch bị loại: `canh_chua` 27 · `banh_beo` 22 ·
+   `banh_khot` 33 · `bun_dau_mam_tom` 14 — cần ảnh do người dùng tự chụp.
+   Lưu ý quy trình: `training/image/prepare_dataset.py` từng đổi tên ảnh Openverse (`ov_<hex>`) thành
+   `commons_<nhóm số đầu>` nên nhiều ảnh khác nhau ghi đè lẫn nhau (**mất 19 ảnh**, đã khôi phục và
+   sửa mã) — chi tiết ở `BAO_CAO_KIEM_THU.md` §7.8.

@@ -1,0 +1,17 @@
+Các lệnh shell chính đã chạy nguyên văn (từ thư mục gốc dự án):
+
+./.venv/Scripts/python.exe scripts/collect_openverse_images.py
+
+./.venv/Scripts/python.exe scripts/collect_openverse_images.py --reports-only
+
+./.venv/Scripts/python.exe scripts/collect_openverse_images.py --classes canh_chua banh_beo banh_khot bun_rieu bun_thit_nuong pho_ga --target canh_chua=20 --target banh_beo=20 --target banh_khot=6 --target bun_rieu=10 --target bun_thit_nuong=8 --target pho_ga=15
+
+./.venv/Scripts/python.exe scripts/collect_openverse_images.py --classes canh_chua banh_beo banh_khot bun_dau_mam_tom bun_rieu bun_thit_nuong pho_ga --target canh_chua=20 --target banh_beo=20 --target banh_khot=10 --target bun_dau_mam_tom=30 --target bun_rieu=10 --target bun_thit_nuong=10 --target pho_ga=15
+
+./.venv/Scripts/python.exe scripts/collect_openverse_images.py --classes canh_chua banh_beo banh_khot bun_dau_mam_tom --target canh_chua=25 --target banh_beo=25 --target banh_khot=10 --target bun_dau_mam_tom=30
+
+./.venv/Scripts/python.exe scripts/collect_openverse_images.py --reject-from data/reports/openverse_reject_final_qc.json >/dev/null && ./.venv/Scripts/python.exe scripts/collect_openverse_images.py --reports-only >/dev/null && rm -f data/reports/openverse_reject_final_qc.json && ./.venv/Scripts/python.exe scripts/verify_openverse_collection.py
+
+rm -f data/reports/openverse_collection_stats.json && ./.venv/Scripts/python.exe scripts/verify_openverse_collection.py
+
+Ghi chú: lần gọi đầu dùng page_size=50 bị Openverse từ chối vì giới hạn ẩn danh hiện tại là 20; script đã được sửa sang page_size=20 rồi mới thu thập thành công. Các đợt loại trung gian dùng cùng lệnh --reject-from với tệp quyết định tạm thời; các tệp tạm đã được xoá sau khi hợp nhất vào data/reports/openverse_visual_review.json.

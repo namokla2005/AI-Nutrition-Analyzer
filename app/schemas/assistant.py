@@ -19,6 +19,12 @@ class AssistantChatOut(BaseModel):
     tokens_out: int | None = None
     context_used: dict = Field(default_factory=dict)
     grounded: bool = True
+    numbers_verified: bool = Field(
+        default=True, description="Mọi con số có đơn vị trong câu trả lời đều khớp dữ liệu thật")
+    numbers_checked: int = Field(default=0, description="Số con số có đơn vị đã đối chiếu")
+    unsupported_numbers: list[str] = Field(
+        default_factory=list, description="Con số không có trong dữ liệu (nếu có)")
+    retried: bool = Field(default=False, description="Đã hỏi lại model vì số liệu sai")
     notice: str | None = None
 
 
