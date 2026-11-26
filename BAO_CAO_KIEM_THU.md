@@ -1,6 +1,6 @@
 # BÁO CÁO KIỂM THỬ TOÀN WEBSITE — AI NUTRITION ANALYZER
 
-Thời điểm: 19/11/2026, khoảng 05:20–05:30 (giờ Việt Nam); **chạy lại toàn bộ lúc 27/11/2026 00:07 (giờ Việt Nam), sau khi thay model nhận diện ảnh từ 15 lớp lên 24 lớp** · Máy chủ: `http://127.0.0.1:8000`
+Thời điểm: 19/11/2026, khoảng 05:20–05:30 (giờ Việt Nam); **chạy lại toàn bộ lúc 27/11/2026 00:30:08 (giờ Việt Nam), sau khi thay model nhận diện ảnh từ 15 lớp lên 24 lớp** · Máy chủ: `http://127.0.0.1:8000`
 Ứng dụng chạy bằng: `.venv\Scripts\python.exe` (Python 3.12.8) · FastAPI 0.165.0 · SQLAlchemy 2.1.9 · scikit-learn 1.9.1 · torch 2.15.0+cpu · pytest 9.2.0
 
 **Kết luận ngắn:** website đã đủ **9/9 trang**, mọi chức năng chính đã được kiểm thử trên hệ thống đang chạy thật.
@@ -35,7 +35,7 @@ Tài liệu API: `http://127.0.0.1:8000/docs` (29 endpoint) · Trạng thái h�
 | Hạng mục | Kết quả thật |
 |---|---|
 | Bộ kiểm thử đơn vị + tích hợp | ✅ **168 passed, 1 skipped** trong 53,73 giây (169 bài) |
-| Kiểm thử chức năng toàn hệ thống (API thật) | ✅ **92 đạt / 0 hỏng / 0 ghi nhận** — báo cáo chi tiết: `data/reports/e2e_web_test.md`. Lần chạy cuối: **27/11/2026 00:07** (giờ Việt Nam), thực hiện sau khi thay model ảnh 24 lớp — vẫn **92/0**, báo cáo ở `data/reports/e2e_web_test.md` |
+| Kiểm thử chức năng toàn hệ thống (API thật) | ✅ **92 đạt / 0 hỏng / 0 ghi nhận** — báo cáo chi tiết: `data/reports/e2e_web_test.md`. Lần chạy cuối: **27/11/2026 00:30:08** (giờ Việt Nam), thực hiện sau khi thay model ảnh 24 lớp — vẫn **92/0**, báo cáo ở `data/reports/e2e_web_test.md` |
 | Kiểm thử 9 tuyến trang | ✅ 21 passed |
 | Kiểm thử trình duyệt thật | ✅ 9 trang + khổ điện thoại 390 px: **không lỗi JS**, biểu đồ vẽ thật, số liệu khớp API |
 
