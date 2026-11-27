@@ -1,0 +1,391 @@
+{
+  "common_classes": 25,
+  "n_test_common": 250,
+  "runs": [
+    {
+      "model": "v8",
+      "n_test": 250,
+      "top1": 207,
+      "top3": 234,
+      "top1_acc": 0.828,
+      "top3_acc": 0.936,
+      "seconds": 3.9,
+      "per_class": {
+        "banh_chung": {
+          "top1": 5,
+          "top3": 5
+        },
+        "banh_cuon": {
+          "top1": 6,
+          "top3": 6
+        },
+        "banh_mi": {
+          "top1": 13,
+          "top3": 13
+        },
+        "banh_xeo": {
+          "top1": 4,
+          "top3": 5
+        },
+        "bun_bo_hue": {
+          "top1": 8,
+          "top3": 8
+        },
+        "bun_cha": {
+          "top1": 9,
+          "top3": 9
+        },
+        "bun_rieu": {
+          "top1": 3,
+          "top3": 4
+        },
+        "bun_thit_nuong": {
+          "top1": 6,
+          "top3": 6
+        },
+        "cha_ca": {
+          "top1": 6,
+          "top3": 6
+        },
+        "com_chien": {
+          "top1": 12,
+          "top3": 14
+        },
+        "com_tam": {
+          "top1": 8,
+          "top3": 8
+        },
+        "fried_chicken": {
+          "top1": 13,
+          "top3": 15
+        },
+        "goi_cuon": {
+          "top1": 6,
+          "top3": 6
+        },
+        "hamburger": {
+          "top1": 13,
+          "top3": 13
+        },
+        "hu_tieu": {
+          "top1": 5,
+          "top3": 5
+        },
+        "mi_quang": {
+          "top1": 5,
+          "top3": 6
+        },
+        "nem_ran": {
+          "top1": 14,
+          "top3": 14
+        },
+        "pasta": {
+          "top1": 6,
+          "top3": 14
+        },
+        "pho_bo": {
+          "top1": 11,
+          "top3": 13
+        },
+        "pho_ga": {
+          "top1": 5,
+          "top3": 5
+        },
+        "pizza": {
+          "top1": 15,
+          "top3": 15
+        },
+        "salad": {
+          "top1": 11,
+          "top3": 14
+        },
+        "steak": {
+          "top1": 10,
+          "top3": 14
+        },
+        "sushi": {
+          "top1": 9,
+          "top3": 12
+        },
+        "xoi": {
+          "top1": 4,
+          "top3": 4
+        }
+      }
+    },
+    {
+      "model": "v9",
+      "n_test": 250,
+      "top1": 173,
+      "top3": 202,
+      "top1_acc": 0.692,
+      "top3_acc": 0.808,
+      "seconds": 3.9,
+      "per_class": {
+        "banh_chung": {
+          "top1": 2,
+          "top3": 3
+        },
+        "banh_cuon": {
+          "top1": 4,
+          "top3": 6
+        },
+        "banh_mi": {
+          "top1": 8,
+          "top3": 10
+        },
+        "banh_xeo": {
+          "top1": 5,
+          "top3": 5
+        },
+        "bun_bo_hue": {
+          "top1": 4,
+          "top3": 6
+        },
+        "bun_cha": {
+          "top1": 4,
+          "top3": 6
+        },
+        "bun_rieu": {
+          "top1": 1,
+          "top3": 1
+        },
+        "bun_thit_nuong": {
+          "top1": 5,
+          "top3": 5
+        },
+        "cha_ca": {
+          "top1": 4,
+          "top3": 4
+        },
+        "com_chien": {
+          "top1": 12,
+          "top3": 12
+        },
+        "com_tam": {
+          "top1": 4,
+          "top3": 5
+        },
+        "fried_chicken": {
+          "top1": 13,
+          "top3": 15
+        },
+        "goi_cuon": {
+          "top1": 6,
+          "top3": 6
+        },
+        "hamburger": {
+          "top1": 13,
+          "top3": 13
+        },
+        "hu_tieu": {
+          "top1": 3,
+          "top3": 3
+        },
+        "mi_quang": {
+          "top1": 6,
+          "top3": 6
+        },
+        "nem_ran": {
+          "top1": 13,
+          "top3": 13
+        },
+        "pasta": {
+          "top1": 7,
+          "top3": 11
+        },
+        "pho_bo": {
+          "top1": 7,
+          "top3": 9
+        },
+        "pho_ga": {
+          "top1": 4,
+          "top3": 4
+        },
+        "pizza": {
+          "top1": 12,
+          "top3": 14
+        },
+        "salad": {
+          "top1": 14,
+          "top3": 15
+        },
+        "steak": {
+          "top1": 11,
+          "top3": 14
+        },
+        "sushi": {
+          "top1": 10,
+          "top3": 13
+        },
+        "xoi": {
+          "top1": 1,
+          "top3": 3
+        }
+      }
+    }
+  ],
+  "v9_new_classes": {
+    "model": "v9-new-classes",
+    "n_test": 123,
+    "top1": 95,
+    "top3": 109,
+    "top1_acc": 0.7724,
+    "top3_acc": 0.8862,
+    "seconds": 2.0,
+    "per_class": {
+      "banh_bao": {
+        "top1": 3,
+        "top3": 4
+      },
+      "banh_beo": {
+        "top1": 4,
+        "top3": 5
+      },
+      "banh_canh": {
+        "top1": 6,
+        "top3": 7
+      },
+      "banh_da_cua": {
+        "top1": 4,
+        "top3": 5
+      },
+      "banh_khot": {
+        "top1": 7,
+        "top3": 7
+      },
+      "banh_tom": {
+        "top1": 6,
+        "top3": 6
+      },
+      "banh_trang_nuong": {
+        "top1": 1,
+        "top3": 2
+      },
+      "banh_uot": {
+        "top1": 7,
+        "top3": 7
+      },
+      "bo_kho": {
+        "top1": 7,
+        "top3": 8
+      },
+      "bun_dau_mam_tom": {
+        "top1": 7,
+        "top3": 7
+      },
+      "ca_kho_to": {
+        "top1": 5,
+        "top3": 6
+      },
+      "canh_chua": {
+        "top1": 2,
+        "top3": 3
+      },
+      "chao": {
+        "top1": 4,
+        "top3": 7
+      },
+      "che_ba_mau": {
+        "top1": 5,
+        "top3": 5
+      },
+      "com_ga": {
+        "top1": 1,
+        "top3": 4
+      },
+      "goi_ga": {
+        "top1": 4,
+        "top3": 4
+      },
+      "mi_xao": {
+        "top1": 6,
+        "top3": 6
+      },
+      "thit_kho_trung": {
+        "top1": 8,
+        "top3": 8
+      },
+      "xoi_xeo": {
+        "top1": 8,
+        "top3": 8
+      }
+    }
+  },
+  "winner": "v8",
+  "labels": {
+    "v8": [
+      "banh_chung",
+      "banh_cuon",
+      "banh_mi",
+      "banh_xeo",
+      "bun_bo_hue",
+      "bun_cha",
+      "bun_rieu",
+      "bun_thit_nuong",
+      "cha_ca",
+      "com_chien",
+      "com_tam",
+      "fried_chicken",
+      "goi_cuon",
+      "hamburger",
+      "hu_tieu",
+      "mi_quang",
+      "nem_ran",
+      "pasta",
+      "pho_bo",
+      "pho_ga",
+      "pizza",
+      "salad",
+      "steak",
+      "sushi",
+      "xoi"
+    ],
+    "v9": [
+      "banh_bao",
+      "banh_beo",
+      "banh_canh",
+      "banh_chung",
+      "banh_cuon",
+      "banh_da_cua",
+      "banh_khot",
+      "banh_mi",
+      "banh_tom",
+      "banh_trang_nuong",
+      "banh_uot",
+      "banh_xeo",
+      "bo_kho",
+      "bun_bo_hue",
+      "bun_cha",
+      "bun_dau_mam_tom",
+      "bun_rieu",
+      "bun_thit_nuong",
+      "ca_kho_to",
+      "canh_chua",
+      "cha_ca",
+      "chao",
+      "che_ba_mau",
+      "com_chien",
+      "com_ga",
+      "com_tam",
+      "fried_chicken",
+      "goi_cuon",
+      "goi_ga",
+      "hamburger",
+      "hu_tieu",
+      "mi_quang",
+      "mi_xao",
+      "nem_ran",
+      "pasta",
+      "pho_bo",
+      "pho_ga",
+      "pizza",
+      "salad",
+      "steak",
+      "sushi",
+      "thit_kho_trung",
+      "xoi",
+      "xoi_xeo"
+    ]
+  }
+}

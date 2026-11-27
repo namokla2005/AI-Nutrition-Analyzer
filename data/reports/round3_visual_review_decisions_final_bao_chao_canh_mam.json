@@ -1,0 +1,32 @@
+[
+  {
+    "class": "banh_bao",
+    "file": "web_9c4c9fe3.jpg",
+    "review_status": "rejected",
+    "reason": "final visual review: person/sign/ingredients or not clearly target food"
+  },
+  {
+    "class": "banh_bao",
+    "file": "web_b78f7a8a.jpg",
+    "review_status": "rejected",
+    "reason": "final visual review: person/sign/ingredients or not clearly target food"
+  },
+  {
+    "class": "banh_canh",
+    "file": "web_202e173f.jpg",
+    "review_status": "rejected",
+    "reason": "final visual review: person/sign/ingredients or not clearly target food"
+  },
+  {
+    "class": "banh_canh",
+    "file": "web_883f8826.jpg",
+    "review_status": "rejected",
+    "reason": "final visual review: person/sign/ingredients or not clearly target food"
+  },
+  {
+    "class": "banh_canh",
+    "file": "web_bd7643b4.jpg",
+    "review_status": "rejected",
+    "reason": "final visual review: person/sign/ingredients or not clearly target food"
+  }
+]

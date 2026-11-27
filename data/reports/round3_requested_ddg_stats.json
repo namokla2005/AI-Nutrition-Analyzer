@@ -1,0 +1,46 @@
+[
+  {
+    "class": "banh_uot",
+    "before": 3,
+    "stats": {
+      "candidate": 0,
+      "saved": 0,
+      "failed": 0,
+      "duplicate": 0
+    },
+    "on_disk": 3
+  },
+  {
+    "class": "banh_tom",
+    "before": 1,
+    "stats": {
+      "candidate": 0,
+      "saved": 0,
+      "failed": 0,
+      "duplicate": 0
+    },
+    "on_disk": 1
+  },
+  {
+    "class": "bo_kho",
+    "before": 26,
+    "stats": {
+      "candidate": 0,
+      "saved": 0,
+      "failed": 0,
+      "duplicate": 0
+    },
+    "on_disk": 26
+  },
+  {
+    "class": "thit_kho_trung",
+    "before": 4,
+    "stats": {
+      "candidate": 0,
+      "saved": 0,
+      "failed": 0,
+      "duplicate": 0
+    },
+    "on_disk": 4
+  }
+]

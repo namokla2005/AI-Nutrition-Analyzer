@@ -138,9 +138,17 @@ chỉ có số liệu chi tiết cho một phần nhỏ thực phẩm.
    trong model 24 lớp **không có giá trị**. Ngược lại có lớp bị **loại oan**: `banh_khot` 17/20 ảnh
    bị loại nhưng đúng là bánh khọt → đã khôi phục 14 ảnh. Đợt Openverse cũng được soi lại: `bun_dau_mam_tom`
    loại 20/20 đúng, `banh_beo` loại 18/20 đúng, `pho_ga` và `bun_thit_nuong` giữ 20/20 đúng.
-   Vì vậy lần huấn luyện đang dùng (**v8**) giữ **25 lớp / 1.688 ảnh** (17 món Việt + 8 lớp Food-101,
-   chia 1.181 / 257 / 250); bốn lớp dưới ngưỡng 34 ảnh sạch bị loại: `canh_chua` 27 · `banh_beo` 22 ·
-   `banh_khot` 33 · `bun_dau_mam_tom` 14 — cần ảnh do người dùng tự chụp.
+   **Vòng mở rộng 28/11/2026:** bổ sung ảnh cho **20 món Việt** (4 món còn thiếu + 16 món mới) bằng
+   5 luồng thu thập song song; ảnh lấy từ Openverse/Commons trước, hết ứng viên thì dùng tìm kiếm ảnh
+   công khai. Trên đĩa hiện có **4.149 ảnh nhận / 45 lớp**, **2.388 ảnh bị loại** (chuyển sang
+   `data/raw/images/_rejected/`, không xoá). Manifest huấn luyện đầy đủ: **2.549 ảnh / 45 lớp**
+   (954 Commons + 795 Openverse + 800 Food-101). Sau kiểm duyệt bằng mắt, tập dùng để huấn luyện gồm
+   **44 lớp / 2.524 ảnh** (954 Commons + 770 Openverse + 800 Food-101; chia 1.768 / 383 / 373).
+   Quy trình kiểm duyệt và số liệu từng lớp: `data/reports/round3_visual_audit_report.md`; số ảnh bị
+   loại ở vòng này là **30 ảnh** (lớp `bun_mam` bị **loại khỏi huấn luyện** vì mẫu soi chỉ 6/15 ảnh
+   đúng món, còn ~10 ảnh sạch). Lớp ít ảnh nhất: `banh_trang_nuong` 22 và `banh_bao` 33.
+   Lịch sử: lần huấn luyện **v8** trước đó giữ **25 lớp / 1.688 ảnh** (17 món Việt + 8 lớp Food-101)
+   khi bốn lớp `canh_chua` 27 · `banh_beo` 22 · `banh_khot` 33 · `bun_dau_mam_tom` 14 còn dưới ngưỡng.
    Lưu ý quy trình: `training/image/prepare_dataset.py` từng đổi tên ảnh Openverse (`ov_<hex>`) thành
    `commons_<nhóm số đầu>` nên nhiều ảnh khác nhau ghi đè lẫn nhau (**mất 19 ảnh**, đã khôi phục và
    sửa mã) — chi tiết ở `BAO_CAO_KIEM_THU.md` §7.8.

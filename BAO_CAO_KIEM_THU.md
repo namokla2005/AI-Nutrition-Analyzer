@@ -897,3 +897,105 @@ Số liệu BMR kiểm tra tay: nam 62 kg, 170 cm, sinh 2003 → 10×62 + 6,25×
 * Toàn bộ pytest: **217 bài đạt / 1 bỏ qua / 0 hỏng**; e2e web **92 đạt / 0 hỏng**.
 * Kiểm chứng qua giao diện thật (trình duyệt): trang Tổng quan hiển thị khối thực đơn đúng như trên;
   trang nhận diện hiển thị khẩu phần tham khảo và điền sẵn khối lượng.
+
+## 9. Mở rộng dữ liệu ảnh món Việt và huấn luyện lại (model v10, 44 lớp)
+
+### 9.1 Vì sao phải làm lại
+
+Người dùng phản hồi ba điểm: (1) nhận diện ảnh còn yếu, (2) thiếu nhiều món Việt, (3) tên món nước
+ngoài khó đọc. Điểm (3) đã sửa ở §8.4. Phần này xử lý (1) và (2): bổ sung dữ liệu cho **20 món Việt**
+và huấn luyện lại. Song song, tôi đo lại model thị giác 0,8B để chắc chắn không bỏ sót phương án:
+
+* `ollama show qwen3.5:0.8b` xác nhận model **có** khả năng thị giác (capability `vision`, projector
+  `clip` 100,59M tham số).
+* Nhưng trên **40 ảnh thật có đáp án**: gọi đúng tên món Việt chỉ **6/40 = 15,0 %**; đúng hoặc gần
+  đúng **12/40 = 30,0 %**. Ước lượng khối lượng sai rõ rệt (cùng một món, ảnh này trả 400 g, ảnh
+  khác trả **"6 g"**).
+* Kết luận: giữ MobileNetV3-Small tự huấn luyện cho phần nhận diện, khối lượng dùng bảng khẩu phần
+  tham khảo (§8.2). Đây là lựa chọn dựa trên số đo, không phải phỏng đoán.
+
+### 9.2 Thu thập và kiểm duyệt ảnh (5 luồng thu + 8 luồng soi độc lập)
+
+5 luồng thu thập chạy song song cho 20 món Việt (4 món còn thiếu + 16 món mới), mỗi món yêu cầu tối
+thiểu 40 ảnh tải về; ảnh lưu kèm sidecar ghi URL nguồn, trang tìm kiếm, giấy phép (nếu công bố) và
+SHA-256; ảnh bị loại **chuyển** sang `data/raw/images/_rejected/<lớp>/` chứ không xoá.
+
+Tôi **kiểm chứng độc lập trên đĩa** (không tin số luồng báo): đếm tệp từng lớp → **20/20 lớp khớp
+hoặc vượt** số báo; kiểm sidecar; tìm ảnh trùng nội dung bằng SHA-1 → phát hiện **1 ảnh trùng giữa
+hai lớp** (`bun_rieu` = `canh_chua`, cùng ảnh Openverse) và đã xoá bản trùng.
+
+Rồi tôi tự dựng contact sheet bằng mẫu ngẫu nhiên **có khoá** (`random.seed`) để có thể tái lập và
+ánh xạ ngược số ô → tên tệp, và giao cho **8 luồng soi độc lập** (khác luồng thu) đánh giá bằng mắt.
+Kết quả: **30 ảnh bị loại** ở vòng này, trong đó nặng nhất là:
+
+| Lớp | Mẫu soi | Đúng trong mẫu | Xử lý |
+|---|---:|---:|---|
+| `bun_mam` | 15 | **6** | loại 9 ảnh; lớp **bị loại khỏi huấn luyện** (chỉ còn ~10 ảnh sạch) |
+| `che_ba_mau` | 15 | 9 | loại 6 ảnh (lẫn chè Thái/chè thập cẩm) |
+| `ca_kho_to` | 15 | 11 | loại 4 ảnh (cá chiên/cá sốt cà) |
+| `banh_uot` | 15 | 12 | loại 3 ảnh (thực ra là bánh cuốn) |
+| `banh_bao`, `banh_canh` | 15 | 14 | mỗi lớp loại 1 ảnh |
+| `canh_chua`, `banh_beo`, `banh_khot`, `bun_dau_mam_tom` | 16–20 | 14–19 | loại 1–2 ảnh/lớp |
+| 10 lớp còn lại | 15 | 15 | không loại ảnh nào |
+
+Báo cáo đầy đủ (cách làm, số từng lớp, danh sách ảnh bị loại):
+`data/reports/round3_visual_audit_report.md`.
+
+### 9.3 Tập dữ liệu sau khi lọc
+
+| Chỉ số | Số đo |
+|---|---:|
+| Ảnh nhận trên đĩa | **4.149** ảnh / 45 lớp |
+| Ảnh bị loại (giữ lại, không xoá) | 2.388 ảnh |
+| Manifest đầy đủ | 2.549 ảnh / 45 lớp (954 Commons + 795 Openverse + 800 Food-101) |
+| **Tập huấn luyện dùng thật** | **2.524 ảnh / 44 lớp** (954 Commons + 770 Openverse + 800 Food-101) |
+| Chia tập | train 1.768 · val 383 · test 373 |
+| Lớp ít ảnh nhất | `banh_trang_nuong` 22 · `banh_bao` 33 |
+
+### 9.4 Hai lần huấn luyện lại
+
+| Lần | Cấu hình | Accuracy test | Macro F1 | Thời gian |
+|---|---|---:|---:|---:|
+| v9 | 35 epoch, dừng sớm epoch 24, batch 16, GPU, trọng số lớp cân bằng | 0,7024 | 0,6745 | 899,4 s |
+| **v10** | **60 epoch, dừng sớm epoch 60, thêm `RandomErasing` + label smoothing 0,1** | **0.7185** | **0.6917** | 2.228,3 s |
+
+v9 bị quá khớp nặng (train 0,955 vs val 0,689) nên v10 tăng chống khớp; val tăng lên 0,708 và macro F1
+tăng từ 0,6745 lên **0.6917**.
+
+### 9.5 Chọn bản phục vụ: so sánh công bằng v8 vs v10
+
+So sánh trên **ảnh là tập test ở CẢ HAI manifest** (tức không model nào từng học) để tránh việc model
+cũ được lợi do tập chia khác nhau — **134 ảnh**:
+
+| Model | Top-1 | Top-3 | Số lớp |
+|---|---:|---:|---:|
+| v8 | 96/134 = **0.7164** | 0.9030 | 25 |
+| **v10** | 100/134 = **0.7463** | 0.8731 | **44** |
+
+v10 **tốt hơn về top-1** và phủ thêm **19 món Việt** (trên 19 lớp đó: top-1 95/123 = 0,7724 · top-3
+0,8862). Vì vậy **v10 được chọn làm bản phục vụ**; v8 giữ nguyên ở `models/image_v8/` để đối chiếu.
+
+**Kiểm chứng qua HTTP thật với model v10 đang chạy** (88 ảnh test, 2 ảnh/lớp, 44 lớp):
+**top-1 66/88 = 0.7500
+· top-3 71/88 = 0.8068
+· 92 ms/ảnh**.
+
+### 9.6 Hạn chế nói thẳng
+
+* Lỗi tập trung ở các cặp món **rất giống nhau**: phở bò ↔ bánh canh, xôi ↔ xôi xéo, cơm tấm ↔ cơm gà,
+  bánh cuốn ↔ bánh ướt, canh chua ↔ món nước khác. Trên 88 ảnh kiểm qua HTTP, 5 lớp này sai cả 2 ảnh.
+* Lớp `bun_mam` chưa đủ ảnh sạch nên **không đưa vào model**; `banh_trang_nuong` chỉ có 22 ảnh.
+* Phần lớn ảnh mới (khoảng 1.600 ảnh) lấy từ nguồn web công khai **không công bố giấy phép**: dự án ghi
+  trung thực `unknown` + URL nguồn thật, không tự gán giấy phép. Đây là dự án học tập, không phát hành
+  lại ảnh.
+* Model vẫn quá khớp (train 0,99 vs val 0,71): muốn tăng nữa cần ảnh thật do người dùng chụp cho từng
+  món (30–50 ảnh/món) chứ không phải tăng epoch.
+
+### 9.7 Kiểm thử của vòng này
+
+* Kiểm chứng trên đĩa, kiểm duyệt bằng mắt 8 luồng độc lập, so sánh model trên holdout dùng chung,
+  kiểm chứng qua HTTP thật (các script trong `scripts/` và thư mục tạm của phiên làm việc).
+* `pytest`: **217 bài đạt / 1 bỏ qua / 0 hỏng**.
+* `scripts/e2e_web_test.py`: **92 đạt / 0 hỏng** trên giao diện thật với model v10.
+* Giao diện nhận diện hiển thị tên tiếng Việt cho cả 44 lớp; trang Tổng quan hiển thị khối thực đơn
+  đề xuất (§8.3).

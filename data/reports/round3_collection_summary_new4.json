@@ -1,0 +1,53 @@
+{
+  "classes": [
+    {
+      "class": "banh_da_cua",
+      "downloaded": 70,
+      "rejected": 35,
+      "accepted": 35,
+      "clean_total": 35,
+      "missing_to_34": 0
+    },
+    {
+      "class": "goi_ga",
+      "downloaded": 215,
+      "rejected": 172,
+      "accepted": 43,
+      "clean_total": 43,
+      "missing_to_34": 0
+    },
+    {
+      "class": "banh_trang_nuong",
+      "downloaded": 160,
+      "rejected": 138,
+      "accepted": 22,
+      "clean_total": 22,
+      "missing_to_34": 12
+    },
+    {
+      "class": "mi_xao",
+      "downloaded": 215,
+      "rejected": 177,
+      "accepted": 38,
+      "clean_total": 38,
+      "missing_to_34": 0
+    }
+  ],
+  "provenance_path": "data/reports/round3_provenance_new4.json",
+  "provenance_records": 660,
+  "license_counts": {
+    "CC BY-SA 4.0": 50,
+    "by": 37,
+    "unknown": 425,
+    "CC BY-SA 3.0": 15,
+    "CC BY 2.0": 25,
+    "CC BY-SA 2.0": 20,
+    "Public domain": 4,
+    "CC BY 3.0": 6,
+    "CC0": 9,
+    "by-sa": 67,
+    "CC BY-SA 3.0 de": 1,
+    "cc0": 1
+  },
+  "missing_files": 0
+}

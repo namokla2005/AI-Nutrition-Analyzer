@@ -1,33 +1,44 @@
 [
   {
     "class": "banh_uot",
-    "before": 13,
+    "before": 3,
     "stats": {
-      "candidates": 320,
-      "saved": 47,
-      "failed": 1,
-      "duplicate": 272
+      "candidates": 403,
+      "saved": 25,
+      "failed": 8,
+      "duplicate": 370
+    },
+    "on_disk": 28
+  },
+  {
+    "class": "banh_tom",
+    "before": 1,
+    "stats": {
+      "candidates": 339,
+      "saved": 59,
+      "failed": 12,
+      "duplicate": 268
     },
     "on_disk": 60
   },
   {
-    "class": "banh_tom",
-    "before": 20,
+    "class": "bo_kho",
+    "before": 18,
     "stats": {
-      "candidates": 212,
-      "saved": 40,
+      "candidates": 44,
+      "saved": 42,
       "failed": 2,
-      "duplicate": 170
+      "duplicate": 0
     },
     "on_disk": 60
   },
   {
     "class": "thit_kho_trung",
-    "before": 9,
+    "before": 4,
     "stats": {
-      "candidates": 55,
-      "saved": 51,
-      "failed": 4,
+      "candidates": 58,
+      "saved": 56,
+      "failed": 2,
       "duplicate": 0
     },
     "on_disk": 60

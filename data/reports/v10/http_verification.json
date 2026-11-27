@@ -1,0 +1,848 @@
+{
+  "stats": {
+    "top1": 66,
+    "top3": 71,
+    "n": 88
+  },
+  "per_class": {
+    "banh_bao": [
+      1,
+      1,
+      2
+    ],
+    "banh_beo": [
+      1,
+      1,
+      2
+    ],
+    "banh_canh": [
+      2,
+      2,
+      2
+    ],
+    "banh_chung": [
+      1,
+      1,
+      2
+    ],
+    "banh_cuon": [
+      0,
+      1,
+      2
+    ],
+    "banh_da_cua": [
+      2,
+      2,
+      2
+    ],
+    "banh_khot": [
+      2,
+      2,
+      2
+    ],
+    "banh_mi": [
+      2,
+      2,
+      2
+    ],
+    "banh_tom": [
+      1,
+      1,
+      2
+    ],
+    "banh_trang_nuong": [
+      1,
+      1,
+      2
+    ],
+    "banh_uot": [
+      2,
+      2,
+      2
+    ],
+    "banh_xeo": [
+      2,
+      2,
+      2
+    ],
+    "bo_kho": [
+      2,
+      2,
+      2
+    ],
+    "bun_bo_hue": [
+      1,
+      1,
+      2
+    ],
+    "bun_cha": [
+      1,
+      2,
+      2
+    ],
+    "bun_dau_mam_tom": [
+      2,
+      2,
+      2
+    ],
+    "bun_rieu": [
+      1,
+      1,
+      2
+    ],
+    "bun_thit_nuong": [
+      2,
+      2,
+      2
+    ],
+    "ca_kho_to": [
+      2,
+      2,
+      2
+    ],
+    "canh_chua": [
+      0,
+      0,
+      2
+    ],
+    "cha_ca": [
+      2,
+      2,
+      2
+    ],
+    "chao": [
+      2,
+      2,
+      2
+    ],
+    "che_ba_mau": [
+      2,
+      2,
+      2
+    ],
+    "com_chien": [
+      1,
+      1,
+      2
+    ],
+    "com_ga": [
+      0,
+      1,
+      2
+    ],
+    "com_tam": [
+      1,
+      1,
+      2
+    ],
+    "fried_chicken": [
+      2,
+      2,
+      2
+    ],
+    "goi_cuon": [
+      2,
+      2,
+      2
+    ],
+    "goi_ga": [
+      1,
+      1,
+      2
+    ],
+    "hamburger": [
+      2,
+      2,
+      2
+    ],
+    "hu_tieu": [
+      2,
+      2,
+      2
+    ],
+    "mi_quang": [
+      2,
+      2,
+      2
+    ],
+    "mi_xao": [
+      2,
+      2,
+      2
+    ],
+    "nem_ran": [
+      2,
+      2,
+      2
+    ],
+    "pasta": [
+      1,
+      1,
+      2
+    ],
+    "pho_bo": [
+      0,
+      1,
+      2
+    ],
+    "pho_ga": [
+      2,
+      2,
+      2
+    ],
+    "pizza": [
+      2,
+      2,
+      2
+    ],
+    "salad": [
+      2,
+      2,
+      2
+    ],
+    "steak": [
+      2,
+      2,
+      2
+    ],
+    "sushi": [
+      2,
+      2,
+      2
+    ],
+    "thit_kho_trung": [
+      2,
+      2,
+      2
+    ],
+    "xoi": [
+      0,
+      1,
+      2
+    ],
+    "xoi_xeo": [
+      2,
+      2,
+      2
+    ]
+  },
+  "latency_ms_avg": 91.6,
+  "detail": [
+    {
+      "class": "banh_bao",
+      "file": "ov_41b742f2.jpg",
+      "top1": "banh_mi",
+      "ok1": false,
+      "ok3": false
+    },
+    {
+      "class": "banh_bao",
+      "file": "web_21e0fde5.jpg",
+      "top1": "banh_bao",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "banh_beo",
+      "file": "commons_11113947.jpg",
+      "top1": "banh_chung",
+      "ok1": false,
+      "ok3": false
+    },
+    {
+      "class": "banh_beo",
+      "file": "commons_163077758.jpg",
+      "top1": "banh_beo",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "banh_canh",
+      "file": "web_06c46fda.jpg",
+      "top1": "banh_canh",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "banh_canh",
+      "file": "web_07a9c731.jpg",
+      "top1": "banh_canh",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "banh_chung",
+      "file": "commons_25521179.jpg",
+      "top1": "banh_chung",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "banh_chung",
+      "file": "commons_3508500.jpg",
+      "top1": "xoi",
+      "ok1": false,
+      "ok3": false
+    },
+    {
+      "class": "banh_cuon",
+      "file": "commons_10818796.jpg",
+      "top1": "banh_uot",
+      "ok1": false,
+      "ok3": true
+    },
+    {
+      "class": "banh_cuon",
+      "file": "commons_10824398.jpg",
+      "top1": "pho_ga",
+      "ok1": false,
+      "ok3": false
+    },
+    {
+      "class": "banh_da_cua",
+      "file": "commons_92984671.jpg",
+      "top1": "banh_da_cua",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "banh_da_cua",
+      "file": "web_116b159e.jpg",
+      "top1": "banh_da_cua",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "banh_khot",
+      "file": "commons_123548576.jpg",
+      "top1": "banh_khot",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "banh_khot",
+      "file": "commons_147231961.jpg",
+      "top1": "banh_khot",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "banh_mi",
+      "file": "commons_101595612.jpg",
+      "top1": "banh_mi",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "banh_mi",
+      "file": "commons_106117194.jpg",
+      "top1": "banh_mi",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "banh_tom",
+      "file": "web_0e471af8.jpg",
+      "top1": "hamburger",
+      "ok1": false,
+      "ok3": false
+    },
+    {
+      "class": "banh_tom",
+      "file": "web_19f25c52.jpg",
+      "top1": "banh_tom",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "banh_trang_nuong",
+      "file": "commons_29118319.jpg",
+      "top1": "banh_trang_nuong",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "banh_trang_nuong",
+      "file": "web_64d0c1f3.jpg",
+      "top1": "banh_mi",
+      "ok1": false,
+      "ok3": false
+    },
+    {
+      "class": "banh_uot",
+      "file": "web_2b856aed.jpg",
+      "top1": "banh_uot",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "banh_uot",
+      "file": "web_67a3d597.jpg",
+      "top1": "banh_uot",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "banh_xeo",
+      "file": "commons_10818770.jpg",
+      "top1": "banh_xeo",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "banh_xeo",
+      "file": "commons_127974265.jpg",
+      "top1": "banh_xeo",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "bo_kho",
+      "file": "ov_05fcce38.jpg",
+      "top1": "bo_kho",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "bo_kho",
+      "file": "ov_6b31f657.jpg",
+      "top1": "bo_kho",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "bun_bo_hue",
+      "file": "commons_1225603.jpg",
+      "top1": "pizza",
+      "ok1": false,
+      "ok3": false
+    },
+    {
+      "class": "bun_bo_hue",
+      "file": "commons_1259852.jpg",
+      "top1": "bun_bo_hue",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "bun_cha",
+      "file": "commons_127845858.jpg",
+      "top1": "bun_cha",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "bun_cha",
+      "file": "commons_127845859.jpg",
+      "top1": "goi_ga",
+      "ok1": false,
+      "ok3": true
+    },
+    {
+      "class": "bun_dau_mam_tom",
+      "file": "commons_4275530.jpg",
+      "top1": "bun_dau_mam_tom",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "bun_dau_mam_tom",
+      "file": "commons_89599087.jpg",
+      "top1": "bun_dau_mam_tom",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "bun_rieu",
+      "file": "commons_34370658.jpg",
+      "top1": "pho_bo",
+      "ok1": false,
+      "ok3": false
+    },
+    {
+      "class": "bun_rieu",
+      "file": "commons_7120550.jpg",
+      "top1": "bun_rieu",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "bun_thit_nuong",
+      "file": "commons_125994882.jpg",
+      "top1": "bun_thit_nuong",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "bun_thit_nuong",
+      "file": "commons_87521852.jpg",
+      "top1": "bun_thit_nuong",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "ca_kho_to",
+      "file": "ov_44575da6.jpg",
+      "top1": "ca_kho_to",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "ca_kho_to",
+      "file": "web_0dd490ba.jpg",
+      "top1": "ca_kho_to",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "canh_chua",
+      "file": "commons_39591301.jpg",
+      "top1": "banh_chung",
+      "ok1": false,
+      "ok3": false
+    },
+    {
+      "class": "canh_chua",
+      "file": "ov_2dc6f44a.jpg",
+      "top1": "bo_kho",
+      "ok1": false,
+      "ok3": false
+    },
+    {
+      "class": "cha_ca",
+      "file": "commons_138037759.jpg",
+      "top1": "cha_ca",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "cha_ca",
+      "file": "commons_138037768.jpg",
+      "top1": "cha_ca",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "chao",
+      "file": "ov_491c9e61.jpg",
+      "top1": "chao",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "chao",
+      "file": "ov_b901ad1b.jpg",
+      "top1": "chao",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "che_ba_mau",
+      "file": "web_0000dfa9.jpg",
+      "top1": "che_ba_mau",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "che_ba_mau",
+      "file": "web_119dd09e.jpg",
+      "top1": "che_ba_mau",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "com_chien",
+      "file": "food101_train_012754_fried_rice.jpg",
+      "top1": "banh_trang_nuong",
+      "ok1": false,
+      "ok3": false
+    },
+    {
+      "class": "com_chien",
+      "file": "food101_train_012756_fried_rice.jpg",
+      "top1": "com_chien",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "com_ga",
+      "file": "ov_3cd12622.jpg",
+      "top1": "bun_cha",
+      "ok1": false,
+      "ok3": true
+    },
+    {
+      "class": "com_ga",
+      "file": "ov_3d6a4cc3.jpg",
+      "top1": "mi_quang",
+      "ok1": false,
+      "ok3": false
+    },
+    {
+      "class": "com_tam",
+      "file": "commons_105130209.jpg",
+      "top1": "sushi",
+      "ok1": false,
+      "ok3": false
+    },
+    {
+      "class": "com_tam",
+      "file": "commons_127841039.jpg",
+      "top1": "com_tam",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "fried_chicken",
+      "file": "food101_train_003750_chicken_wings.jpg",
+      "top1": "fried_chicken",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "fried_chicken",
+      "file": "food101_train_003751_chicken_wings.jpg",
+      "top1": "fried_chicken",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "goi_cuon",
+      "file": "commons_135775852.jpg",
+      "top1": "goi_cuon",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "goi_cuon",
+      "file": "commons_200979124.jpg",
+      "top1": "goi_cuon",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "goi_ga",
+      "file": "commons_29767309.jpg",
+      "top1": "com_chien",
+      "ok1": false,
+      "ok3": false
+    },
+    {
+      "class": "goi_ga",
+      "file": "commons_30399868.jpg",
+      "top1": "goi_ga",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "hamburger",
+      "file": "food101_train_002251_hamburger.jpg",
+      "top1": "hamburger",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "hamburger",
+      "file": "food101_train_002255_hamburger.jpg",
+      "top1": "hamburger",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "hu_tieu",
+      "file": "commons_150071403.jpg",
+      "top1": "hu_tieu",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "hu_tieu",
+      "file": "commons_150072964.jpg",
+      "top1": "hu_tieu",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "mi_quang",
+      "file": "commons_148506322.jpg",
+      "top1": "mi_quang",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "mi_quang",
+      "file": "commons_150072670.jpg",
+      "top1": "mi_quang",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "mi_xao",
+      "file": "commons_11455957.jpg",
+      "top1": "mi_xao",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "mi_xao",
+      "file": "commons_19962567.jpg",
+      "top1": "mi_xao",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "nem_ran",
+      "file": "commons_127845170.jpg",
+      "top1": "nem_ran",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "nem_ran",
+      "file": "commons_127845172.jpg",
+      "top1": "nem_ran",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "pasta",
+      "file": "food101_train_023256_lasagna.jpg",
+      "top1": "pizza",
+      "ok1": false,
+      "ok3": false
+    },
+    {
+      "class": "pasta",
+      "file": "food101_train_023260_lasagna.jpg",
+      "top1": "pasta",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "pho_bo",
+      "file": "commons_102056671.jpg",
+      "top1": "pho_ga",
+      "ok1": false,
+      "ok3": true
+    },
+    {
+      "class": "pho_bo",
+      "file": "commons_105763737.jpg",
+      "top1": "bun_bo_hue",
+      "ok1": false,
+      "ok3": false
+    },
+    {
+      "class": "pho_ga",
+      "file": "commons_105761057.jpg",
+      "top1": "pho_ga",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "pho_ga",
+      "file": "commons_56763783.jpg",
+      "top1": "pho_ga",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "pizza",
+      "file": "food101_train_007502_pizza.jpg",
+      "top1": "pizza",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "pizza",
+      "file": "food101_train_007507_pizza.jpg",
+      "top1": "pizza",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "salad",
+      "file": "food101_train_005250_greek_salad.jpg",
+      "top1": "salad",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "salad",
+      "file": "food101_train_005258_greek_salad.jpg",
+      "top1": "salad",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "steak",
+      "file": "food101_train_018012_steak.jpg",
+      "top1": "steak",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "steak",
+      "file": "food101_train_018020_steak.jpg",
+      "top1": "steak",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "sushi",
+      "file": "food101_train_067502_sushi.jpg",
+      "top1": "sushi",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "sushi",
+      "file": "food101_train_067504_sushi.jpg",
+      "top1": "sushi",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "thit_kho_trung",
+      "file": "web_00263da0.jpg",
+      "top1": "thit_kho_trung",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "thit_kho_trung",
+      "file": "web_0f2536fd.jpg",
+      "top1": "thit_kho_trung",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "xoi",
+      "file": "commons_105294293.jpg",
+      "top1": "nem_ran",
+      "ok1": false,
+      "ok3": true
+    },
+    {
+      "class": "xoi",
+      "file": "commons_163078178.jpg",
+      "top1": "salad",
+      "ok1": false,
+      "ok3": false
+    },
+    {
+      "class": "xoi_xeo",
+      "file": "web_0517601c.jpg",
+      "top1": "xoi_xeo",
+      "ok1": true,
+      "ok3": true
+    },
+    {
+      "class": "xoi_xeo",
+      "file": "web_06cbd306.jpg",
+      "top1": "xoi_xeo",
+      "ok1": true,
+      "ok3": true
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "classes": [
+    {
+      "class": "banh_uot",
+      "downloaded_new": 146,
+      "rejected": 89,
+      "accepted": 57,
+      "clean_total": 57,
+      "shortfall_to_34": 0
+    },
+    {
+      "class": "banh_tom",
+      "downloaded_new": 181,
+      "rejected": 131,
+      "accepted": 50,
+      "clean_total": 50,
+      "shortfall_to_34": 0
+    },
+    {
+      "class": "bo_kho",
+      "downloaded_new": 119,
+      "rejected": 66,
+      "accepted": 53,
+      "clean_total": 53,
+      "shortfall_to_34": 0
+    },
+    {
+      "class": "thit_kho_trung",
+      "downloaded_new": 177,
+      "rejected": 115,
+      "accepted": 62,
+      "clean_total": 62,
+      "shortfall_to_34": 0
+    }
+  ],
+  "provenance_path": "D:\\Documents\\BaoCao\\TriTueNhanTao\\AI-Nutrition-Analyzer\\data\\reports\\round3_provenance_nhom_4_mon_moi.json",
+  "provenance_records": 623,
+  "license_counts": {
+    "by": 35,
+    "by-sa": 50,
+    "cc0": 1,
+    "unknown": 537
+  },
+  "duplicate_names_across_classes": {},
+  "errors": []
+}

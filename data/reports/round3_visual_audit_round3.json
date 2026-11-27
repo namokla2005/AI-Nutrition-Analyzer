@@ -1,0 +1,158 @@
+{
+  "moved_to_rejected": [
+    "banh_bao/ov_9cd01538.jpg",
+    "banh_canh/web_93d759b9.jpg",
+    "bun_mam/web_307e263c.jpg",
+    "bun_mam/web_29292611.jpg",
+    "bun_mam/web_753b6f4e.jpg",
+    "bun_mam/web_fede4746.jpg",
+    "bun_mam/web_35fe4fc2.jpg",
+    "bun_mam/web_5cf881d5.jpg",
+    "bun_mam/web_71be7ddd.jpg",
+    "bun_mam/web_9f3af77a.jpg",
+    "bun_mam/web_4e1f6fb8.jpg",
+    "banh_uot/web_fdc0184a.jpg",
+    "banh_uot/web_9950a56a.jpg",
+    "banh_uot/web_63c57ec3.jpg",
+    "ca_kho_to/ov_89ffd8b6.jpg",
+    "ca_kho_to/web_27181c6e.jpg",
+    "ca_kho_to/web_41b3b6aa.jpg",
+    "ca_kho_to/ov_b9860c06.jpg",
+    "che_ba_mau/web_f1226ad2.jpg",
+    "che_ba_mau/web_ad68560b.jpg",
+    "che_ba_mau/web_9e603e7a.jpg",
+    "che_ba_mau/web_db7370b4.jpg",
+    "che_ba_mau/web_d80f25d2.jpg",
+    "che_ba_mau/web_f18388ef.jpg"
+  ],
+  "counts": {
+    "banh_bao": {
+      "còn lại": 33,
+      "tỉ lệ đúng (mẫu)": "14/15",
+      "ước lượng sạch": 31
+    },
+    "chao": {
+      "còn lại": 48,
+      "tỉ lệ đúng (mẫu)": "15/15",
+      "ước lượng sạch": 48
+    },
+    "banh_canh": {
+      "còn lại": 45,
+      "tỉ lệ đúng (mẫu)": "14/15",
+      "ước lượng sạch": 42
+    },
+    "bun_mam": {
+      "còn lại": 25,
+      "tỉ lệ đúng (mẫu)": "6/15",
+      "ước lượng sạch": 10
+    },
+    "banh_uot": {
+      "còn lại": 54,
+      "tỉ lệ đúng (mẫu)": "12/15",
+      "ước lượng sạch": 43
+    },
+    "banh_tom": {
+      "còn lại": 50,
+      "tỉ lệ đúng (mẫu)": "15/15",
+      "ước lượng sạch": 50
+    },
+    "bo_kho": {
+      "còn lại": 53,
+      "tỉ lệ đúng (mẫu)": "15/15",
+      "ước lượng sạch": 53
+    },
+    "thit_kho_trung": {
+      "còn lại": 62,
+      "tỉ lệ đúng (mẫu)": "15/15",
+      "ước lượng sạch": 62
+    },
+    "ca_kho_to": {
+      "còn lại": 42,
+      "tỉ lệ đúng (mẫu)": "11/15",
+      "ước lượng sạch": 31
+    },
+    "com_ga": {
+      "còn lại": 36,
+      "tỉ lệ đúng (mẫu)": "15/15",
+      "ước lượng sạch": 36
+    },
+    "xoi_xeo": {
+      "còn lại": 58,
+      "tỉ lệ đúng (mẫu)": "15/15",
+      "ước lượng sạch": 58
+    },
+    "che_ba_mau": {
+      "còn lại": 41,
+      "tỉ lệ đúng (mẫu)": "9/15",
+      "ước lượng sạch": 25
+    },
+    "banh_da_cua": {
+      "còn lại": 35,
+      "tỉ lệ đúng (mẫu)": "15/15",
+      "ước lượng sạch": 35
+    },
+    "goi_ga": {
+      "còn lại": 43,
+      "tỉ lệ đúng (mẫu)": "15/15",
+      "ước lượng sạch": 43
+    },
+    "banh_trang_nuong": {
+      "còn lại": 22,
+      "tỉ lệ đúng (mẫu)": "15/15",
+      "ước lượng sạch": 22
+    },
+    "mi_xao": {
+      "còn lại": 38,
+      "tỉ lệ đúng (mẫu)": "15/15",
+      "ước lượng sạch": 38
+    }
+  },
+  "wrong_indices": {
+    "banh_bao": [
+      14
+    ],
+    "banh_canh": [
+      8
+    ],
+    "bun_mam": [
+      1,
+      2,
+      4,
+      5,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "banh_uot": [
+      10,
+      12,
+      13
+    ],
+    "ca_kho_to": [
+      1,
+      2,
+      3,
+      9
+    ],
+    "che_ba_mau": [
+      4,
+      6,
+      8,
+      10,
+      11,
+      15
+    ],
+    "chao": [],
+    "banh_tom": [],
+    "bo_kho": [],
+    "thit_kho_trung": [],
+    "com_ga": [],
+    "xoi_xeo": [],
+    "banh_da_cua": [],
+    "goi_ga": [],
+    "banh_trang_nuong": [],
+    "mi_xao": []
+  }
+}

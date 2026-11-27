@@ -1,0 +1,37 @@
+{
+  "classes": {
+    "banh_bao": {
+      "downloaded_new": 128,
+      "rejected": 94,
+      "accepted": 34,
+      "clean_total": 34
+    },
+    "chao": {
+      "downloaded_new": 88,
+      "rejected": 40,
+      "accepted": 48,
+      "clean_total": 48
+    },
+    "banh_canh": {
+      "downloaded_new": 104,
+      "rejected": 58,
+      "accepted": 46,
+      "clean_total": 46
+    },
+    "bun_mam": {
+      "downloaded_new": 79,
+      "rejected": 45,
+      "accepted": 34,
+      "clean_total": 34
+    }
+  },
+  "provenance": "data/reports/round3_provenance_bao_chao_canh_mam.json",
+  "provenance_records": 399,
+  "licenses": {
+    "by-sa": 40,
+    "unknown": 310,
+    "cc0": 34,
+    "by": 15
+  },
+  "errors": []
+}

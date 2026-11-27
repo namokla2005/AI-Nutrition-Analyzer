@@ -249,6 +249,8 @@ def main() -> int:
         transforms.RandomRotation(12),
         transforms.ToTensor(),
         transforms.Normalize(IMAGENET_MEAN, IMAGENET_STD),
+        # Xoá ngẫu nhiên một mảng nhỏ: model phải dựa vào nhiều vùng ảnh thay vì một chi tiết.
+        transforms.RandomErasing(p=0.25, scale=(0.02, 0.12), value="random"),
     ])
     eval_tf = transforms.Compose([
         transforms.Resize(256),
@@ -266,8 +268,8 @@ def main() -> int:
 
     model = build_model(len(labels_present), pretrained=not args.no_pretrained)
     model.to(args.device)
-    criterion = nn.CrossEntropyLoss()
-    loss_note = "CrossEntropyLoss"
+    criterion = nn.CrossEntropyLoss(label_smoothing=0.1)
+    loss_note = "CrossEntropyLoss(label_smoothing=0.1)"
     if args.class_weights == "balanced":
         # Lớp món Việt chỉ có ~25 ảnh train trong khi lớp Food-101 có 70 ảnh: không cân bằng thì
         # model nghiêng về lớp nhiều ảnh và các lớp món Việt (đặc biệt nhóm món nước) bị hút mất.
@@ -278,8 +280,9 @@ def main() -> int:
         counts[counts == 0] = 1.0
         weights = counts.sum() / (len(counts) * counts)
         criterion = nn.CrossEntropyLoss(
-            weight=torch.tensor(weights, dtype=torch.float32, device=args.device))
-        loss_note = "CrossEntropyLoss(weight=balanced)"
+            weight=torch.tensor(weights, dtype=torch.float32, device=args.device),
+            label_smoothing=0.1)
+        loss_note = "CrossEntropyLoss(weight=balanced, label_smoothing=0.1)"
         print("  trọng số lớp (balanced):")
         for index, label in enumerate(labels_present):
             print(f"    {label:18} {int(counts[index]):3} ảnh train | trọng số {weights[index]:.3f}")

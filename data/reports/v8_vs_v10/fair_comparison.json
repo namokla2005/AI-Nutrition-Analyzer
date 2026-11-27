@@ -1,0 +1,177 @@
+{
+  "n_test": 134,
+  "runs": [
+    {
+      "model": "v8",
+      "top1": 96,
+      "top3": 121,
+      "n": 134,
+      "top1_acc": 0.7164,
+      "top3_acc": 0.903,
+      "per_class": {
+        "banh_cuon": [
+          0,
+          0
+        ],
+        "banh_mi": [
+          1,
+          1
+        ],
+        "banh_xeo": [
+          0,
+          0
+        ],
+        "bun_cha": [
+          2,
+          2
+        ],
+        "bun_rieu": [
+          0,
+          1
+        ],
+        "com_chien": [
+          12,
+          14
+        ],
+        "fried_chicken": [
+          13,
+          15
+        ],
+        "goi_cuon": [
+          2,
+          2
+        ],
+        "hamburger": [
+          13,
+          13
+        ],
+        "hu_tieu": [
+          0,
+          0
+        ],
+        "mi_quang": [
+          0,
+          1
+        ],
+        "nem_ran": [
+          2,
+          2
+        ],
+        "pasta": [
+          6,
+          14
+        ],
+        "pho_bo": [
+          0,
+          1
+        ],
+        "pizza": [
+          15,
+          15
+        ],
+        "salad": [
+          11,
+          14
+        ],
+        "steak": [
+          10,
+          14
+        ],
+        "sushi": [
+          9,
+          12
+        ],
+        "xoi": [
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "model": "v10",
+      "top1": 100,
+      "top3": 117,
+      "n": 134,
+      "top1_acc": 0.7463,
+      "top3_acc": 0.8731,
+      "per_class": {
+        "banh_cuon": [
+          0,
+          0
+        ],
+        "banh_mi": [
+          0,
+          0
+        ],
+        "banh_xeo": [
+          1,
+          1
+        ],
+        "bun_cha": [
+          1,
+          2
+        ],
+        "bun_rieu": [
+          0,
+          0
+        ],
+        "com_chien": [
+          12,
+          12
+        ],
+        "fried_chicken": [
+          13,
+          15
+        ],
+        "goi_cuon": [
+          2,
+          2
+        ],
+        "hamburger": [
+          13,
+          13
+        ],
+        "hu_tieu": [
+          0,
+          0
+        ],
+        "mi_quang": [
+          1,
+          1
+        ],
+        "nem_ran": [
+          2,
+          2
+        ],
+        "pasta": [
+          7,
+          11
+        ],
+        "pho_bo": [
+          1,
+          1
+        ],
+        "pizza": [
+          12,
+          14
+        ],
+        "salad": [
+          14,
+          15
+        ],
+        "steak": [
+          11,
+          14
+        ],
+        "sushi": [
+          10,
+          13
+        ],
+        "xoi": [
+          0,
+          1
+        ]
+      }
+    }
+  ]
+}

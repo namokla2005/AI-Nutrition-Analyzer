@@ -1,0 +1,30 @@
+[
+  {
+    "class": "banh_bao",
+    "before": 9,
+    "saved": 46,
+    "final": 55,
+    "failed": 2
+  },
+  {
+    "class": "chao",
+    "before": 27,
+    "saved": 28,
+    "final": 55,
+    "failed": 2
+  },
+  {
+    "class": "banh_canh",
+    "before": 5,
+    "saved": 0,
+    "final": 5,
+    "failed": 0
+  },
+  {
+    "class": "bun_mam",
+    "before": 0,
+    "saved": 36,
+    "final": 36,
+    "failed": 1
+  }
+]

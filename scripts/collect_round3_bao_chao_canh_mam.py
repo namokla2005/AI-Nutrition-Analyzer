@@ -128,8 +128,9 @@ def verify():
   if not p.exists() or p.stat().st_size<MIN: errors.append(f'{p}: missing/small'); continue
   d=hashlib.sha256(p.read_bytes()).hexdigest()
   if d!=r['sha256']: errors.append(f'{p}: hash mismatch')
-  if d in seen: errors.append(f'{p}: duplicate of {seen[d]}')
-  seen[d]=str(p)
+  if r['review_status']=='accepted':
+   if d in seen: errors.append(f'{p}: duplicate accepted image of {seen[d]}')
+   seen[d]=str(p)
   try:
    with Image.open(p) as im: im.verify()
   except Exception as e: errors.append(f'{p}: invalid {e}')

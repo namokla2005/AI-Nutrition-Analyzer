@@ -1,26 +1,19 @@
 {
-  "target": 110,
+  "target": 160,
   "classes": [
     {
       "class": "goi_ga",
-      "before": 70,
-      "commons_new": 0,
-      "web_new": 40,
-      "total": 110
-    },
-    {
-      "class": "banh_trang_nuong",
-      "before": 70,
-      "commons_new": 0,
-      "web_new": 40,
-      "total": 110
+      "before": 160,
+      "commons_new": 55,
+      "web_new": 0,
+      "total": 215
     },
     {
       "class": "mi_xao",
-      "before": 70,
-      "commons_new": 0,
-      "web_new": 38,
-      "total": 108
+      "before": 160,
+      "commons_new": 55,
+      "web_new": 0,
+      "total": 215
     }
   ],
   "contact_sheets": [
@@ -29,15 +22,18 @@
     "data/reports/round3_contact_sheets/goi_ga_03.jpg",
     "data/reports/round3_contact_sheets/goi_ga_04.jpg",
     "data/reports/round3_contact_sheets/goi_ga_05.jpg",
-    "data/reports/round3_contact_sheets/banh_trang_nuong_01.jpg",
-    "data/reports/round3_contact_sheets/banh_trang_nuong_02.jpg",
-    "data/reports/round3_contact_sheets/banh_trang_nuong_03.jpg",
-    "data/reports/round3_contact_sheets/banh_trang_nuong_04.jpg",
-    "data/reports/round3_contact_sheets/banh_trang_nuong_05.jpg",
+    "data/reports/round3_contact_sheets/goi_ga_06.jpg",
+    "data/reports/round3_contact_sheets/goi_ga_07.jpg",
+    "data/reports/round3_contact_sheets/goi_ga_08.jpg",
+    "data/reports/round3_contact_sheets/goi_ga_09.jpg",
     "data/reports/round3_contact_sheets/mi_xao_01.jpg",
     "data/reports/round3_contact_sheets/mi_xao_02.jpg",
     "data/reports/round3_contact_sheets/mi_xao_03.jpg",
     "data/reports/round3_contact_sheets/mi_xao_04.jpg",
-    "data/reports/round3_contact_sheets/mi_xao_05.jpg"
+    "data/reports/round3_contact_sheets/mi_xao_05.jpg",
+    "data/reports/round3_contact_sheets/mi_xao_06.jpg",
+    "data/reports/round3_contact_sheets/mi_xao_07.jpg",
+    "data/reports/round3_contact_sheets/mi_xao_08.jpg",
+    "data/reports/round3_contact_sheets/mi_xao_09.jpg"
   ]
 }

@@ -28,9 +28,8 @@ UA = "AI-Nutrition-Analyzer-Round3/1.0 (academic dataset; contact: https://githu
 TARGET = 160
 MIN_BYTES = 5 * 1024
 QUERIES = {
-    "goi_ga": ["chicken cabbage salad bowl recipe", "shredded chicken salad bowl", "Asian chicken salad dish"],
-    "banh_trang_nuong": ["rice paper pizza banh trang nuong", "grilled rice paper pizza food"],
-    "mi_xao": ["stir fried noodles plate food", "stir fried egg noodles dish", "seafood stir fried noodles plate"],
+    "goi_ga": ["chicken salad", "Asian chicken salad", "chicken cabbage salad"],
+    "mi_xao": ["stir fried noodles", "fried noodles", "chow mein", "yakisoba", "lo mein"],
 }
 ALLOWED = ("cc0", "cc by", "public domain")
 
@@ -96,6 +95,8 @@ def collect_commons(client: httpx.Client, class_name: str, folder: Path, seen_ha
     known = {p.stem for p in folder.glob("commons_*.jpg")}
     for query in QUERIES[class_name]:
         for page in commons_candidates(client, query):
+            if added >= 55:
+                return added
             pageid = str(page.get("pageid") or "")
             stem = f"commons_{pageid}"
             if not pageid or stem in known:

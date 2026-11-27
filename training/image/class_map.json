@@ -308,5 +308,165 @@
     "food101_classes": [],
     "coverage_type": "not_covered",
     "coverage_note_vi": "Food-101 không có lớp tương ứng; thu thập bằng tìm kiếm toàn văn Wikimedia Commons và cần duyệt thủ công."
+  },
+  {
+    "our_class": "banh_bao",
+    "display_name_vi": "Bánh bao",
+    "selected_source": "commons",
+    "source_class": "bánh bao",
+    "search_term": "bánh bao",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; ảnh thu từ nguồn web công khai (Openverse/Commons + tìm kiếm ảnh) và đã duyệt thủ công bằng mắt; phần lớn ảnh không công bố giấy phép rõ ràng, đã ghi lại URL nguồn thật."
+  },
+  {
+    "our_class": "chao",
+    "display_name_vi": "Cháo",
+    "selected_source": "commons",
+    "source_class": "cháo",
+    "search_term": "cháo",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; ảnh thu từ nguồn web công khai (Openverse/Commons + tìm kiếm ảnh) và đã duyệt thủ công bằng mắt; phần lớn ảnh không công bố giấy phép rõ ràng, đã ghi lại URL nguồn thật."
+  },
+  {
+    "our_class": "banh_canh",
+    "display_name_vi": "Bánh canh",
+    "selected_source": "commons",
+    "source_class": "bánh canh",
+    "search_term": "bánh canh",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; ảnh thu từ nguồn web công khai (Openverse/Commons + tìm kiếm ảnh) và đã duyệt thủ công bằng mắt; phần lớn ảnh không công bố giấy phép rõ ràng, đã ghi lại URL nguồn thật."
+  },
+  {
+    "our_class": "bun_mam",
+    "display_name_vi": "Bún mắm",
+    "selected_source": "commons",
+    "source_class": "bún mắm",
+    "search_term": "bún mắm",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; ảnh thu từ nguồn web công khai (Openverse/Commons + tìm kiếm ảnh) và đã duyệt thủ công bằng mắt; phần lớn ảnh không công bố giấy phép rõ ràng, đã ghi lại URL nguồn thật."
+  },
+  {
+    "our_class": "banh_uot",
+    "display_name_vi": "Bánh ướt",
+    "selected_source": "commons",
+    "source_class": "bánh ướt",
+    "search_term": "bánh ướt",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; ảnh thu từ nguồn web công khai (Openverse/Commons + tìm kiếm ảnh) và đã duyệt thủ công bằng mắt; phần lớn ảnh không công bố giấy phép rõ ràng, đã ghi lại URL nguồn thật."
+  },
+  {
+    "our_class": "banh_tom",
+    "display_name_vi": "Bánh tôm",
+    "selected_source": "commons",
+    "source_class": "bánh tôm",
+    "search_term": "bánh tôm",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; ảnh thu từ nguồn web công khai (Openverse/Commons + tìm kiếm ảnh) và đã duyệt thủ công bằng mắt; phần lớn ảnh không công bố giấy phép rõ ràng, đã ghi lại URL nguồn thật."
+  },
+  {
+    "our_class": "bo_kho",
+    "display_name_vi": "Bò kho",
+    "selected_source": "commons",
+    "source_class": "bò kho",
+    "search_term": "bò kho",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; ảnh thu từ nguồn web công khai (Openverse/Commons + tìm kiếm ảnh) và đã duyệt thủ công bằng mắt; phần lớn ảnh không công bố giấy phép rõ ràng, đã ghi lại URL nguồn thật."
+  },
+  {
+    "our_class": "thit_kho_trung",
+    "display_name_vi": "Thịt kho trứng",
+    "selected_source": "commons",
+    "source_class": "thịt kho trứng",
+    "search_term": "thịt kho trứng",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; ảnh thu từ nguồn web công khai (Openverse/Commons + tìm kiếm ảnh) và đã duyệt thủ công bằng mắt; phần lớn ảnh không công bố giấy phép rõ ràng, đã ghi lại URL nguồn thật."
+  },
+  {
+    "our_class": "ca_kho_to",
+    "display_name_vi": "Cá kho tộ",
+    "selected_source": "commons",
+    "source_class": "cá kho tộ",
+    "search_term": "cá kho tộ",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; ảnh thu từ nguồn web công khai (Openverse/Commons + tìm kiếm ảnh) và đã duyệt thủ công bằng mắt; phần lớn ảnh không công bố giấy phép rõ ràng, đã ghi lại URL nguồn thật."
+  },
+  {
+    "our_class": "com_ga",
+    "display_name_vi": "Cơm gà",
+    "selected_source": "commons",
+    "source_class": "cơm gà",
+    "search_term": "cơm gà",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; ảnh thu từ nguồn web công khai (Openverse/Commons + tìm kiếm ảnh) và đã duyệt thủ công bằng mắt; phần lớn ảnh không công bố giấy phép rõ ràng, đã ghi lại URL nguồn thật."
+  },
+  {
+    "our_class": "xoi_xeo",
+    "display_name_vi": "Xôi xéo",
+    "selected_source": "commons",
+    "source_class": "xôi xéo",
+    "search_term": "xôi xéo",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; ảnh thu từ nguồn web công khai (Openverse/Commons + tìm kiếm ảnh) và đã duyệt thủ công bằng mắt; phần lớn ảnh không công bố giấy phép rõ ràng, đã ghi lại URL nguồn thật."
+  },
+  {
+    "our_class": "che_ba_mau",
+    "display_name_vi": "Chè ba màu",
+    "selected_source": "commons",
+    "source_class": "chè ba màu",
+    "search_term": "chè ba màu",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; ảnh thu từ nguồn web công khai (Openverse/Commons + tìm kiếm ảnh) và đã duyệt thủ công bằng mắt; phần lớn ảnh không công bố giấy phép rõ ràng, đã ghi lại URL nguồn thật."
+  },
+  {
+    "our_class": "banh_da_cua",
+    "display_name_vi": "Bánh đa cua",
+    "selected_source": "commons",
+    "source_class": "bánh đa cua",
+    "search_term": "bánh đa cua",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; ảnh thu từ nguồn web công khai (Openverse/Commons + tìm kiếm ảnh) và đã duyệt thủ công bằng mắt; phần lớn ảnh không công bố giấy phép rõ ràng, đã ghi lại URL nguồn thật."
+  },
+  {
+    "our_class": "goi_ga",
+    "display_name_vi": "Gỏi gà",
+    "selected_source": "commons",
+    "source_class": "gỏi gà",
+    "search_term": "gỏi gà",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; ảnh thu từ nguồn web công khai (Openverse/Commons + tìm kiếm ảnh) và đã duyệt thủ công bằng mắt; phần lớn ảnh không công bố giấy phép rõ ràng, đã ghi lại URL nguồn thật."
+  },
+  {
+    "our_class": "banh_trang_nuong",
+    "display_name_vi": "Bánh tráng nướng",
+    "selected_source": "commons",
+    "source_class": "bánh tráng nướng",
+    "search_term": "bánh tráng nướng",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; ảnh thu từ nguồn web công khai (Openverse/Commons + tìm kiếm ảnh) và đã duyệt thủ công bằng mắt; phần lớn ảnh không công bố giấy phép rõ ràng, đã ghi lại URL nguồn thật."
+  },
+  {
+    "our_class": "mi_xao",
+    "display_name_vi": "Mì xào",
+    "selected_source": "commons",
+    "source_class": "mì xào",
+    "search_term": "mì xào",
+    "food101_classes": [],
+    "coverage_type": "not_covered",
+    "coverage_note_vi": "Food-101 không có lớp tương ứng; ảnh thu từ nguồn web công khai (Openverse/Commons + tìm kiếm ảnh) và đã duyệt thủ công bằng mắt; phần lớn ảnh không công bố giấy phép rõ ràng, đã ghi lại URL nguồn thật."
   }
 ]

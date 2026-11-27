@@ -384,3 +384,32 @@ suy luận 1 ảnh chỉ ~20 ms nên GPU không cần cho lúc chạy.
   model, đổi chỉ mục và sau khi thêm lớp kiểm chứng).
 - Lượt kiểm thử lái trình duyệt thật: đăng nhập, `/recognize` (Top-3), `/foods`, `/assistant`.
 - Dữ liệu kiểm thử đã dọn: 102.847 thực phẩm, 364.611 giá trị dinh dưỡng, 2 tài khoản thật.
+
+## 7.9. Vòng 28/11/2026 (tiếp): 20 món Việt, model v10 44 lớp, đề xuất thực đơn, khẩu phần
+
+- **Đề xuất thực đơn theo chỉ số cơ thể** (`app/services/nutrition_needs.py`, `plan_service.py`,
+  `app/api/v1/plan.py`): BMR Mifflin–St Jeor + TDEE theo mức vận động + điều chỉnh theo mục tiêu cân
+  nặng + ngưỡng an toàn; thực đơn chỉ cho **các bữa chưa ghi**, chia kcal 25/35/30/10, chọn nguyên
+  liệu thật trong CSDL theo ngân sách từng bữa, co khẩu phần khi vượt 8 %; **ghi chú trong hồ sơ
+  thành điều kiện lọc** (dị ứng/kiêng/chay/thuần chay/tăng cơ) và trả về `constraints.applied`.
+  Kiểm chứng thật: BMR 1573 · TDEE 2162 · mục tiêu 2200 · đã ăn 540 · còn 1660; bữa đã ghi không bị
+  đề xuất lại. 17 bài test mới cho phần này.
+- **Khẩu phần và dinh dưỡng khi nhận diện ảnh** (`app/ml/portion_table.py` + khối `portion` trong
+  `/predict/image`): khẩu phần tham khảo theo món × giá trị trong CSDL, có `nutrient_source` và
+  `missing_nutrients`; loại nước sốt/gia vị khi chọn món khớp (lỗi thật đã gặp: nhãn `salad` khớp
+  "Salad dressing" 884 kcal/100 g).
+- **Đo model thị giác 0,8B**: có `vision` nhưng chỉ đúng **6/40 = 15 %** tên món Việt và không ước
+  lượng được khối lượng ⇒ vẫn dùng CNN tự huấn luyện, khối lượng dùng bảng khẩu phần.
+- **Tên món tiếng Việt**: pizza/hamburger/sushi/salad/steak nay hiển thị kèm tên Việt; khai báo thêm
+  16 lớp mới trong `app/ml/labels_vi.py`.
+- **20 món Việt mới về dữ liệu**: 5 luồng thu song song (mỗi món ≥40 ảnh tải về), 8 luồng soi độc lập
+  bằng mắt; đĩa hiện có **4.149 ảnh nhận / 45 lớp**, 2.388 ảnh bị loại; đã loại 30 ảnh sai ở vòng này
+  và **loại lớp `bun_mam` khỏi huấn luyện** (mẫu soi chỉ 6/15 ảnh đúng món).
+- **Huấn luyện lại**: tập dùng **2.524 ảnh / 44 lớp** (train 1.768 · val 383 · test 373); v9
+  (0,7024/0,6745) rồi **v10 = 60 epoch + RandomErasing + label smoothing → accuracy test
+  0.7185 · macro F1 0.6917** (2.228,3 s, GPU).
+- **Chọn bản phục vụ bằng so sánh công bằng** trên 134 ảnh test ở cả hai manifest:
+  v8 0.7164 vs **v10 0.7463** ⇒ dùng **v10 (44 lớp)**.
+- **Kiểm chứng qua HTTP thật**: top-1 0.7500 ·
+  top-3 0.8068 trên 88 ảnh test, 92 ms/ảnh.
+- **Kiểm thử**: pytest **217 đạt / 1 bỏ qua**; e2e **92 đạt / 0 hỏng**.
