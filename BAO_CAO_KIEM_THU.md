@@ -746,3 +746,55 @@ thiết kế: giao diện không bao giờ để lọt con số do model tự ng
 (chỉ chèn lại đúng bản ghi đó) và đối chiếu: **102.847 thực phẩm · 364.611 giá trị dinh dưỡng ·
 98.721 tên phụ**, chỉ mục FTS đồng bộ 102.847 = 102.847, `integrity_check = ok` — chênh lệch so với
 bản sao lưu đúng bằng 3 thực phẩm kiểm thử đã cố ý xoá.
+
+### 7.14 Ca thứ hai người dùng phát hiện: ba câu hỏi khác nhau nhưng trả lời y hệt nhau
+
+**Hiện tượng.** Người dùng gửi ba câu hỏi khác nhau trong cùng một phiên —
+*"tôi nên ăn món gì để phù hợp với bữa sáng"*, *"còn lại bao nhiêu kcal"*, *"Hôm nay tôi đã ăn bao
+nhiêu calo?"* — và nhận về **ba câu trả lời giống hệt nhau**, cùng nhắc hai sản phẩm không liên quan.
+Kiểm tra CSDL xác nhận đây **không phải lỗi hiển thị**: ba bản ghi trong `chat_messages` có nội dung
+giống nhau và cùng `tokens_out = 77`. Mốc thời gian cho thấy câu thứ nhất sinh lúc 05:19 UTC (trước
+bản sửa), hai câu sau lúc 05:34 UTC (sau bản sửa) nhưng vẫn y hệt.
+
+**Nguyên nhân.** Hàm `answer` gửi lại **câu trả lời cũ của chính trợ lý** làm lịch sử hội thoại
+(`recent_messages`). Model Qwen 0,8B rất hay chép nguyên văn câu trả lời nằm ngay trước đó, nên chỉ
+một câu trả lời sai là **các câu sau lặp lại y hệt** — kể cả khi ngữ cảnh mới đã sạch và số liệu mới
+đã khác. Đây là hiện tượng "ngộ độc ngữ cảnh" (context poisoning) của model nhỏ.
+
+**Đã sửa (hai lớp bảo vệ):**
+
+1. **Không gửi lại câu trả lời cũ của trợ lý** trong lời gọi model, chỉ gửi lại các câu hỏi trước
+   (toàn bộ số liệu cần thiết đã nằm trong khối DỮ LIỆU do backend dựng). Riêng lần *hỏi lại* để sửa
+   thì vẫn kèm câu trả lời sai vừa rồi — đó là chủ ý, để model biết cần sửa gì.
+2. **Thêm `too_similar()`**: nếu câu trả lời mới giống ≥ 85 % câu trả lời ngay trước trong cùng
+   phiên thì coi là chưa đạt → hỏi lại model một lần → vẫn lặp thì gắn số liệu chính thức. API trả
+   thêm trường `repeated`.
+
+**Sửa kèm: siết việc dò món trong câu hỏi (đợt hai).** Bản sửa ở §7.13 chưa đủ: các cụm vô nghĩa
+vẫn khớp tiền tố với tên nước ngoài, và vì trợ lý chỉ được nhắc món **có trong ngữ cảnh** nên nó
+nhắc đúng những sản phẩm rác đó. Các ca đo được:
+
+| Cụm trong câu hỏi | Từng khớp nhầm với |
+|---|---|
+| `phù` (trong "phù hợp") | "**Phú** Hương", "**Phúc** bồn tử" |
+| `hợp` | "**hộp** thăng long" |
+| `bữa` | "**Bua**vita" |
+| `đã ăn` (da + an) | "**da**rk-green" + "**an**d" |
+| `còn` / `lại` | "**con**servateurs" / "**Lait**" |
+| `calo` | "low **calorie**" |
+| `100` | tên sản phẩm có chứa số 100 |
+
+Cách siết mới gồm ba phần: (1) cửa sổ từ chỉ được dùng khi **mọi từ đều là từ mang nghĩa** (không
+phải từ dừng, không phải số, dài từ 2 ký tự — để giữ được tên món có từ ngắn như *bánh mì*, *phở bò*);
+(2) `_food_mentions()` — kết quả chỉ được nhận khi cụm khớp **ĐÚNG DẤU** trong tên/tên phụ, hoặc khi
+người dùng gõ **không dấu** thì cụm phải dài từ 4 ký tự; (3) mở rộng danh sách từ dừng tiếng Việt.
+
+**Kiểm chứng sau khi sửa** (tài khoản tạm, đúng ba câu hỏi trong phiên của người dùng):
+`foods_mentioned = []` cả ba câu; độ giống nhau giữa các câu trả lời còn **0,02 – 0,31** (trước đây
+là 1,00 vì giống hệt); câu hỏi nêu đúng tên món vẫn tìm ra món thật ("Phở bò", "Cơm trắng chín",
+"bánh mì ốp la kiểm thử") kể cả khi gõ không dấu ("com trang chin"). pytest **200 đạt / 1 bỏ qua**,
+e2e **92 đạt / 0 hỏng** (chạy lại 3 lần liền không lỗi).
+
+**Ghi chú về "mục tiêu 500 kcal/ngày" trong ảnh.** Đó là mục tiêu có thật trong hồ sơ người dùng
+(`user_profiles.daily_kcal_target = 500`), trợ lý đọc từ CSDL chứ không tự nghĩ ra. Nếu muốn con số
+hợp lý hơn thì đổi ở trang "Tài khoản của tôi" (ví dụ 2000 kcal).

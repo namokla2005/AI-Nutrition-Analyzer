@@ -12,6 +12,7 @@ Nguyên tắc bắt buộc (§8.6, §9, §13):
 """
 from __future__ import annotations
 
+import difflib
 import logging
 import re
 
@@ -171,6 +172,19 @@ def question_wants_numbers(question: str | None) -> bool:
         "bot duong", "chat xo", "natri", "gram", "gam"))
 
 
+def too_similar(answer: str | None, previous: str | None, threshold: float = 0.85) -> bool:
+    """Câu trả lời mới có lặp gần nguyên văn câu trả lời trước đó không.
+
+    Model 0,8B rất hay chép lại câu trả lời cũ nếu câu trả lời đó nằm trong ngữ cảnh: đã gặp
+    một phiên mà câu trả lời SAI đầu tiên làm hai câu sau lặp lại y hệt (cùng 77 token) dù
+    dữ liệu của chúng khác nhau. Vì vậy vừa không gửi lại câu trả lời cũ, vừa kiểm tra độ
+    giống nhau để chặn trường hợp model vẫn lặp.
+    """
+    if not answer or not previous:
+        return False
+    return difflib.SequenceMatcher(None, answer.strip(), previous.strip()).ratio() >= threshold
+
+
 def verify_numbers(answer_text: str | None, context: dict, tolerance: float = 1.5) -> dict:
     """Đối chiếu con số model viết ra với con số có thật trong ngữ cảnh.
 
@@ -242,21 +256,40 @@ hom nay toi ban minh cua cho va la gi bao nhieu the nao trong ngoai co khong duo
 thuc pham xin hay giup voi ta mot cac nhung rat qua lam sao khi and the for with how what today
 eat food calories calorie kcal bao nhung cung nhu de tren duoi
 nen phai can muon thich y lieu sang trua chieu bua phu hop nao ra sao bao lau chua them bot nhieu
-it vua du gi
+it vua du gi con chi do day roi nua thoi cu tiet truoc sau tren duoi ra vao cua moi
+calo nang luong calori luong
 """.split())
 
 
-def _match_foods_in_question(db: Session, question: str, limit: int = 3) -> list[dict]:
-    """Tìm thực phẩm được nhắc tới trong câu hỏi (khớp cả khi không dấu).
+def _food_mentions(food: Food, accented_phrase: str, phrase: str) -> bool:
+    """Thực phẩm có THẬT SỰ chứa cụm này không (ưu tiên khớp đúng dấu tiếng Việt).
 
-    Ưu tiên cụm dài trước để tránh khớp nhầm từng từ đơn, và BỎ QUA từ dừng/từ quá ngắn: từng
-    bị 'an' (từ 'ăn') khớp tiền tố với 'and' nên câu hỏi "hôm nay tôi ăn gì" lại khiến trợ lý
-    nhắc tới "Beef and vegetables" — rác trong ngữ cảnh.
+    Vì tra cứu bỏ dấu, các cụm vô nghĩa trong câu hỏi vẫn khớp tiền tố với tên nước ngoài:
+    'lại' → "Lait", 'phù' → "Phú", 'còn' → "conservateurs", 'đã ăn' → "dark" + "and". Nên chỉ
+    nhận kết quả khi cụm khớp ĐÚNG DẤU trong tên, hoặc (khi khớp không dấu) cụm phải đủ dài
+    (>= 4 ký tự) — đủ để người dùng gõ không dấu "com trang chin" vẫn tìm được.
+    """
+    haystacks = [food.name_vi, food.name_en, food.display_name]
+    haystacks += [alias.alias for alias in getattr(food, "aliases", None) or []]
+    text = " ".join(item for item in haystacks if item).lower()
+    if accented_phrase and accented_phrase in text:
+        return True
+    return len(phrase) >= 4
+
+
+def _match_foods_in_question(db: Session, question: str, limit: int = 3) -> list[dict]:
+    """Tìm thực phẩm được nhắc tới trong câu hỏi.
+
+    Cách làm: cắt câu hỏi thành các cụm 1-4 từ, **bỏ hết từ dừng và từ dưới 3 ký tự** rồi mới
+    tra cụm còn lại; kết quả còn phải qua `_food_mentions` (khớp đúng dấu hoặc cụm đủ dài) để
+    không kéo sản phẩm rác vào ngữ cảnh của trợ lý.
     """
     normalized = normalize_name(question)
     words = normalized.split()
     if not words:
         return []
+    original_words = re.split(r"\s+", (question or "").strip().lower())
+    paired = len(original_words) == len(words)
 
     repo = FoodRepository(db)
     found: dict[int, Food] = {}
@@ -264,19 +297,19 @@ def _match_foods_in_question(db: Session, question: str, limit: int = 3) -> list
         if len(found) >= limit:
             break
         for start in range(0, len(words) - size + 1):
-            chunk = words[start:start + size]
-            if size == 1:
-                # một từ đơn chỉ được coi là tên món khi đủ dài và không phải từ dừng
-                if len(chunk[0]) < 3 or chunk[0] in _STOPWORDS:
-                    continue
-            elif all(word in _STOPWORDS for word in chunk):
+            window = words[start:start + size]
+            # Cửa sổ chỉ được dùng khi MỌI từ đều là từ mang nghĩa: không phải từ dừng, không phải
+            # số, và dài từ 2 ký tự (giữ được tên món có từ ngắn như "bánh mì", "phở bò", "cá").
+            if any(word in _STOPWORDS or word.isdigit() or len(word) < 2 for word in window):
                 continue
-            phrase = " ".join(chunk)
+            phrase = " ".join(window)
             if len(phrase) < 3:
                 continue
-            rows, _ = repo.search(query=phrase, limit=limit)
+            accented = " ".join(original_words[start:start + size]) if paired else phrase
+            rows, _ = repo.search(query=phrase, limit=limit * 3)
             for food in rows:
-                found.setdefault(food.id, food)
+                if _food_mentions(food, accented, phrase):
+                    found.setdefault(food.id, food)
             if len(found) >= limit:
                 break
 
@@ -478,9 +511,13 @@ def answer(db: Session, user: User, question: str, session_id: int | None = None
 
     client = get_ollama_client()
     messages = [{"role": "system", "content": SYSTEM_PROMPT + "\n" + context_text}]
+    # KHÔNG gửi lại câu trả lời cũ của chính trợ lý: model 0,8B hay chép nguyên văn câu trả lời
+    # trước đó, nên chỉ một câu trả lời sai là các câu sau lặp lại y hệt. Chỉ gửi lại câu hỏi cũ;
+    # toàn bộ số liệu cần thiết đã nằm trong khối DỮ LIỆU phía trên.
+    previous_answers = [m.content for m in history if m.role == "assistant" and m.content]
     for msg in history:
-        if msg.role in ("user", "assistant") and msg.content:
-            messages.append({"role": msg.role, "content": msg.content[:800]})
+        if msg.role == "user" and msg.content:
+            messages.append({"role": "user", "content": msg.content[:800]})
     messages.append({"role": "user", "content": question})
 
     try:
@@ -509,9 +546,17 @@ def answer(db: Session, user: User, question: str, session_id: int | None = None
         check["verified"] = False
         check["missing_numbers"] = True
         logger.warning("Trợ lý không nêu con số nào dù câu hỏi hỏi số liệu.")
+    if result.content and previous_answers and too_similar(answer_text, previous_answers[-1]):
+        # Lặp lại câu trả lời trước (thường là lặp lại cả cái sai) -> coi là chưa đạt.
+        check["verified"] = False
+        check["repeated"] = True
+        logger.warning("Trợ lý lặp lại gần nguyên văn câu trả lời trước trong cùng phiên.")
     if result.content and not check["verified"]:
         unsupported = check["unsupported"]
-        if unsupported:
+        if check.get("repeated"):
+            instruction = ("Câu trả lời vừa rồi LẶP LẠI câu trả lời trước đó. Hãy trả lời ĐÚNG câu hỏi "
+                           "mới, chỉ dùng các con số và thực phẩm có trong phần DỮ LIỆU.")
+        elif unsupported:
             logger.warning("Trợ lý nêu số không có trong dữ liệu: %s", unsupported[:5])
             instruction = ("Câu trả lời vừa rồi chứa con số KHÔNG có trong DỮ LIỆU: "
                            + ", ".join(unsupported[:5])
@@ -534,6 +579,9 @@ def answer(db: Session, user: User, question: str, session_id: int | None = None
                     and question_wants_numbers(question)):
                 check["verified"] = False
                 check["missing_numbers"] = True
+            if previous_answers and too_similar(answer_text, previous_answers[-1]):
+                check["verified"] = False
+                check["repeated"] = True
     if result.content and not check["verified"]:
         # Vẫn sai (hoặc vẫn thiếu số) thì chốt bằng số liệu chính thức lấy trực tiếp từ dữ liệu.
         if official:
@@ -562,6 +610,7 @@ def answer(db: Session, user: User, question: str, session_id: int | None = None
         "numbers_checked": check["checked"],
         "unsupported_numbers": check["unsupported"],
         "missing_numbers": bool(check.get("missing_numbers", False)),
+        "repeated": bool(check.get("repeated", False)),
         "retried": retried,
         "notice": notice,
     }

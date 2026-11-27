@@ -222,6 +222,55 @@ class TestAssistantChat:
         assert "Số liệu chính thức từ dữ liệu" in body["answer"]
         assert "260" in body["answer"]
 
+    def test_cum_vo_nghia_khong_khop_ten_nuoc_ngoai(self, api):
+        new_client, _, _ = api
+        c = new_client()
+        _register(c)
+        # 'lại' (không dấu: lai) từng khớp tiền tố với "Lait"; 'còn' (con) với "conservateurs";
+        # 'calo' với "low calorie"; '100' với tên sản phẩm có chứa số 100
+        for payload in ({"name_en": "Lait caillé sucré"},
+                        {"name_en": "Beverages, carbonated, low calorie, cola"},
+                        {"name_en": "Mix 100 % cacao poudre"}):
+            c.post("/api/v1/foods", json=payload | {"cooking_state": "cooked",
+                                                   "energy_kcal_per_100g": 60.0,
+                                                   "source_name": "Dữ liệu kiểm thử"})
+        for question in ("còn lại bao nhiêu kcal",
+                         "Hôm nay tôi đã ăn bao nhiêu calo?",
+                         "tổng 100 g thì được bao nhiêu kcal"):
+            body = c.post("/api/v1/assistant/chat", json={"message": question}).json()
+            assert body["context_used"]["foods_mentioned"] == [], (question, body["context_used"]["foods_mentioned"])
+
+    def test_ten_mon_that_van_tim_duoc(self, api):
+        new_client, _, _ = api
+        c = new_client()
+        _register(c)
+        c.post("/api/v1/foods", json={"name_vi": "Phở bò", "cooking_state": "cooked",
+                                      "energy_kcal_per_100g": 92.0, "source_name": "Dữ liệu kiểm thử"})
+        body = c.post("/api/v1/assistant/chat",
+                      json={"message": "Phở bò có bao nhiêu kcal trong 100 g?"}).json()
+        names = [item["name"] for item in body["context_used"]["foods_mentioned"]]
+        assert "Phở bò" in names, names
+
+    def test_khong_gui_lai_cau_tra_loi_cu_va_bat_lap_nguyen_van(self, api):
+        new_client, _, fake = api
+        c = new_client()
+        _register(c)
+        _seed_meal(c)
+        # model giả luôn trả về ĐÚNG một câu (mô phỏng việc 0,8B chép lại câu trả lời cũ)
+        fake.content = "Hệ thống chỉ cung cấp số liệu dinh dưỡng. Chưa có dữ liệu về thực phẩm cụ thể."
+        first = c.post("/api/v1/assistant/chat", json={"message": "Hôm nay tôi ăn gì?"}).json()
+        second = c.post("/api/v1/assistant/chat",
+                        json={"message": "Còn lại bao nhiêu kcal?",
+                              "session_id": first["session_id"]}).json()
+        # 1) ngữ cảnh của LẦN GỌI ĐẦU không được chứa câu trả lời cũ của trợ lý
+        #    (lần hỏi lại có kèm câu trả lời cũ để model tự sửa — đó là chủ ý)
+        assert all(m["role"] != "assistant" for m in fake.calls[0]), fake.calls[0]
+        # 2) câu trả lời thứ hai bị đánh dấu lặp và phải kèm số liệu chính thức (khác câu đầu)
+        assert second["repeated"] is True
+        assert second["numbers_verified"] is False
+        assert "Số liệu chính thức từ dữ liệu" in second["answer"]
+        assert second["answer"] != first["answer"]
+
     def test_ngu_canh_chua_so_lieu_that_trong_ngay(self, api):
         new_client, _, fake = api
         c = new_client()

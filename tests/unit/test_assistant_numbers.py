@@ -10,6 +10,7 @@ from app.services.assistant_service import (
     context_numbers,
     official_numbers_text,
     question_wants_numbers,
+    too_similar,
     verify_numbers,
 )
 
@@ -123,6 +124,14 @@ def test_question_wants_numbers():
     assert question_wants_numbers("tôi nên ăn gì để phù hợp với bữa sáng") is False
     assert question_wants_numbers("") is False
     assert question_wants_numbers(None) is False
+
+
+def test_too_similar_bat_duoc_lap_nguyen_van():
+    a = "Hệ thống chỉ cung cấp số liệu dinh dưỡng hiện tại. Chưa có dữ liệu về thực phẩm."
+    assert too_similar(a, a) is True
+    assert too_similar("Tổng năng lượng hôm nay là 500 kcal.", a) is False
+    assert too_similar("", a) is False
+    assert too_similar(a, None) is False
 
 
 def test_official_numbers_text_khi_chua_co_du_lieu():
