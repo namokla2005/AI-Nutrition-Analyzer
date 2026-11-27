@@ -1,0 +1,35 @@
+[
+  {
+    "class": "banh_uot",
+    "before": 13,
+    "stats": {
+      "candidates": 320,
+      "saved": 47,
+      "failed": 1,
+      "duplicate": 272
+    },
+    "on_disk": 60
+  },
+  {
+    "class": "banh_tom",
+    "before": 20,
+    "stats": {
+      "candidates": 212,
+      "saved": 40,
+      "failed": 2,
+      "duplicate": 170
+    },
+    "on_disk": 60
+  },
+  {
+    "class": "thit_kho_trung",
+    "before": 9,
+    "stats": {
+      "candidates": 55,
+      "saved": 51,
+      "failed": 4,
+      "duplicate": 0
+    },
+    "on_disk": 60
+  }
+]

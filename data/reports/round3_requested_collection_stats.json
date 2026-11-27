@@ -1,0 +1,70 @@
+[
+  {
+    "class": "banh_uot",
+    "before": 0,
+    "openverse": {
+      "candidates": 60,
+      "saved": 13,
+      "failed": 30,
+      "duplicate": 17
+    },
+    "commons": {
+      "candidates": 0,
+      "saved": 0,
+      "failed": 5,
+      "duplicate": 0
+    },
+    "on_disk": 13
+  },
+  {
+    "class": "banh_tom",
+    "before": 0,
+    "openverse": {
+      "candidates": 36,
+      "saved": 20,
+      "failed": 15,
+      "duplicate": 1
+    },
+    "commons": {
+      "candidates": 0,
+      "saved": 0,
+      "failed": 5,
+      "duplicate": 0
+    },
+    "on_disk": 20
+  },
+  {
+    "class": "bo_kho",
+    "before": 0,
+    "openverse": {
+      "candidates": 70,
+      "saved": 44,
+      "failed": 13,
+      "duplicate": 13
+    },
+    "commons": {
+      "candidates": 0,
+      "saved": 0,
+      "failed": 5,
+      "duplicate": 0
+    },
+    "on_disk": 44
+  },
+  {
+    "class": "thit_kho_trung",
+    "before": 0,
+    "openverse": {
+      "candidates": 30,
+      "saved": 9,
+      "failed": 7,
+      "duplicate": 14
+    },
+    "commons": {
+      "candidates": 0,
+      "saved": 0,
+      "failed": 5,
+      "duplicate": 0
+    },
+    "on_disk": 9
+  }
+]

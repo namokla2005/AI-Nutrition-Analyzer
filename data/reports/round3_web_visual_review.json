@@ -1,0 +1,722 @@
+[
+  {
+    "class": "canh_chua",
+    "file": "web_00a84e14.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_0ad1ac45.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_11812630.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_1cdd95fe.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_22ebfd46.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_247ccb54.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_2518afbc.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_2aa253be.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_3dd748e3.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_64471aa5.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_789b4272.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_862a9bb6.jpg",
+    "review_status": "accepted",
+    "reason": "visual review: correct/plausible dish"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_874666d6.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_945b2ebc.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_abb79e4e.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_ad6f1697.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_b4881d46.jpg",
+    "review_status": "accepted",
+    "reason": "visual review: correct/plausible dish"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_b5e9e1e6.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_bb1aef41.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_bd7643b4.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_c7a854c0.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_c98d0561.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_d2729a1a.jpg",
+    "review_status": "accepted",
+    "reason": "visual review: correct/plausible dish"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_d2c8c4a6.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_d97ee9aa.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_dfd0717e.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_e15e422a.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_f0bead44.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_f46b3e70.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "canh_chua",
+    "file": "web_fecd8737.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_00db162b.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_0582fb9b.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_0793004b.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_1af3c609.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_1d2080bc.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_2417b9b5.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_7168b1e9.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_7196823e.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_729db739.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_7a71e8c8.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_7c3a9103.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_7dad78f4.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_7fdaeb25.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_8188afa5.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_92926d1f.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_96732889.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_9742d1e1.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_a9c39f6c.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_b42cf1f7.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_b6d84098.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_bd2594f1.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_ce6cd032.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_d6f1149e.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_d88eaab7.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_d9c8deb9.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_dbad6235.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_e0c9d81b.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_e5d188d2.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_f542d2c4.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_beo",
+    "file": "web_fbd199fa.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_00db162b.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_0582fb9b.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_0793004b.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_1af3c609.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_1d2080bc.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_2417b9b5.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_7168b1e9.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_7196823e.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_729db739.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_7a71e8c8.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_7c3a9103.jpg",
+    "review_status": "accepted",
+    "reason": "visual review: correct/plausible dish"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_7dad78f4.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_7fdaeb25.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_8188afa5.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_92926d1f.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_96732889.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_9742d1e1.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_a9c39f6c.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_b42cf1f7.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_b6d84098.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_bd2594f1.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_ce6cd032.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_d6f1149e.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_d88eaab7.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_d9c8deb9.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_dbad6235.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_e0c9d81b.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_e5d188d2.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_f542d2c4.jpg",
+    "review_status": "accepted",
+    "reason": "visual review: correct/plausible dish"
+  },
+  {
+    "class": "banh_khot",
+    "file": "web_fbd199fa.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_009d175b.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_14b333d9.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_25bfd0c1.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_288320d4.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_2b2d1bbe.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_30ee6904.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_44e95200.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_463a4ccc.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_555e5cc6.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_5bff64f3.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_660f2882.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_69c94e37.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_774a1da4.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_7cc524c9.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_7de63805.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_82a3bef1.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_87f4ca2f.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_92622094.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_964b3744.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_9ea02564.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_b32e4144.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_c6a766eb.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_d09011ce.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_d4ea8b1e.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_d5385878.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_d5bc3905.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_dfd4912a.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_e5d06c49.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_e649498c.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  },
+  {
+    "class": "bun_dau_mam_tom",
+    "file": "web_f0225cb0.jpg",
+    "review_status": "rejected",
+    "reason": "visual review: clearly wrong dish/non-food/person/sign/drawing"
+  }
+]

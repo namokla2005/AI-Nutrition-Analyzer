@@ -1,0 +1,87 @@
+{
+  "classes": [
+    {
+      "class": "ca_kho_to",
+      "downloaded_new": 80,
+      "rejected": 34,
+      "accepted_new": 46,
+      "clean_total": 46,
+      "download_target_met": true,
+      "clean_target_met": true
+    },
+    {
+      "class": "com_ga",
+      "downloaded_new": 80,
+      "rejected": 44,
+      "accepted_new": 36,
+      "clean_total": 36,
+      "download_target_met": true,
+      "clean_target_met": true
+    },
+    {
+      "class": "xoi_xeo",
+      "downloaded_new": 80,
+      "rejected": 22,
+      "accepted_new": 58,
+      "clean_total": 58,
+      "download_target_met": true,
+      "clean_target_met": true
+    },
+    {
+      "class": "che_ba_mau",
+      "downloaded_new": 80,
+      "rejected": 33,
+      "accepted_new": 47,
+      "clean_total": 47,
+      "download_target_met": true,
+      "clean_target_met": true
+    }
+  ],
+  "provenance_path": "data/reports/round3_provenance_new_vietnamese.json",
+  "provenance_records": 320,
+  "visual_review_records": 320,
+  "review_counts": {
+    "rejected": 133,
+    "accepted": 187
+  },
+  "license_counts": {
+    "by": 51,
+    "by-sa": 51,
+    "cc0": 7,
+    "unknown": 211
+  },
+  "accepted_license_counts": {
+    "by": 8,
+    "by-sa": 17,
+    "cc0": 2,
+    "unknown": 160
+  },
+  "source_counts": {
+    "DuckDuckGo Image Search": 211,
+    "europeana": 1,
+    "flickr": 104,
+    "rawpixel": 2,
+    "wordpress": 2
+  },
+  "duplicate_sha256_groups": 0,
+  "reviewed_contact_sheets": [
+    "data/reports/round3_contact_sheets_reviewed/ca_kho_to_01.jpg",
+    "data/reports/round3_contact_sheets_reviewed/ca_kho_to_02.jpg",
+    "data/reports/round3_contact_sheets_reviewed/ca_kho_to_03.jpg",
+    "data/reports/round3_contact_sheets_reviewed/ca_kho_to_04.jpg",
+    "data/reports/round3_contact_sheets_reviewed/com_ga_01.jpg",
+    "data/reports/round3_contact_sheets_reviewed/com_ga_02.jpg",
+    "data/reports/round3_contact_sheets_reviewed/com_ga_03.jpg",
+    "data/reports/round3_contact_sheets_reviewed/com_ga_04.jpg",
+    "data/reports/round3_contact_sheets_reviewed/xoi_xeo_01.jpg",
+    "data/reports/round3_contact_sheets_reviewed/xoi_xeo_02.jpg",
+    "data/reports/round3_contact_sheets_reviewed/xoi_xeo_03.jpg",
+    "data/reports/round3_contact_sheets_reviewed/xoi_xeo_04.jpg",
+    "data/reports/round3_contact_sheets_reviewed/che_ba_mau_01.jpg",
+    "data/reports/round3_contact_sheets_reviewed/che_ba_mau_02.jpg",
+    "data/reports/round3_contact_sheets_reviewed/che_ba_mau_03.jpg",
+    "data/reports/round3_contact_sheets_reviewed/che_ba_mau_04.jpg"
+  ],
+  "errors": [],
+  "verified": true
+}

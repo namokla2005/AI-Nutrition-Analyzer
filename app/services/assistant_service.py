@@ -25,7 +25,7 @@ from app.core.utils import normalize_name
 from app.integrations.ollama_client import OllamaUnavailable, get_ollama_client
 from app.models import ChatMessage, ChatSession, Food, User
 from app.repositories.food_repository import FoodRepository
-from app.services import meal_service, nutrition, statistics_service
+from app.services import meal_service, nutrition, plan_service, statistics_service
 
 logger = logging.getLogger(__name__)
 
@@ -47,11 +47,13 @@ QUY TẮC BẮT BUỘC:
 8. Không dùng từ đánh giá (quá nhiều, quá ít, tốt, xấu) trừ khi chính DỮ LIỆU có ghi tiêu chí
    để so sánh. Chỉ mô tả số liệu và mục tiêu.
 9. Nếu DỮ LIỆU không đủ để trả lời, chỉ nói một câu: chưa có dữ liệu để trả lời câu hỏi này.
-10. Với câu hỏi mang tính đánh giá hoặc lời khuyên (quá nhiều / quá ít / có tốt không / nên
-    ăn gì), KHÔNG đưa ra kết luận và KHÔNG gợi ý món. PHẢI nêu trước các con số đang có trong
-    DỮ LIỆU (tổng năng lượng hôm nay, mục tiêu, còn lại, số bữa) rồi mới nói: hệ thống chỉ
-    cung cấp số liệu, không đưa ra đánh giá hay lời khuyên y tế. Nếu DỮ LIỆU chưa có số nào
-    thì nói rõ là chưa có dữ liệu.
+10. Với câu hỏi mang tính đánh giá (quá nhiều / quá ít / có tốt không / có nên ăn không), KHÔNG
+    đưa ra kết luận thay người dùng và không nói về bệnh lý. PHẢI nêu trước các con số đang có
+    trong DỮ LIỆU (tổng năng lượng hôm nay, mục tiêu, còn lại, số bữa) rồi nói: hệ thống chỉ
+    cung cấp số liệu, không đưa ra đánh giá hay lời khuyên y tế.
+11. Khi DỮ LIỆU có mục THỰC ĐƠN ĐỀ XUẤT: trình bày theo từng bữa bằng ĐÚNG tên món, khối lượng
+    (g) và kcal ghi trong đó. Không tự thêm món ngoài thực đơn, không đổi khối lượng. Nếu có
+    điều kiện từ ghi chú (dị ứng/kiêng/chay) thì nhắc lại là đã áp dụng.
 """
 
 CONTEXT_BUDGET_NOTE = "(Ngữ cảnh được hệ thống cắt bớt để giới hạn độ dài.)"
@@ -377,6 +379,58 @@ def build_context(db: Session, user: User, question: str) -> dict:
             "days_with_data": weekly["days_with_data"],
         },
         "foods_mentioned": _match_foods_in_question(db, question),
+        "suggested_plan": _plan_block(db, user, question),
+    }
+
+
+PLAN_QUESTION_WORDS = ("nen an", "goi y", "thuc don", "an gi", "de xuat", "bua sang", "bua trua",
+                       "bua toi", "bua nhe", "an chay", "giam can", "tang can", "tap luyen",
+                       "van dong", "the duc", "ke hoach an")
+
+
+def _wants_plan(question: str | None) -> bool:
+    """Câu hỏi có cần bảng thực đơn đề xuất không (hỏi nên ăn gì / thực đơn / vận động...)."""
+    text = normalize_name(question or "")
+    return any(word in text for word in PLAN_QUESTION_WORDS)
+
+
+def _plan_block(db: Session, user: User, question: str | None) -> dict | None:
+    """Dựng thực đơn đề xuất (rút gọn) chỉ khi câu hỏi cần — tránh làm ngữ cảnh phình to."""
+    if not _wants_plan(question):
+        return None
+    try:
+        plan = plan_service.build_plan(db, user)
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("Không dựng được thực đơn đề xuất: %s", exc)
+        return None
+    return {
+        "energy": plan["energy"],
+        "constraints": plan["constraints"],
+        "exercise": plan["exercise"],
+        "warnings": plan["warnings"],
+        "meals": [
+            {
+                "meal_type": meal["meal_type"],
+                "meal_type_vi": meal["meal_type_vi"],
+                "budget_kcal": meal.get("budget_kcal"),
+                "planned_kcal": meal.get("planned_kcal"),
+                "skipped": meal.get("skipped"),
+                "items": [
+                    {
+                        "name_vi": item["name_vi"],
+                        "food_id": item["food_id"],
+                        "grams": item["grams"],
+                        "kcal": item["kcal"],
+                        "protein_g": item["protein_g"],
+                        "fat_g": item["fat_g"],
+                        "carbohydrate_g": item["carbohydrate_g"],
+                        "fiber_g": item["fiber_g"],
+                    }
+                    for item in meal.get("items", [])
+                ],
+            }
+            for meal in plan["meals"]
+        ],
     }
 
 
@@ -434,6 +488,40 @@ def format_context(context: dict) -> str:
                 for i in meal["items"]
             )
             lines.append(f"  + {meal['meal_type']} {meal['eaten_at_local']}: {items}")
+
+    plan = context.get("suggested_plan")
+    if plan:
+        energy = plan.get("energy") or {}
+        lines.append("- THỰC ĐƠN ĐỀ XUẤT (do hệ thống tính từ CSDL, chỉ được dùng đúng các món này):")
+        if energy.get("needs", {}).get("bmr_kcal"):
+            needs_block = energy["needs"]
+            lines.append(f"  + Nhu cầu: BMR {needs_block['bmr_kcal']} kcal, hệ số vận động "
+                         f"{needs_block.get('activity_factor')}, TDEE {needs_block.get('tdee_kcal')} kcal, "
+                         f"đề xuất {needs_block.get('suggested_kcal')} kcal/ngày.")
+        lines.append(f"  + Mục tiêu đang dùng: {fmt(energy.get('target_kcal'), ' kcal')} "
+                     f"({energy.get('target_source')}); đã ăn {fmt(energy.get('eaten_kcal'), ' kcal')}; "
+                     f"còn lại {fmt(energy.get('remaining_kcal'), ' kcal')}.")
+        if plan.get("constraints", {}).get("applied"):
+            lines.append("  + Điều kiện đã áp dụng từ ghi chú: "
+                         + "; ".join(plan["constraints"]["applied"]) + ".")
+        for meal in plan.get("meals", []):
+            if meal.get("skipped"):
+                lines.append(f"  + {meal['meal_type_vi']}: {meal['skipped']}.")
+                continue
+            items = "; ".join(
+                f"{i['name_vi']} {i['grams']:.0f} g = {i['kcal']} kcal "
+                f"(đạm {fmt(i.get('protein_g'), ' g')}, béo {fmt(i.get('fat_g'), ' g')}, "
+                f"bột đường {fmt(i.get('carbohydrate_g'), ' g')})"
+                for i in meal.get("items", [])
+            )
+            lines.append(f"  + {meal['meal_type_vi']} (ngân sách {fmt(meal.get('budget_kcal'), ' kcal')}): "
+                         f"{items or 'không tìm được nguyên liệu phù hợp'}"
+                         + (f" → tổng {meal.get('planned_kcal')} kcal" if meal.get("items") else ""))
+        exercise = plan.get("exercise") or {}
+        if exercise.get("available"):
+            lines.append(f"  + Vận động gợi ý ({exercise.get('intensity')}): {exercise.get('suggestion')}.")
+        for warning in plan.get("warnings", []):
+            lines.append(f"  + Lưu ý: {warning}")
 
     week = context["week"]
     lines.append(

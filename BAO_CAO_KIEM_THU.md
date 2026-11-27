@@ -798,3 +798,102 @@ e2e **92 đạt / 0 hỏng** (chạy lại 3 lần liền không lỗi).
 **Ghi chú về "mục tiêu 500 kcal/ngày" trong ảnh.** Đó là mục tiêu có thật trong hồ sơ người dùng
 (`user_profiles.daily_kcal_target = 500`), trợ lý đọc từ CSDL chứ không tự nghĩ ra. Nếu muốn con số
 hợp lý hơn thì đổi ở trang "Tài khoản của tôi" (ví dụ 2000 kcal).
+
+## 8. Bổ sung theo yêu cầu: đề xuất thực đơn theo chỉ số cơ thể, khẩu phần và tên món tiếng Việt
+
+### 8.1 Đo trước: model 0,8B có nhìn được ảnh nhưng KHÔNG gọi được tên món Việt
+
+`ollama show qwen3.5:0.8b` cho thấy model **có** khả năng thị giác (`Capabilities: vision`, kèm
+projector `clip` 100,59M tham số). Nhưng khi đo trên **40 ảnh thật có biết trước đáp án** (2 ảnh ×
+20 lớp, lấy từ tập test của chính dự án):
+
+| Chỉ số | Kết quả |
+|---|---:|
+| Gọi đúng tên món (tiếng Việt) | **6/40 = 15,0 %** |
+| Đúng hoặc gần đúng | 12/40 = 30,0 % |
+| Thời gian | 1,2 s/ảnh |
+
+Model nhận đúng các món phương Tây quen thuộc (pizza 2/2, sushi 2/2, hamburger 1/2) nhưng gọi sai
+hầu hết món Việt: ảnh phở bò → "Nước phở", ảnh cơm tấm → "Bánh mì", ảnh bún thịt nướng →
+"Nướng Noodle". Ước lượng khối lượng còn tệ hơn: cùng một món, model trả 400 g cho một ảnh nhưng
+**"6 g"** cho ảnh khác. Vì vậy:
+
+* **Nhận diện món** tiếp tục dùng **MobileNetV3-Small tự huấn luyện** (đo trên 24 ảnh thật:
+  top-1 14/24 = 0,5833 · top-3 21/24 = 0,8750), đồng thời mở rộng thêm 20 món Việt (§8.4).
+* **Khối lượng/dinh dưỡng** lấy từ **bảng khẩu phần tham khảo theo món** (`app/ml/portion_table.py`)
+  nhân với giá trị trên 100 g trong CSDL, cho người dùng sửa lại theo thực tế — không phó mặc cho
+  model 0,8B đoán số.
+
+### 8.2 Khẩu phần và dinh dưỡng khi nhận diện ảnh
+
+`POST /api/v1/predict/image` trả thêm khối `portion`: khẩu phần tham khảo của món (gam), thực phẩm
+khớp trong CSDL, và **giá trị dinh dưỡng tính cho đúng khẩu phần đó** (năng lượng, đạm, béo, bột
+đường, chất xơ, đường, natri) kèm `nutrient_source` ghi rõ phép tính và `missing_nutrients` cho
+những chất chưa có dữ liệu (không thay bằng 0). Trang nhận diện điền sẵn khối lượng này vào ô nhập
+và cho sửa lại.
+
+Một lỗi thật được phát hiện khi thử: với nhãn `salad`, CSDL chỉ khớp ra "Salad dressing"
+(**884 kcal/100 g**) nên khẩu phần hiện ra vô nghĩa. Đã sửa: bộ chọn tự tìm thêm ứng viên theo từ
+khoá của món, loại nước sốt/gia vị/bột pha và loại có năng lượng bất thường; nếu vẫn không có món
+"ra món ăn" thì **nói rõ là chưa tính được** thay vì hiện số sai.
+
+### 8.3 Đề xuất thực đơn theo chỉ số cơ thể (trang Tài khoản đã có sẵn các ô cần thiết)
+
+Trang "Tài khoản của tôi" **đã có** các ô: giới tính, năm sinh, chiều cao, cân nặng, mức vận động,
+mục tiêu cân nặng, mục tiêu kcal/ngày và ghi chú. Phần mới là bộ máy tính toán:
+
+* `app/services/nutrition_needs.py` — BMR theo **Mifflin–St Jeor**, TDEE theo hệ số vận động
+  (1,2 · 1,375 · 1,55 · 1,725 · 1,9), điều chỉnh theo mục tiêu (giảm −500 · giữ 0 · tăng +300) và
+  **ngưỡng an toàn** (không đề xuất dưới 1.500 kcal với nam, 1.200 kcal với nữ). Thiếu chỉ số nào
+  thì trả về `missing_fields`, không suy diễn.
+* `app/services/plan_service.py` — dựng thực đơn cho **các bữa CHƯA ghi**: chia kcal theo tỉ lệ
+  sáng 25 % · trưa 35 % · tối 30 % · bữa nhẹ 10 % (chuẩn hoá lại theo số bữa còn lại), chọn nguyên
+  liệu **có thật trong CSDL** (cơm, bún, thịt, trứng, đậu hũ, cá, rau, trái cây, sữa…) và tính khối
+  lượng để khớp ngân sách kcal của từng bữa, kèm co khẩu phần nếu vượt quá 8 %.
+  **Ghi chú trong hồ sơ được dùng làm điều kiện lọc**: ghi chú trống thì bỏ qua; có "dị ứng tôm cá,
+  không ăn thịt bò" thì loại nhóm thịt/hải sản; "ăn chay" loại thịt và hải sản (vẫn dùng được trứng,
+  sữa), "thuần chay" loại cả trứng và sữa; "tập gym/tăng cơ" thì tăng khẩu phần đạm 25 %. Các điều
+  kiện đã áp dụng được trả về trong `constraints.applied` để người dùng biết vì sao có/không có món.
+* Gợi ý vận động theo mức vận động trong hồ sơ (nhẹ/vừa/nặng), kèm cảnh báo khi hôm nay đã vượt mục
+  tiêu kcal.
+* Hai endpoint mới: `GET /api/v1/plan/needs` và `GET /api/v1/plan/today`; trang Tổng quan có khối
+  "Thực đơn đề xuất cho các bữa còn lại"; trợ lý AI nhận khối `THỰC ĐƠN ĐỀ XUẤT` trong ngữ cảnh nên
+  chỉ diễn giải đúng các món/số trong đó (quy tắc 11 của SYSTEM_PROMPT).
+
+**Kiểm chứng thật** (tài khoản tạm, dữ liệu thật trong CSDL, đọc từ giao diện):
+
+```text
+BMR 1573 kcal · hệ số vận động 1.375 · TDEE 2162 kcal · đề xuất 2162 kcal/ngày
+Mục tiêu đang dùng: 2200 kcal (mục tiêu người dùng đặt) · đã ăn 540 kcal · còn lại 1660 kcal
+Đã áp dụng điều kiện từ ghi chú: loại nguyên liệu thuộc nhóm seafood (ghi chú có: “hải sản”).
+Bữa sáng   ngân sách 639 kcal · đề xuất 625 kcal: Bánh mì 130 g (347 kcal) + Trứng gà 150 g (278 kcal)
+Bữa tối    ngân sách 766 kcal · đề xuất 796 kcal: Cơm gạo lứt 250 g + Thịt heo nạc 150 g + Bông cải 250 g
+Bữa nhẹ    ngân sách 255 kcal · đề xuất 268 kcal: Táo 225 g + Sữa tươi 150 g
+Vận động gợi ý (nhẹ): đi bộ nhanh 30 phút hoặc đạp xe nhẹ 20 phút
+Lưu ý: Đã có 1 bữa ghi trong ngày: chỉ đề xuất các bữa còn lại.
+```
+
+Số liệu BMR kiểm tra tay: nam 62 kg, 170 cm, sinh 2003 → 10×62 + 6,25×170 − 5×23 + 5 = **1572,5**
+≈ 1573; TDEE 1573 × 1,375 = **2162,9** ≈ 2162. Bữa trưa (đã ghi 540 kcal) **không** bị đề xuất lại.
+
+### 8.4 Tên món tiếng Việt và mở rộng 20 món Việt
+
+* `app/ml/labels_vi.py`: các món phương Tây nay hiển thị kèm tên tiếng Việt — *Pizza → "Bánh pizza
+  (Ý)"*, *Hamburger → "Bánh kẹp thịt (hamburger)"*, *Sushi → "Cơm cuộn sushi (Nhật)"*,
+  *Salad → "Rau trộn (salad)"*, *Steak → "Bít tết (bò nướng)"*; đồng thời khai báo sẵn tên tiếng
+  Việt + từ khoá tra cứu cho 16 lớp mới.
+* Đang bổ sung ảnh cho **20 món Việt** (5 luồng chạy song song): 4 món còn thiếu trước đây
+  (`canh_chua`, `banh_beo`, `banh_khot`, `bun_dau_mam_tom`) và 16 món mới (`banh_bao`, `chao`,
+  `banh_canh`, `bun_mam`, `banh_uot`, `banh_tom`, `bo_kho`, `thit_kho_trung`, `ca_kho_to`, `com_ga`,
+  `xoi_xeo`, `che_ba_mau`, `banh_da_cua`, `goi_ga`, `banh_trang_nuong`, `mi_xao`). Yêu cầu mỗi món
+  ≥ 40 ảnh tải về, ≥ 34 ảnh đúng sau khi soi bằng mắt, đủ truy nguyên nguồn/giấy phép. Sau khi có
+  ảnh sẽ dựng lại manifest và huấn luyện lại trên GPU.
+
+### 8.5 Kiểm thử của vòng này
+
+* `tests/unit/test_plan_service.py`: 17 bài (công thức BMR nam/nữ khớp số tính tay · ngưỡng an toàn ·
+  thiếu chỉ số thì báo thiếu gì · tuổi từ năm sinh · gợi ý vận động · đọc ghi chú thành điều kiện ·
+  co khẩu phần cho khớp ngân sách · bỏ bớt món khi ngân sách quá nhỏ).
+* Toàn bộ pytest: **217 bài đạt / 1 bỏ qua / 0 hỏng**; e2e web **92 đạt / 0 hỏng**.
+* Kiểm chứng qua giao diện thật (trình duyệt): trang Tổng quan hiển thị khối thực đơn đúng như trên;
+  trang nhận diện hiển thị khẩu phần tham khảo và điền sẵn khối lượng.

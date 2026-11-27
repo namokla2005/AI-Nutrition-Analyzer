@@ -1,0 +1,70 @@
+[
+  {
+    "class": "ca_kho_to",
+    "before": 0,
+    "openverse": {
+      "candidates": 51,
+      "saved": 27,
+      "failed": 15,
+      "duplicates": 9
+    },
+    "commons": {
+      "candidates": 0,
+      "saved": 0,
+      "failed": 6,
+      "duplicates": 0
+    },
+    "downloaded_total": 27
+  },
+  {
+    "class": "com_ga",
+    "before": 0,
+    "openverse": {
+      "candidates": 79,
+      "saved": 60,
+      "failed": 19,
+      "duplicates": 0
+    },
+    "commons": {
+      "candidates": 0,
+      "saved": 0,
+      "failed": 0,
+      "duplicates": 0
+    },
+    "downloaded_total": 60
+  },
+  {
+    "class": "xoi_xeo",
+    "before": 0,
+    "openverse": {
+      "candidates": 13,
+      "saved": 5,
+      "failed": 1,
+      "duplicates": 7
+    },
+    "commons": {
+      "candidates": 0,
+      "saved": 0,
+      "failed": 5,
+      "duplicates": 0
+    },
+    "downloaded_total": 5
+  },
+  {
+    "class": "che_ba_mau",
+    "before": 0,
+    "openverse": {
+      "candidates": 30,
+      "saved": 17,
+      "failed": 6,
+      "duplicates": 7
+    },
+    "commons": {
+      "candidates": 0,
+      "saved": 0,
+      "failed": 6,
+      "duplicates": 0
+    },
+    "downloaded_total": 17
+  }
+]

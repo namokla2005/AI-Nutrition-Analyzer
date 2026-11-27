@@ -167,6 +167,7 @@
       </div>
       <button id="log-meal-btn" class="btn btn-primary" type="button" disabled>Ghi vào nhật ký</button>
     </form>
+    <div id="reference-portion" class="hidden" aria-live="polite"></div>
     <div id="portion-error" class="hidden" role="alert"></div>
     <div id="portion-content" aria-live="polite"></div>
   </section>
@@ -204,7 +205,8 @@
       'suggestion-area', 'suggestion-title', 'suggestion-hint', 'suggestion-results',
       'food-search-form', 'food-query', 'food-search-btn', 'search-message',
       'food-search-results', 'portion-section', 'selected-food-name', 'selected-food-meta',
-      'portion-form', 'weight-grams', 'meal-type', 'log-meal-btn', 'portion-error', 'portion-content'
+      'portion-form', 'weight-grams', 'meal-type', 'log-meal-btn', 'portion-error', 'portion-content',
+      'reference-portion'
     ].forEach(function (id) { els[id] = document.getElementById(id); });
   }
 
@@ -358,6 +360,38 @@
     }
   }
 
+  function renderReferencePortion(portion) {
+    var box = els['reference-portion'];
+    if (!box) return;
+    if (!portion) {
+      box.classList.add('hidden');
+      box.innerHTML = '';
+      return;
+    }
+    var html = '<p class="muted small"><strong>Khẩu phần tham khảo cho một suất: '
+      + ANA.num(portion.grams, 0) + ' g</strong>';
+    if (portion.nutrients && portion.nutrients.energy_kcal != null) {
+      html += ' → khoảng ' + ANA.num(portion.nutrients.energy_kcal, 0) + ' kcal';
+    }
+    html += '</p>';
+    if (portion.nutrients) {
+      html += '<p class="muted small">đạm ' + ANA.num(portion.nutrients.protein_g, 1) + ' g · béo '
+        + ANA.num(portion.nutrients.fat_g, 1) + ' g · bột đường '
+        + ANA.num(portion.nutrients.carbohydrate_g, 1) + ' g · chất xơ '
+        + ANA.num(portion.nutrients.fiber_g, 1) + ' g · đường ' + ANA.num(portion.nutrients.sugar_g, 1) + ' g</p>';
+    }
+    if (portion.nutrient_source) {
+      html += '<p class="source-note">Nguồn: ' + ANA.escape(portion.nutrient_source) + '</p>';
+    }
+    if ((portion.missing_nutrients || []).length) {
+      html += '<p class="muted small">Chưa có dữ liệu cho: ' + ANA.escape(portion.missing_nutrients.join(', '))
+        + ' (không được thay bằng 0).</p>';
+    }
+    html += '<p class="muted small">' + ANA.escape(portion.note) + '</p>';
+    box.innerHTML = html;
+    box.classList.remove('hidden');
+  }
+
   function renderPredictionResult(data) {
     state.prediction = data;
     state.chosenLabel = null;
@@ -370,6 +404,8 @@
     } else {
       setMessage(els['confidence-warning'], 'Kết quả từ model chỉ là gợi ý. Hãy xác nhận đúng món trong cơ sở dữ liệu.', 'info');
     }
+    state.referencePortion = data.portion || null;
+    renderReferencePortion(data.portion);
     els['suggestion-area'].classList.add('hidden');
     els['prediction-section'].classList.remove('hidden');
     els['prediction-section'].scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -508,7 +544,14 @@
     els['selected-food-name'].textContent = displayFoodName(food);
     els['selected-food-meta'].textContent =
       ANA.text(food.category, 'Chưa phân loại') + ' · ' + ANA.cookingStateLabel(food.cooking_state || 'unknown');
-    els['weight-grams'].value = '100';
+    var reference = state.referencePortion;
+    if (reference && reference.food && reference.food.food_id === food.id && reference.grams) {
+      els['weight-grams'].value = String(reference.grams);
+      setMessage(els['portion-error'], 'Đã điền khẩu phần tham khảo ' + ANA.num(reference.grams, 0)
+        + ' g cho món này — bạn sửa lại theo lượng thật trong ảnh nếu khác.', 'info');
+    } else {
+      els['weight-grams'].value = '100';
+    }
     els['log-meal-btn'].disabled = true;
     els['portion-section'].classList.remove('hidden');
     loadPortion();

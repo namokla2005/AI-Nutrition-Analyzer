@@ -19,7 +19,7 @@ from app.core.config import settings
 from app.core.database import get_db
 from app.core.deps import require_user
 from app.core.utils import normalize_name, utcnow
-from app.ml import get_classifier, get_regression_model, labels_vi
+from app.ml import get_classifier, get_regression_model, labels_vi, portion_table
 from app.ml.exceptions import ModelUnavailableError, PredictionError
 from app.ml.regression_model import FEATURE_TO_NUTRIENT_CODE
 from app.models import Food, FoodImage, Prediction, User
@@ -130,6 +130,71 @@ def _suggest_foods(db: Session, label: str, limit: int = 5) -> list[dict]:
     ]
 
 
+def _portion_estimate(db: Session, label: str | None, suggestions: list[dict]) -> dict | None:
+    """Khẩu phần tham khảo cho một suất ăn + giá trị dinh dưỡng tính theo khẩu phần đó.
+
+    Model ảnh chỉ cho biết TÊN món, không đo được khối lượng, nên backend điền khẩu phần tham
+    khảo của món rồi nhân với giá trị trên 100 g lấy từ CSDL. Người dùng sửa lại khối lượng
+    theo thực tế trước khi ghi nhật ký — mọi bước đều ghi rõ nguồn.
+    """
+    if not label:
+        return None
+    reference = portion_table.reference_portion(label)
+    result: dict = {
+        "label": label,
+        "display_label": labels_vi.display_label(label),
+        "grams": reference["grams"],
+        "is_reference_portion": reference["is_reference"],
+        "note": reference["note"],
+        "food": None,
+        "nutrients": {},
+        "missing_nutrients": [],
+        "nutrient_source": None,
+    }
+    # Chọn món "ra món ăn": loại nước sốt/gia vị/bột pha và loại có năng lượng quá cao trên 100 g
+    # (ví dụ "Salad dressing" 884 kcal/100 g) — dùng chúng sẽ làm khẩu phần vô nghĩa.
+    condiment_words = ("dressing", "sauce", "powder", "seasoning", "extract", "syrup", "chips",
+                       "candy", "spread", "shortening", "vinegar", "flour", "concentrate")
+    repo = FoodRepository(db)
+    candidates = list(suggestions)
+    for term in labels_vi.search_terms(label or ""):
+        query = normalize_name(term)
+        if not query:
+            continue
+        rows, _ = repo.search(query=query, limit=10, with_total=False)
+        for food in rows:
+            entry = {"food_id": food.id, "name": food.display_name,
+                     "energy_kcal_per_100g": food.energy_kcal_per_100g}
+            if all(existing["food_id"] != food.id for existing in candidates):
+                candidates.append(entry)
+        if len(candidates) >= 15:
+            break
+
+    def is_dish_like(item: dict) -> bool:
+        name = (item.get("name") or "").lower()
+        if any(word in name for word in condiment_words):
+            return False
+        kcal = item.get("energy_kcal_per_100g")
+        return kcal is None or 15.0 <= float(kcal) <= 700.0
+
+    first = next((item for item in candidates if is_dish_like(item)), None)
+    if first is None:
+        result["note"] += (" Trong CSDL chỉ có loại gia vị/nước sốt khớp với món này nên CHƯA tính "
+                          "được giá trị dinh dưỡng — hãy chọn thực phẩm đúng trong danh sách bên dưới.")
+        return result
+    values = repo.nutrient_values_per_100g(first["food_id"])
+    factor = reference["grams"] / 100.0
+    result["food"] = {"food_id": first["food_id"], "name": first["name"]}
+    result["nutrients"] = {
+        key: (round(value * factor, 1) if value is not None else None)
+        for key, value in values.items()
+    }
+    result["missing_nutrients"] = [key for key, value in values.items() if value is None]
+    result["nutrient_source"] = (f"{first['name']} (giá trị/100 g trong CSDL) × "
+                                 f"{reference['grams']:.0f} g ÷ 100")
+    return result
+
+
 @router.post("/image", response_model=ImagePredictionOut, summary="Nhận diện thực phẩm từ ảnh")
 async def predict_image(
     file: UploadFile = File(..., description="Ảnh JPEG/PNG/WEBP"),
@@ -210,6 +275,7 @@ async def predict_image(
         "needs_confirmation": needs_confirmation,
         "message": message,
         "suggested_foods": [SuggestedFood(**s) for s in suggestions],
+        "portion": _portion_estimate(db, top1.label if top1 else None, suggestions),
         "latency_ms": latency_ms,
     }
 

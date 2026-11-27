@@ -1,0 +1,86 @@
+[
+  {
+    "our_class": "canh_chua",
+    "target": 50,
+    "queries": [
+      "canh chua",
+      "Vietnamese sour soup",
+      "Vietnamese sweet sour fish soup",
+      "Vietnamese tamarind soup",
+      "canh chua ca"
+    ],
+    "api_candidates": 49,
+    "downloaded": 0,
+    "duplicate_id": 45,
+    "duplicate_sha256": 0,
+    "metadata_too_small": 3,
+    "download_too_small": 0,
+    "nonfree": 0,
+    "failed": 1,
+    "failures": [
+      "408dea57-a464-4883-a718-95de2a4cddbb: HTTPError: HTTP Error 404: Not Found"
+    ]
+  },
+  {
+    "our_class": "banh_beo",
+    "target": 50,
+    "queries": [
+      "banh beo",
+      "bánh bèo",
+      "Vietnamese steamed rice cake",
+      "Vietnamese water fern cake",
+      "water fern cakes"
+    ],
+    "api_candidates": 41,
+    "downloaded": 0,
+    "duplicate_id": 39,
+    "duplicate_sha256": 0,
+    "metadata_too_small": 2,
+    "download_too_small": 0,
+    "nonfree": 0,
+    "failed": 0,
+    "failures": []
+  },
+  {
+    "our_class": "banh_khot",
+    "target": 50,
+    "queries": [
+      "banh khot",
+      "bánh khọt",
+      "Vietnamese savory mini pancake",
+      "Vietnamese mini savory pancake",
+      "Vietnamese coconut shrimp pancake"
+    ],
+    "api_candidates": 28,
+    "downloaded": 0,
+    "duplicate_id": 27,
+    "duplicate_sha256": 0,
+    "metadata_too_small": 1,
+    "download_too_small": 0,
+    "nonfree": 0,
+    "failed": 0,
+    "failures": []
+  },
+  {
+    "our_class": "bun_dau_mam_tom",
+    "target": 50,
+    "queries": [
+      "bun dau mam tom",
+      "bún đậu mắm tôm",
+      "bun dau",
+      "Vietnamese tofu vermicelli",
+      "Vietnamese tofu platter",
+      "tofu vermicelli platter",
+      "mam tom tofu"
+    ],
+    "api_candidates": 28,
+    "downloaded": 0,
+    "duplicate_id": 28,
+    "duplicate_sha256": 0,
+    "metadata_too_small": 0,
+    "download_too_small": 0,
+    "nonfree": 0,
+    "failed": 0,
+    "failures": []
+  }
+]

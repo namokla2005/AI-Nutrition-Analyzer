@@ -1,0 +1,38 @@
+[
+  {
+    "before": 27,
+    "candidates": 55,
+    "saved": 53,
+    "failed": 2,
+    "duplicates": 0,
+    "after": 80,
+    "class": "ca_kho_to"
+  },
+  {
+    "before": 60,
+    "candidates": 20,
+    "saved": 20,
+    "failed": 0,
+    "duplicates": 0,
+    "after": 80,
+    "class": "com_ga"
+  },
+  {
+    "before": 10,
+    "candidates": 74,
+    "saved": 70,
+    "failed": 0,
+    "duplicates": 4,
+    "after": 80,
+    "class": "xoi_xeo"
+  },
+  {
+    "before": 17,
+    "candidates": 64,
+    "saved": 63,
+    "failed": 1,
+    "duplicates": 0,
+    "after": 80,
+    "class": "che_ba_mau"
+  }
+]

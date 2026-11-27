@@ -106,6 +106,16 @@
   </article>
 </section>
 
+<section class="card" aria-labelledby="plan-title">
+  <div class="card-head">
+    <div>
+      <h2 id="plan-title">Thực đơn đề xuất cho các bữa còn lại</h2>
+      <p class="card-sub" id="plan-sub">Tính từ chỉ số cơ thể, mục tiêu kcal, các bữa đã ghi hôm nay và ghi chú trong hồ sơ. Mọi con số lấy từ cơ sở dữ liệu thật; bạn xem rồi tự quyết định.</p>
+    </div>
+  </div>
+  <div id="plan-body"><div class="skeleton"></div><div class="skeleton"></div></div>
+</section>
+
 <section class="card" aria-labelledby="meals-title">
   <div class="chart-heading">
     <div>
@@ -323,6 +333,58 @@ ANA.ready(function () {
     document.querySelector(target).innerHTML = '<div class="empty-state">' + ANA.escape(message) + '</div>';
   }
 
+  function renderPlan(plan) {
+    var box = document.getElementById('plan-body');
+    if (!box) return;
+    if (!plan) { box.innerHTML = '<div class="empty-state">Không tải được thực đơn đề xuất.</div>'; return; }
+    var html = '';
+    var e = plan.energy || {};
+    var needs = e.needs || {};
+    if (needs.bmr_kcal) {
+      html += '<p class="muted small">BMR ' + ANA.num(needs.bmr_kcal, 0) + ' kcal · hệ số vận động '
+        + ANA.text(needs.activity_factor) + ' · TDEE ' + ANA.num(needs.tdee_kcal, 0) + ' kcal · đề xuất '
+        + ANA.num(needs.suggested_kcal, 0) + ' kcal/ngày</p>';
+      (needs.notes || []).forEach(function (note) { html += '<p class="muted small">' + ANA.escape(note) + '</p>'; });
+    } else if ((needs.missing_fields || []).length) {
+      html += '<div class="empty-state">Chưa tính được nhu cầu năng lượng: còn thiếu '
+        + ANA.escape(needs.missing_fields.join(', '))
+        + '. Điền ở trang <a href="/profile">Tài khoản của tôi</a> (chiều cao, cân nặng, giới tính, năm sinh, mức vận động).</div>';
+    }
+    html += '<p class="muted small">Mục tiêu đang dùng: ' + ANA.num(e.target_kcal, 0) + ' kcal ('
+      + ANA.text(e.target_source) + ') · đã ăn ' + ANA.num(e.eaten_kcal, 0) + ' kcal · còn lại '
+      + ANA.num(e.remaining_kcal, 0) + ' kcal</p>';
+    var applied = (plan.constraints || {}).applied || [];
+    if (applied.length) {
+      html += '<p class="muted small">Đã áp dụng điều kiện từ ghi chú: ' + ANA.escape(applied.join('; ')) + '.</p>';
+    }
+    (plan.meals || []).forEach(function (meal) {
+      if (meal.skipped) {
+        html += '<section class="meal-group"><div class="meal-group-title"><h3>' + ANA.escape(meal.meal_type_vi)
+          + '</h3></div><p class="muted small">' + ANA.escape(meal.skipped) + '</p></section>';
+        return;
+      }
+      html += '<section class="meal-group"><div class="meal-group-title"><h3>' + ANA.escape(meal.meal_type_vi)
+        + '</h3><span class="badge badge-ok">ngân sách ' + ANA.num(meal.budget_kcal, 0) + ' kcal'
+        + (meal.planned_kcal != null ? ' · đề xuất ' + ANA.num(meal.planned_kcal, 0) + ' kcal' : '')
+        + '</span></div>';
+      (meal.items || []).forEach(function (item) {
+        html += '<article class="meal-row"><div><strong>' + ANA.escape(item.name_vi)
+          + '</strong> <span class="muted small">(' + ANA.num(item.grams, 0) + ' g)</span>'
+          + '<div class="meal-note muted small">đạm ' + ANA.num(item.protein_g, 1) + ' g · béo '
+          + ANA.num(item.fat_g, 1) + ' g · bột đường ' + ANA.num(item.carbohydrate_g, 1) + ' g</div></div>'
+          + '<div class="meal-foods muted small">' + ANA.escape(ANA.text(item.food_name, '')) + '</div>'
+          + '<div class="meal-kcal">' + ANA.num(item.kcal, 0) + ' <span class="stat-unit">kcal</span></div></article>';
+      });
+      html += '</section>';
+    });
+    var ex = plan.exercise || {};
+    if (ex.available) {
+      html += '<p class="muted small">Vận động gợi ý (' + ANA.escape(ex.intensity) + '): ' + ANA.escape(ex.suggestion) + '</p>';
+    }
+    (plan.warnings || []).forEach(function (w) { html += '<p class="muted small">Lưu ý: ' + ANA.escape(w) + '</p>'; });
+    box.innerHTML = html;
+  }
+
   async function loadDashboard() {
     var ownRequest = ++requestNumber;
     var day = dateInput.value;
@@ -336,7 +398,8 @@ ANA.ready(function () {
       ANA.get('/statistics/daily?day=' + encodedDay),
       ANA.get('/statistics/weekly?any_day=' + encodedDay),
       ANA.get('/meals?date_from=' + encodedDay + '&date_to=' + encodedDay + '&limit=200'),
-      ANA.get('/users/me')
+      ANA.get('/users/me'),
+      ANA.get('/plan/today?day=' + encodedDay)
     ]);
     if (ownRequest !== requestNumber) return;
     setLoading(false);
@@ -372,6 +435,13 @@ ANA.ready(function () {
       renderProfile(results[3].value);
     } else {
       ANA.error(results[3].reason);
+    }
+
+    if (results[4] && results[4].status === 'fulfilled') {
+      renderPlan(results[4].value);
+    } else {
+      if (results[4]) ANA.error(results[4].reason);
+      renderPlan(null);
     }
   }
 

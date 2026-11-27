@@ -1,0 +1,45 @@
+{
+  "classes": {
+    "canh_chua": {
+      "downloaded_new": 44,
+      "rejected": 28,
+      "accepted_new": 16,
+      "clean_final": 43,
+      "baseline_clean": 27,
+      "target_34_met": true,
+      "missing_to_34": 0
+    },
+    "banh_beo": {
+      "downloaded_new": 54,
+      "rejected": 32,
+      "accepted_new": 22,
+      "clean_final": 44,
+      "baseline_clean": 22,
+      "target_34_met": true,
+      "missing_to_34": 0
+    },
+    "banh_khot": {
+      "downloaded_new": 45,
+      "rejected": 29,
+      "accepted_new": 16,
+      "clean_final": 49,
+      "baseline_clean": 33,
+      "target_34_met": true,
+      "missing_to_34": 0
+    },
+    "bun_dau_mam_tom": {
+      "downloaded_new": 64,
+      "rejected": 32,
+      "accepted_new": 32,
+      "clean_final": 46,
+      "baseline_clean": 14,
+      "target_34_met": true,
+      "missing_to_34": 0
+    }
+  },
+  "provenance_records": 207,
+  "licenses": {
+    "unknown": 207
+  },
+  "validation_errors": []
+}
