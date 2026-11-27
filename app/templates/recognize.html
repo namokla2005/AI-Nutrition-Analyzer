@@ -375,10 +375,13 @@
     }
     html += '</p>';
     if (portion.nutrients) {
-      html += '<p class="muted small">đạm ' + ANA.num(portion.nutrients.protein_g, 1) + ' g · béo '
-        + ANA.num(portion.nutrients.fat_g, 1) + ' g · bột đường '
-        + ANA.num(portion.nutrients.carbohydrate_g, 1) + ' g · chất xơ '
-        + ANA.num(portion.nutrients.fiber_g, 1) + ' g · đường ' + ANA.num(portion.nutrients.sugar_g, 1) + ' g</p>';
+      var parts = [];
+      if (portion.nutrients.protein_g != null) parts.push('đạm ' + ANA.num(portion.nutrients.protein_g, 1) + ' g');
+      if (portion.nutrients.fat_g != null) parts.push('béo ' + ANA.num(portion.nutrients.fat_g, 1) + ' g');
+      if (portion.nutrients.carbohydrate_g != null) parts.push('bột đường ' + ANA.num(portion.nutrients.carbohydrate_g, 1) + ' g');
+      if (portion.nutrients.fiber_g != null) parts.push('chất xơ ' + ANA.num(portion.nutrients.fiber_g, 1) + ' g');
+      if (portion.nutrients.sugar_g != null) parts.push('đường ' + ANA.num(portion.nutrients.sugar_g, 1) + ' g');
+      if (parts.length) html += '<p class="muted small">' + parts.join(' · ') + '</p>';
     }
     if (portion.nutrient_source) {
       html += '<p class="source-note">Nguồn: ' + ANA.escape(portion.nutrient_source) + '</p>';
@@ -545,10 +548,10 @@
     els['selected-food-meta'].textContent =
       ANA.text(food.category, 'Chưa phân loại') + ' · ' + ANA.cookingStateLabel(food.cooking_state || 'unknown');
     var reference = state.referencePortion;
-    if (reference && reference.food && reference.food.food_id === food.id && reference.grams) {
+    if (reference && reference.grams) {
       els['weight-grams'].value = String(reference.grams);
       setMessage(els['portion-error'], 'Đã điền khẩu phần tham khảo ' + ANA.num(reference.grams, 0)
-        + ' g cho món này — bạn sửa lại theo lượng thật trong ảnh nếu khác.', 'info');
+        + ' g theo món model đoán — bạn sửa lại theo lượng thật trong ảnh nếu khác.', 'info');
     } else {
       els['weight-grams'].value = '100';
     }

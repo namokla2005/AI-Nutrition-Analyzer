@@ -1,6 +1,6 @@
 # KIỂM THỬ CHỨC NĂNG TOÀN HỆ THỐNG (chạy tự động qua API thật)
 
-- Máy chủ: `http://127.0.0.1:8000`  ·  Thời điểm chạy: 28/11/2026 03:29:24 (giờ Việt Nam)
+- Máy chủ: `http://127.0.0.1:8000`  ·  Thời điểm chạy: 28/11/2026 03:35:32 (giờ Việt Nam)
 - Kết quả: **92 đạt**, 0 hỏng, 0 ghi nhận (tổng 92 bài)
 - Cách chạy lại: `.venv\Scripts\python.exe scripts\e2e_web_test.py`
 - Bộ kiểm thử tự tạo 2 tài khoản tạm, tự xoá ở cuối, không đụng tài khoản thật.
@@ -15,14 +15,14 @@
 | 6 | Hạ tầng | GET /favicon.ico | 200 | 200 | ✅ PASS |
 | 7 | Hạ tầng | Trang riêng tư chuyển hướng khi chưa đăng nhập | 302 tới /login | 303 → /login?next=/dashboard | ✅ PASS |
 | 8 | Hạ tầng | Trang không tồn tại trả 404 | 404 | 404 | ✅ PASS |
-| 9 | Xác thực | Đăng ký tài khoản A | 201 | 201 {"id":12,"email":"e2e.a.20261128032903@example.com","full_name":"Tài khoản A","i | ✅ PASS |
+| 9 | Xác thực | Đăng ký tài khoản A | 201 | 201 {"id":12,"email":"e2e.a.20261128033515@example.com","full_name":"Tài khoản A","i | ✅ PASS |
 | 10 | Xác thực | Đăng ký tài khoản B | 201 | 201 | ✅ PASS |
 | 11 | Xác thực | Đăng ký trùng email bị từ chối | 4xx | 409 | ✅ PASS |
 | 12 | Xác thực | Mật khẩu dưới 8 ký tự bị từ chối | 422 | 422 | ✅ PASS |
 | 13 | Xác thực | Email sai định dạng bị từ chối | 422 | 422 | ✅ PASS |
 | 14 | Xác thực | Đăng nhập sai mật khẩu bị từ chối | 401 | 401 | ✅ PASS |
 | 15 | Xác thực | Đăng nhập đúng | 200 | 200 | ✅ PASS |
-| 16 | Xác thực | Đọc phiên hiện tại đúng tài khoản | e2e.a.20261128032903@example.com | 200 e2e.a.20261128032903@example.com | ✅ PASS |
+| 16 | Xác thực | Đọc phiên hiện tại đúng tài khoản | e2e.a.20261128033515@example.com | 200 e2e.a.20261128033515@example.com | ✅ PASS |
 | 17 | Xác thực | Đăng xuất | 200 | 200 | ✅ PASS |
 | 18 | Xác thực | Sau đăng xuất, phiên không còn | 401 | 401 | ✅ PASS |
 | 19 | Phân quyền | Chưa đăng nhập gọi /api/v1/users/me → 401 | 401 | 401 | ✅ PASS |
@@ -31,7 +31,7 @@
 | 22 | Phân quyền | Chưa đăng nhập gọi /api/v1/predict/models → 401 | 401 | 401 | ✅ PASS |
 | 23 | Phân quyền | Chưa đăng nhập gọi /api/v1/assistant/status → 401 | 401 | 401 | ✅ PASS |
 | 24 | Phân quyền | Chưa đăng nhập POST /predict/nutrition → 401 | 401 | 401 | ✅ PASS |
-| 25 | Hồ sơ | Đọc hồ sơ cá nhân | 200 + email đúng | 200 e2e.a.20261128032903@example.com | ✅ PASS |
+| 25 | Hồ sơ | Đọc hồ sơ cá nhân | 200 + email đúng | 200 e2e.a.20261128033515@example.com | ✅ PASS |
 | 26 | Hồ sơ | Cập nhật hồ sơ | 200 | 200 | ✅ PASS |
 | 27 | Hồ sơ | Giá trị hồ sơ được lưu thật (đọc lại) | giá trị mới giữ nguyên | ten=Tên đã sửa kcal=2150.0 cao=171.5 | ✅ PASS |
 | 28 | Hồ sơ | Chiều cao vô lý 500 cm | nên bị từ chối 422 | 422 (API hiện chặn) | ✅ PASS |
@@ -71,7 +71,7 @@
 | 62 | Thống kê | Ngày không hợp lệ bị từ chối | 422 | 422 | ✅ PASS |
 | 63 | Dự đoán | Trạng thái model nhận diện ảnh | available = True | True \| 44 lớp \| acc test 0.7185 | ✅ PASS |
 | 64 | Dự đoán | Trạng thái model hồi quy năng lượng | available = True | True \| None | ✅ PASS |
-| 65 | Dự đoán | Nhận diện ảnh món ăn thật | 200 + Top-3 | 200 top1=pizza 76.9% \| 31 ms | ✅ PASS |
+| 65 | Dự đoán | Nhận diện ảnh món ăn thật | 200 + Top-3 | 200 top1=pizza 76.9% \| 24 ms | ✅ PASS |
 | 66 | Dự đoán | Nhãn trả về thuộc 44 lớp đã huấn luyện | nhãn hợp lệ | ['pizza', 'pasta', 'com_chien'] | ✅ PASS |
 | 67 | Dự đoán | Tệp không phải ảnh bị từ chối (kiểm tra magic bytes) | 4xx | 400 {"detail":"Nội dung tệp không phải ảnh JPEG/PNG/WEBP hợp lệ."} | ✅ PASS |
 | 68 | Dự đoán | Tệp rỗng bị từ chối | 4xx | 400 | ✅ PASS |
@@ -82,10 +82,10 @@
 | 73 | Dự đoán | Thiếu feature -> báo rõ đang thiếu gì, không bịa số | 400 + nêu tên feature thiếu | 400 Thiếu feature đầu vào: fat_g, carbohydrate_g, fiber_g, water_g, ash_g. Hãy bổ sung hoặc để | ✅ PASS |
 | 74 | Dự đoán | Thực phẩm không tồn tại khi tra năng lượng → 404 | 404 | 404 | ✅ PASS |
 | 75 | Trợ lý AI | Trạng thái trợ lý | available = True | 200 model=qwen3.5:0.8b host=http://127.0.0.1:11434 | ✅ PASS |
-| 76 | Trợ lý AI | Hỏi trợ lý và nhận câu trả lời thật | 200 + câu trả lời | 200 9862 ms \| 1. Hôm nay bạn đã ăn 1 bữa duy nhất là RICE-A-RONI chicken flavor (200g), có năn | ✅ PASS |
+| 76 | Trợ lý AI | Hỏi trợ lý và nhận câu trả lời thật | 200 + câu trả lời | 200 6071 ms \| 1. Hôm nay bạn đã ăn RICE-A-RONI, chicken flavor, unprepared 200.0 g (712.0 kcal | ✅ PASS |
 | 77 | Trợ lý AI | Câu trả lời có bám dữ liệu thật (grounded) | grounded = True + context_used | grounded=True khoá ngữ cảnh=['user', 'today_local', 'timezone', 'today_totals', 'today_missing_nutrients', 'today_by_meal_type', 'today_target', 'toda | ✅ PASS |
-| 78 | Trợ lý AI | Số kcal trong câu trả lời khớp dữ liệu thật | câu trả lời chứa số khớp 842 (sai lệch ≤ 1,5 kcal) | chứa số khớp: True \| trả lời: 1. Hôm nay bạn đã ăn 1 bữa duy nhất là RICE-A-RONI chicken flavor (200g). có năng lượng 712.0 kcal.
-2. Tổng năng lượng  | ✅ PASS |
+| 78 | Trợ lý AI | Số kcal trong câu trả lời khớp dữ liệu thật | câu trả lời chứa số khớp 842 (sai lệch ≤ 1,5 kcal) | chứa số khớp: True \| trả lời: 1. Hôm nay bạn đã ăn RICE-A-RONI. chicken flavor. unprepared 200.0 g (712.0 kcal).
+2. Tổng năng lượng hôm nay là 842.0  | ✅ PASS |
 | 79 | Trợ lý AI | Câu hỏi rỗng bị từ chối | 422 | 422 | ✅ PASS |
 | 80 | Trợ lý AI | Lịch sử trò chuyện lưu lại | có câu hỏi và câu trả lời | 200 2 tin nhắn | ✅ PASS |
 | 81 | Trợ lý AI | Từ chối truy vấn SQL/thông tin hệ thống khi bị dụ | không lộ SQL/mật khẩu | lộ: False \| trả lời: Chưa có dữ liệu để trả lời câu hỏi này. | ✅ PASS |
