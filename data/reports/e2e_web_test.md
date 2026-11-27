@@ -1,6 +1,6 @@
 # KIỂM THỬ CHỨC NĂNG TOÀN HỆ THỐNG (chạy tự động qua API thật)
 
-- Máy chủ: `http://127.0.0.1:8000`  ·  Thời điểm chạy: 27/11/2026 04:54:21 (giờ Việt Nam)
+- Máy chủ: `http://127.0.0.1:8000`  ·  Thời điểm chạy: 27/11/2026 12:31:59 (giờ Việt Nam)
 - Kết quả: **92 đạt**, 0 hỏng, 0 ghi nhận (tổng 92 bài)
 - Cách chạy lại: `.venv\Scripts\python.exe scripts\e2e_web_test.py`
 - Bộ kiểm thử tự tạo 2 tài khoản tạm, tự xoá ở cuối, không đụng tài khoản thật.
@@ -15,14 +15,14 @@
 | 6 | Hạ tầng | GET /favicon.ico | 200 | 200 | ✅ PASS |
 | 7 | Hạ tầng | Trang riêng tư chuyển hướng khi chưa đăng nhập | 302 tới /login | 303 → /login?next=/dashboard | ✅ PASS |
 | 8 | Hạ tầng | Trang không tồn tại trả 404 | 404 | 404 | ✅ PASS |
-| 9 | Xác thực | Đăng ký tài khoản A | 201 | 201 {"id":4,"email":"e2e.a.20261127045410@example.com","full_name":"Tài khoản A","is | ✅ PASS |
+| 9 | Xác thực | Đăng ký tài khoản A | 201 | 201 {"id":4,"email":"e2e.a.20261127123144@example.com","full_name":"Tài khoản A","is | ✅ PASS |
 | 10 | Xác thực | Đăng ký tài khoản B | 201 | 201 | ✅ PASS |
 | 11 | Xác thực | Đăng ký trùng email bị từ chối | 4xx | 409 | ✅ PASS |
 | 12 | Xác thực | Mật khẩu dưới 8 ký tự bị từ chối | 422 | 422 | ✅ PASS |
 | 13 | Xác thực | Email sai định dạng bị từ chối | 422 | 422 | ✅ PASS |
 | 14 | Xác thực | Đăng nhập sai mật khẩu bị từ chối | 401 | 401 | ✅ PASS |
 | 15 | Xác thực | Đăng nhập đúng | 200 | 200 | ✅ PASS |
-| 16 | Xác thực | Đọc phiên hiện tại đúng tài khoản | e2e.a.20261127045410@example.com | 200 e2e.a.20261127045410@example.com | ✅ PASS |
+| 16 | Xác thực | Đọc phiên hiện tại đúng tài khoản | e2e.a.20261127123144@example.com | 200 e2e.a.20261127123144@example.com | ✅ PASS |
 | 17 | Xác thực | Đăng xuất | 200 | 200 | ✅ PASS |
 | 18 | Xác thực | Sau đăng xuất, phiên không còn | 401 | 401 | ✅ PASS |
 | 19 | Phân quyền | Chưa đăng nhập gọi /api/v1/users/me → 401 | 401 | 401 | ✅ PASS |
@@ -31,17 +31,17 @@
 | 22 | Phân quyền | Chưa đăng nhập gọi /api/v1/predict/models → 401 | 401 | 401 | ✅ PASS |
 | 23 | Phân quyền | Chưa đăng nhập gọi /api/v1/assistant/status → 401 | 401 | 401 | ✅ PASS |
 | 24 | Phân quyền | Chưa đăng nhập POST /predict/nutrition → 401 | 401 | 401 | ✅ PASS |
-| 25 | Hồ sơ | Đọc hồ sơ cá nhân | 200 + email đúng | 200 e2e.a.20261127045410@example.com | ✅ PASS |
+| 25 | Hồ sơ | Đọc hồ sơ cá nhân | 200 + email đúng | 200 e2e.a.20261127123144@example.com | ✅ PASS |
 | 26 | Hồ sơ | Cập nhật hồ sơ | 200 | 200 | ✅ PASS |
 | 27 | Hồ sơ | Giá trị hồ sơ được lưu thật (đọc lại) | giá trị mới giữ nguyên | ten=Tên đã sửa kcal=2150.0 cao=171.5 | ✅ PASS |
 | 28 | Hồ sơ | Chiều cao vô lý 500 cm | nên bị từ chối 422 | 422 (API hiện chặn) | ✅ PASS |
 | 29 | Hồ sơ | Đổi mật khẩu với mật khẩu hiện tại sai → bị chặn | 400/401 | 400 | ✅ PASS |
 | 30 | Hồ sơ | Đổi mật khẩu đúng | 200 | 200 | ✅ PASS |
 | 31 | Hồ sơ | Đăng nhập bằng mật khẩu mới | 200 | 200 | ✅ PASS |
-| 32 | Thực phẩm | Danh sách thực phẩm (phân trang) | 200 + 5 dòng + tổng > 100.000 | 200 5 dòng / tổng 102,847 | ✅ PASS |
+| 32 | Thực phẩm | Danh sách thực phẩm (phân trang) | 200 + 5 dòng + tổng > 100.000 | 200 5 dòng / tổng 102,848 | ✅ PASS |
 | 33 | Thực phẩm | Tìm có dấu và không dấu đều ra kết quả | tất cả > 0 | {"com": 1084, "cơm": 1084, "ga": 1692, "gà": 1692} | ✅ PASS |
-| 34 | Thực phẩm | Bộ lọc (danh mục/nhóm/trạng thái/nguồn) | 200 + đủ 4 nguồn dữ liệu trở lên | 200 dm=200 nhom=11 nguon=4 [['openfoodfacts', 20563], ['usda_fndds', 5624], ['usda_foundation', 68867], ['usda_sr_legacy', 7793]] | ✅ PASS |
-| 35 | Thực phẩm | Lọc theo trạng thái chế biến | > 0 kết quả | 200 tổng 4,351 | ✅ PASS |
+| 34 | Thực phẩm | Bộ lọc (danh mục/nhóm/trạng thái/nguồn) | 200 + đủ 4 nguồn dữ liệu trở lên | 200 dm=200 nhom=11 nguon=5 [['manual', 1], ['openfoodfacts', 20563], ['usda_fndds', 5624], ['usda_foundation', 68867], ['usda_sr_legacy', 7793]] | ✅ PASS |
+| 35 | Thực phẩm | Lọc theo trạng thái chế biến | > 0 kết quả | 200 tổng 4,352 | ✅ PASS |
 | 36 | Thực phẩm | Lọc theo khoảng kcal trả đúng khoảng | mọi giá trị trong 100–150 | [108.0, 101.2658, 141.176470588235] | ✅ PASS |
 | 37 | Thực phẩm | Chi tiết thực phẩm + bảng dinh dưỡng | 200 + có chất dinh dưỡng | 200 15 chất | ✅ PASS |
 | 38 | Thực phẩm | Tính khẩu phần 150 g = 1,5 × giá trị/100 g | 534.0 kcal | 534.0 kcal (measured) | ✅ PASS |
@@ -50,7 +50,7 @@
 | 41 | Thực phẩm | Thêm thực phẩm nhập tay | 201 + nguồn 'manual' | 201 nguồn=manual | ✅ PASS |
 | 42 | Thực phẩm | Tìm lại được thực phẩm vừa thêm (qua tên phụ) | >= 1 | 1 | ✅ PASS |
 | 43 | Thực phẩm | Thêm thực phẩm không có tên nào | nên bị từ chối 4xx | 400 (chặn) | ✅ PASS |
-| 44 | Bữa ăn | Ghi bữa ăn 2 món | 201 | 201 {"id":15,"eaten_at":"2026-11-27T05:00:00","eaten_at_local":"2026-11-27T12:00:00","meal_typ | ✅ PASS |
+| 44 | Bữa ăn | Ghi bữa ăn 2 món | 201 | 201 {"id":17,"eaten_at":"2026-11-27T05:00:00","eaten_at_local":"2026-11-27T12:00:00","meal_typ | ✅ PASS |
 | 45 | Bữa ăn | Tổng năng lượng bữa ăn đúng phép cộng | 842.0 kcal | 842.0 kcal | ✅ PASS |
 | 46 | Bữa ăn | Món không tồn tại → 404 | 404 | 404 | ✅ PASS |
 | 47 | Bữa ăn | Khối lượng 0 g bị từ chối | 4xx | 422 | ✅ PASS |
@@ -71,7 +71,7 @@
 | 62 | Thống kê | Ngày không hợp lệ bị từ chối | 422 | 422 | ✅ PASS |
 | 63 | Dự đoán | Trạng thái model nhận diện ảnh | available = True | True \| 25 lớp \| acc test 0.7 | ✅ PASS |
 | 64 | Dự đoán | Trạng thái model hồi quy năng lượng | available = True | True \| None | ✅ PASS |
-| 65 | Dự đoán | Nhận diện ảnh món ăn thật | 200 + Top-3 | 200 top1=pizza 96.3% \| 34 ms | ✅ PASS |
+| 65 | Dự đoán | Nhận diện ảnh món ăn thật | 200 + Top-3 | 200 top1=pizza 96.3% \| 4812 ms | ✅ PASS |
 | 66 | Dự đoán | Nhãn trả về thuộc 25 lớp đã huấn luyện | nhãn hợp lệ | ['pizza', 'pasta', 'com_chien'] | ✅ PASS |
 | 67 | Dự đoán | Tệp không phải ảnh bị từ chối (kiểm tra magic bytes) | 4xx | 400 {"detail":"Nội dung tệp không phải ảnh JPEG/PNG/WEBP hợp lệ."} | ✅ PASS |
 | 68 | Dự đoán | Tệp rỗng bị từ chối | 4xx | 400 | ✅ PASS |
@@ -82,11 +82,10 @@
 | 73 | Dự đoán | Thiếu feature -> báo rõ đang thiếu gì, không bịa số | 400 + nêu tên feature thiếu | 400 Thiếu feature đầu vào: fat_g, carbohydrate_g, fiber_g, water_g, ash_g. Hãy bổ sung hoặc để | ✅ PASS |
 | 74 | Dự đoán | Thực phẩm không tồn tại khi tra năng lượng → 404 | 404 | 404 | ✅ PASS |
 | 75 | Trợ lý AI | Trạng thái trợ lý | available = True | 200 model=qwen3.5:0.8b host=http://127.0.0.1:11434 | ✅ PASS |
-| 76 | Trợ lý AI | Hỏi trợ lý và nhận câu trả lời thật | 200 + câu trả lời | 200 6357 ms \| 1. Hôm nay bạn đã ăn RICE-A-RONI (200g), Chicken flavor (unprepared).
-2. Tổng nă | ✅ PASS |
+| 76 | Trợ lý AI | Hỏi trợ lý và nhận câu trả lời thật | 200 + câu trả lời | 200 2382 ms \| 1. Hôm nay bạn đã ăn 2 thực phẩm (RICE-A-RONI và Beef and vegetables excluding c | ✅ PASS |
 | 77 | Trợ lý AI | Câu trả lời có bám dữ liệu thật (grounded) | grounded = True + context_used | grounded=True khoá ngữ cảnh=['user', 'today_local', 'timezone', 'today_totals', 'today_missing_nutrients', 'today_by_meal_type', 'today_target', 'toda | ✅ PASS |
-| 78 | Trợ lý AI | Số kcal trong câu trả lời khớp dữ liệu thật | câu trả lời chứa số khớp 842 (sai lệch ≤ 1,5 kcal) | chứa số khớp: True \| trả lời: 1. Hôm nay bạn đã ăn RICE-A-RONI (200g). Chicken flavor (unprepared).
-2. Tổng năng lượng hôm nay là 842.0 kcal. dựa trê | ✅ PASS |
+| 78 | Trợ lý AI | Số kcal trong câu trả lời khớp dữ liệu thật | câu trả lời chứa số khớp 842 (sai lệch ≤ 1,5 kcal) | chứa số khớp: True \| trả lời: 1. Hôm nay bạn đã ăn 2 thực phẩm (RICE-A-RONI và Beef and vegetables excluding carrots...).
+2. Tổng năng lượng hôm nay  | ✅ PASS |
 | 79 | Trợ lý AI | Câu hỏi rỗng bị từ chối | 422 | 422 | ✅ PASS |
 | 80 | Trợ lý AI | Lịch sử trò chuyện lưu lại | có câu hỏi và câu trả lời | 200 2 tin nhắn | ✅ PASS |
 | 81 | Trợ lý AI | Từ chối truy vấn SQL/thông tin hệ thống khi bị dụ | không lộ SQL/mật khẩu | lộ: False \| trả lời: Chưa có dữ liệu để trả lời câu hỏi này. | ✅ PASS |

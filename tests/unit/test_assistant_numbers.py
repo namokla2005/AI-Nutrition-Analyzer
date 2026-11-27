@@ -9,6 +9,7 @@ from __future__ import annotations
 from app.services.assistant_service import (
     context_numbers,
     official_numbers_text,
+    question_wants_numbers,
     verify_numbers,
 )
 
@@ -113,6 +114,15 @@ def test_official_numbers_text_lay_tu_du_lieu():
     assert "đạm 21,3 g" in text
     assert "mục tiêu 2150 kcal" in text
     assert "lunch 842,0 kcal" in text
+
+
+def test_question_wants_numbers():
+    assert question_wants_numbers("Hôm nay tôi ăn bao nhiêu kcal?") is True
+    assert question_wants_numbers("tổng năng lượng hôm nay") is True
+    assert question_wants_numbers("nang luong hom nay") is True
+    assert question_wants_numbers("tôi nên ăn gì để phù hợp với bữa sáng") is False
+    assert question_wants_numbers("") is False
+    assert question_wants_numbers(None) is False
 
 
 def test_official_numbers_text_khi_chua_co_du_lieu():

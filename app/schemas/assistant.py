@@ -24,6 +24,8 @@ class AssistantChatOut(BaseModel):
     numbers_checked: int = Field(default=0, description="Số con số có đơn vị đã đối chiếu")
     unsupported_numbers: list[str] = Field(
         default_factory=list, description="Con số không có trong dữ liệu (nếu có)")
+    missing_numbers: bool = Field(
+        default=False, description="Câu hỏi hỏi số liệu nhưng câu trả lời không nêu con số nào")
     retried: bool = Field(default=False, description="Đã hỏi lại model vì số liệu sai")
     notice: str | None = None
 

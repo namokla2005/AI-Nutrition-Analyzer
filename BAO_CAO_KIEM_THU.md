@@ -703,3 +703,46 @@ Ngoài bộ e2e qua API (92 bài, chạy **92 đạt / 0 hỏng** ở cả ba l�
 Dữ liệu tạm do các bước kiểm thử tạo ra đã được dọn: CSDL trở về đúng **102.847 thực phẩm**,
 364.611 giá trị dinh dưỡng, chỉ mục FTS đồng bộ (102.847 = 102.847), `integrity_check = ok` và
 chỉ còn **2 tài khoản thật** (`pnamishere@gmail.com`, `review@example.com`).
+
+### 7.13 Ca do người dùng phát hiện: trợ lý nhắc sản phẩm chẳng liên quan và trả lời thiếu số
+
+**Hiện tượng (ảnh người dùng gửi).** Hỏi *"tôi nên ăn món gì để phù hợp với bữa sáng"*, trợ lý trả lời:
+*"… Chưa có dữ liệu về các thực phẩm cụ thể như **Sữa chua dẻo Phô mai Phúc bồn tử** hay
+**Miếng Phú Hương** trong tuần 2026-11-23 đến 2026-11-29 để so sánh với mục tiêu 500 kcal/ngày."*
+
+**Nguyên nhân 1 — hàm dò món trong câu hỏi khớp tiền tố quá rộng.** `_match_foods_in_question` thử
+mọi từ đơn của câu hỏi; từ **"phù"** (trong "phù hợp") khớp tiền tố với tên sản phẩm bắt đầu bằng
+"Phú"/"Phúc", **"hợp"** khớp "hộp", **"bữa"** khớp "Buavita". Đo được trước khi sửa:
+`foods_mentioned = [Sữa chua dẻo Phô mai Phúc bồn tử, Miếng Phú Hương, Keo keo tuoi tho]` — trợ lý chỉ
+được phép nhắc món **có trong ngữ cảnh**, nên nó đã ngoan ngoãn nhắc đúng ba sản phẩm rác đó.
+**Đã sửa:** mở rộng danh sách từ dừng (từ chức năng + từ chỉ bữa/thời điểm: phù, hợp, bữa, sáng,
+trưa, chiều, nên, phải, cần, muốn, thích…). Sau khi sửa, đúng câu hỏi trên cho
+`foods_mentioned = []`; câu hỏi **có** nêu tên món vẫn tìm đúng (thử với "Phở bò kiểm thử" → trả về
+đúng món đó trước tiên).
+
+**Nguyên nhân 2 — câu trả lời không có con số nào vẫn bị coi là đạt.** Lớp kiểm chứng ở §7.11 chỉ
+đối chiếu *những con số có trong câu trả lời*; nếu model **không nêu con số nào** thì không có gì để
+đối chiếu và câu trả lời được coi là đạt. Bài e2e "Số kcal trong câu trả lời khớp dữ liệu thật" vì
+thế hỏng không ổn định (một lần model trả lời vòng vo mà không có số nào). **Đã sửa:** thêm
+`question_wants_numbers()` — nếu câu hỏi hỏi số liệu (kcal/calo/năng lượng/bao nhiêu/tổng/đạm…) mà
+câu trả lời không có con số nào thì cũng coi là **chưa đạt**, hỏi lại model một lần, rồi gắn số liệu
+chính thức. API trả thêm trường `missing_numbers`. Kiểm chứng: chạy e2e **3 lần liên tiếp đều 92/0**.
+
+**Cải thiện thêm cho câu hỏi lời khuyên.** Quy tắc 10 trong SYSTEM_PROMPT nay buộc trợ lý **nêu số
+liệu đang có trước** rồi mới nói câu từ chối, và cấm gợi ý món. Trước khi sửa, câu trả lời chỉ có
+một câu từ chối trống; sau khi sửa (đã có bữa ăn 500 kcal trong ngày): *"Theo dữ liệu hôm nay, bạn
+đang có 1 bữa sáng với năng lượng 500,0 kcal … Hệ thống chỉ cung cấp số liệu dinh dưỡng, không đưa ra
+lời khuyên y tế."*
+
+**Lớp kiểm chứng số liệu lại bắt được một số bịa trong lúc thử.** Khi hỏi *"hôm nay tôi ăn bao nhiêu
+kcal và còn lại bao nhiêu?"* lúc tài khoản **chưa đặt mục tiêu calo**, model tự nói *"còn lại 0 kcal"*;
+backend đối chiếu thấy trong dữ liệu không có số 0 nào cho "còn lại" → đánh dấu `numbers_verified =
+false`, `unsupported_numbers = ["0 kcal"]` và gắn số liệu chính thức vào cuối câu trả lời. Đúng như
+thiết kế: giao diện không bao giờ để lọt con số do model tự nghĩ ra.
+
+**Sự cố trong lúc dọn dẹp (đã khôi phục).** Khi dọn dữ liệu kiểm thử, tôi đưa nhầm tên sản phẩm thật
+"Miếng Phú Hương" vào danh sách xoá nên **xoá mất 1 thực phẩm thật** (id 82590, 7 giá trị dinh dưỡng,
+1 tên phụ). Đã khôi phục nguyên bản ghi từ bản sao lưu `data/backups/nutrition_truoc_bo_suffix_20261127_0430.db`
+(chỉ chèn lại đúng bản ghi đó) và đối chiếu: **102.847 thực phẩm · 364.611 giá trị dinh dưỡng ·
+98.721 tên phụ**, chỉ mục FTS đồng bộ 102.847 = 102.847, `integrity_check = ok` — chênh lệch so với
+bản sao lưu đúng bằng 3 thực phẩm kiểm thử đã cố ý xoá.

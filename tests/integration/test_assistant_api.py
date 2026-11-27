@@ -197,6 +197,31 @@ class TestAssistantChat:
         # 'an' (từ 'ăn') từng khớp tiền tố với 'and' nên trợ lý nhắc "Beef and vegetables"
         assert body["context_used"]["foods_mentioned"] == []
 
+    def test_cau_hoi_loi_khuyen_khong_keo_san_pham_rac(self, api):
+        new_client, _, _ = api
+        c = new_client()
+        _register(c)
+        # 'phù' trong 'phù hợp' từng khớp tiền tố với tên sản phẩm bắt đầu bằng 'Phú'
+        c.post("/api/v1/foods", json={"name_vi": "Miếng Phú Hương", "cooking_state": "cooked",
+                                      "energy_kcal_per_100g": 500.0, "source_name": "Dữ liệu kiểm thử"})
+        body = c.post("/api/v1/assistant/chat",
+                      json={"message": "tôi nên ăn món gì để phù hợp với bữa sáng"}).json()
+        assert body["context_used"]["foods_mentioned"] == []
+
+    def test_hoi_so_lieu_ma_khong_neu_so_thi_phai_gan_so_chinh_thuc(self, api):
+        new_client, _, fake = api
+        c = new_client()
+        _register(c)
+        _seed_meal(c)  # 260 kcal thật
+        fake.content = "Hôm nay bạn đã ăn cơm. Hệ thống chỉ cung cấp số liệu dinh dưỡng."  # không có số nào
+        body = c.post("/api/v1/assistant/chat",
+                      json={"message": "Hôm nay tôi ăn bao nhiêu kcal?"}).json()
+        assert body["missing_numbers"] is True
+        assert body["numbers_verified"] is False
+        assert body["retried"] is True
+        assert "Số liệu chính thức từ dữ liệu" in body["answer"]
+        assert "260" in body["answer"]
+
     def test_ngu_canh_chua_so_lieu_that_trong_ngay(self, api):
         new_client, _, fake = api
         c = new_client()

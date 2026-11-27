@@ -47,8 +47,10 @@ QUY TẮC BẮT BUỘC:
    để so sánh. Chỉ mô tả số liệu và mục tiêu.
 9. Nếu DỮ LIỆU không đủ để trả lời, chỉ nói một câu: chưa có dữ liệu để trả lời câu hỏi này.
 10. Với câu hỏi mang tính đánh giá hoặc lời khuyên (quá nhiều / quá ít / có tốt không / nên
-    ăn gì), KHÔNG đưa ra kết luận. Chỉ nêu các con số trong DỮ LIỆU rồi nói: hệ thống chỉ
-    cung cấp số liệu, không đưa ra đánh giá hay lời khuyên y tế.
+    ăn gì), KHÔNG đưa ra kết luận và KHÔNG gợi ý món. PHẢI nêu trước các con số đang có trong
+    DỮ LIỆU (tổng năng lượng hôm nay, mục tiêu, còn lại, số bữa) rồi mới nói: hệ thống chỉ
+    cung cấp số liệu, không đưa ra đánh giá hay lời khuyên y tế. Nếu DỮ LIỆU chưa có số nào
+    thì nói rõ là chưa có dữ liệu.
 """
 
 CONTEXT_BUDGET_NOTE = "(Ngữ cảnh được hệ thống cắt bớt để giới hạn độ dài.)"
@@ -157,6 +159,18 @@ def empty_kinds(context: dict) -> set[str]:
     return set()
 
 
+def question_wants_numbers(question: str | None) -> bool:
+    """Câu hỏi có đòi con số không (hỏi kcal/năng lượng/tổng/đạm...).
+
+    Cần thiết vì có lần model trả lời vòng vo mà KHÔNG nêu con số nào; nếu chỉ kiểm tra
+    "các con số có khớp không" thì câu trả lời rỗng số sẽ bị coi là đạt.
+    """
+    text = normalize_name(question or "")
+    return any(token in text for token in (
+        "kcal", "calo", "nang luong", "bao nhieu", "tong", "energy", "dam", "beo",
+        "bot duong", "chat xo", "natri", "gram", "gam"))
+
+
 def verify_numbers(answer_text: str | None, context: dict, tolerance: float = 1.5) -> dict:
     """Đối chiếu con số model viết ra với con số có thật trong ngữ cảnh.
 
@@ -226,7 +240,9 @@ class AssistantError(Exception):
 _STOPWORDS = frozenset("""
 hom nay toi ban minh cua cho va la gi bao nhieu the nao trong ngoai co khong duoc an uong mon
 thuc pham xin hay giup voi ta mot cac nhung rat qua lam sao khi and the for with how what today
-eat food calories calorie kcal bao nhung gi va cung nhu de tren duoi
+eat food calories calorie kcal bao nhung cung nhu de tren duoi
+nen phai can muon thich y lieu sang trua chieu bua phu hop nao ra sao bao lau chua them bot nhieu
+it vua du gi
 """.split())
 
 
@@ -486,13 +502,25 @@ def answer(db: Session, user: User, question: str, session_id: int | None = None
     check = verify_numbers(answer_text, context) if result.content else {
         "checked": 0, "unsupported": [], "verified": True, "reference_sizes": {}}
     retried = False
+    official = official_numbers_text(context)
+    if (result.content and check["verified"] and check["checked"] == 0
+            and official and question_wants_numbers(question)):
+        # Hỏi con số mà câu trả lời không có con số nào -> cũng là chưa đạt.
+        check["verified"] = False
+        check["missing_numbers"] = True
+        logger.warning("Trợ lý không nêu con số nào dù câu hỏi hỏi số liệu.")
     if result.content and not check["verified"]:
-        logger.warning("Trợ lý nêu số không có trong dữ liệu: %s", check["unsupported"][:5])
+        unsupported = check["unsupported"]
+        if unsupported:
+            logger.warning("Trợ lý nêu số không có trong dữ liệu: %s", unsupported[:5])
+            instruction = ("Câu trả lời vừa rồi chứa con số KHÔNG có trong DỮ LIỆU: "
+                           + ", ".join(unsupported[:5])
+                           + ". Hãy trả lời lại, chỉ dùng đúng các con số có trong phần DỮ LIỆU.")
+        else:
+            instruction = ("Câu trả lời vừa rồi KHÔNG nêu con số nào. Hãy trả lời lại và nêu đúng "
+                           "các con số có trong phần DỮ LIỆU (kèm đơn vị).")
         messages.append({"role": "assistant", "content": answer_text[:800]})
-        messages.append({"role": "user", "content": (
-            "Câu trả lời vừa rồi chứa con số KHÔNG có trong DỮ LIỆU: "
-            + ", ".join(check["unsupported"][:5])
-            + ". Hãy trả lời lại, chỉ dùng đúng các con số có trong phần DỮ LIỆU.")})
+        messages.append({"role": "user", "content": instruction})
         try:
             retry = client.chat(messages)
         except OllamaUnavailable:
@@ -502,9 +530,12 @@ def answer(db: Session, user: User, question: str, session_id: int | None = None
             answer_text = retry.content
             retried = True
             check = verify_numbers(answer_text, context)
+            if (check["verified"] and check["checked"] == 0 and official
+                    and question_wants_numbers(question)):
+                check["verified"] = False
+                check["missing_numbers"] = True
     if result.content and not check["verified"]:
-        # Vẫn sai thì chốt bằng số liệu chính thức lấy trực tiếp từ dữ liệu.
-        official = official_numbers_text(context)
+        # Vẫn sai (hoặc vẫn thiếu số) thì chốt bằng số liệu chính thức lấy trực tiếp từ dữ liệu.
         if official:
             answer_text = f"{answer_text}\n\nSố liệu chính thức từ dữ liệu: {official}."
 
@@ -530,6 +561,7 @@ def answer(db: Session, user: User, question: str, session_id: int | None = None
         "numbers_verified": check["verified"],
         "numbers_checked": check["checked"],
         "unsupported_numbers": check["unsupported"],
+        "missing_numbers": bool(check.get("missing_numbers", False)),
         "retried": retried,
         "notice": notice,
     }
